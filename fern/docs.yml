@@ -1076,6 +1076,8 @@ redirects:
     destination: https://deepgram.com/learn/classroom-captioner
   - source: /docs/features-overview
     destination: /docs/stt-streaming-feature-overview
+  - source: /docs/on-prem-introduction
+    destination: /docs/self-hosted-introduction
   - source: /docs/licensing
     destination: /docs/on-prem-self-service-tutorial
   - source: /docs/distribution-credentials
