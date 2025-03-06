@@ -1280,6 +1280,8 @@ redirects:
     destination: /aura-2-preview
   - source: /docs/code-of-conduct
     destination: /code-of-conduct
+  - source: /docs/text-chunking-for-tts-optimization-copy
+    destination: /docs/text-chunking-for-tts-optimization
 
 analytics:
   gtm:
