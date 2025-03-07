@@ -526,7 +526,7 @@ navigation:
           - page: AWS S3 Presigned URLs and Deepgram
             path: docs/using-aws-s3-presigned-urls-with-the-deepgram-api.mdx
           - page: Genesys and Deepgram
-            path: docs/genesys-with-deepgram.mdx
+            path: docs/genesys-deepgram.mdx
           - page: Google Dialogflow CX and Deepgram
             path: docs/use-deepgram-with-dialogflow-cx.mdx
           - page: Make.com and Deepgram
@@ -603,6 +603,9 @@ navigation:
             hidden: true
           - page: Voice Agent Prompting
             path: hidden-pages/voice-agent-prompting.mdx
+            hidden: true
+          - page: Genesys and Deepgram (Legacy)
+            path: hidden-pages/genesys-deepgram-legacy.mdx
             hidden: true
   - tab: sdks
     layout:
@@ -1284,6 +1287,8 @@ redirects:
     destination: /code-of-conduct
   - source: /docs/text-chunking-for-tts-optimization-copy
     destination: /docs/text-chunking-for-tts-optimization
+  - source: /docs/genesys-with-deepgram
+    destination: /docs/genesys-deepgram-legacy
 
 analytics:
   gtm:
