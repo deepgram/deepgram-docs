@@ -135,6 +135,11 @@
   letter-spacing: 2% !important;
 }
 
+.fern-search-bar {
+  --tw-ring-color: #4e4e52 !important;
+  background-color: #0b0b0c !important;
+}
+
 .fern-sidebar-heading-content,
 .fern-sidebar-link-container .font-semibold .fern-sidebar-link-text {
   font-weight: 700 !important;

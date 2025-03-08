@@ -13,7 +13,6 @@ logo:
   href: /
 css:
   - assets/styles.css
-  - dist/output.css
 js:
   - path: ./assets/component.js
     strategy: lazyOnload
@@ -527,7 +526,7 @@ navigation:
           - page: AWS S3 Presigned URLs and Deepgram
             path: docs/using-aws-s3-presigned-urls-with-the-deepgram-api.mdx
           - page: Genesys and Deepgram
-            path: docs/genesys-with-deepgram.mdx
+            path: docs/genesys-deepgram.mdx
           - page: Google Dialogflow CX and Deepgram
             path: docs/use-deepgram-with-dialogflow-cx.mdx
           - page: Make.com and Deepgram
@@ -604,6 +603,9 @@ navigation:
             hidden: true
           - page: Voice Agent Prompting
             path: hidden-pages/voice-agent-prompting.mdx
+            hidden: true
+          - page: Genesys and Deepgram (Legacy)
+            path: hidden-pages/genesys-deepgram-legacy.mdx
             hidden: true
   - tab: sdks
     layout:
@@ -772,7 +774,7 @@ redirects:
   - source: /api-reference/usage
     destination: /reference/get-all-requests
   - source: /documentation
-    destination: /docs
+    destination: /home
   - source: /documentation/features
     destination: /docs/stt-pre-recorded-feature-overview
   - source: /documentation/features/callback
@@ -1077,6 +1079,8 @@ redirects:
     destination: https://deepgram.com/learn/classroom-captioner
   - source: /docs/features-overview
     destination: /docs/stt-streaming-feature-overview
+  - source: /docs/on-prem-introduction
+    destination: /docs/self-hosted-introduction
   - source: /docs/licensing
     destination: /docs/on-prem-self-service-tutorial
   - source: /docs/distribution-credentials
@@ -1281,6 +1285,10 @@ redirects:
     destination: /aura-2-preview
   - source: /docs/code-of-conduct
     destination: /code-of-conduct
+  - source: /docs/text-chunking-for-tts-optimization-copy
+    destination: /docs/text-chunking-for-tts-optimization
+  - source: /docs/genesys-with-deepgram
+    destination: /docs/genesys-deepgram-legacy
 
 analytics:
   gtm:

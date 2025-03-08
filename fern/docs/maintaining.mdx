@@ -17,23 +17,27 @@ Deepgram model updates include releases of new architectures, features, and lang
 
 Your Deepgram Account Representative provides you with a list of several different models depending on your use cases. For selecting language models to download, consider:
 
+* Which [Speech-to-text (STT) Models](/docs/models-languages-overview) and [Text-to-speech (TTS) Models](/docs/tts-models) you want to deploy.
+
 * Language(s) you will transcribe. Each model file name contains a language code, such as `en` (English) or `es` (Spanish).
 
 * Pre-recorded (batch) or streaming transcription. Look for `batch` or `streaming` in the model file name.
 
-* Whether you prefer smart-formatted ("human-readable", with grammar and punctuation) or non-formatted transcription output. Look for `formatted` or `non-formatted` in the model file name.
+* Whether you prefer smart-formatted ("human-readable", with grammar and punctuation) or non-formatted transcription output.
 
-* Model architecture(s) you prefer, such as `nova-2-general` or `enhanced`.
+* Model architecture(s) you prefer, such as `nova-3` or `nova-2`.
 
-* Domain models, such as `nova-2-phonecall`.
+* Domain models, such as `nova-3-medical` or `nova-2-phonecall`.
 
-* Additional features you plan to use, including diarization, keywords, redaction, audio intelligence, etc.
+* Additional features you plan to use, including formatting, diarization, keywords, redaction, audio intelligence, etc.
 
-  * Keywords requires the `phoneme` and `g2p` models.
+  * The use of [smart formatting](/docs/smart-format) in English depends on the Named Entity Recognition (NER) model.
+  * Nova-3 introduces the native [Keyterms](/docs/keyterm) parameter which replaces the [Keywords](/docs/keywords) parameter used with other model architectures.
+  * Nova-2 and other model archticture Keywords requires the `phoneme` and `g2p` models.
   * Sentiment analysis, intent recognition, and topic detection require the `sit` model.
   * Each of the language detection (`language-detector`), diarization (`diarizer`), profanity filtering, summarization, and search features require its own model.
 
-Putting it all together, the model `nova-2-general.en.formatted.streaming.a12b345.dg` will transcribe English with streaming audio input, using the Nova-2 General model, with smart-formatted output.
+Putting it all together, the model `nova-3-general.en.streaming.a12b345.dg` will transcribe English with streaming audio input, using the Nova-3 General model.
 
 <Info>
   <h2> Legacy Model File Naming </h2>
