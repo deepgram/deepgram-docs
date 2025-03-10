@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# Create a temporary directory
+TEMP_DIR=$(mktemp -d)
+
+# Clone the repository into the temporary directory
+git clone https://github.com/deepgram/deepgram-api-specs "$TEMP_DIR"
+
+# Copy asyncapi.yml and openapi.yml files to /fern directory
+cp "$TEMP_DIR/asyncapi.yml" "$TEMP_DIR/openapi.yml" /fern/
+
+# Remove the temporary directory
+rm -rf "$TEMP_DIR"
+
+echo "Files asyncapi.yml and openapi.yml copied successfully to /fern"

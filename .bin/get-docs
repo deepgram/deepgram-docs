@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# Create a temporary directory
+TEMP_DIR=$(mktemp -d)
+
+# Clone the repository into the temporary directory
+git clone https://github.com/deepgram/content "$TEMP_DIR"
+
+# Copy files from /articles/en/guide to /fern/docs, preserving paths
+rsync -av "$TEMP_DIR/articles/en/guide/" /fern/docs/
+
+# Remove the temporary directory
+rm -rf "$TEMP_DIR"
+
+echo "Files copied successfully from /articles/en/guide to /fern/docs, preserving existing files and paths"
