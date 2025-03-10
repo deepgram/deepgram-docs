@@ -182,7 +182,6 @@ div[class*="callout"] {
   border-color: var(--tw-ring-color) !important;
 }
 
-.fern-search-bar,
 .callout-outlined,
 .fern-card .fern-button {
   border-radius: 8px !important;
@@ -514,4 +513,24 @@ div[id="/reference/speech-to-text-api/listen#request"]
 
 .custom-backdrop {
   background-color: #0b0b0c !important;
+}
+
+/**
+ * docsearch
+ */
+
+@media (min-width: 1024px) {
+  .DocSearch-Button {
+    width: 100%;
+  }
+}
+
+#docsearch-input,
+#docsearch-input:focus,
+#docsearch-input:active {
+  --tw-ring-color: transparent !important;
+}
+
+.DocSearch-Logo {
+  opacity: 0 !important;
 }
