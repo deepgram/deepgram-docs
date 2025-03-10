@@ -40,6 +40,7 @@ groups:
           skipResponseValidation: true
           includeApiReference: true
           noSerdeLayer: true
+          shouldGenerateWebsocketClients: true
         smart-casing: true
   python-sdk:
     generators:
