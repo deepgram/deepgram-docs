@@ -10,25 +10,25 @@ This preview provides access to a sandbox endpoint not meant for production. To 
 
 ## Aura-2: our most natural text-to-speech model for realtime conversations
 
-Aura-2 is our most natural text-to-speech model for conversational AI and real-time experiences with a low time-to-first-byte latency of \<150ms\. Aura-2 is well-suited for customers looking for: 
+Aura-2 is our most natural text-to-speech model for conversational AI and real-time experiences with a low time-to-first-byte latency of \<150ms\. Aura-2 is well-suited for customers looking for:
 
 1. Real-time conversational experiences with 150ms latency
 2. Natural, engaging conversational voice. Someone you'd actually want to talk to.
-3. Affordable, high-throughput enterprise scaling (available soon) 
+3. Affordable, high-throughput enterprise scaling (available soon)
 4. Self-hosted deployment for reduced latency, enhanced security, and flexible concurrency scaling (available soon)
 5. Robust pronunciation across specialized domains like medical and finance
-6. Voices that just work - natural pauses with phone numbers, appropriate empathy in various contexts. 
+6. Voices that just work - natural pauses with phone numbers, appropriate empathy in various contexts.
 
-Common use cases our customers are building for include customer service agents,  outbound sales, healthcare, finance, food ordering, workplace productivity, and interactive media. We are starting with English and will expand to other languages soon. If you have a particular language or accent you're looking for, please let your Deepgram contact know or [fill out this form](https://deepgram.typeform.com/aura-languages?typeform-source=developers.deepgram.com). 
+Common use cases our customers are building for include customer service agents,  outbound sales, healthcare, finance, food ordering, workplace productivity, and interactive media. We are starting with English and will expand to other languages soon. If you have a particular language or accent you're looking for, please let your Deepgram contact know or [fill out this form](https://deepgram.typeform.com/aura-languages).
 
 ## Limits
 
 ### Concurrency Limit
 
-This is a testing sandbox. To ensure availability and fair use: 
+This is a testing sandbox. To ensure availability and fair use:
 
 - Do not use this endpoint in production.
-- Only hit the endpoint one request at a time. 
+- Only hit the endpoint one request at a time.
 
 ### Text Input Limit
 
@@ -36,7 +36,7 @@ This preview sandbox endpoint only supports text input with \<1000 characters (~
 
 ## CURL
 
-You can call the endpoint at: 
+You can call the endpoint at:
 
 `https://aura2-preview.sandbox.deepgram.com/v1/speak?model=aura-2-andromeda-en`
 
@@ -51,7 +51,7 @@ curl --request POST \
   --url "https://aura2-preview.sandbox.deepgram.com/v1/speak?model=aura-2-andromeda-en&encoding=mp3"
 ```
 
-To get your `YOUR_DEEPGRAM_API_KEY`You can use your usual DG API token for authentication. Go to [https://console.deepgram.com](https://console.deepgram.com/), sign in, and create an API key. 
+To get your `YOUR_DEEPGRAM_API_KEY`You can use your usual DG API token for authentication. Go to [https://console.deepgram.com](https://console.deepgram.com/), sign in, and create an API key.
 
 ## Query Parameters
 
@@ -69,7 +69,7 @@ To ensure a smooth transition from our Preview endpoint to our production endpoi
 
 ## Supported Audio Output Formats
 
-Here are the audio output formats we support. For `linear16`, `alaw` and `mulaw`, we only support uncontainerized audio. Audio Output Formats are subject to change. 
+Here are the audio output formats we support. For `linear16`, `alaw` and `mulaw`, we only support uncontainerized audio. Audio Output Formats are subject to change.
 
 | `encoding` | `sample_rate`(Hz) | `bit_rate`(bps) |
 |------------|-----------------|----------------|
@@ -83,7 +83,7 @@ Here are the audio output formats we support. For `linear16`, `alaw` and `mulaw`
 
 ### Featured English (US) voices
 
-These are the featured voices in English (US). 
+These are the featured voices in English (US).
 
 <Tip title="We may add or remove certain voices during or after Preview">
 When we move from Preview to General Access, we may add or remove voices below after we collect feedback from our users. If there's a particular voice you're interested in, please let us know.
