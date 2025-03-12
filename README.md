@@ -66,6 +66,9 @@ fern generate --docs --preview
 To view custom components or API Playground changes in a Preview URL, you can run the following commands:
 
 ```shell
+# Install packages
+npm --prefix custom-app install
+
 # Build the custom components
 npm --prefix custom-app run build
 
@@ -75,7 +78,7 @@ fern generate --docs --preview
 
 ### Production Docs
 
-Documentation is automatically published when you run the `fern generate` command. We only expect this to be ran via the GitHub Actions workflows. 
+Documentation is automatically published when you run the `fern generate` command. We only expect this to be ran via the GitHub Actions workflows.
 
 Please ***DO NOT RUN THIS COMMAND MANUALLY*** unless you know what you're doing.
 

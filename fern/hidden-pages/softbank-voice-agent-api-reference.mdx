@@ -15,7 +15,7 @@ To start a conversation with Deepgram's Voice Agent API:
 2. Send a message over the websocket with your desired settings.
 3. Start streaming audio from your device microphone or audio source of your choice. Audio should be sent as binary messages over the websocket.
 4. Play the audio stream that the server sends back, which will be binary messages containing the agent's speech.
-   1. Whenever you receive a [UserStartedSpeaking](/reference/softbank-voice-agent-api-reference#userstartedspeaking) message from the server, discard any queued agent speech. This will enable the user to barge-in on the bot.
+   1. Whenever you receive a [UserStartedSpeaking](/docs/voice-agent-user-started-speaking) message from the server, discard any queued agent speech. This will enable the user to barge-in on the bot.
 
 # Client Messages
 
@@ -143,7 +143,7 @@ Some example uses are:
 
 ## FunctionCallResponse
 
-The client should reply with a `FunctionCallResponse` every time it receives a [FunctionCallRequest](/reference/softbank-voice-agent-api-reference#functioncallrequest).
+The client should reply with a `FunctionCallResponse` every time it receives a [FunctionCallRequest](/docs/voice-agent-function-call-request).
 
 ```json
 {
@@ -215,7 +215,7 @@ The server will send an `AgentThinking` message to inform the client of a non-ve
 
 ## FunctionCallRequest
 
-If a function is clientside, meaning no `url` was provided for that function in the [SettingsConfiguration](/reference/softbank-voice-agent-api-reference#settingsconfiguration), then the server will request to call the function by sending the client a `FunctionCallRequest` message. Upon receiving this message, the client should perform the requested function call and reply with a [FunctionCallResponse](/reference/softbank-voice-agent-api-reference#functioncallresponse) containing the function's output.
+If a function is clientside, meaning no `url` was provided for that function in the [SettingsConfiguration](/docs/voice-agent-settings-configuration), then the server will request to call the function by sending the client a `FunctionCallRequest` message. Upon receiving this message, the client should perform the requested function call and reply with a [FunctionCallResponse](/docs/voice-agent-function-call-response) containing the function's output.
 
 ```json
 {

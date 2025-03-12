@@ -13,7 +13,7 @@ Explore some common issues faced by Hotpepper users and administrators, and lear
 
 Make sure the level you are transcribing at is L1. Only assigned files at level L1 can be transcribed automatically using ASR.
 
-Check that Hotpepper is properly configured to allow Automatic Speech Recognition (ASR). To learn more about configuring ASR for automatic transcription, visit [Hotpepper User Guide: Setting Up](/on-prem/optional-components/hotpepper/setting-up/).
+Check that Hotpepper is properly configured to allow Automatic Speech Recognition (ASR). To learn more about configuring ASR for automatic transcription, visit [Setting Up](/data-labeling-setting-up).
 
 ## I can’t find a file that I worked on
 
@@ -21,11 +21,11 @@ Hotpepper’s design is informed by Deepgram best practices, which require that 
 
 ## I added a dataset, but it wasn’t created
 
-Before a new dataset can be added to the Hotpepper database, the audio files must be collected and placed in a subdirectory on the underlying file system. Once the audio files are in place, the dataset can be added to the database through Hotpepper. To learn more about adding datasets, visit [Hotpepper User Guide: Adding Datasets](/on-prem/optional-components/hotpepper/managing-datasets/#adding-datasets).
+Before a new dataset can be added to the Hotpepper database, the audio files must be collected and placed in a subdirectory on the underlying file system. Once the audio files are in place, the dataset can be added to the database through Hotpepper.
 
 ## I can’t get the application to start
 
-Check that you have set values for `db`, `datasets`, and `packaged_datasets_location` in Hotpepper's configuration file (`config.toml`). These are required settings, and the application will not start without them. To see a sample configuration file for Hotpepper, visit [Hotpepper User Guide: Setting Up](/on-prem/optional-components/hotpepper/setting-up/).
+Check that you have set values for `db`, `datasets`, and `packaged_datasets_location` in Hotpepper's configuration file (`config.toml`). These are required settings, and the application will not start without them. To see a sample configuration file for Hotpepper, visit [Setting Up](/data-labeling-setting-up).
 
 ## The application can’t find my files at the configured file paths
 
