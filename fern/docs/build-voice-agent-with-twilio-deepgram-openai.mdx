@@ -161,7 +161,7 @@ On a separate terminal (not the one where you have run `npm run start`):
 </CodeGroup>
 
 5. You will see a url under the `Forwarding`row that --> to your localhost. Copy this as the `<ngrok url>`
-6. Edit the [templates/streams](templates/streams.xml) file to replace `<ngrok url>` with your ngrok host. Example: `wss://yourdomain.ngrok-free.app/streams`. Remember to use `wss://`and include `/streams` in the URL.
+6. Edit the [templates/streams](https://github.com/deepgram/deepgram-twilio-streaming-voice-agent/blob/main/templates/streams.xml) file to replace `<ngrok url>` with your ngrok host. Example: `wss://yourdomain.ngrok-free.app/streams`. Remember to use `wss://`and include `/streams` in the URL.
 7. Go to your Twilio dashboard and select the active phone number that you manage. Under the Configure tab, include the `\<ngrok url`in URL of the "A call comes in" row of the page. If your URL is`wss://yourdomain.ngrok-free.app`, put in `<https://yourdomain.ngrok-free.app/twiml`>
 
 <Warning>

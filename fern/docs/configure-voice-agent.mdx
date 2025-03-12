@@ -8,7 +8,7 @@ slug: docs/configure-voice-agent
 
 <Markdown src="../snippets/voice-agent.mdx" />
 
-To configure the voice agent, you'll need to send a [Settings Configuration](/docs/settings-configuration) message immediately after connection. Below is a detailed explanation of the configurations available.
+To configure the voice agent, you'll need to send a [Settings Configuration](/docs/voice-agent-settings-configuration) message immediately after connection. Below is a detailed explanation of the configurations available.
 
 ## Configuration Parameters
 
@@ -37,7 +37,7 @@ Below is an in-depth example showing all the fields available fields for `Settin
     "audio": {
       "input": { // optional. defaults to 16kHz linear16
         "encoding": "",
-        "sample_rate": 24000 // defaults to 24k 
+        "sample_rate": 24000 // defaults to 24k
       },
       "output": { // optional. see table below for defaults and allowed combinations
         "encoding": "",

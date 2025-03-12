@@ -23,7 +23,7 @@ The Deepgram [`Live Clients`](https://github.com/deepgram/deepgram-python-sdk/tr
   deepgram = DeepgramClient(API_KEY, config)
 
   # Use the listen.live class to create the websocket connection
-  dg_connection = deepgram.listen.websocket.v("1") 
+  dg_connection = deepgram.listen.websocket.v("1")
   ```
 
   ```python Async
@@ -37,12 +37,12 @@ The Deepgram [`Live Clients`](https://github.com/deepgram/deepgram-python-sdk/tr
   deepgram = DeepgramClient(API_KEY, config)
 
   # Use the listen.live class to create the websocket connection
-  dg_connection = deepgram.listen.asyncwebsocket.v("1") 
+  dg_connection = deepgram.listen.asyncwebsocket.v("1")
   ```
 </CodeGroup>
 
 <Info>
-  This SDK supports both the Threaded and Async/Await Clients as described in the [Threaded and Async IO Task Support](https://developers.deepgram.com/edit/threaded-and-async-io-task-support) section. The code blocks contain a tab for `Threaded` and `Async` to show examples for `websocket` versus `asyncwebsocket`, respectively. The difference between `Threaded` and `Async` is subtle.
+  This SDK supports both the Threaded and Async/Await Clients as described in the [Threaded and Async IO Task Support](/docs/threaded-and-async-io-task-support) section. The code blocks contain a tab for `Threaded` and `Async` to show examples for `websocket` versus `asyncwebsocket`, respectively. The difference between `Threaded` and `Async` is subtle.
 </Info>
 
 If your scenario requires you to keep the connection alive even while data is not being sent to Deepgram, you can send periodic KeepAlive messages to essentially "pause" the connection without closing it. By setting `"keepalive": "true"` in the `DeepgramClientOptions` object, you enable KeepAlive to maintain the WebSocket connection, ensuring a more stable and persistent connection with Deepgram's servers.
