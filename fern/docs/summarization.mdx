@@ -46,8 +46,8 @@ To transcribe audio from a file on your computer, run the following curl command
 
 | Parameter   | Value   | Type    | Description                                                                                                                                                                                                                       |
 | ----------- | ------- | ------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `summarize` | `v2`    | string  | Enables V2 of summarization. The output response will include a single object with a result and short summary of the entire audio. It will generate one summary across all channels.                                              |
-| `summarize` | `true`  | boolean | Enables [V1](/docs/summarization-v1) of summarization. The output response will include an array of objects with `summary`, `start_word`, and `end_word`. It will generate summaries per channel. Summarization V1 is deprecated. |
+| `summarize` | `v2`    | string  | Enables the `V2` version of summarization. The output response will include a single object with a result and short summary of the entire audio. It will generate one summary across all channels.                                              |
+| `summarize` | `true`  | boolean | Enables the `V1` version of summarization. The output response will include an array of objects with `summary`, `start_word`, and `end_word`. It will generate summaries per channel. Summarization V1 is deprecated. |
 | `summarize` | `false` | boolean | Disables the summarization feature.                                                                                                                                                                                               |
 
 ## Analyze Response
@@ -63,8 +63,8 @@ When the file is finished processing, you’ll receive a JSON response that has 
               {
                   "alternatives": [...]
               }
-          ],        
-          "summary": { 
+          ],
+          "summary": {
               "result":"success"
               "short": "Jake calls the Honda dealership and speaks with Josh about the new Honda Civic 2023. Jake schedules a test drive for the hybrid model on Friday and provides his contact information.Josh confirms the appointment and tells Jake to call if he has any further questions."
           }
@@ -81,12 +81,8 @@ The `summary` object contains:
 This summarization feature produces one summary across all channels so that the `summary` field ranks at the same place in the JSON response as the `channels` array.
 
 <Warning>
-  The JSON response for Summarization V2 (`summarize=v2`) differs from the JSON response for [Summarization V1](/docs/summarization-v1) (`summarize=true`).
+  The JSON response for Summarization `V2` (`summarize=v2`) differs from the JSON response for Summarization `V1` (`summarize=true`).
 </Warning>
-
-***
-
-***
 
 ### API Error and Warning Response
 
@@ -147,18 +143,13 @@ Here is an example of the JSON structure of a request with warning object:
               {
                   "alternatives": [...]
               }
-          ], 
-          "summary": 
-            { 
-              "result": "failure", 
+          ],
+          "summary":
+            {
+              "result": "failure",
               "short": "The summarization feature is currently only available in English. Please check out our API documentation for more details."
         }
       }
   }
   ```
 </CodeGroup>
-
-<Info>
-  <h2> Summarization - V1 </h2>
-  This guide explains Deepgram's Summarization V2. The guide to Deepgram's deprecated summarization feature V1 can be [found here](/docs/summarization-v1).
-</Info>
