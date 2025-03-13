@@ -40,8 +40,6 @@ channels:
         x-fern-optional: true
       diarize:
         x-fern-optional: true
-      diarize_version:
-        x-fern-optional: true
       dictation:
         x-fern-optional: true
       encoding:
