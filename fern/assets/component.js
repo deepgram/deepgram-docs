@@ -179,23 +179,17 @@ html[data-theme="dark"] {
   const indexName = "crawler_unified";
   const apiKey = "e50ef768d9ac1a2b80ac6101639df429";
 
-  const mobileSearch = document.createElement("span");
-  mobileSearch.id = "mobile-search";
-
   const desktopSearch = document.createElement("span");
   desktopSearch.id = "desktop-search";
+  desktopSearch.style.flex = "1";
 
-  const fernMobileSearchButton = document.querySelector(".fern-header-right-menu #fern-search-button");
-  fernMobileSearchButton.parentNode.insertBefore(mobileSearch, fernMobileSearchButton);
 
-  const fernDesktopSearchButton = document.querySelector(".fern-header-searchbar #fern-search-button");
-  fernDesktopSearchButton.parentNode.insertBefore(desktopSearch, fernDesktopSearchButton);
+  const fernSearchButton = document.getElementById("fern-search-button");
+  fernSearchButton.parentNode.insertBefore(desktopSearch, fernSearchButton);
 
-  fernMobileSearchButton.remove();
-  fernDesktopSearchButton.remove();
+  fernSearchButton.remove();  
 
   docsearch({ container: "#desktop-search", appId, indexName, apiKey });
-  docsearch({ container: "#mobile-search", appId, indexName, apiKey });
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
