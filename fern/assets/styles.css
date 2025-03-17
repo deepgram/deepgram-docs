@@ -364,6 +364,10 @@ body#fern-docs .fern-callout h5 {
   margin-top: 0px !important;
 }
 
+body#fern-docs .fern-callout h2 {
+  margin-top: 0px !important;
+}
+
 .callout-outlined-warning h2 {
   margin-top: 0px !important;
 }
@@ -614,10 +618,6 @@ body#fern-docs .fern-sidebar-link[data-state="inactive"]:hover {
 .pink .fa-icon {
   background: linear-gradient(85deg, #ee028b 5.66%, #ae29ff 99.14%) !important;
 }
-
-body#fern-docs .pink .fern-mdx-icon {
-  background: linear-gradient(85deg, #ee028b 5.66%, #ae29ff 99.14%) !important;
-}
   
 .fern-sidebar-container {
   position: sticky !important;
@@ -628,12 +628,16 @@ body#fern-docs .pink .fern-mdx-icon {
   height: 100vh !important;
 }
 
-body#fern-docs #fern-sidebar {
+body#fern-docs #fern-sidebar:not([data-viewport="mobile"]) {
   position: sticky !important;
   top: 0 !important;
   overflow-y: auto !important;
   z-index: 20 !important;
   height: 100vh !important;
+}
+
+body#fern-docs #fern-sidebar[data-viewport="mobile"] {
+  margin-top: 12px;
 }
 
 .fern-main {
@@ -642,6 +646,18 @@ body#fern-docs #fern-sidebar {
 
 body#fern-docs main {
   margin-top: calc(var(--header-height-real, 0) + 7rem) !important;
+}
+
+@media (max-width: 1024px) {
+  body#fern-docs main {
+    margin-top: calc(var(--header-height-real, 0) + 6rem) !important;
+  }
+}
+
+@media (max-width: 760px) {
+  body#fern-docs main {
+    margin-top: 7rem !important;
+  }
 }
 
 .fern-endpoint-content-right .fa-icon,
@@ -742,5 +758,20 @@ body#fern-docs #fern-sidebar-spacer {
   body#fern-docs #desktop-search {
     display: flex;
     justify-content: end;
+    max-width: 688px;
   }
 }
+
+body#fern-docs #desktop-search {
+  max-width: 688px;
+}
+
+body#fern-docs nav[aria-label="Up next"] {
+  padding: 0px !important;
+}
+
+body#fern-docs code:not(.code-block) {
+  font-weight: inherit !important;
+  color: var(--grayscale-a11) !important;
+}
+
