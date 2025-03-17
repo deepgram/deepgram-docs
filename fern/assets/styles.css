@@ -637,7 +637,7 @@ body#fern-docs #fern-sidebar:not([data-viewport="mobile"]) {
 }
 
 body#fern-docs #fern-sidebar[data-viewport="mobile"] {
-  margin-top: 12px;
+  padding: 8px;
 }
 
 .fern-main {
@@ -646,6 +646,8 @@ body#fern-docs #fern-sidebar[data-viewport="mobile"] {
 
 body#fern-docs main {
   margin-top: calc(var(--header-height-real, 0) + 7rem) !important;
+  will-change: unset !important;
+  transform: none !important;
 }
 
 @media (max-width: 1024px) {
@@ -678,6 +680,10 @@ body#fern-docs .fern-dropdown-item .fern-mdx-icon {
 
 #fern-header {
   position: absolute !important;
+}
+
+body#fern-docs:has(#fern-sidebar[data-viewport="mobile"]) #fern-header {
+  position: fixed !important;
 }
 
 div[id="/reference/speech-to-text-api/listen#request"]
