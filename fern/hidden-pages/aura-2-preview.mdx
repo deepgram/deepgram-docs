@@ -57,11 +57,11 @@ To get your `YOUR_DEEPGRAM_API_KEY`You can use your usual DG API token for authe
 
 | query parameter | description | example |
 |----------------|-------------|----------|
-| `model` | voice of the model<br />*Defaults to `aura-asteria-en` | `aura-2-andromeda-en`<br />*See [Voice Selection](<>) for all voices |
+| `model` | voice of the model<br />*Defaults to `aura-asteria-en` | `aura-2-andromeda-en`<br />* |
 | `container` | container format of the audio<br />*Defaults to `wav` | `none`, `wav`, `ogg`<br />*Container options depend on encoding type |
-| `encoding` | encoding of the audio<br />*Defaults to `mp3` | `linear16`, `alaw`, `mulaw`, `mp3`, `opus`, `flac`, `aac`<br />*See [Audio Output Formats](https://developers.deepgram.com/docs/aura-2-preview) below |
-| `sample_rate` | sample rate of audio (Hz)<br />*Some encodings have fixed rates | *See [Audio Output Formats](https://developers.deepgram.com/docs/aura-2-preview) below |
-| `bit_rate` | bitrate of audio (bps)<br />*Ranges vary by encoding | *See [Audio Output Formats](https://developers.deepgram.com/docs/aura-2-preview) below |
+| `encoding` | encoding of the audio<br />*Defaults to `mp3` | `linear16`, `alaw`, `mulaw`, `mp3`, `opus`, `flac`, `aac`<br />*See [Audio Output Formats](#supported-audio-output-formats) below |
+| `sample_rate` | sample rate of audio (Hz)<br />*Some encodings have fixed rates | *See [Audio Output Formats](#supported-audio-output-formats) below |
+| `bit_rate` | bitrate of audio (bps)<br />*Ranges vary by encoding | *See [Audio Output Formats](#supported-audio-output-formats) below |
 | `callback` | URL for callback request | `https://your-callback-url.com` |
 
 ## Supported Audio Output Formats
