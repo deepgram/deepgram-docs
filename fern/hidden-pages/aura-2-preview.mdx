@@ -1,11 +1,11 @@
 ---
-title: "Aura-2 Private Preview"
+title: "Aura-2 Early Access"
 slug: "aura-2-preview"
-description: "Overview of the private API endpoint for Aura-2 Preview."
+description: "Overview of the Early Access API endpoint for Aura-2 EA."
 hidden: true
 ---
 <Info title="This endpoint is for limited testing. It is not meant for production use.">
-This preview provides access to a sandbox endpoint not meant for production. To ensure availability and fair use, please do not share this endpoint with others and run **one request at a time **. Models are subject to change at any time.
+This preview provides access to an EA endpoint not meant for production. To ensure availability and fair use, please do not share this endpoint with others **. Models are subject to change at any time.
 </Info>
 
 ## Aura-2: our most natural text-to-speech model for realtime conversations
@@ -25,20 +25,20 @@ Common use cases our customers are building for include customer service agents,
 
 ### Concurrency Limit
 
-This is a testing sandbox. To ensure availability and fair use:
+This is an early access endpoint. To ensure availability and fair use:
 
 - Do not use this endpoint in production.
-- Only hit the endpoint one request at a time.
+- Please limit your requests to 5-10 concurrent requests.
 
 ### Text Input Limit
 
-This preview sandbox endpoint only supports text input with \<1000 characters (~1 min 15s of audio output). If your text input is larger than our limit, the audio output will be cut off in the end.
+This early access endpoint only supports text input with \<1000 characters (~1 min 15s of audio output). If your text input is larger than our limit, the audio output will be cut off in the end.
 
 ## CURL
 
 You can call the endpoint at:
 
-`https://aura2-preview.sandbox.deepgram.com/v1/speak?model=aura-2-andromeda-en`
+`https://aura-2-ea.api.deepgram.com/v1/speak?model=aura-2-andromeda-en`
 
 Try it with CURL. Add your own API key where it says `YOUR_DEEPGRAM_API_KEY` and then run the following example in a terminal or your favorite API client.
 
@@ -46,38 +46,54 @@ Try it with CURL. Add your own API key where it says `YOUR_DEEPGRAM_API_KEY` and
 curl --request POST \
   --header "Content-Type: application/json" \
   --header "Authorization: Token YOUR_DEEPGRAM_API_KEY" \
-  --output your_output_file.mp3 \
+  --output your_output_file.wav \
   --data '{"text":"Hello, how can I help you today?"}' \
-  --url "https://aura2-preview.sandbox.deepgram.com/v1/speak?model=aura-2-andromeda-en&encoding=mp3"
+  --url "https://aura-2-ea.api.deepgram.com/v1/speak?model=aura-2-andromeda-en&container=wav"
 ```
 
 To get your `YOUR_DEEPGRAM_API_KEY`You can use your usual DG API token for authentication. Go to [https://console.deepgram.com](https://console.deepgram.com/), sign in, and create an API key.
 
 ## Query Parameters
 
-<Tip title="Include all required query parameters during Preview">
-To ensure a smooth transition from our Preview endpoint to our production endpoint, please include all the required query params below when you call our endpoint.
-</Tip>
-
 | query parameter | description | example |
 |----------------|-------------|----------|
-| `model`(required) | voice of the model | `aura-2-andromeda-en`<br />*See [Voice Selection](<>) for all voices |
-| `encoding`(required) | encoding of the audio | `linear16`, `alaw`, `mulaw`, `mp3`<br />*Audio formats are subject to change<br />*See [Audio Output Formats](https://developers.deepgram.com/docs/aura-2-preview) below |
-| `sample_rate` | sample rate of audio (Hz) | *See [Audio Output Formats](https://developers.deepgram.com/docs/aura-2-preview) below |
-| `bit_rate` | bitrate of audio (bps) | *See [Audio Output Formats](https://developers.deepgram.com/docs/aura-2-preview) below |
-
+| `model` | voice of the model<br />*Defaults to `aura-asteria-en` | `aura-2-andromeda-en`<br />* |
+| `container` | container format of the audio<br />*Defaults to `wav` | `none`, `wav`, `ogg`<br />*Container options depend on encoding type |
+| `encoding` | encoding of the audio<br />*Defaults to `mp3` | `linear16`, `alaw`, `mulaw`, `mp3`, `opus`, `flac`, `aac`<br />*See [Audio Output Formats](#supported-audio-output-formats) below |
+| `sample_rate` | sample rate of audio (Hz)<br />*Some encodings have fixed rates | *See [Audio Output Formats](#supported-audio-output-formats) below |
+| `bit_rate` | bitrate of audio (bps)<br />*Ranges vary by encoding | *See [Audio Output Formats](#supported-audio-output-formats) below |
+| `callback` | URL for callback request | `https://your-callback-url.com` |
 
 ## Supported Audio Output Formats
 
-Here are the audio output formats we support. For `linear16`, `alaw` and `mulaw`, we only support uncontainerized audio. Audio Output Formats are subject to change.
+Here are the supported audio format combinations with their specific configurations. Each combination determines the encoding parameters, container format, sample rate, bitrate, and content-type header attached to the response.
 
-| `encoding` | `sample_rate`(Hz) | `bit_rate`(bps) |
-|------------|-----------------|----------------|
-| `linear16` | `8000`,<br />`16000`,<br />`24000`, (default)<br />`32000`,<br />`48000` | Not Applicable |
-| `mulaw` | `8000`(default),<br />`16000` | Not Applicable |
-| `alaw` | `8000`(default),<br />`16000` | Not Applicable |
-| `mp3` | Not Configurable (set to `22050`) | `32000`,<br />`48000` (default) |
+| `encoding` | `container` | `sample_rate`(Hz) | `bit_rate`(bps) |
+|------------|------------|-------------------|-----------------|
+| `linear16` | `wav`(default),`none` | `8000`,<br />`16000`,<br />`24000`(default),<br />`32000`,<br />`48000` | Not Applicable |
+| `mulaw` | `wav`(default),`none` | `8000`(default),<br />`16000` | Not Applicable |
+| `alaw` | `wav`(default),`none` | `8000`(default),<br />`16000` | Not Applicable |
+| `mp3`(default) | Not Applicable | Not Configurable (set to `22050`) | `32000`,<br />`48000`(default) |
+| `opus` | `ogg`(default) | Not Configurable (set to `48000`) | Default: `12000`<br />Range: `4000`-`650000` |
+| `flac` | Not Applicable | `8000`,`16000`,`22050`,`32000`,`48000` | Not Applicable |
+| `aac` | Not Applicable | Not Configurable (set to `22050`) | Default: `48000`<br />Range: `4000`-`192000` |
 
+### Content-Type Headers
+
+The response will include a content-type header based on your chosen encoding and container format:
+
+| `encoding` | `container` | `Content-Type` |
+|------------|------------|----------------|
+| `linear16` | `wav` | `audio/wav` |
+| `linear16` | `none` | `audio/l16;rate=24000` |
+| `mulaw` | `wav` | `audio/wav` |
+| `mulaw` | `none` | `audio/mulaw;rate=8000` |
+| `alaw` | `wav` | `audio/wav` |
+| `alaw` | `none` | `audio/alaw;rate=8000` |
+| `mp3` | n/a | `audio/mpeg` |
+| `opus` | `ogg` | `audio/ogg;codecs=opus` |
+| `flac` | n/a | `audio/flac` |
+| `aac` | n/a | `audio/aac` |
 
 ## Voice Selection
 
@@ -85,73 +101,47 @@ Here are the audio output formats we support. For `linear16`, `alaw` and `mulaw`
 
 These are the featured voices in English (US).
 
-<Tip title="We may add or remove certain voices during or after Preview">
-When we move from Preview to General Access, we may add or remove voices below after we collect feedback from our users. If there's a particular voice you're interested in, please let us know.
-</Tip>
-
 | model                 | gender | language | description                                        |
 | :-------------------- | :----- | :------- | :------------------------------------------------- |
-| `aura-2-andromeda-en` | female | en-us    | caring, responsible,  down to earth, thoughtful    |
-| `aura-2-stella-en`    | female | en-us    | friendly, energetic, raspy,  casual, youthful      |
-| `aura-2-luna-en`      | female | en-us    | young, calm, melodic, approachable, casual         |
-| `aura-2-harmonia-en`  | female | en-us    | friendly, raspy, casual, enthusiastic, cheerful    |
-| `aura-2-delia-en`     | female | en-us    | calm, polite, responsible, empathetic              |
+| `aura-2-andromeda-en` | female | en-us    | caring, responsible, down to earth, thoughtful     |
+| `aura-2-arcas-en`     | male   | en-us    | smooth, calm, kind, knowledgeable, trustworthy     |
 | `aura-2-asteria-en`   | female | en-us    | bright, professional, direct, confident, positive  |
-| `aura-2-caspian-en`   | male   | en-us    | deep, patient, knowledgeable, down to earth        |
+| `aura-2-hyperion-en`  | male   | en-au    | calm, empathetic, knowledgeable                    |
 | `aura-2-odysseus-en`  | male   | en-us    | friendly, energetic, confident, engaging, positive |
-| `aura-2-orpheus-en`   | male   | en-us    | calm, confident, knowledgeable, comfortable        |
-| `aura-2-chronos-en`   | male   | en-us    | confident, positive, narration-like                |
+| `aura-2-thalia-en`    | female | en-us    | young, positive, confident, knowledgeable          |
 
-### All English (US) Voices
+### All Available Voices
 
 | model                 | gender | language | description                                        |
 | :-------------------- | :----- | :------- | :------------------------------------------------- |
-| `aura-2-andromeda-en` | female | en-us    | caring, responsible,  down to earth, thoughtful    |
+| `aura-2-amalthea-en`  | female | en-ph    | young, casual, easygoing                          |
+| `aura-2-andromeda-en` | female | en-us    | caring, responsible, down to earth, thoughtful     |
+| `aura-2-arcas-en`     | male   | en-us    | smooth, calm, kind, knowledgeable, trustworthy     |
 | `aura-2-asteria-en`   | female | en-us    | bright, professional, direct, confident, positive  |
 | `aura-2-callista-en`  | female | en-us    | young, chill, smart, empathetic, positive          |
-| `aura-2-cora-en`      | female | en-us    | calm, narration, knowledgeable, confident          |
 | `aura-2-cordelia-en`  | female | en-us    | calm, polite, responsible, empathetic              |
+| `aura-2-cora-en`      | female | en-us    | calm, narration, knowledgeable, confident          |
+| `aura-2-cressida-en`  | female | en-hi    | young, direct, careful, patient                    |
 | `aura-2-delia-en`     | female | en-us    | calm, polite, responsible, empathetic              |
 | `aura-2-harmonia-en`  | female | en-us    | friendly, raspy, casual, enthusiastic, cheerful    |
-| `aura-2-helena-en`    | female | en-us    | confident, nerdy, sassy, expressive                |
-| `aura-2-hera-en`      | female | en-us    | elderly, friendly, raspy, calm, casual             |
+| `aura-2-hyperion-en`  | male   | en-au    | calm, empathetic, knowledgeable                    |
 | `aura-2-luna-en`      | female | en-us    | young, calm, melodic, approachable, casual         |
-| `aura-2-lyra-en`      | female | en-us    | calm, empathetic, slightly acted                   |
 | `aura-2-minerva-en`   | female | en-us    | confident, knowledgeable, expressive               |
-| `aura-2-pandora-en`   | female | en-us    | confident, positive, clear, emotional              |
-| `aura-2-philyra-en`   | female | en-us    | empathetic, calm, neutral                          |
-| `aura-2-stella-en`    | female | en-us    | friendly, energetic, raspy,  casual, youthful      |
-| `aura-2-terra-en`     | female | en-us    | knowledgeable, clear, confident, calm              |
-| `aura-2-thalia-en`    | female | en-us    | young, positive, confident, knowledgeable          |
-| `aura-2-vesta-en`     | female | en-us    | engaging, positive, charismatic, casual            |
-| `aura-2-apollo-en`    | male   | en-us    | empathetic, charismatic, patient                   |
-| `aura-2-arcas-en`     | male   | en-us    | smooth, calm, kind, knowledgeable, trustworthy     |
-| `aura-2-caelus-en`    | male   | en-us    | engaging, positive, friendly, narration-like       |
-| `aura-2-caspian-en`   | male   | en-us    | deep, patient, knowledgeable, down to earth        |
-| `aura-2-chronos-en`   | male   | en-us    | confident, positive, narration-like                |
-| `aura-2-morpheus-en`  | male   | en-us    | calm, smooth, responsible, mature,                 |
 | `aura-2-odysseus-en`  | male   | en-us    | friendly, energetic, confident, engaging, positive |
-| `aura-2-orion-en`     | male   | en-us    | practical, trustworthy, direct, intelligent        |
 | `aura-2-orpheus-en`   | male   | en-us    | calm, confident, knowledgeable, comfortable        |
-| `aura-2-perseus-en`   | male   | en-us    | friendly, low-energy, calm                         |
-| `aura-2-taurus-en`    | male   | en-us    | confident, knowledgeable, casual                   |
-| `aura-2-vulcan-en`    | male   | en-us    | confident, knowledgeable, friendly                 |
+| `aura-2-thalia-en`    | female | en-us    | young, positive, confident, knowledgeable          |
+| `aura-2-theia-en`     | female | en-au    | young, casual, friendly                           |
+| `aura-2-vesta-en`     | female | en-us    | engaging, positive, charismatic, casual            |
+| `aura-2-zeus-en`      | male   | en-us    | authoritative, confident, powerful                 |
 
-### English Voices in other accents
+### Accented English Voices in other accents
 
 | model                | gender | language | description                               |
 | :------------------- | :----- | :------- | :---------------------------------------- |
-| `aura-2-theia-en`    | female | en-au    | young, casual, friendly                   |
-| `aura-2-hyperion-en` | male   | en-au    | calm, empathetic, knowledgeable           |
-| `aura-2-leo-en`      | male   | en-bb    | calm, friendly, casual, direct, caring    |
-| `aura-2-hypatia-en`  | female | en-ca    | young, melodic, calm, understanding       |
-| `aura-2-galatea-en`  | female | en-gb    | calm, poised, professional, comfortable   |
-| `aura-2-helios-en`   | male   | en-gb    | calm, comfortable, poised, knowledgeable  |
-| `aura-2-oberon-en`   | male   | en-gb    | deep, hoarse, diligent, understanding     |
-| `aura-2-cressida-en` | female | en-hi    | young, direct, careful, patient           |
-| `aura-2-angus-en`    | male   | en-ie    | casual, laid-back, empathetic, easy-going |
 | `aura-2-amalthea-en` | female | en-ph    | young, casual, easygoing                  |
-| `aura-2-polymnia-en` | female | en-za    | warm, melodic, sincere, calm              |
+| `aura-2-cressida-en` | female | en-hi    | young, direct, careful, patient           |
+| `aura-2-hyperion-en` | male   | en-au    | calm, empathetic, knowledgeable           |
+| `aura-2-theia-en`    | female | en-au    | young, casual, friendly                   |
 
 <Tip title="Want to give feedback or request a feature or change?">
 Please share your feedback with your Deepgram contact!
