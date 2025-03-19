@@ -13,7 +13,7 @@ about: "Report a bug or feature enhancement to help improve the project"
 
 ## API Explorer or Docs Reference
 
-> If applicable, provide a link to the Docs page our API Explorer section where the issue was found.
+> If applicable, provide a link to the Docs page or API Explorer section where the issue was found.
 
 
 ## API Spec Reference
