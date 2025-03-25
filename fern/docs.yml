@@ -94,8 +94,6 @@ navigation:
     layout:
       - page: Getting Started
         path: docs/voice-agent.mdx
-      - page: Feature Overview
-        path: docs/voice-agent-feature-overview.mdx
       - page: Starter Apps
         path: docs/voice-agent-starter-apps.mdx
       - page: Configure the Voice Agent
@@ -161,8 +159,6 @@ navigation:
         contents:
           - page: Getting Started
             path: docs/pre-recorded-audio.mdx
-          - page: Feature Overview
-            path: docs/stt-pre-recorded-feature-overview.mdx
           - page: Starter Apps
             path: docs/stt-pre-recorded-starter-apps.mdx
           - section: Tips and Tricks
@@ -190,8 +186,6 @@ navigation:
         contents:
           - page: Getting Started
             path: docs/live-streaming-audio.mdx
-          - page: Feature Overview
-            path: docs/stt-streaming-feature-overview.mdx
           - page: Live Streaming Starter Kit
             path: docs/getting-started-with-the-streaming-test-suite.mdx
           - page: Starter Apps
@@ -328,8 +322,6 @@ navigation:
         contents:
           - page: Getting Started
             path: docs/text-to-speech.mdx
-          - page: Feature Overview
-            path: docs/tts-feature-overview.mdx
           - page: TTS Callback
             path: docs/tts-callback.mdx
           - page: Audio Output Streaming
@@ -339,8 +331,6 @@ navigation:
         contents:
           - page: Getting Started
             path: docs/streaming-text-to-speech.mdx
-          - page: Feature Overview
-            path: docs/tts-streaming-feature-overview.mdx
           - section: Control Messages
             contents:
               - page: Flush
@@ -384,8 +374,6 @@ navigation:
         contents:
           - page: Getting Started
             path: docs/audio-intelligence.mdx
-          - page: Feature Overview
-            path: docs/stt-intelligence-feature-overview.mdx
           - page: Entity Detection
             path: docs/detect-entities.mdx
           - page: Intent Recognition
@@ -400,8 +388,6 @@ navigation:
         contents:
           - page: Getting Started
             path: docs/text-intelligence.mdx
-          - page: Feature Overview
-            path: docs/text-intelligence-feature-overview.mdx
           - page: Intent Recognition
             path: docs/text-intention-recognition.mdx
           - page: Sentiment Analysis
@@ -1289,6 +1275,20 @@ redirects:
     destination: /docs/text-chunking-for-tts-optimization
   - source: /docs/genesys-with-deepgram
     destination: /docs/genesys-deepgram-legacy
+  - source: /docs/voice-agent-feature-overview
+    destination: /reference/voice-agent-api/agent
+  - source: /docs/stt-pre-recorded-feature-overview
+    destination: /reference/speech-to-text-api/listen
+  - source: /docs/stt-streaming-feature-overview
+    destination: /reference/speech-to-text-api/listen-streaming
+  - source: /docs/tts-feature-overview
+    destination: /reference/text-to-speech-api/speak
+  - source: /docs/tts-streaming-feature-overview
+    destination: /reference/text-to-speech-api/speak-streaming
+  - source: /docs/stt-intelligence-feature-overview
+    destination: /reference/speech-to-text-api/listen
+  - source: /docs/text-intelligence-feature-overview
+    destination: /reference/text-intelligence-api/text-read
 
 analytics:
   gtm:
