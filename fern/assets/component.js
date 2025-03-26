@@ -194,7 +194,25 @@ html[data-theme="dark"] {
   fernMobileSearchButton.remove();
   fernDesktopSearchButton.remove();
 
-  docsearch({ container: "#desktop-search", appId, indexName, apiKey });
+  docsearch({
+    container: "#desktop-search",
+    appId,
+    apiKey,
+    indexName: 'crawler_deepgram_docs',
+    externalIndex: [
+      'crawler_deepgram_aiapps',
+      'crawler_deepgram_marketing',
+      'crawler_deepgram_glossary',
+      'crawler_deepgram_docs',
+      'crawler_deepgram_blog',
+      'crawler_deepgram_changelog',
+      'crawler_deepgram_console',
+      'crawler_deepgram_apireference',
+      'crawler_deepgram_community',
+    ],
+});
+
+
   docsearch({ container: "#mobile-search", appId, indexName, apiKey });
 }
 
