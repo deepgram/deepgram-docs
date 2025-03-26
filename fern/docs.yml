@@ -51,6 +51,9 @@ typography:
     name: FiraMono
     path: assets/FiraMono.woff2
 tabs:
+  pages:
+    display-name: Pages
+    slug: pages
   home:
     display-name: Home
     slug: home
@@ -67,7 +70,7 @@ tabs:
     display-name: Intelligence
     slug: intelligence
   api-ref:
-    display-name: API Ref
+    display-name: API Reference
     slug: reference
   guides:
     display-name: Guides
@@ -82,6 +85,11 @@ tabs:
     display-name: Security
     slug: security
 navigation:
+  - tab: pages
+    layout:
+      - page: Code of Conduct
+        path: content/pages/code-of-conduct.mdx
+        hidden: true
   - tab: home
     layout:
       - page: Introduction
@@ -414,17 +422,14 @@ navigation:
             path: docs/text-intelligence-callback.mdx
   - tab: api-ref
     layout:
-      - section: General
-        skip-slug: true
-        contents:
-          - page: Deepgram API Overview
-            path: docs/deepgram-api-overview.mdx
-          - page: Authentication
-            path: docs/authentication.mdx
-          - page: Errors
-            path: docs/errors.mdx
-          - page: API Rate Limits
-            path: docs/api-rate-limits.mdx
+      - page: Welcome
+        path: content/reference/welcome.mdx
+      - page: Authentication
+        path: content/reference/authentication.mdx
+      - page: Errors
+        path: content/reference/errors.mdx
+      - page: Rate Limits
+        path: content/reference/rate-limits.mdx
       - section: API Reference
         skip-slug: true
         contents:
@@ -483,10 +488,6 @@ navigation:
     layout:
       - section: Fundamentals
         contents:
-          - page: Make Your First API Request
-            path: docs/make-your-first-api-request.mdx
-          - page: Authenticating
-            path: docs/authenticating.mdx
           - page: Model Metadata
             path: docs/model-metadata.mdx
           - page: Managing Projects
@@ -544,9 +545,6 @@ navigation:
       - section: Hidden Docs
         hidden: true
         contents:
-          - page: Code of Conduct
-            path: hidden-pages/code-of-conduct.mdx
-            hidden: true
           - page: Aura 2 Formatting
             path: hidden-pages/aura-2-formatting.mdx
             hidden: true
@@ -1154,9 +1152,9 @@ redirects:
   - source: /reference/streaming
     destination: /reference/listen-live
   - source: /reference/getting-started-with-your-api
-    destination: /reference/deepgram-api-overview
+    destination: /reference/welcome
   - source: /reference/getting-started-with-your-api-2
-    destination: /reference/deepgram-api-overview
+    destination: /reference/welcome
   - source: /reference/text-intelligence-apis
     destination: /reference/analyze-text
   - source: /reference/audio-intelligence-apis
@@ -1283,12 +1281,25 @@ redirects:
     destination: /aura-2-formatting
   - source: /docs/aura-2-preview
     destination: /aura-2-preview
-  - source: /docs/code-of-conduct
-    destination: /code-of-conduct
   - source: /docs/text-chunking-for-tts-optimization-copy
     destination: /docs/text-chunking-for-tts-optimization
   - source: /docs/genesys-with-deepgram
     destination: /docs/genesys-deepgram-legacy
+
+# Redirects
+
+  - source: /docs/authenticating
+    destination: /reference/authentication
+  - source: /reference/deepgram-api-overview
+    destination: /reference/welcome
+  - source: /docs/make-your-first-api-request
+    destination: /reference/welcome
+  - source: /reference/api-rate-limits
+    destination: /reference/rate-limits
+  - source: /code-of-conduct
+    destination: /pages/code-of-conduct
+  - source: /docs/code-of-conduct
+    destination: /pages/code-of-conduct
 
 analytics:
   gtm:

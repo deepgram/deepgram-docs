@@ -1,6 +1,7 @@
 ---
-title: API Rate Limits
+title: Rate Limits
 subtitle: Understand the different service limits of Deepgram's APIs.
+slug: reference/rate-limits
 ---
 
 ## Pay as You Go / Growth
@@ -30,15 +31,15 @@ If multiple services are used in one API call (e.g Speech to Text + Sentiment An
 
 | Model                                                             | Service Limit                           |
 | :---------------------------------------------------------------- | :-------------------------------------- |
-| [Aura](https://developers.deepgram.com/docs/tts-feature-overview) | Pay as You Go: Up to 480 requests / min |
-| [Aura](https://developers.deepgram.com/docs/tts-feature-overview) | Growth:  Up to 720 requests / min       |
+| [Aura](/docs/tts-feature-overview) | Pay as You Go: Up to 480 requests / min |
+| [Aura](/docs/tts-feature-overview) | Growth:  Up to 720 requests / min       |
 
 ### Text to Speech Streaming
 
 | Model                                                             | Service Limit                               |
 | :---------------------------------------------------------------- | :------------------------------------------ |
-| [Aura](https://developers.deepgram.com/docs/tts-feature-overview) | Pay as You Go: Up to 40 concurrent requests |
-| [Aura](https://developers.deepgram.com/docs/tts-feature-overview) | Growth:  Up to 80 concurrent requests       |
+| [Aura](/docs/tts-feature-overview) | Pay as You Go: Up to 40 concurrent requests |
+| [Aura](/docs/tts-feature-overview) | Growth:  Up to 80 concurrent requests       |
 
 ### Audio Intelligence
 
@@ -92,13 +93,13 @@ If multiple services are used in one API call (e.g Speech to Text + Sentiment An
 
 | Model                                                             | Service Limit                   | Feedback                                                                                   |
 | :---------------------------------------------------------------- | :------------------------------ | :----------------------------------------------------------------------------------------- |
-| [Aura](https://developers.deepgram.com/docs/tts-feature-overview) | Starting at 2400 requests / min | [Share your feedback on our TTS rate limits](https://deepgram.typeform.com/tts-rate-limit) |
+| [Aura](/tts-feature-overview) | Starting at 2400 requests / min | [Share your feedback on our TTS rate limits](https://deepgram.typeform.com/tts-rate-limit) |
 
 ### Text to Speech Streaming
 
 | Model                                                                       | Service Limit                       | Feedback                                                                                   |
 | :-------------------------------------------------------------------------- | :---------------------------------- | :----------------------------------------------------------------------------------------- |
-| [Aura](https://developers.deepgram.com/docs/tts-streaming-feature-overview) | Starting at 150 concurrent requests | [Share your feedback on our TTS rate limits](https://deepgram.typeform.com/tts-rate-limit) |
+| [Aura](/tts-streaming-feature-overview) | Starting at 150 concurrent requests | [Share your feedback on our TTS rate limits](https://deepgram.typeform.com/tts-rate-limit) |
 
 ### Audio Intelligence
 
@@ -124,5 +125,5 @@ If you include Audio Intelligence features in requests to `/listen`, you will be
 <br />
 
 <Warning>
-The [error](https://developers.deepgram.com/reference/errors#429-rate-limit-exceeded-1) `429: Too Many Requests` is returned when your project has more concurrent requests than the rate limits allow. To learn more about this error please see our Documentation on [Errors](/reference/errors).
+The [error](/reference/errors#429---too-many-requests) `429: Too Many Requests` is returned when your project has more concurrent requests than the rate limits allow. To learn more about this error please see our Documentation on [Errors](/reference/errors).
 </Warning>
