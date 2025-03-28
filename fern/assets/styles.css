@@ -516,6 +516,14 @@ div[id="/reference/speech-to-text-api/listen#request"]
 }
 
 /**
+ * pages tab
+ */
+
+#fern-header nav ul li:nth-child(1) {
+  display: none !important;
+}
+
+/**
  * docsearch
  */
 

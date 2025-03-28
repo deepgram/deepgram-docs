@@ -1,0 +1,126 @@
+---
+title: Troubleshooting
+subtitle: Errors you might encounter when making requests to the Deepgram API
+slug: reference/errors
+---
+
+When using the Deepgram API, you may encounter errors. This guide explains common errors, their causes, and how to resolve them.
+
+## Common Errors
+
+### 400 - Bad Request
+**Description:** The request was malformed or missing required parameters.  
+**Possible Causes:**
+- Invalid request format
+- Missing required fields
+- Unsupported parameter values  
+**Resolution:**
+- Check the API documentation for required parameters.
+- Ensure request syntax follows the API specification.
+
+### 401 - Unauthorized
+**Description:** Authentication failed due to an invalid API key.  
+**Possible Causes:**
+- API key is missing or incorrect
+- API key has expired or been revoked
+- Incorrect `Authorization` header format  
+**Resolution:**
+- Ensure the request includes a valid API key:
+  ```http
+  Authorization: token YOUR_API_KEY
+  ```
+- Verify the API key in your Deepgram dashboard.
+- If using environment variables, confirm they are set correctly.
+
+### 402 - Payment Required
+**Description:** The project does not have enough credits for the request.  
+**Possible Causes:**
+- Insufficient balance for the requested operation
+- No overage agreement in place  
+**Resolution:**
+- Check your project’s balance in the Deepgram dashboard.
+- Contact Deepgram support for billing inquiries.
+
+### 403 - Forbidden
+**Description:** The request is authenticated, but the API key does not have the required permissions.  
+**Possible Causes:**
+- API key lacks access to the requested resource
+- Trying to access a restricted feature  
+**Resolution:**
+- Check API key permissions in the Deepgram dashboard.
+- Contact Deepgram support if you need additional access.
+
+### 404 - Not Found
+**Description:** The requested resource does not exist.  
+**Possible Causes:**
+- Incorrect endpoint URL
+- Requested project, model, or file does not exist  
+**Resolution:**
+- Verify the endpoint URL in your request.
+- Ensure you are using valid IDs for projects or resources.
+
+### 413 - Payload Too Large
+**Description:** The request payload exceeds the maximum allowed size.  
+**Possible Causes:**
+- Sending an audio or text payload that is too large  
+**Resolution:**
+- Reduce the size of the request payload.
+- Follow Deepgram’s documented limits on payload size.
+
+### 415 - Unsupported Media Type
+**Description:** The request contained an unsupported content type.  
+**Possible Causes:**
+- The `Content-Type` header is not set correctly  
+**Resolution:**
+- Ensure the `Content-Type` header is set to `application/json` or an appropriate audio format.
+
+### 429 - Too Many Requests
+**Description:** The request rate limit has been exceeded.  
+**Possible Causes:**
+- Sending too many requests in a short time
+- Not implementing rate limiting in client code  
+**Resolution:**
+- Reduce request frequency.
+- Implement exponential backoff for retries.
+
+### 500 - Internal Server Error
+**Description:** An unexpected error occurred on Deepgram’s side.  
+**Possible Causes:**
+- Temporary issue with Deepgram’s servers
+- Unexpected error during processing  
+**Resolution:**
+- Retry the request after a short delay.
+- If the issue persists, contact Deepgram support.
+
+### 503 - Service Unavailable
+**Description:** The Deepgram API is temporarily unavailable.  
+**Possible Causes:**
+- Maintenance or downtime on Deepgram's servers
+- Temporary overload of the API  
+**Resolution:**
+- Wait and retry after a short delay.
+- Check Deepgram’s [status page](https://status.deepgram.com) for updates.
+
+## WebSocket-Specific Errors
+
+### 1003 - Protocol Error
+**Description:** Sent an unsupported message type over WebSocket.  
+**Resolution:**
+- Ensure messages follow the correct WebSocket protocol.
+
+### 1008 - Policy Violation
+**Description:** The request does not comply with Deepgram’s usage policies.  
+**Resolution:**
+- Review API documentation for permitted usage.
+- Ensure all parameters and request structures are correct.
+
+### 1009 - Message Too Big
+**Description:** The WebSocket message payload exceeds the allowed limit.  
+**Resolution:**
+- Reduce the size of the message payload before sending.
+
+### 1011 - Internal Server Error
+**Description:** An unexpected WebSocket error occurred on Deepgram’s side.  
+**Resolution:**
+- Retry the request after a short delay.
+- If the issue persists, contact Deepgram support.
