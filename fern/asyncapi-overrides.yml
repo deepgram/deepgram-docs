@@ -1,4 +1,45 @@
 channels:
+  agent:
+    messages:
+      settingsConfiguration:
+        payload:
+          properties:
+            audio:
+              x-fern-type-name: AudioConfig
+            agent:
+              x-fern-type-name: AgentConfig
+              properties:
+                listen:
+                  x-fern-type-name: AgentListenSettings
+                think:
+                  x-fern-type-name: AgentThinkSettings
+                  properties:
+                    provider:
+                      x-fern-type-name: ThinkProvider
+                    functions:
+                      items:
+                        x-fern-type-name: ThinkFunction
+                        properties:
+                          headers:
+                            items:
+                              x-fern-type-name: FunctionHeader
+                          method:
+                            x-fern-type-name: FunctionMethod
+                          parameters:
+                            x-fern-type-name: FunctionParameters
+                            properties:
+                              properties:
+                                x-fern-type-name: FunctionParameterProperties
+                                additionalProperties:
+                                  x-fern-type-name: FunctionParameterPropertiesAdditionalProperties
+                          url:
+                            x-fern-type-name: ThinkFunctionUrl
+                            
+                speak:
+                  x-fern-type-name: AgentSpeakSettings
+                  properties:
+                    provider:
+                      x-fern-type-name: SpeakProvider
   speak:
     # Sets API Playground parameters to optional
     parameters:
