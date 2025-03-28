@@ -479,6 +479,12 @@ navigation:
                 referenced-packages:
                   - selfHostedApi
                 contents: []
+              - section: Authorization API
+                referenced-packages:
+                  - authorizationApi
+                contents:
+                  - endpoint: POST /v1/auth/grant
+                    title: Ephemeral Auth
   - tab: guides
     layout:
       - section: Fundamentals

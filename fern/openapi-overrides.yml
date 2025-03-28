@@ -1,22 +1,22 @@
 paths:
   /v1/listen:
     post:
-      requestBody: 
+      requestBody:
         description: Transcribe an audio file
-        content: 
+        content:
           application/json:
             schema:
               $ref: null
-              oneOf: 
-                - $ref: '#/components/schemas/ListenRequestUrl'
-                - $ref: '#/components/schemas/ListenRequestFile'
+              oneOf:
+                - $ref: "#/components/schemas/ListenRequestUrl"
+                - $ref: "#/components/schemas/ListenRequestFile"
           audio/*:
             schema: null
         required: true
       x-fern-sdk-group-name:
         - speechToText
       x-fern-sdk-method-name: listen
-      x-fern-examples: 
+      x-fern-examples:
         - name: Local File
           code-samples:
             - language: curl
@@ -52,7 +52,7 @@ paths:
               name: Local File
               code: >
                 const fs = require("fs");
-                
+
                 const url = "https://api.deepgram.com/v1/listen";
                 const apiKey = "DEEPGRAM_API_KEY"; // Replace with your actual API key
                 const audioFilePath = "/path/to/youraudio.wav"; // Replace with the path to your audio file
@@ -160,7 +160,7 @@ paths:
                 }
             - language: csharp
               name: Local File
-              code: > 
+              code: >
                 using System;
                 using System.IO;
                 using System.Net.Http;
@@ -395,12 +395,12 @@ paths:
                         print("Error: \(error)")
                         return
                     }
-                    
+
                     guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
                         print("Error: Invalid response")
                         return
                     }
-                    
+
                     if let data = data {
                         if let responseBody = String(data: data, encoding: .utf8) {
                             print("Response: \(responseBody)")
@@ -543,7 +543,7 @@ paths:
                 }
             - language: csharp
               name: Local File (SDK)
-              code: > 
+              code: >
                 // Install the Deepgram .NET SDK
                 // dotnet add package Deepgram
 
@@ -685,7 +685,7 @@ paths:
                 }
             - language: csharp
               name: Remote File
-              code: > 
+              code: >
                 using System;
                 using System.Net.Http;
                 using System.Threading.Tasks;
@@ -702,7 +702,7 @@ paths:
                         {
                             client.DefaultRequestHeaders.Add("Accept", "application/json");
                             client.DefaultRequestHeaders.Add("Authorization", "Token " + apiKey);
-                            
+
                             var requestBody = new { url = audioUrl };
                             var json = Newtonsoft.Json.JsonConvert.SerializeObject(requestBody);
                             var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
@@ -924,7 +924,7 @@ paths:
 
                     except Exception as e:
                         print(f"Exception: {e}")
-                        
+
 
                 if __name__ == "__main__":
                     main()
@@ -988,7 +988,7 @@ paths:
                     Model:       "nova-2",
                     SmartFormat: true,
                   }
-                  
+
                   // NOTE: you can set your API KEY in your bash profile by typing the following line in your shell:
                   // export DEEPGRAM_API_KEY = "YOUR_DEEPGRAM_API_KEY"
                   c := client.NewWithDefaults()
@@ -1015,7 +1015,7 @@ paths:
                 }
             - language: csharp
               name: Remote File (SDK)
-              code: >   
+              code: >
                 // Install the Deepgram .NET SDK
                 // dotnet add package Deepgram
 
@@ -1040,7 +1040,7 @@ paths:
                 Console.ReadKey();
 
                 // Teardown Library
-                Library.Terminate();   
+                Library.Terminate();
   /v1/read:
     post:
       x-fern-sdk-group-name:
