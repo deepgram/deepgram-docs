@@ -479,6 +479,12 @@ navigation:
                 referenced-packages:
                   - selfHostedApi
                 contents: []
+              - section: Ephemeral Auth API
+                referenced-packages:
+                  - ephemeralAuthApiApi
+                contents:
+                  - endpoint: POST /v1/auth/grant
+                    title: Grant Token
   - tab: guides
     layout:
       - section: Fundamentals
