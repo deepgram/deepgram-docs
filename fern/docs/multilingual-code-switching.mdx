@@ -8,13 +8,13 @@ slug: docs/multilingual-code-switching
 `language` *string* Option: `multi`
 
 <div class="flex flex-row gap-2">
-<Markdown src="../snippets/pre-recorded.mdx" /> <Markdown src="../snippets/streaming.mdx" /> <Markdown src="../snippets/en-and-es.mdx" />
+<Markdown src="../snippets/pre-recorded.mdx" /> <Markdown src="../snippets/streaming.mdx" />
 </div>
 
 The Multilingual Codeswitching feature in Deepgram's API allows you to transcribe conversations where speakers switch between multiple languages. This guide will walk you through enabling this feature, how to use it with cURL, and how to analyze and interpret the response.
 
 <Info>
-  Multilingual Code Switching is only available when using the [Nova-2](/docs/models-languages-overview#nova-2) model.
+  Multilingual Code Switching is only available when using the [Nova-2 or Nova-3](/docs/models-languages-overview#nova-3) models.
 </Info>
 
 ## 1. Enable Feature
@@ -34,7 +34,7 @@ To transcribe audio from a file on your computer that contains multiple language
     --header 'Authorization: Token YOUR_DEEPGRAM_API_KEY' \
     --header 'Content-Type: audio/wav' \
     --data-binary @youraudio.wav \
-    --url 'https://api.deepgram.com/v1/listen?language=multi&model=nova-2
+    --url 'https://api.deepgram.com/v1/listen?language=multi&model=nova-3
   ```
 </CodeGroup>
 
@@ -51,7 +51,7 @@ To transcribe an audio stream, initiate a websocket connection, including the pa
 </Info>
 
 ```
-wss://api.deepgram.com/v1/listen?language=multi&model=nova-2&sample_rate=44100&encoding=linear16&endpointing=100
+wss://api.deepgram.com/v1/listen?language=multi&model=nova-3&sample_rate=44100&encoding=linear16&endpointing=100
 ```
 
 ## 3. Analyze Response
