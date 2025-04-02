@@ -65,9 +65,27 @@ Once applied, results will appear in the transcript.
 | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | i'm recording this at eight thirty seven pm on wednesday it's november second twenty twenty two i just ate thirty three grams of pasta and then drank fifty five milliliters of water at three hundred main street then i walked down to one two three southeast main street to get my package with tracking number one z five seven a two b | i'm recording this at eight thirty seven pm on wednesday it's november second twenty twenty two i just ate thirty three grams of pasta and then drank fifty five milliliters of water at three hundred main street then i walked down to one two three southeast main street to get my package with tracking number one z five seven a two b | I'm recording this at 8:37 PM on Wednesday, it's November 2 2022. I just ate 33 grams of pasta, and then drank 55 milliliters of water at 300 Main Street. Then I walked down to 123 Southeast Main Street to get my package with tracking number 1Z57A2B. |
 
+## Streaming Finalization Behavior
+
+When using Smart Format with streaming audio, Deepgram will attempt to format entities as they are spoken. For entities that seem like they may be incomplete, our system will:
+
+- Wait until the speaker continues to non-entity speech, OR
+- Finalize the transcript after **3 seconds of silence**
+- Format the entity based on the available audio at that point
+
+This approach ensures transcripts are returned promptly while maintaining formatting precision. 
+
+For more control over finalization timing:
+- Send a `Finalize` message to end transcription earlier than the 3-second threshold
+- Use the `no_delay` parameter (see below)
+
 ## Using No Delay
 
-When using Smart Format with live-streamed audio, if a speaker begins saying a number, Deepgram will wait to return a transcription until the speaker has finished and continues on to non-numerical speech. This behavior ensures numbers have the best possible formatting and are not broken up over multiple chunks. To override this behavior and return results immediately, add the parameter `no_delay=true` to your streaming API request.
+<Info>
+  Setting `no_delay=true` forces immediate finalization of streaming transcripts without waiting for entity completion. NOTE: This will result in skipping formatting altogether in many cases.
+</Info>
+
+To override the default waiting behavior and return results immediately, add the parameter `no_delay=true` to your streaming API request:
 
 <CodeGroup>
   ```bash cURL
