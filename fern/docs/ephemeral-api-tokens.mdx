@@ -1,0 +1,138 @@
+---
+title: Ephemeral API Tokens
+subtitle: >-
+  Generates a temporary JSON Web Token (JWT) with a 30-second TTL (Time To Live) for Deepgram APIs
+slug: docs/ephemeral-auth-api
+---
+
+# Ephemeral API Tokens
+
+<Info>
+If you need a short-lived token, we highly recommend using [ephemeral API tokens](/reference/ephemeral-auth-api/grant-token) over temporary API keys.
+</Info>
+
+An ephemeral token is a secure, temporary authentication credential that provides time-limited access to Deepgram's APIs. These tokens have a 30 second Time To Live (TTL) and are designed specifically for short-lived, secure API access scenarios, particularly in client-side applications where long-term credential storage is not recommended. Unlike traditional API keys, ephemeral tokens are not persisted long-term and are ideal for real-time applications requiring secure, temporary access to Deepgram's services.
+
+
+## Key Characteristics
+
+- **TTL**: 30 seconds
+- **Scope**: Access to most Deepgram APIs
+- **Storage**: Not persisted long-term
+- **Security**: Single-use, time-limited access
+
+## Use Cases
+
+Ephemeral tokens are ideal for:
+- Real-time voice applications requiring secure client-side access
+- Temporary API access for third-party integrations
+- Secure sharing of API access with clients
+- WebSocket connections requiring authentication
+
+## Implementation Best Practices
+
+1. Create a proxy backend service to generate ephemeral tokens
+2. Generate tokens only when needed (e.g., at connection start)
+3. Use tokens immediately after generation
+4. Implement proper error handling for expired tokens
+
+## Why Choose Ephemeral Tokens?
+Ephemeral tokens are preferred over temporary API keys because they:
+
+- Maintains accurate usage tracking in the [Deepgram Console](https://console.deepgram.com/)
+- Enables filtering usage by API accessor
+- Prevents Console usage chart performance issues
+- Supports better security practices with short-lived credentials
+
+## Example
+
+<CodeGroup>
+  ```Curl cURL
+  curl -X POST https://api.deepgram.com/v1/auth/grant \
+     -H "Authorization: Token YOUR_DEEPGRAM_API_KEY"
+  ```
+</CodeGroup>
+
+<Warning>
+  Replace `YOUR_DEEPGRAM_API_KEY` with your [Deepgram API Key](/docs/create-additional-api-keys).
+</Warning>
+
+## Response
+
+<CodeGroup>
+  ```JSON JSON
+  {
+    "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2ZDNkMWJiYy0yNmI0LTRlZGQtYjliMy0zNjc3MDM3OTFmZTciLCJle BAiOjE3NDM2MjY2MzQsInN1YmplY3QiOiI2ZDNkMWJiYy0yNmI0LTRlZGQtYjliMy0zNjc3MDM3OTFmZTciLCJzY29wZXMiOlsiYXXyOndyaXRlIl0sInByb2plY3RfY2xhaW1zIjpbInVzYWdlOndyaXRlIl0sImFjY2Vzc29yIjoiMDgy1mM1YTMtNDRlMy00MWVkLThlZWItNDJiOGE1MDkwNjYwIiwiYWNjZXNzb3JfZ2VuZXJhdGlvbiI6MCwiY3JlYXRlZCI6IjIwMjMtMDItYjFUMjE6MTM6NDAuMDE0MzczWiJ9.-nutqvuezqlpxgUiBTKK9niCJeAiy855gBRzop32kCw",
+    "expires_in": 30
+}
+  ```
+</CodeGroup>
+
+
+
+## SDK Implementation Examples
+
+<CodeGroup>
+  ```Typescript Typescript
+  Coming Soon!
+  ```
+  ```Python Python
+  Coming Soon!
+  ```
+  ```Go Go
+  Coming Soon!
+  ```
+  ```.NET .NET
+  Coming Soon!
+  ```
+</CodeGroup>
+
+## FAQ
+
+### Why do I get a Forbidden error?
+
+`{"err_code":"FORBIDDEN","err_msg":"Insufficient permissions."}`
+
+The API key you use for the `/auth/grant` request needs to have at least Member permissions.
+To create a key with Member permissions. Login to the [Deepgram Console](https://console.deepgram.com/) and click on API Keys from the left sidebar. Click the "Create Key" button, then select "Advanced" options and choose "Member" from the permissions dropdown.
+
+Alternatively, you can create a key with Member permissions using the [Create Key](/reference/management-api/keys/create) endpoint.
+
+### Can a token have a longer TTL (Time To Live) than 30 seconds?
+
+We currently don't support modifying the TTL value of ephemeral tokens.
+
+### Can my websocket connection last longer than 30 seconds?
+
+Yes! You only need the ephemeral token to be valid during the initial websocket connection to Deepgram's APIs. The websocket connection will then stay open as it would in any other case until you close it.
+
+### Which Deepgram APIs can I use with an ephemeral tokens?
+
+These APIs will work with ephemeral tokens:
+
+- [`/listen` REST API](/reference/speech-to-text-api/listen) - Speech to Text
+- [`/listen` WebSocket API](/reference/speech-to-text-api/listen-streaming) - Speech to Text
+- [`/speak` REST API](/reference/text-to-speech-api/speak) - Text to Speech
+- [`/speak` WebSocket API](/reference/text-to-speech-api/speak-streaming) - Text to Speech
+- [`/read` REST API](/reference/text-intelligence-api/text-read) - Text Intelligence
+
+These APIs will not work with ephemeral tokens:
+
+- The collection of [Management APIs](/reference/deepgram-api-overview)
+- The [`/agent` API](/reference/voice-agent-api/agent) - Coming soon!
+
+### Can I use this token for transcription batch requests?
+
+Yes! You can use this token with transcription batch requests. but if you're going to do this client-side there will be significant latency so this might not be optimal.
+
+
+### Are ephemeral tokens supported in the Deepgram SDKs?
+
+Not yet, but SDK support is coming soon!
+
+
+***
+
+What's Next
+
+* For more information, refer to the [Ephemeral API Token API Reference](/reference/ephemeral-auth-api/grant-token).

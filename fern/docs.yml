@@ -493,6 +493,8 @@ navigation:
             path: docs/make-your-first-api-request.mdx
           - page: Authenticating
             path: docs/authenticating.mdx
+          - page: Ephemeral API Tokens
+            path: docs/ephemeral-api-tokens.mdx
           - page: Model Metadata
             path: docs/model-metadata.mdx
           - page: Managing Projects
