@@ -13,14 +13,6 @@ If you need a short-lived token, we highly recommend using [ephemeral API tokens
 
 An ephemeral token is a secure, temporary authentication credential that provides time-limited access to Deepgram's APIs. These tokens have a 30 second Time To Live (TTL) and are designed specifically for short-lived, secure API access scenarios, particularly in client-side applications where long-term credential storage is not recommended. Unlike traditional API keys, ephemeral tokens are not persisted long-term and are ideal for real-time applications requiring secure, temporary access to Deepgram's services.
 
-
-## Key Characteristics
-
-- **TTL**: 30 seconds
-- **Scope**: Access to most Deepgram APIs
-- **Storage**: Not persisted long-term
-- **Security**: Single-use, time-limited access
-
 ## Use Cases
 
 Ephemeral tokens are ideal for:
@@ -31,18 +23,10 @@ Ephemeral tokens are ideal for:
 
 ## Implementation Best Practices
 
-1. Create a proxy backend service to generate ephemeral tokens
-2. Generate tokens only when needed (e.g., at connection start)
-3. Use tokens immediately after generation
-4. Implement proper error handling for expired tokens
-
-## Why Choose Ephemeral Tokens?
-Ephemeral tokens are preferred over temporary API keys because they:
-
-- Maintains accurate usage tracking in the [Deepgram Console](https://console.deepgram.com/)
-- Enables filtering usage by API accessor
-- Prevents Console usage chart performance issues
-- Supports better security practices with short-lived credentials
+- Create a proxy backend service to generate ephemeral tokens
+- Generate tokens only when needed (e.g., at connection start)
+- Use tokens immediately after generation
+- Implement proper error handling for expired tokens
 
 ## Example
 
@@ -130,6 +114,9 @@ Yes! You can use this token with transcription batch requests. but if you're goi
 
 Not yet, but SDK support is coming soon!
 
+### Why should I use Ephemeral API Tokens over temporary API keys?
+
+Ephemeral tokens are preferred over temporary API keys because they maintain accurate usage tracking in the [Deepgram Console](https://console.deepgram.com/), enable filtering usage by API accessor, prevent Console usage chart performance issues, and support better security practices with short-lived credentials.
 
 ***
 
