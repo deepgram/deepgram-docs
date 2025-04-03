@@ -67,7 +67,7 @@ tabs:
     display-name: Intelligence
     slug: intelligence
   api-ref:
-    display-name: API Ref
+    display-name: API Reference
     slug: reference
   guides:
     display-name: Guides
