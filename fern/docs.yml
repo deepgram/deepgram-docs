@@ -54,6 +54,9 @@ tabs:
   home:
     display-name: Home
     slug: home
+  changelog:
+    display-name: Changelog
+    changelog: ./changelog
   voice-agent:
     display-name: Voice Agent
     slug: voice-agent
