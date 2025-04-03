@@ -1,6 +1,61 @@
+# This workflow is designed to generate a preview of documentation when a pull request is opened.
+# Additionally, it can be triggered remotely from another repository using the `repository_dispatch` event.
+#
+# To enable remote triggering and commenting on the original repository's PR, follow these steps:
+#
+# 1. Modify the Workflow to Listen for `repository_dispatch`:
+#    - Add `repository_dispatch` to the `on` section of this workflow to allow it to be triggered remotely.
+#
+# 2. Create a Webhook in the Other Repository:
+#    - In the repository where the PR is opened, create a webhook that sends a `repository_dispatch` event to this repository.
+#    - This can be done using a GitHub Action in the other repository that triggers on `pull_request` and uses the `repository_dispatch` event.
+#
+# 3. Example Action in the Other Repository:
+#    - Set up a GitHub Action in the other repository to trigger the `repository_dispatch` event:
+#
+#    ```yaml
+#    name: Trigger Preview Docs
+#
+#    on:
+#      pull_request:
+#        types: [opened]
+#
+#    jobs:
+#      dispatch:
+#        runs-on: ubuntu-latest
+#        steps:
+#          - name: Trigger Preview Docs Workflow
+#            uses: peter-evans/repository-dispatch@v2
+#            with:
+#              token: ${{ secrets.GITHUB_TOKEN }}
+#              repository: your-username/your-repo-name  # Replace with the target repository
+#              event-type: preview-docs
+#    ```
+#
+# 4. Return the Preview URL to a Comment on the Other Repository:
+#    - Modify the existing step in your `preview-docs.yml` to send the preview URL back to the original repository.
+#    - Use a personal access token with appropriate permissions to comment on the PR in the other repository.
+#
+#    ```yaml
+#      - name: Comment URL in PR
+#        uses: thollander/actions-comment-pull-request@v2.4.3
+#        with:
+#          repo-token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}  # Use a personal access token
+#          repository: other-username/other-repo-name  # Replace with the original repository
+#          issue-number: ${{ github.event.client_payload.pull_request_number }}  # Pass the PR number from the dispatch event
+#          filePath: preview_url.txt
+#    ```
+#
+# 5. Set Up Secrets:
+#    - Ensure you have set up the necessary secrets (`PERSONAL_ACCESS_TOKEN`) in your repository settings to allow commenting on the other repository.
+#
+# By following these steps, you can trigger the `preview-docs` workflow remotely and return the generated preview URL as a comment on the PR in the other repository.
+
 name: Preview Docs
 
-on: pull_request
+on:
+  pull_request:
+  repository_dispatch:
 
 jobs:
   run:
@@ -23,6 +78,12 @@ jobs:
 
       - name: Build the custom components
         run: npm --prefix custom-app run build
+
+      - name: Sync public docs
+        run: ./.bin/get-docs
+
+      - name: Sync public specs
+        run: ./.bin/get-specs
 
       - name: Generate preview URL
         id: generate-docs
