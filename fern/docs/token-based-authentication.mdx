@@ -16,15 +16,17 @@ An ephemeral token is a secure, temporary authentication credential that provide
 Ephemeral tokens are ideal for:
 - Real-time voice applications requiring secure client-side access
 - Temporary API access for third-party integrations
-- Secure sharing of API access with clients
+- Secure sharing of API access with clients when combined with a backend proxy
 - WebSocket connections requiring authentication
 
 ## Implementation Best Practices
 
-- Create a proxy backend service to generate ephemeral tokens
-- Generate tokens only when needed (e.g., at connection start)
-- Use tokens immediately after generation
-- Implement proper error handling for expired tokens
+1. Create a proxy backend service to generate ephemeral tokens
+2. Generate tokens only when needed (e.g., at connection start)
+3. Pass the token from your proxy backend to your client
+4. Initiate the Deepgram inference request from your client with the token
+5. Use tokens immediately after generation
+6. Implement proper error handling for expired tokens
 
 ## Example
 
@@ -114,7 +116,7 @@ Not yet, but SDK support is coming soon!
 
 ### Why should I use Ephemeral tokens over temporary API keys?
 
-Ephemeral tokens are preferred over temporary API keys because they maintain accurate usage tracking in the [Deepgram Console](https://console.deepgram.com/), enable filtering usage by API accessor, prevent Console usage chart performance issues, and support better security practices with short-lived credentials.
+Ephemeral tokens are preferred over temporary API keys because they are ephemeral: they are expired and removed after you are done using them.
 
 ***
 
