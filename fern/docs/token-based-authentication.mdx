@@ -34,6 +34,8 @@ Ephemeral tokens are ideal for:
 
 ## Example
 
+To create a JWT token, you can use the `/auth/grant` endpoint using the Authorization header with the `token` scheme.
+
 <CodeGroup>
   ```Curl cURL
   curl -X POST https://api.deepgram.com/v1/auth/grant \
@@ -56,6 +58,21 @@ Ephemeral tokens are ideal for:
   ```
 </CodeGroup>
 
+To use the JWT token, you can then pass it in the `Authorization` header of your request to any Deepgram API that supports token-based authentication using the `Bearer` scheme.
+
+## Example
+
+<CodeGroup>
+ ```Curl cURL
+  curl -X POST https://api.deepgram.com/v1/listen \
+     -H "Authorization: Bearer YOUR_JWT_TOKEN"
+  ```
+
+</CodeGroup>
+
+<Warning>
+  Replace `YOUR_JWT_TOKEN` with the JWT token you received from the `/auth/grant` endpoint.
+</Warning>
 
 
 ## SDK Implementation Examples
