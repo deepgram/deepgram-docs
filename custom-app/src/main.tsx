@@ -1,4 +1,5 @@
 import '@deepgram/web-components/deepgram-header'
+import '@deepgram/widget'
 
 const FERN_HEADER_CONTAINER_ID = 'fern-header'
 const NEXT_CONTAINER_ID = '__next'

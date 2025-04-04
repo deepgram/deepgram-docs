@@ -10,7 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@deepgram/web-components": "^0.0.2"
+    "@deepgram/web-components": "^0.0.2",
+    "@deepgram/widget": "./deepgram-widget-0.0.1.tgz"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^6.21.0",
