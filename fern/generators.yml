@@ -1,10 +1,13 @@
 api:
-  - path: openapi.yml
-    overrides: openapi-overrides.yml
-    origin: https://github.com/deepgram/deepgram-api-specs/blob/main/openapi.yml
-  - path: asyncapi.yml
-    overrides: asyncapi-overrides.yml
-    origin: https://github.com/deepgram/deepgram-api-specs/blob/main/asyncapi.yml
+  specs:
+    - openapi: openapi.yml
+      overrides: openapi-overrides.yml
+      origin: https://github.com/deepgram/deepgram-api-specs/blob/main/openapi.yml
+      settings:
+        respect-forward-compatible-enums: true
+    - asyncapi: asyncapi.yml
+      overrides: asyncapi-overrides.yml
+      origin: https://github.com/deepgram/deepgram-api-specs/blob/main/asyncapi.yml
 default-group: java-sdk
 groups:
   csharp-sdk:
@@ -27,7 +30,7 @@ groups:
   ts-sdk:
     generators:
       - name: fernapi/fern-typescript-node-sdk
-        version: 0.44.5
+        version: 0.49.6
         output:
           location: npm
           package-name: deepgram
@@ -35,6 +38,7 @@ groups:
         github:
           repository: fern-demo/deepgram-typescript-sdk
         config:
+          enableInlineTypes: true
           namespaceExport: Deepgram
           allowCustomFetcher: true
           skipResponseValidation: true
@@ -45,7 +49,7 @@ groups:
   python-sdk:
     generators:
       - name: fernapi/fern-python-sdk
-        version: 4.3.12
+        version: 4.5.0
         output:
           location: pypi
           package-name: deepgram
@@ -55,3 +59,4 @@ groups:
         config:
           client_class_name: Deepgram
           use_typeddict_requests: true
+          should_generate_websocket_clients: true
