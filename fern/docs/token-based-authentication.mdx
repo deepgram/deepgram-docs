@@ -1,14 +1,12 @@
 ---
-title: Ephemeral API Tokens
+title: Token-based Auth
 subtitle: >-
-  Generates a temporary JSON Web Token (JWT) with a 30-second TTL (Time To Live) for Deepgram APIs
-slug: docs/ephemeral-auth-api
+  Generates an ephemeral temporary JSON Web Token (JWT) with a 30-second TTL (Time To Live) for Deepgram APIs.
+slug: docs/token-based-authentication
 ---
 
-# Ephemeral API Tokens
-
 <Info>
-If you need a short-lived token, we highly recommend using [ephemeral API tokens](/reference/ephemeral-auth-api/grant-token) over temporary API keys.
+If you need a short-lived ephemeral token, we highly recommend using [token-based authentication](/reference/ephemeral-auth-api/grant-token) over temporary API keys.
 </Info>
 
 An ephemeral token is a secure, temporary authentication credential that provides time-limited access to Deepgram's APIs. These tokens have a 30 second Time To Live (TTL) and are designed specifically for short-lived, secure API access scenarios, particularly in client-side applications where long-term credential storage is not recommended. Unlike traditional API keys, ephemeral tokens are not persisted long-term and are ideal for real-time applications requiring secure, temporary access to Deepgram's services.
@@ -114,7 +112,7 @@ Yes! You can use this token with transcription batch requests. but if you're goi
 
 Not yet, but SDK support is coming soon!
 
-### Why should I use Ephemeral API Tokens over temporary API keys?
+### Why should I use Ephemeral tokens over temporary API keys?
 
 Ephemeral tokens are preferred over temporary API keys because they maintain accurate usage tracking in the [Deepgram Console](https://console.deepgram.com/), enable filtering usage by API accessor, prevent Console usage chart performance issues, and support better security practices with short-lived credentials.
 

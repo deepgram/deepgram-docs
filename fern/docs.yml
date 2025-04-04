@@ -479,9 +479,9 @@ navigation:
                 referenced-packages:
                   - selfHostedApi
                 contents: []
-              - section: Ephemeral Auth API
+              - section: Token-based Auth API
                 referenced-packages:
-                  - ephemeralAuthApiApi
+                  - authenticationApi
                 contents:
                   - endpoint: POST /v1/auth/grant
                     title: Grant Token
@@ -493,8 +493,8 @@ navigation:
             path: docs/make-your-first-api-request.mdx
           - page: Authenticating
             path: docs/authenticating.mdx
-          - page: Ephemeral API Tokens
-            path: docs/ephemeral-api-tokens.mdx
+          - page: Token-based Auth
+            path: docs/token-based-authentication.mdx
           - page: Model Metadata
             path: docs/model-metadata.mdx
           - page: Managing Projects
