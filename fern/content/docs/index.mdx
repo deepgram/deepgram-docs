@@ -1,0 +1,278 @@
+---
+title: "Welcome to Deepgram Docs!"
+hide-toc: true
+layout: overview
+---
+
+<style>
+{`
+  .fern-page-heading {
+    display: none;
+  }
+
+  .col {
+    display: flex;
+    flex-direction: column;
+    width: 40%;
+  }
+
+  .col .right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: flex-end;
+  }
+
+  .col h3 {
+    margin-top: 12px !important;
+  }
+
+  .right img {
+    width: 60% !important;
+    float: right;
+  }
+
+  .right {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .banner .fern-card {
+    width: 100%;
+    text-align: left;
+    padding: 24px;
+  }
+
+  .banner .fern-card ul {
+    margin-top: 4px !important;
+  }
+
+  .fern-card {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .fern-card p {
+    margin-bottom: 12px !important;
+  }
+
+  .center {
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-top: 24px;
+  }
+
+  .fern-card img {
+    width: 100% !important;
+  }
+
+  h3 {
+    color: white !important;
+    padding-bottom: 8px !important;
+  }
+
+  .badge {
+    border: 1px solid #232329;
+    padding: 8px 12px;
+    border-radius: 50px;
+    margin-bottom: 2rem;
+    color: #BBBBBF !important;
+  }
+
+  .badge:hover {
+    color: #FBFBFF !important;
+  }
+
+  .white .fern-card ul {
+    margin-top: .75rem !important;
+    position: relative;
+    left: -2.5rem !important;
+  }
+
+  .white .fern-card .overflow-hidden {
+    overflow: visible !important;
+  }
+
+  h2 {
+    margin-top: 80px !important;
+  }
+
+  @media (max-width: 768px) {
+    .fern-card {
+      flex-direction: column !important;
+    }
+
+    .col {
+      width: 100% !important;
+    }
+
+    .col.right {
+      margin-top: 24px;
+      order: -1;
+    }
+
+    .right img {
+      width: 100% !important;
+    }
+  }
+
+  .sdk-section .fern-card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .sdk-section .card-icon > img {
+    width: 28px;
+    height: 28px;
+    min-width: 28px;
+  }
+
+  .sdk-section .fern-card > div {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .fern-card img {
+    width: 100% !important;
+  }
+`}
+</style>
+
+<div class="banner">
+<div class="badge">[Introducing Nova-3, our newest flagship Speech-to-Text model! <span style={{ color: "#13EF95" }}>→</span>](/docs/models-languages-overview)</div>
+<h1>Welcome to Deepgram Docs!</h1>
+Build your voice AI solutions with the best voice agent, speech-to-text, and text-to-speech APIs.
+
+Enterprise grade APIs (cloud-hosted or self-hosted) with the highest accuracy, low latency, and lowest cost.
+
+<div class="fern-card product-card p-6 center">
+  <div class="col">
+    <h3>Voice agent API</h3>
+    <p class="t-muted">
+      Create agents for contact centers, teaching, drive thrus and more
+    </p>
+
+    - [Getting started](/docs/voice-agent)
+    - [Function calling](/docs/voice-agents-function-calling)
+  </div>
+
+  <div class="col right">
+    <img src="../../assets/images/purple.svg" />
+  </div>
+</div>
+</div>
+
+<CardGroup cols={3}>
+    <Card>
+      <div class="product-card">
+        <img src="../../assets/images/blue.svg" />
+
+        <h3>Speech to text API</h3>
+        <p class="t-muted">
+          Transcribe audio for contact centers, medical audio, wearables and more
+        </p>
+
+        - [Pre-recorded](/docs/pre-recorded-audio)
+        - [Streaming](/docs/live-streaming-audio)
+        - [Models and Languages](/docs/models-languages-overview)
+      </div>
+    </Card>
+    <Card>
+      <div class="product-card">
+        <img src="../../assets/images/pink.svg" />
+
+      <h3>Text to speech API</h3>
+      <p class="t-muted">
+         Generate audio for contact centers, IVRs, drive thrus and more
+       </p>
+
+        - [Getting started](/docs/text-to-speech)
+        - [Voices](/docs/tts-models)
+      </div>
+    </Card>
+    <Card>
+      <div class="product-card">
+        <img src="../../assets/images/yellow.svg" />
+
+      <h3>Intelligence API</h3>
+      <p class="t-muted">
+        Gain insights for phone calls and transcripts
+      </p>
+
+        - [Audio inputs](/docs/audio-intelligence)
+        - [Text inputs](/docs/text-intelligence)
+      </div>
+    </Card>   
+</CardGroup>
+
+## SDKs
+<div class="sdk-section">
+<CardGroup cols={4}>
+<Card
+  title="Python"
+  iconPosition="left"
+  icon={<img src="https://fern-image-hosting.s3.us-east-1.amazonaws.com/deepgram/python.svg" />}
+  href="/docs/python-sdk"
+/>
+<Card
+  title="JavaScript"
+  iconPosition="left"
+  icon={<img src="https://fern-image-hosting.s3.us-east-1.amazonaws.com/deepgram/js-yellow.svg" />}
+  href="/docs/js-sdk"
+/>
+<Card
+  title="Go"
+  iconPosition="left"
+  icon={<img src="https://fern-image-hosting.s3.us-east-1.amazonaws.com/deepgram/go.svg" />}
+  href="/docs/go-sdk"
+/>
+<Card
+  title=".Net"
+  iconPosition="left"
+  icon={<img src="https://fern-image-hosting.s3.us-east-1.amazonaws.com/deepgram/net.svg" />}
+  href="/docs/dotnet-sdk"
+/>
+</CardGroup>
+</div>
+
+## Resources
+<div class="white">
+<CardGroup cols={3}>
+<Card
+  title="Explore"
+  icon="rocket"
+  iconPosition="left"
+>
+<div class="resource-card">
+- [API Playground](https://playground.deepgram.com)
+- [API Reference](/reference/deepgram-api-overview)
+</div>
+</Card>
+<Card
+  title="Self Host"
+  icon="tools"
+  iconPosition="left"
+>
+<div class="resource-card">
+- [Get started with self-hosting](/docs/self-hosted-introduction)
+- [Self-hosted add-ons](/docs/self-hosted-add-ons)
+</div>
+</Card>
+<Card
+  title="Community"
+  icon="users"
+  iconPosition="left"
+>
+<div class="resource-card">
+- [Discord](https://dpgr.am/discord)
+- [Discussion Forums](https://github.com/orgs/deepgram/discussions)
+</div>
+</Card>
+</CardGroup>
+</div>
+
+

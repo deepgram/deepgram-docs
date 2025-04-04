@@ -1,0 +1,23 @@
+---
+title: Authentication
+description: Learn how to authenticate with the Deepgram Listen API
+---
+
+The Deepgram Listen API uses API keys for authentication. You'll need to include your API key in all requests to the API.
+
+## Getting Your API Key
+
+1. Log in to your Deepgram account
+2. Navigate to the API Keys section
+3. Create a new API key or use an existing one
+
+## Using Your API Key
+
+Include your API key in the `Authorization` header of your requests:
+
+```bash
+curl -X POST "https://api.deepgram.com/v1/listen" \
+  -H "Authorization: Token YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"url": "https://example.com/audio.mp3"}'
+```
