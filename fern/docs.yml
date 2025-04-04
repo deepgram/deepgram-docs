@@ -93,6 +93,7 @@ navigation:
         path: docs/getting-started.mdx
       - page: Support
         path: docs/support.mdx
+  - tab: changelog
   - tab: voice-agent
     layout:
       - page: Getting Started
