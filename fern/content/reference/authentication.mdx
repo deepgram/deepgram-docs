@@ -1,0 +1,56 @@
+---
+title: Authentication
+subtitle: Authenticating API Requests with Secure API Keys
+slug: reference/authentication
+---
+
+Deepgram's API uses API keys to authenticate requests. You must include an API key in the `Authorization` header of every request to access the API.
+
+## Authentication Method
+
+Deepgram supports authentication via API keys. These keys should be included in the `Authorization` header using the following format:
+
+```http
+Authorization: token YOUR_API_KEY
+```
+
+### Example Request
+
+```bash
+curl -X POST "https://api.deepgram.com/v1/listen" \
+     -H "Authorization: token YOUR_API_KEY" \
+     -H "Content-Type: application/json" \
+     --data '{"url":"https://dpgr.am/spacewalk.wav"}'
+```
+
+## Obtaining an API Key
+
+To obtain an API key:
+
+1. Sign in to your Deepgram account.
+2. Navigate to the **API Keys** section in your dashboard.
+3. Click **Generate API Key** and copy the key for use in API requests.
+
+## Security Considerations
+
+- **Keep your API key private**. Do not expose it in public repositories or client-side code.
+- **Use environment variables** to store API keys securely.
+- **Rotate API keys regularly** for security best practices.
+
+## Error Handling
+
+If authentication fails, the API will return a `401 Unauthorized` error:
+
+```json
+{
+  "err_code": "INVALID_AUTH",
+  "err_msg": "Invalid credentials.",
+  "request_id": "<unique-request-id>"
+}
+```
+
+Make sure:
+- Your API key is correct and active.
+- You are including the `Authorization` header properly.
+
+For further assistance, contact Deepgram support at [Deepgram Community](https://community.deepgram.com).
