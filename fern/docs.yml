@@ -17,12 +17,6 @@ logo:
 css:
   - assets/styles.css
 
-js:
-  - path: ./assets/component.js
-    strategy: lazyOnload
-  - path: dist/output.js
-    strategy: beforeInteractive
-
 favicon: assets/favicon.ico
 
 layout:
@@ -65,7 +59,7 @@ tabs:
     slug: pages
   home:
     display-name: Home
-    slug: home
+    skip-slug: true
   speak:
     display-name: Speech-to-Text
     slug: speech-to-text
@@ -80,12 +74,140 @@ navigation:
         path: content/pages/code-of-conduct.mdx
   - tab: home
     layout:
-      - page: Welcome to Deepgram Docs
-        path: content/docs/index.mdx
+      - page: Welcome
+        path: content/index.mdx
   - tab: speak
     layout:
-      - page: Deepgram's Speech-to-Text API
-        path: content/docs/speech-to-text/index.md
+      - page: Overview
+        path: content/speech-to-text/index.mdx
+      - page: Feature Overview
+        path: content/speech-to-text/feature-overview.mdx
+      - section: Pre-Recorded Audio
+        contents:
+          - page: Authentication
+            path: content/speech-to-text/authentication.mdx
+          - page: Quickstart
+            path: content/speech-to-text/quickstart.mdx
+      - section: Streaming Audio
+        contents:
+          - page: Authentication
+            path: content/speech-to-text/authentication.mdx
+          - page: Quickstart
+            path: content/speech-to-text/quickstart.mdx
+      - section: Features
+        contents:
+          - section: Audio Intelligence
+            contents:
+              - page: Entity Detection
+                path: content/speech-to-text/features/audio-intelligence/entity-detection.md
+              - page: Intent Recognition
+                path: content/speech-to-text/features/audio-intelligence/intent-recognition.md
+              - page: Sentiment Analysis
+                path: content/speech-to-text/features/audio-intelligence/sentiment-analysis.md
+              - page: Summarization
+                path: content/speech-to-text/features/audio-intelligence/summarization.md
+              - page: Topic Detection
+                path: content/speech-to-text/features/audio-intelligence/topic-detection.md
+          - section: Audio Processing
+            contents:
+              - page: Encoding
+                path: content/speech-to-text/features/audio-processing/encoding.md
+              - page: Extra
+                path: content/speech-to-text/features/audio-processing/extra.md
+              - page: Filler Words
+                path: content/speech-to-text/features/audio-processing/filler-words.md
+              - page: Multichannel
+                path: content/speech-to-text/features/audio-processing/multichannel.md
+              - page: Smart Formatting
+                path: content/speech-to-text/features/audio-processing/smart-formatting.md
+              - page: Tagging
+                path: content/speech-to-text/features/audio-processing/tagging.md
+          - section: Callbacks
+            contents:
+              - page: Callbacks URL
+                path: content/speech-to-text/features/callbacks/callback-url.md
+          - section: Privacy
+            contents:
+              - page: Profanity Filter
+                path: content/speech-to-text/features/privacy/profanity-filter.md
+              - page: Redaction
+                path: content/speech-to-text/features/privacy/redaction.md
+          - section: Speech Recognition
+            contents:
+              - page: Diarization
+                path: content/speech-to-text/features/speech-recognition/diarization.md
+              - page: Dictation
+                path: content/speech-to-text/features/speech-recognition/dictation.md
+              - page: Keyterms
+                path: content/speech-to-text/features/speech-recognition/keyterms.md
+              - page: Keywords
+                path: content/speech-to-text/features/speech-recognition/keywords.md
+              - page: Language Detection
+                path: content/speech-to-text/features/speech-recognition/language-detection.md
+              - page: Language
+                path: content/speech-to-text/features/speech-recognition/language.md
+              - page: Model
+                path: content/speech-to-text/features/speech-recognition/model.md
+              - page: Numerals
+                path: content/speech-to-text/features/speech-recognition/numerals.md
+              - page: Paragraphs
+                path: content/speech-to-text/features/speech-recognition/paragraphs.md
+              - page: Punctuation
+                path: content/speech-to-text/features/speech-recognition/punctuation.md
+              - page: Search Replace
+                path: content/speech-to-text/features/speech-recognition/search-replace.md
+              - page: Search
+                path: content/speech-to-text/features/speech-recognition/search.md
+              - page: Utterances
+                path: content/speech-to-text/features/speech-recognition/utterances.md
+      - section: Guides
+        contents:
+          - page: Automatically Generating WebVTT & SRT Captions
+            path: content/speech-to-text/guides/automatically-generating-webvtt-srt-captions.mdx
+          - page: Automatically Transcribe and Summarize Phone Calls
+            path: content/speech-to-text/guides/automatically-transcribe-and-summarize-phone-calls.mdx
+          - page: Getting Started with Deepgram Whisper Cloud
+            path: content/speech-to-text/guides/getting-started-with-deepgram-whisper-cloud.mdx
+          - page: Generating and Saving Transcripts From the Terminal
+            path: content/speech-to-text/guides/generating-and-saving-transcripts-from-the-terminal.mdx
+          - page: Using Callbacks to Return Transcripts to Your Server
+            path: content/speech-to-text/guides/using-callbacks-to-return-transcripts-to-your-server.mdx
+          - page: When Callback Is Not Received
+            path: content/speech-to-text/guides/when-callback-is-not-received.mdx
+          - page: When To Use Multichannel and Diarization
+            path: content/speech-to-text/guides/when-to-use-multichannel-and-diarization.mdx
+          - page: When To Use Keywords and Search
+            path: content/speech-to-text/guides/when-to-use-keywords-and-search.mdx
+          - page: Calculate Talk Time Analytics
+            path: content/speech-to-text/guides/calculate-talk-time-analytics.mdx
+          - page: Integrating Amazon Connect and Deepgram Speech-to-Text
+            path: content/speech-to-text/guides/integrating-amazon-connect-and-deepgram-speech-to-text.mdx
+          - page: Transcribing files from Presigned AWS S3 Urls
+            path: content/speech-to-text/guides/transcribing-files-from-presigned-aws-s3-urls.mdx
+          - page: Integrating Genesys with Deepgram Speech-to-Text
+            path: content/speech-to-text/guides/integrating-genesys-with-deepgram-speech-to-text.mdx
+          - page: Using Google Dialogflow CX with Deepgram Speech-to-Text
+            path: content/speech-to-text/guides/using-google-dialogflow-cx-with-deepgram-speech-to-text.mdx
+          - page: Transcribe audio automatically with Make.com workflows
+            path: content/speech-to-text/guides/transcribe-audio-automatically-with-make-com-workflows.mdx
+          - page: Integrating Twilio and Deepgram Speech-to-Text
+            path: content/speech-to-text/guides/integrating-speech-to-text-with-twilio-and-deepgram.mdx
+          - page: Transcribe audio automatically with Zapier
+            path: content/speech-to-text/guides/transcribe-audio-automatically-with-zapier.mdx
+          - page: Transcribe Zoom meetings using Deepgram
+            path: content/speech-to-text/guides/transcribe-zoom-meetings-using-deepgram.mdx
+      - section: Migration
+        contents:
+          - page: Migrating from Amazon Transcribe
+            path: content/speech-to-text/migration/amazon-transcribe.mdx
+          - page: Migrating from AssemblyAI Speech-to-Text
+            path: content/speech-to-text/migration/assemblyai-stt.mdx
+          - page: Migrating from Google Cloud Speech-to-Text
+            path: content/speech-to-text/migration/google-cloud-stt.mdx
+          - page: Migrating from OpenAI Whisper
+            path: content/speech-to-text/migration/openai-whisper.mdx
+          - page: Migrating from IBM Watson Speech-to-Text
+            path: content/speech-to-text/migration/ibm-watson-stt.mdx
   - tab: api
     layout:
       - page: Welcome
@@ -96,19 +218,19 @@ navigation:
         path: content/reference/errors.mdx
       - page: Rate Limits
         path: content/reference/rate-limits.mdx
-      - section: API Reference
-        contents:
-          - api: API Reference
-            display-errors: true
-            paginated: true
-            flattened: true
-            layout:
-              - section: Speech to Text API
-                referenced-packages:
-                  - speechToText
-                contents:
-                  - endpoint: POST /v1/listen
-                    title: Pre-Recorded Audio
+      # - section: API Reference
+      #   contents:
+      #     - api: API Reference
+      #       display-errors: true
+      #       paginated: true
+      #       flattened: true
+      #       layout:
+      #         - section: Speech to Text API
+      #           referenced-packages:
+      #             - speechToText
+      #           contents:
+      #             - endpoint: POST /v1/listen
+      #               title: Pre-Recorded Audio
 
 analytics:
   gtm:

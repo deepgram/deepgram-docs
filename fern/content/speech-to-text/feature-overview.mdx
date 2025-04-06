@@ -1,0 +1,124 @@
+---
+title: Feature Overview
+description: Learn about all the features available in Deepgram's Speech-to-Text API
+---
+
+Deepgram's Speech-to-Text API offers a comprehensive set of features for transcribing and analyzing audio content.
+
+## Speech Recognition Features
+
+<ParamField path="diarization" type="boolean" default="false">
+  Identifies different speakers in the audio. [Learn more](/speech-to-text/features/speech-recognition/diarization)
+</ParamField>
+
+<ParamField path="dictation" type="boolean" default="false">
+  Optimises recognition for dictation content. [Learn more](/speech-to-text/features/speech-recognition/dictation)
+</ParamField>
+
+<ParamField path="keyterms" type="boolean" default="false">
+  Key term prompting can boost or suppress specialised terminology and brands. [Learn more](/speech-to-text/features/speech-recognition/keyterms)
+</ParamField>
+
+<ParamField path="keywords" type="string[]">
+  Keywords can boost or suppress specialised terminology and brands. [Learn more](/speech-to-text/features/speech-recognition/keywords)
+</ParamField>
+
+<ParamField path="language_detection" type="boolean" default="false">
+  Detects the language of the audio. [Learn more](/speech-to-text/features/speech-recognition/language-detection)
+</ParamField>
+
+<ParamField path="language" type="string" default="en">
+  The language tag that hints at the primary spoken language. The available languages depend on the model and API endpoint you choose. [Learn more](/speech-to-text/features/speech-recognition/language)
+</ParamField>
+
+<ParamField path="model" type="string" default="base-general">
+  The AI model used to process submitted audio. Choose from our public models available to all accounts. [Learn more](/speech-to-text/features/speech-recognition/model)
+</ParamField>
+
+<ParamField path="numerals" type="boolean" default="false">
+  Converts numbers to their written form. [Learn more](/speech-to-text/features/speech-recognition/numerals)
+</ParamField>
+
+<ParamField path="paragraphs" type="boolean" default="false">
+  Segments the transcript into paragraphs. [Learn more](/speech-to-text/features/speech-recognition/paragraphs)
+</ParamField>
+
+<ParamField path="punctuation" type="boolean" default="false">
+  Adds punctuation to the transcript output. [Learn more](/speech-to-text/features/speech-recognition/punctuation)
+</ParamField>
+
+<ParamField path="search_replace" type="boolean" default="false">
+  Searches and replaces text in the transcript output. [Learn more](/speech-to-text/features/speech-recognition/search-replace)
+</ParamField>
+
+<ParamField path="search" type="boolean" default="false">
+  Searches the transcript output. [Learn more](/speech-to-text/features/speech-recognition/search)
+</ParamField>
+
+<ParamField path="utterances" type="boolean" default="false">
+  Segments speech into meaningful semantic units. [Learn more](/speech-to-text/features/speech-recognition/utterances)
+</ParamField>
+
+## Audio Intelligence Features
+
+<ParamField path="entity_detection" type="boolean" default="false">
+  Identifies entities in the transcript output. [Learn more](/speech-to-text/features/audio-intelligence/entity-detection)
+</ParamField>
+
+<ParamField path="intent_recognition" type="boolean" default="false">
+  Recognises the intent of the transcript output. [Learn more](/speech-to-text/features/audio-intelligence/intent-recognition)
+</ParamField>
+
+<ParamField path="sentiment_analysis" type="boolean" default="false">
+  Analyzes the sentiment of the transcript output. [Learn more](/speech-to-text/features/audio-intelligence/sentiment-analysis)
+</ParamField>
+
+<ParamField path="summarization" type="boolean" default="false">
+  Summarizes the transcript output. [Learn more](/speech-to-text/features/audio-intelligence/summarization)
+</ParamField>
+
+<ParamField path="topic_detection" type="boolean" default="false">
+  Identifies topics in the transcript output. [Learn more](/speech-to-text/features/audio-intelligence/topic-detection)
+</ParamField>
+
+## Audio Processing Features
+
+<ParamField path="encoding" type="string" default="linear16">
+  The encoding type of the audio. Choose from predefined ranges or specific values based on the encoding type. [Learn more](/speech-to-text/features/audio-processing/encoding)
+</ParamField>
+
+<ParamField path="extra" type="boolean" default="false">
+  Enables additional processing capabilities not covered by standard features. [Learn more](/speech-to-text/features/audio-processing/extra)
+</ParamField>
+
+<ParamField path="filler_words" type="boolean" default="false">
+  Identifies and optionally removes common filler words and phrases. [Learn more](/speech-to-text/features/audio-processing/filler-words)
+</ParamField>
+
+<ParamField path="multichannel" type="boolean" default="false">
+  Processes audio files with multiple channels. [Learn more](/speech-to-text/features/audio-processing/multichannel)
+</ParamField>
+
+<ParamField path="smart_format" type="boolean" default="false">
+  Applies formatting to transcript output to improve readability. [Learn more](/speech-to-text/features/audio-processing/smart-format)
+</ParamField>
+
+<ParamField path="tag" type="string[]">
+  Labels your requests for identification during usage reporting. [Learn more](/speech-to-text/features/audio-processing/tag)
+</ParamField>
+
+## Callbacks
+
+<ParamField path="callback" type="string">
+  The URL to send the callback to. [Learn more](/speech-to-text/features/callbacks/callback-url)
+</ParamField>
+
+## Privacy
+
+<ParamField path="profanity_filter" type="boolean" default="false">
+  Filters out profanity from the transcript output. [Learn more](/speech-to-text/features/privacy/profanity-filter)
+</ParamField>
+
+<ParamField path="redact" type="boolean" default="false">
+  Redacts sensitive information from the transcript output. [Learn more](/speech-to-text/features/privacy/redact)
+</ParamField>

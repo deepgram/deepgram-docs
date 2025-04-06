@@ -1,9 +1,9 @@
 ---
 title: Quickstart Guide
-description: Get started quickly with the Deepgram Listen API
+description: Get started quickly with the Deepgram’s Speech-to-Text API
 ---
 
-This guide will help you make your first transcription request to the Deepgram Listen API.
+This guide will help you make your first transcription request to the Deepgram’s Speech-to-Text API.
 
 ## Basic Transcription
 
@@ -13,7 +13,7 @@ Here's a simple example of transcribing an audio file:
 curl -X POST "https://api.deepgram.com/v1/listen" \
   -H "Authorization: Token YOUR_API_KEY" \
   -H "Content-Type: audio/mp3" \
-  --data-binary @audio.mp3
+  --data-binary @spacewalk.mp3
 ```
 
 ## Transcribing from a URL
@@ -24,7 +24,7 @@ You can also transcribe audio from a URL:
 curl -X POST "https://api.deepgram.com/v1/listen" \
   -H "Authorization: Token YOUR_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{"url": "https://example.com/audio.mp3"}'
+  -d '{"url": "https://dpgr.am/spacewalk.wav"}'
 ```
 
 ## Understanding the Response

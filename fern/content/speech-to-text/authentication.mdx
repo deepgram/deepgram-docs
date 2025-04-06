@@ -1,9 +1,9 @@
 ---
 title: Authentication
-description: Learn how to authenticate with the Deepgram Listen API
+description: Learn how to authenticate with the Deepgram’s Speech-to-Text API
 ---
 
-The Deepgram Listen API uses API keys for authentication. You'll need to include your API key in all requests to the API.
+The Deepgram’s Speech-to-Text API uses API keys for authentication. You'll need to include your API key in all requests to the API.
 
 ## Getting Your API Key
 
@@ -19,5 +19,5 @@ Include your API key in the `Authorization` header of your requests:
 curl -X POST "https://api.deepgram.com/v1/listen" \
   -H "Authorization: Token YOUR_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{"url": "https://example.com/audio.mp3"}'
+  -d '{"url": "https://dpgr.am/spacewalk.wav"}'
 ```
