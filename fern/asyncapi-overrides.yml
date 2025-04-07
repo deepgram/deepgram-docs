@@ -1,5 +1,6 @@
 channels:
   speak:
+    x-fern-sdk-group-name: textToSpeech
     # Sets API Playground parameters to optional
     parameters:
       encoding:
@@ -13,23 +14,24 @@ channels:
       - name: Text-to-Speech Example
         summary: This is an example of a text-to-speech session
         messages:
-          - type: publish
+          - type: textToSpeechRequest
             channelId: speak
             messageId: textToSpeechRequest
             value:
               type: Speak
               text: Hello, world!
-          - type: publish
+          - type: textToSpeechRequest
             channelId: speak
             messageId: textToSpeechRequest
             value:
               type: Speak
               text: Welcome to Deepgram!
-          - type: subscribe
+          - type: textToSpeechResponse
             channelId: speak
             messageId: textToSpeechResponse
             value: Y3VyaW91cyBtaW5kcyB0aGluayBhbGlrZSA6KQ==
   listen:
+    x-fern-sdk-group-name: speechToText
     # Sets API Playground parameters to optional
     parameters:
       callback:
@@ -40,6 +42,7 @@ channels:
         x-fern-optional: true
       diarize:
         x-fern-optional: true
+        x-fern-type: optional<boolean>
       dictation:
         x-fern-optional: true
       encoding:
@@ -54,6 +57,7 @@ channels:
         x-fern-optional: true
       keyterm:
         x-fern-optional: true
+        x-fern-type: optional<list<string>>
       keywords:
         x-fern-optional: true
       language:
@@ -91,15 +95,15 @@ channels:
       - name: Speech-to-Text Example
         summary: This is an example of a speech-to-text session
         messages:
-          - type: publish
+          - type: transcriptionRequest
             channelId: listen
             messageId: transcriptionRequest
             value: Y3VyaW91cyBtaW5k
-          - type: publish
+          - type: transcriptionRequest
             channelId: listen
             messageId: transcriptionRequest
             value: cyB0aGluayBhbGlrZSA6KQ==
-          - type: subscribe
+          - type: transcriptionResponse
             channelId: listen
             messageId: transcriptionResponse
             value:

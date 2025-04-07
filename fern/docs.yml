@@ -481,7 +481,7 @@ navigation:
                 contents: []
               - section: Ephemeral Auth API
                 referenced-packages:
-                  - ephemeralAuthApiApi
+                  - authenticationApi
                 contents:
                   - endpoint: POST /v1/auth/grant
                     title: Grant Token
