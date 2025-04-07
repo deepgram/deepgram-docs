@@ -1,3 +1,7 @@
 li.fern-header-tabs-list-item:nth-child(1) {
   display: none;
 }
+
+ul.fern-sidebar-group > li:nth-child(1) > div.fern-sidebar-heading {
+  display: none;
+}
