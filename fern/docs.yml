@@ -91,6 +91,8 @@ navigation:
             path: content/speech-to-text/index.mdx
           - page: Feature Overview
             path: content/speech-to-text/feature-overview.mdx
+          - page: Models and Languages
+            path: content/speech-to-text/models-and-languages.mdx
           - section: How-to Guides
             contents:
               - page: Automatically Generating WebVTT & SRT Captions
@@ -220,74 +222,80 @@ navigation:
                 path: content/speech-to-text/features/speech-recognition/utterances.md
   - tab: api
     layout:
-      - page: Welcome
-        path: content/reference/welcome.mdx
+      - page: Overview
+        path: content/reference/overview.mdx
       - page: Authentication
         path: content/reference/authentication.mdx
       - page: Errors
         path: content/reference/errors.mdx
       - page: Rate Limits
         path: content/reference/rate-limits.mdx
-      - section: API Reference
+      - api: Deepgram API
         skip-slug: true
-        contents:
-          - api: Deepgram API
-            skip-slug: true
-            display-errors: true
-            paginated: true
-            flattened: true
-            layout:
-              - section: Voice Agent API
-                contents:
-                  - endpoint: GET /agent
-                    title: Build a Voice Agent
-              - section: Speech to Text API
-                referenced-packages:
-                  - speechToText
-                contents:
-                  - endpoint: POST /v1/listen
-                    title: Pre-Recorded Audio
-                  - endpoint: GET /v1/listen
-                    slug: listen-live
-                    title: Live Audio
-              - section: Text to Speech API
-                referenced-packages:
-                  - textToSpeech
-                contents:
-                  - endpoint: POST /v1/speak
-                    title: Single Text Request
-                  - endpoint: GET /v1/speak
-                    slug: speak-live
-                    title: Continuous Text Stream
-              - section: Text Intelligence API
-                referenced-packages:
-                  - textIntelligence
-                contents:
-                  - endpoint: POST /v1/read
-                    title: Analyze Text
-              - section: Management API
-                referenced-packages:
-                  - managementApi
-                contents:
-                  - managementApi.models
-                  - managementApi.projects
-                  - managementApi.keys
-                  - managementApi.members
-                  - managementApi.scopes
-                  - managementApi.invitations
-                  - managementApi.usage
-                  - managementApi.purchases
-                  - managementApi.balances
-              - section: Self-Hosted API
-                referenced-packages:
-                  - selfHostedApi
-                contents: []
-              - section: Ephemeral Auth API
-                referenced-packages:
-                  - ephemeralAuthApiApi
-                contents:
-                  - endpoint: POST /v1/auth/grant
-                    title: Grant Token
+        display-errors: true
+        paginated: true
+        flattened: true
+        layout:
+          - section: Voice Agent API
+            slug: voice-agent
+            contents:
+              - endpoint: GET /agent
+                title: Build a Voice Agent
+          - section: Speech-to-Text API
+            slug: speech-to-text
+            referenced-packages:
+              - speechToText
+            contents:
+              - link: Getting Started
+                href: /speech-to-text/overview
+              - endpoint: POST /v1/listen
+                title: Pre-Recorded Audio
+              - endpoint: GET /v1/listen
+                slug: listen-live
+                title: Live Audio
+          - section: Text-to-Speech API
+            slug: text-to-speech
+            referenced-packages:
+              - textToSpeech
+            contents:
+              - endpoint: POST /v1/speak
+                title: Single Text Request
+              - endpoint: GET /v1/speak
+                slug: speak-live
+                title: Continuous Text Stream
+          - section: Intelligence API
+            slug: intelligence
+            referenced-packages:
+              - textIntelligence
+            contents:
+              - endpoint: POST /v1/read
+                title: Analyze Text
+          - section: Management API
+            slug: management
+            referenced-packages:
+              - managementApi
+            contents:
+              - managementApi.models
+              - managementApi.projects
+              - managementApi.keys
+              - managementApi.members
+              - managementApi.scopes
+              - managementApi.invitations
+              - managementApi.usage
+              - managementApi.purchases
+              - managementApi.balances
+          - section: Self-Hosted API
+            slug: self-hosted
+            referenced-packages:
+              - selfHostedApi
+            contents: []
+          - section: Authentication API
+            slug: authentication
+            referenced-packages:
+              - ephemeralAuthApiApi
+            contents:
+              - endpoint: POST /v1/auth/grant
+                title: Grant Token
 analytics:
   gtm:
     container-id: ${GTM_CONTAINER_ID}
