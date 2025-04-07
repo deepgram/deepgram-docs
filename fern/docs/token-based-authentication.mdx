@@ -5,10 +5,6 @@ subtitle: >-
 slug: docs/token-based-authentication
 ---
 
-<Info>
-If you need a short-lived ephemeral token, we highly recommend using [token-based authentication](/reference/ephemeral-auth-api/grant-token) over temporary API keys.
-</Info>
-
 An ephemeral token is a secure, temporary authentication credential that provides time-limited access to Deepgram's APIs. These tokens have a 30 second Time To Live (TTL) and are designed specifically for short-lived, secure API access scenarios, particularly in client-side applications where long-term credential storage is not recommended. Unlike traditional API keys, ephemeral tokens are ideal for real-time applications requiring secure, temporary access to Deepgram's services.
 
 <div style="width: 100%; display: flex; justify-content: center; margin: 2rem 0;">
@@ -126,7 +122,7 @@ These APIs will not work with ephemeral tokens:
 
 ### Can I use this token for transcription batch requests?
 
-Yes! You can use this token with batch requests. Just note that due to the short TTL you may need to request a new token before subsequent batch requests. Unless you have latency constraints, you're likely better off just making the batch request from inside the proxy 
+Yes! You can use this token with batch requests. Just note that due to the short TTL you may need to request a new token before subsequent batch requests. Unless you have latency constraints, you're likely better off just making the batch request from inside the proxy
 
 
 ### Are ephemeral tokens supported in the Deepgram SDKs?
@@ -135,7 +131,14 @@ Not yet, but SDK support is coming soon!
 
 ### Why should I use Ephemeral tokens over temporary API keys?
 
-Ephemeral tokens are preferred over temporary API keys because they are ephemeral: they are expired and removed after you are done using them.
+- Fewer Disruptions - Temporary tokens are more resilient to outages, reducing the chances of interruptions to your workflow — especially during planned maintenance or unexpected incidents.
+- Cleaner Deepgram Console Experience - Using temporary tokens means you’ll no longer see pages cluttered with expired API keys. Your usage summary and API keys views will be cleaner and easier to navigate.
+- Smoother Performance - This update helps ensure your experience in the console remains fast and efficient, even as your usage scales.
+
+### Can I track the usage from ephemeral tokens?
+
+Yes! The ephemeral tokens generated have the same accessor as the API key used to generate them.
+
 
 ***
 
