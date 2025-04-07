@@ -126,7 +126,7 @@ These APIs will not work with ephemeral tokens:
 
 ### Can I use this token for transcription batch requests?
 
-Yes! You can use this token with transcription batch requests. but if you're going to do this client-side there will be significant latency so this might not be optimal.
+Yes! You can use this token with batch requests. Just note that due to the short TTL you may need to request a new token before subsequent batch requests. Unless you have latency constraints, you're likely better off just making the batch request from inside the proxy 
 
 
 ### Are ephemeral tokens supported in the Deepgram SDKs?
