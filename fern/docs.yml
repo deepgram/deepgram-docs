@@ -11,6 +11,7 @@ title: Deepgram | Documentation
 
 logo:
   dark: assets/logo.svg
+  light: assets/logo-light.svg
   height: 24
   href: /
 
@@ -27,16 +28,22 @@ layout:
 colors:
   accent-primary:
     dark: "#A1F9D4"
+    light: "#027a38"
   background:
     dark: "#0B0B0C"
+    light: "#FFFFFF"
   sidebar-background:
     dark: "#0B0B0C"
+    light: "#FFFFFF"
   header-background:
     dark: "#1A1A1F"
+    light: "#fbfbff"
   card-background:
     dark: "#1A1A1F"
+    light: "#ededf2"
   border:
     dark: "#2C2C33"
+    light: "#ededf2"
 
 typography:
   bodyFont:
@@ -67,15 +74,15 @@ tabs:
     display-name: API Reference
     slug: api
 
+landing-page:
+  page: Welcome
+  path: content/index.mdx
+
 navigation:
   - tab: pages
     layout:
       - page: Code of Conduct
         path: content/pages/code-of-conduct.mdx
-  - tab: home
-    layout:
-      - page: Welcome
-        path: content/index.mdx
   - tab: speak
     layout:
       - section: ""
@@ -120,7 +127,7 @@ navigation:
                 path: content/speech-to-text/guides/transcribe-audio-automatically-with-zapier.mdx
               - page: Transcribe Zoom meetings using Deepgram
                 path: content/speech-to-text/guides/transcribe-zoom-meetings-using-deepgram.mdx
-          - section: Migration
+          - section: Migrating
             contents:
               - page: Migrating from Amazon Transcribe
                 path: content/speech-to-text/migration/amazon-transcribe.mdx
@@ -136,15 +143,15 @@ navigation:
       - section: Pre-Recorded Audio
         contents:
           - page: Authentication
-            path: content/speech-to-text/authentication.mdx
+            path: content/speech-to-text/listen/authentication.mdx
           - page: Quickstart
-            path: content/speech-to-text/quickstart.mdx
+            path: content/speech-to-text/listen/quickstart.mdx
       - section: Live Audio
         contents:
           - page: Authentication
-            path: content/speech-to-text/authentication.mdx
+            path: content/speech-to-text/listen-live/authentication.mdx
           - page: Quickstart
-            path: content/speech-to-text/quickstart.mdx
+            path: content/speech-to-text/listen-live/quickstart.mdx
       - section: Features
         contents:
           - section: Audio Intelligence
