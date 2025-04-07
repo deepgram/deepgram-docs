@@ -131,8 +131,8 @@ Deepgram has several SDKs that can make the API easier to use. Follow these step
       _socket.send(json.dumps({"type": "Close"}))
       _socket.close()
 
-      _listen_thread.join()
-      _listen_thread = None
+      _receiver_thread.join()
+      _receiver_thread = None
 
   class Speaker:
       _audio: pyaudio.PyAudio
