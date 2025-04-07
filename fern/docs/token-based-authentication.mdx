@@ -107,7 +107,7 @@ Yes! You only need the ephemeral token to be valid during the initial websocket 
 
 ### Which Deepgram APIs can I use with an ephemeral tokens?
 
-These APIs will work with ephemeral tokens:
+Ephemeral tokens have usage::write permission for these Deepgram APIs:
 
 - [`/listen` REST API](/reference/speech-to-text-api/listen) - Speech to Text
 - [`/listen` WebSocket API](/reference/speech-to-text-api/listen-streaming) - Speech to Text
@@ -131,9 +131,10 @@ Not yet, but SDK support is coming soon!
 
 ### Why should I use Ephemeral tokens over temporary API keys?
 
-- Fewer Disruptions - Temporary tokens are more resilient to outages, reducing the chances of interruptions to your workflow — especially during planned maintenance or unexpected incidents.
-- Cleaner Deepgram Console Experience - Using temporary tokens means you’ll no longer see pages cluttered with expired API keys. Your usage summary and API keys views will be cleaner and easier to navigate.
-- Smoother Performance - This update helps ensure your experience in the console remains fast and efficient, even as your usage scales.
+- Fewer Disruptions: Ephemeral tokens are more resilient to outages, reducing the chances of interruptions to your workflow — especially during planned maintenance or unexpected incidents.
+- Cleaner Deepgram Console Experience: Using ephemeral tokens means you’ll no longer see pages cluttered with expired API keys. Your usage summary and API keys views will be cleaner and easier to navigate.
+- Smoother Console Performance: Switching to ephemeral tokens means the Deepgram Console will remain fast and efficient, even as your usage scales.
+- Faster Access: Creating an ephemeral token is faster than creating an API key, which means faster connection times for Web Sockets.
 
 ### Can I track the usage from ephemeral tokens?
 
