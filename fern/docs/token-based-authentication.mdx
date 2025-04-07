@@ -17,11 +17,9 @@ An ephemeral token is a secure, temporary authentication credential that provide
 
 ## Use Cases
 
-Ephemeral tokens are ideal for:
-- Real-time voice applications requiring secure client-side access
-- Temporary API access for third-party integrations
-- Secure sharing of API access with clients when combined with a backend proxy
-- WebSocket connections requiring authentication
+Ephemeral tokens are ideal for client-side/untrusted applications, because they allow clients to directly access the Deepgram API. Normal API keys, to be secure, require proxying traffic through your own servers where the API key is stored.
+
+Direct access to the Deepgram API is particularly useful for client-side/untrusted applications that are more latency-sensitive, like realtime connections.
 
 ## Implementation Best Practices
 
