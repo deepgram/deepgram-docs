@@ -1,0 +1,30 @@
+#!/bin/bash
+
+# Exit on error
+set -e
+
+# Configuration
+REPO_URL="https://github.com/deepgram/content.git"
+TARGET_DIR="articles/en/docs"
+TEMP_DIR="temp_content"
+OUTPUT_DIR="../fern/docs"
+
+# Create temporary directory
+mkdir -p "$TEMP_DIR"
+
+# Clone the repository (shallow clone to save bandwidth)
+echo "Cloning Deepgram content repository..."
+git clone --depth 1 "$REPO_URL" "$TEMP_DIR"
+
+# Create output directory
+mkdir -p "$OUTPUT_DIR"
+
+# Copy the target directory while maintaining structure
+echo "Copying files to $OUTPUT_DIR..."
+cp -R "$TEMP_DIR/$TARGET_DIR"/* "$OUTPUT_DIR/"
+
+# Clean up
+echo "Cleaning up temporary files..."
+rm -rf "$TEMP_DIR"
+
+echo "Successfully downloaded and mirrored the Deepgram docs content to $OUTPUT_DIR" 

@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# Check if the directory exists
+if [ ! -d "../fern/docs" ]; then
+    echo "Error: ../fern/docs directory does not exist"
+    exit 1
+fi
+
+# Remove all contents of the directory
+rm -rf "../fern/docs"/*
+
+echo "Successfully cleared contents of ../fern/docs directory"

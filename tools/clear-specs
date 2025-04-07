@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# Check if the files exist and remove them
+if [ -f "./fern/openapi.yml" ]; then
+    rm "./fern/openapi.yml"
+    echo "Removed ./fern/openapi.yml"
+fi
+
+if [ -f "./fern/asyncapi.yml" ]; then
+    rm "./fern/asyncapi.yml"
+    echo "Removed ./fern/asyncapi.yml"
+fi
+
+echo "Successfully cleared specification files"
