@@ -9,19 +9,13 @@ This guide will help you make your first transcription request to the Deepgramâ€
 
 Here's a simple example of transcribing an audio file:
 
-
 <EndpointRequestSnippet endpoint="POST /v1/listen" />
 
 ## Transcribing from a URL
 
 You can also transcribe audio from a URL:
 
-```bash
-curl -X POST "https://api.deepgram.com/v1/listen" \
-  -H "Authorization: Token YOUR_API_KEY" \
-  -H "Content-Type: application/json" \
-  -d '{"url": "https://dpgr.am/spacewalk.wav"}'
-```
+<EndpointRequestSnippet endpoint="POST /v1/listen" example="ExampleWithMarkley" />
 
 ## Understanding the Response
 
