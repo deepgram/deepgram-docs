@@ -124,4 +124,12 @@ The `language_confidence` score can be used as a metric to determine whether the
 
 It is critical to know that the `language_confidence` score only takes into account the 16 supported languages. If the audio is in a language not supported by language detection, the value of `language_confidence` should be ignored.
 
+## Streaming and Multilingual Alternatives
+
+As noted above, Language Detection is not currently supported for streaming. If you need to handle multiple languages in a real-time streaming context, we recommend using Deepgram's Nova-2 or Nova-3 multilingual models instead. 
+
+These models can transcribe speech containing multiple languages within the same audio stream without requiring explicit language detection, making them ideal for streaming applications where language detection functionality is needed.
+
+For more information about multilingual support and code-switching capabilities, please see our [Multilingual Documentation](https://developers.deepgram.com/docs/multilingual-code-switching).
+
 ***
