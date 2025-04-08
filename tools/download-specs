@@ -5,10 +5,9 @@ const fs = require('fs');
 const path = require('path');
 
 // Configuration
-const REPO_URL = 'https://github.com/deepgram/content.git';
-const TARGET_DIR = 'articles/en/docs';
-const TEMP_DIR = 'temp_content';
-const OUTPUT_DIR = path.join(__dirname, '../fern/docs');
+const REPO_URL = 'https://github.com/deepgram/deepgram-api-specs.git';
+const TEMP_DIR = 'temp_specs';
+const OUTPUT_DIR = path.join(__dirname, '../fern');
 
 // Create temporary directory
 if (!fs.existsSync(TEMP_DIR)) {
@@ -16,7 +15,7 @@ if (!fs.existsSync(TEMP_DIR)) {
 }
 
 // Clone the repository (shallow clone to save bandwidth)
-console.log('Cloning Deepgram content repository...');
+console.log('Cloning Deepgram API specifications repository...');
 execSync(`git clone --depth 1 ${REPO_URL} ${TEMP_DIR}`, { stdio: 'inherit' });
 
 // Create output directory
@@ -24,12 +23,13 @@ if (!fs.existsSync(OUTPUT_DIR)) {
     fs.mkdirSync(OUTPUT_DIR, { recursive: true });
 }
 
-// Copy the target directory while maintaining structure
-console.log(`Copying files to ${OUTPUT_DIR}...`);
-execSync(`cp -R ${path.join(TEMP_DIR, TARGET_DIR)}/* ${OUTPUT_DIR}/`, { stdio: 'inherit' });
+// Copy the specification files
+console.log(`Copying specification files to ${OUTPUT_DIR}...`);
+fs.copyFileSync(path.join(TEMP_DIR, 'openapi.yml'), path.join(OUTPUT_DIR, 'openapi.yml'));
+fs.copyFileSync(path.join(TEMP_DIR, 'asyncapi.yml'), path.join(OUTPUT_DIR, 'asyncapi.yml'));
 
 // Clean up
 console.log('Cleaning up temporary files...');
 execSync(`rm -rf ${TEMP_DIR}`, { stdio: 'inherit' });
 
-console.log(`Successfully downloaded and mirrored the Deepgram docs content to ${OUTPUT_DIR}`);
+console.log(`Successfully downloaded and mirrored the Deepgram API specifications to ${OUTPUT_DIR}`);

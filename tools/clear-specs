@@ -1,14 +1,21 @@
-#!/bin/bash
+#!/usr/bin/env node
 
-# Check if the files exist and remove them
-if [ -f "./fern/openapi.yml" ]; then
-    rm "./fern/openapi.yml"
-    echo "Removed ./fern/openapi.yml"
-fi
+const fs = require('fs');
+const path = require('path');
 
-if [ -f "./fern/asyncapi.yml" ]; then
-    rm "./fern/asyncapi.yml"
-    echo "Removed ./fern/asyncapi.yml"
-fi
+// Define the file paths
+const openapiPath = path.join(__dirname, '../fern/openapi.yml');
+const asyncapiPath = path.join(__dirname, '../fern/asyncapi.yml');
 
-echo "Successfully cleared specification files"
+// Check if the files exist and remove them
+if (fs.existsSync(openapiPath)) {
+    fs.unlinkSync(openapiPath);
+    console.log('Removed ../fern/openapi.yml');
+}
+
+if (fs.existsSync(asyncapiPath)) {
+    fs.unlinkSync(asyncapiPath);
+    console.log('Removed ../fern/asyncapi.yml');
+}
+
+console.log('Successfully cleared specification files');

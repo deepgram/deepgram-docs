@@ -1,12 +1,26 @@
-#!/bin/bash
+#!/usr/bin/env node
 
-# Check if the directory exists
-if [ ! -d "../fern/docs" ]; then
-    echo "Error: ../fern/docs directory does not exist"
-    exit 1
-fi
+const fs = require('fs');
+const path = require('path');
 
-# Remove all contents of the directory
-rm -rf "../fern/docs"/*
+// Define the directory path
+const dirPath = path.join(__dirname, '../fern/docs');
 
-echo "Successfully cleared contents of ../fern/docs directory"
+// Check if the directory exists
+if (!fs.existsSync(dirPath)) {
+    console.error('Error: ../fern/docs directory does not exist');
+    process.exit(1);
+}
+
+// Remove all contents of the directory
+fs.readdir(dirPath, (err, files) => {
+    if (err) throw err;
+
+    for (const file of files) {
+        fs.unlink(path.join(dirPath, file), err => {
+            if (err) throw err;
+        });
+    }
+
+    console.log('Successfully cleared contents of ../fern/docs directory');
+});
