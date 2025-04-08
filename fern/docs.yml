@@ -479,7 +479,7 @@ navigation:
                 referenced-packages:
                   - selfHostedApi
                 contents: []
-              - section: Ephemeral Auth API
+              - section: Token-based Auth API
                 referenced-packages:
                   - authenticationApi
                 contents:
@@ -493,6 +493,8 @@ navigation:
             path: docs/make-your-first-api-request.mdx
           - page: Authenticating
             path: docs/authenticating.mdx
+          - page: Token-based Auth
+            path: docs/token-based-authentication.mdx
           - page: Model Metadata
             path: docs/model-metadata.mdx
           - page: Managing Projects

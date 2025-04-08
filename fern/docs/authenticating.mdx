@@ -4,6 +4,9 @@ subtitle: Learn how to authenticate with Deepgram's API.
 slug: docs/authenticating
 ---
 
+<Info>
+  If you need to create and distribute short-lived tokens for API requests, you can use the [token-based Auth API](/reference/ephemeral-auth-api/grant-token).
+</Info>
 
 Deepgram's API uses API keys to authenticate requests. You can view and manage your API keys in the [Deepgram Console](https://console.deepgram.com) or through the [Deepgram API](/reference/).
 
@@ -34,7 +37,7 @@ A quick test to see if your key is validating correctly, is to make a request to
 <CodeGroup>
   ```bash cURL
   curl https://api.deepgram.com/v1/auth/token \
-    -H "Authorization: Token dc43fc74612ec2cb065315663f25c34a958aa895"
+    -H "Authorization: Token YOUR_DEEPGRAM_API_KEY"
   ```
 </CodeGroup>
 
