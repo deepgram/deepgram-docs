@@ -4,12 +4,11 @@ const fs = require('fs');
 const path = require('path');
 
 // Define the directory path
-const dirPath = path.join(__dirname, '../fern/docs');
+const dirPath = path.join(__dirname, '../fern/content');
 
 // Check if the directory exists
 if (!fs.existsSync(dirPath)) {
-    console.error('Error: ../fern/docs directory does not exist');
-    process.exit(1);
+    return;
 }
 
 // Remove all contents of the directory
@@ -22,5 +21,5 @@ fs.readdir(dirPath, (err, files) => {
         });
     }
 
-    console.log('Successfully cleared contents of ../fern/docs directory');
+    console.log('Successfully cleared contents of ../fern/content directory');
 });

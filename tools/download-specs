@@ -25,8 +25,8 @@ if (!fs.existsSync(OUTPUT_DIR)) {
 
 // Copy the specification files
 console.log(`Copying specification files to ${OUTPUT_DIR}...`);
-fs.copyFileSync(path.join(TEMP_DIR, 'openapi.yml'), path.join(OUTPUT_DIR, 'openapi.yml'));
-fs.copyFileSync(path.join(TEMP_DIR, 'asyncapi.yml'), path.join(OUTPUT_DIR, 'asyncapi.yml'));
+fs.copyFileSync(path.join(TEMP_DIR, 'openapi.yml'), path.join(OUTPUT_DIR, 'openapi-test.yml'));
+fs.copyFileSync(path.join(TEMP_DIR, 'asyncapi.yml'), path.join(OUTPUT_DIR, 'asyncapi-test.yml'));
 
 // Clean up
 console.log('Cleaning up temporary files...');

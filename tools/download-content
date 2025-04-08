@@ -8,7 +8,7 @@ const path = require('path');
 const REPO_URL = 'https://github.com/deepgram/content.git';
 const TARGET_DIR = 'articles/en/docs';
 const TEMP_DIR = 'temp_content';
-const OUTPUT_DIR = path.join(__dirname, '../fern/docs');
+const OUTPUT_DIR = path.join(__dirname, '../fern/content');
 
 // Create temporary directory
 if (!fs.existsSync(TEMP_DIR)) {
