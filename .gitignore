@@ -51,9 +51,6 @@ Thumbs.db
 /fern/dist
 
 # Deepgram ignores
-/fern/openapi.yml
-/fern/asyncapi.yml
-/fern/docs/*
 /temp_specs
 /temp_content
 /fern/content
