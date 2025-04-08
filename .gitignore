@@ -54,6 +54,8 @@ Thumbs.db
 /fern/openapi.yml
 /fern/asyncapi.yml
 /fern/docs/*
-
-temp_specs
-temp_content
+/temp_specs
+/temp_content
+/fern/content
+/fern/openapi-test.yml
+/fern/asyncapi-test.yml
