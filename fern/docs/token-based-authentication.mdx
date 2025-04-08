@@ -21,7 +21,7 @@ Direct access to the Deepgram API is particularly useful for client-side/untrust
 
 1. Create a backend service to generate ephemeral tokens
 2. Generate tokens only when needed (e.g., at connection start)
-3. Pass the token from your proxy backend to your client
+3. Pass the token from your backend to your client
 4. Initiate the Deepgram inference request from your client with the token
 5. Use tokens immediately after generation
 6. Implement proper error handling for expired tokens
