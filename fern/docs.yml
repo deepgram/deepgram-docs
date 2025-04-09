@@ -1,11 +1,10 @@
 instances:
-  - url: https://deepgram.docs.buildwithfern.com
-    custom-domain: developers.deepgram.com
+  - url: https://deepgram-ai.docs.buildwithfern.com
     edit-this-page:
       github:
         owner: deepgram
         repo: deepgram-docs
-        branch: main
+        branch: fern/deepgram-ai
 title: Deepgram | Documentation
 logo:
   dark: assets/logo.svg
