@@ -12,11 +12,11 @@ logo:
   href: /
 css:
   - assets/styles.css
-js:
-  - path: ./assets/component.js
-    strategy: lazyOnload
-  - path: dist/output.js
-    strategy: beforeInteractive
+# js:
+#   - path: ./assets/component.js
+#     strategy: lazyOnload
+#   - path: dist/output.js
+#     strategy: beforeInteractive
 favicon: assets/favicon.ico
 layout:
   tabs-placement: header
