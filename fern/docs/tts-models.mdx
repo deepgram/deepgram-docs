@@ -13,22 +13,100 @@ slug: docs/tts-models
 
 Deepgram offers a range of voices for its Aura text-to-speech API, each identified by a unique model name following the format `[modelname]-[voicename]-[language]`.
 
-To select a model, use the syntax `model=aura-asteria-en`
+To select a model, use the syntax `model=aura-2-thalia-en`
 
-| Voice Name | Accent | Gender | Values | Listen |
-| --- | --- | --- | --- | --- |
-| Asteria | English (US) | Female | `aura-asteria-en` | <audio id="asteria" style="width:188px;" controls src="https://res.cloudinary.com/deepgram/video/upload/v1709565353/aura/asteria_docs_venw0r.wav"></audio> |
-| Luna | English (US) | Female | `aura-luna-en` | <audio id="luna" style="width:188px;" controls src="https://res.cloudinary.com/deepgram/video/upload/v1709565351/aura/luna_docs_clom0e.wav"></audio> |
-| Stella | English (US) | Female | `aura-stella-en` | <audio id="stella" style="width:188px;" controls src="https://res.cloudinary.com/deepgram/video/upload/v1709565349/aura/stella_docs_xh5jbv.wav"></audio> |
-| Athena | English (UK) | Female | `aura-athena-en` | <audio id="athena" style="width:188px;" controls src="https://res.cloudinary.com/deepgram/video/upload/v1709565613/aura/athena_docs_wyznud.wav"></audio> |
-| Hera | English (US) | Female | `aura-hera-en` | <audio id="hera" style="width:188px;" controls src="https://res.cloudinary.com/deepgram/video/upload/v1709565347/aura/hera_docs_xjkt4x.wav"></audio> |
-| Orion | English (US) | Male | `aura-orion-en` | <audio id="orion" style="width:188px;" controls src="https://res.cloudinary.com/deepgram/video/upload/v1709565346/aura/orion_docs_aljv1q.mp3"></audio> |
-| Arcas | English (US) | Male | `aura-arcas-en` | <audio id="arcas" style="width:188px;" controls src="https://res.cloudinary.com/deepgram/video/upload/v1709565348/aura/arcas_docs_pc9hxp.mp3"></audio> |
-| Perseus | English (US) | Male | `aura-perseus-en` | <audio id="perseus" style="width:188px;" controls src="https://res.cloudinary.com/deepgram/video/upload/v1709565350/aura/perseus_docs_ap7fc0.wav"></audio> |
-| Angus | English (Ireland) | Male | `aura-angus-en` | <audio id="angus" style="width:188px;" controls src="https://res.cloudinary.com/deepgram/video/upload/v1709565352/aura/angus_docs_lgse2b.wav"></audio> |
-| Orpheus | English (US) | Male | `aura-orpheus-en` | <audio id="orpheus" style="width:188px;" controls src="https://res.cloudinary.com/deepgram/video/upload/v1709565350/aura/orpheus_docs_zdlpcf.wav"></audio> |
-| Helios | English (UK) | Male | `aura-helios-en` | <audio id="helios" style="width:188px;" controls src="https://res.cloudinary.com/deepgram/video/upload/v1709565346/aura/helios_docs_ycjwoo.wav"></audio> |
-| Zeus | English (US) | Male | `aura-zeus-en` | <audio id="zeus" style="width:188px;" controls src="https://res.cloudinary.com/deepgram/video/upload/v1709565347/aura/zeus_docs_fupdiv.wav"></audio> |
+## Example
+<CodeGroup >
+```curl CURL
+curl "https://api.deepgram.com/v1/speak?model=aura-2-thalia-en" \
+> -H "Content-Type: application/json" \
+> -H "Authorization: Token YOUR_DEEPGRAM_API_KEY" \
+> -d "{\"text\":\"Hello how are you?\"}" \
+> --output outputfile_voice_model.wav \
+> --fail-with-body \
+> --silent || echo "Request failed"
+```
+</CodeGroup>
+
+<Warning>
+  Replace `YOUR_DEEPGRAM_API_KEY` with your [Deepgram API Key](/docs/create-additional-api-keys).
+</Warning>
+
+## Featured Voices
+
+These are our featured voices, selected for their versatility and quality:
+
+| model | name | expressed gender | age | accent | language | characteristics | use cases | audio sample |
+| :---- | :--- | :----- | :-- | :----- | :------- | :------------- | :-------- | :----------- |
+| `aura-2-thalia-en` | thalia | feminine | Adult | en-us | American | Clear, Confident, Energetic, Enthusiastic | Casual chat, customer service, IVR | <audio id="thalia" style="width:188px;" controls src="https://static.deepgram.com/examples/Aura-2-thalia.wav"></audio> |
+| `aura-2-andromeda-en` | andromeda | feminine | Adult | en-us | American | Casual, Expressive, Comfortable | Customer service, IVR | <audio id="andromeda" style="width:188px;" controls src="https://static.deepgram.com/examples/Aura-2-andromeda.wav"></audio> |
+| `aura-2-helena-en` | helena | feminine | Adult | en-us | American | Caring, Natural, Positive, Friendly, Raspy | IVR, casual chat | <audio id="helena" style="width:188px;" controls src="https://static.deepgram.com/examples/Aura-2-helena.wav"></audio> |
+| `aura-2-apollo-en` | apollo | masculine | Adult | en-us | American | Confident, Comfortable, Casual | Casual chat | <audio id="apollo" style="width:188px;" controls src="https://static.deepgram.com/examples/Aura-2-apollo.wav"></audio> |
+| `aura-2-arcas-en` | arcas | masculine | Adult | en-us | American | Natural, Smooth, Clear, Comfortable | Customer service, casual chat | <audio id="arcas" style="width:188px;" controls src="https://static.deepgram.com/examples/Aura-2-arcas.wav"></audio> |
+| `aura-2-aries-en` | aries | masculine | Adult | en-us | American | Warm, Energetic, Caring | Casual chat | <audio id="aries" style="width:188px;" controls src="https://static.deepgram.com/examples/Aura-2-aries.wav"></audio> |
+
+## Aura-2 All Available Voices
+
+| model | name | expressed gender | age | accent | language | characteristics | use cases | audio sample |
+| :---- | :--- | :----- | :-- | :----- | :------- | :------------- | :-------- | :----------- |
+| `aura-2-amalthea-en` | amalthea | female | Young Adult | en-ph | Filipino | Engaging, Natural, Cheerful | Casual chat | <audio id="amalthea" style="width:188px;" controls src="https://static.deepgram.com/examples/Aura-2-amalthea.wav"></audio> |
+| `aura-2-andromeda-en` | andromeda | female | Adult | en-us | American | Casual, Expressive, Comfortable | Customer service, IVR | <audio id="andromeda" style="width:188px;" controls src="https://static.deepgram.com/examples/Aura-2-andromeda.wav"></audio> |
+| `aura-2-apollo-en` | apollo | male | Adult | en-us | American | Confident, Comfortable, Casual | Casual chat | <audio id="apollo" style="width:188px;" controls src="https://static.deepgram.com/examples/Aura-2-apollo.wav"></audio> |
+| `aura-2-arcas-en` | arcas | male | Adult | en-us | American | Natural, Smooth, Clear, Comfortable | Customer service, casual chat | <audio id="arcas" style="width:188px;" controls src="https://static.deepgram.com/examples/Aura-2-arcas.wav"></audio> |
+| `aura-2-aries-en` | aries | male | Adult | en-us | American | Warm, Energetic, Caring | Casual chat | <audio id="aries" style="width:188px;" controls src="https://static.deepgram.com/examples/Aura-2-aries.wav"></audio> |
+| `aura-2-asteria-en` | asteria | female | Adult | en-us | American | Clear, Confident, Knowledgeable, Energetic | Advertising | <audio id="asteria" style="width:188px;" controls src="https://static.deepgram.com/examples/Aura-2-asteria.wav"></audio> |
+| `aura-2-athena-en` | athena | female | Mature | en-us | American | Calm, Smooth, Professional | Storytelling | <audio id="athena" style="width:188px;" controls src="https://static.deepgram.com/examples/Aura-2-athena.wav"></audio> |
+| `aura-2-atlas-en` | atlas | male | Mature | en-us | American | Enthusiastic, Confident, Approachable, Friendly | Advertising | <audio id="atlas" style="width:188px;" controls src="https://static.deepgram.com/examples/Aura-2-atlas.wav"></audio> |
+| `aura-2-aurora-en` | aurora | female | Adult | en-us | American | Cheerful, Expressive, Energetic | Interview | <audio id="aurora" style="width:188px;" controls src="https://static.deepgram.com/examples/Aura-2-aurora.wav"></audio> |
+| `aura-2-callista-en` | callista | female | Adult | en-us | American | Clear, Energetic, Professional, Smooth | IVR | <audio id="callista" style="width:188px;" controls src="https://static.deepgram.com/examples/Aura-2-callista.wav"></audio> |
+| `aura-2-cora-en` | cora | female | Adult | en-us | American | Smooth, Melodic, Caring | Storytelling | <audio id="cora" style="width:188px;" controls src="https://static.deepgram.com/examples/Aura-2-cora.wav"></audio> |
+| `aura-2-cordelia-en` | cordelia | female | Young Adult | en-us | American | Approachable, Warm, Polite | Storytelling | <audio id="cordelia" style="width:188px;" controls src="https://static.deepgram.com/examples/Aura-2-cordelia.wav"></audio> |
+| `aura-2-delia-en` | delia | female | Young Adult | en-us | American | Casual, Friendly, Cheerful, Breathy | Interview | <audio id="delia" style="width:188px;" controls src="https://static.deepgram.com/examples/Aura-2-delia.wav"></audio> |
+| `aura-2-draco-en` | draco | male | Adult | en-gb | British | Warm, Approachable, Trustworthy, Baritone | Storytelling | <audio id="draco" style="width:188px;" controls src="https://static.deepgram.com/examples/Aura-2-draco.wav"></audio> |
+| `aura-2-electra-en` | electra | female | Adult | en-us | American | Professional, Engaging, Knowledgeable | IVR, advertising, customer service | <audio id="electra" style="width:188px;" controls src="https://static.deepgram.com/examples/Aura-2-electra.wav"></audio> |
+| `aura-2-harmonia-en` | harmonia | female | Adult | en-us | American | Empathetic, Clear, Calm, Confident | Customer service | <audio id="harmonia" style="width:188px;" controls src="https://static.deepgram.com/examples/Aura-2-harmonia.wav"></audio> |
+| `aura-2-helena-en` | helena | female | Adult | en-us | American | Caring, Natural, Positive, Friendly, Raspy | IVR, casual chat | <audio id="helena" style="width:188px;" controls src="https://static.deepgram.com/examples/Aura-2-helena.wav"></audio> |
+| `aura-2-hera-en` | hera | female | Adult | en-us | American | Smooth, Warm, Professional | Informative | <audio id="hera" style="width:188px;" controls src="https://static.deepgram.com/examples/Aura-2-hera.wav"></audio> |
+| `aura-2-hermes-en` | hermes | male | Adult | en-us | American | Expressive, Engaging, Professional | Informative | <audio id="hermes" style="width:188px;" controls src="https://static.deepgram.com/examples/Aura-2-thalia.wav"></audio> |
+| `aura-2-hyperion-en` | hyperion | male | Adult | en-au | Australian | Caring, Warm, Empathetic | Interview | <audio id="hyperion" style="width:188px;" controls src="https://static.deepgram.com/examples/Aura-2-hyperion.wav"></audio> |
+| `aura-2-iris-en` | iris | female | Young Adult | en-us | American | Cheerful, Positive, Approachable | IVR, advertising, customer service | <audio id="iris" style="width:188px;" controls src="https://static.deepgram.com/examples/Aura-2-iris.wav"></audio> |
+| `aura-2-janus-en` | janus | female | Adult | en-us | American | Southern, Smooth, Trustworthy | Storytelling | <audio id="janus" style="width:188px;" controls src="https://static.deepgram.com/examples/Aura-2-janus.wav"></audio> |
+| `aura-2-juno-en` | juno | female | Adult | en-us | American | Natural, Engaging, Melodic, Breathy | Interview | <audio id="juno" style="width:188px;" controls src="https://static.deepgram.com/examples/Aura-2-juno.wav"></audio> |
+| `aura-2-jupiter-en` | jupiter | male | Adult | en-us | American | Expressive, Knowledgeable, Baritone | Informative | <audio id="jupiter" style="width:188px;" controls src="https://static.deepgram.com/examples/Aura-2-jupiter.wav"></audio> |
+| `aura-2-luna-en` | luna | female | Young Adult | en-us | American | Friendly, Natural, Engaging | IVR | <audio id="luna" style="width:188px;" controls src="https://static.deepgram.com/examples/Aura-2-luna.wav"></audio> |
+| `aura-2-mars-en` | mars | male | Adult | en-us | American | Smooth, Patient, Trustworthy, Baritone | Customer service | <audio id="mars" style="width:188px;" controls src="https://static.deepgram.com/examples/Aura-2-mars.wav"></audio> |
+| `aura-2-minerva-en` | minerva | female | Adult | en-us | American | Positive, Friendly, Natural | Storytelling | <audio id="minerva" style="width:188px;" controls src="https://static.deepgram.com/examples/Aura-2-minerva.wav"></audio> |
+| `aura-2-neptune-en` | neptune | male | Adult | en-us | American | Professional, Patient, Polite | Customer service | <audio id="neptune" style="width:188px;" controls src="https://static.deepgram.com/examples/Aura-2-neptune.wav"></audio> |
+| `aura-2-odysseus-en` | odysseus | male | Adult | en-us | American | Calm, Smooth, Comfortable, Professional | Advertising | <audio id="odysseus" style="width:188px;" controls src="https://static.deepgram.com/examples/Aura-2-odysseus.wav"></audio> |
+| `aura-2-ophelia-en` | ophelia | female | Adult | en-us | American | Expressive, Enthusiastic, Cheerful | Interview | <audio id="ophelia" style="width:188px;" controls src="https://static.deepgram.com/examples/Aura-2-ophelia.wav"></audio> |
+| `aura-2-orion-en` | orion | male | Adult | en-us | American | Approachable, Comfortable, Calm, Polite | Informative | <audio id="orion" style="width:188px;" controls src="https://static.deepgram.com/examples/Aura-2-orion.wav"></audio> |
+| `aura-2-orpheus-en` | orpheus | male | Adult | en-us | American | Professional, Clear, Confident, Trustworthy | Customer service, storytelling | <audio id="orpheus" style="width:188px;" controls src="https://static.deepgram.com/examples/Aura-2-orpheus.wav"></audio> |
+| `aura-2-pandora-en` | pandora | female | Adult | en-gb | British | Smooth, Calm, Melodic, Breathy | IVR, informative | <audio id="pandora" style="width:188px;" controls src="https://static.deepgram.com/examples/Aura-2-pandora.wav"></audio> |
+| `aura-2-phoebe-en` | phoebe | female | Adult | en-us | American | Energetic, Warm, Casual | Customer service | <audio id="phoebe" style="width:188px;" controls src="https://static.deepgram.com/examples/Aura-2-phoebe.wav"></audio> |
+| `aura-2-pluto-en` | pluto | male | Adult | en-us | American | Smooth, Calm, Empathetic, Baritone | Interview, storytelling | <audio id="pluto" style="width:188px;" controls src="https://static.deepgram.com/examples/Aura-2-pluto.wav"></audio> |
+| `aura-2-saturn-en` | saturn | male | Adult | en-us | American | Knowledgeable, Confident, Baritone | Customer service | <audio id="saturn" style="width:188px;" controls src="https://static.deepgram.com/examples/Aura-2-saturn.wav"></audio> |
+| `aura-2-selene-en` | selene | female | Adult | en-us | American | Expressive, Engaging, Energetic | Informative | <audio id="selene" style="width:188px;" controls src="https://static.deepgram.com/examples/Aura-2-selene.wav"></audio> |
+| `aura-2-thalia-en` | thalia | female | Adult | en-us | American | Clear, Confident, Energetic, Enthusiastic | Casual chat, customer service, IVR | <audio id="thalia" style="width:188px;" controls src="https://static.deepgram.com/examples/Aura-2-thalia.wav"></audio> |
+| `aura-2-theia-en` | theia | female | Adult | en-au | American | Expressive, Polite, Sincere | Informative | <audio id="theia" style="width:188px;" controls src="https://static.deepgram.com/examples/Aura-2-theia.wav"></audio> |
+| `aura-2-vesta-en` | vesta | female | Adult | en-us | American | Natural, Expressive, Patient, Empathetic | Customer service, interview, storytelling | <audio id="vesta" style="width:188px;" controls src="https://static.deepgram.com/examples/Aura-2-vesta.wav"></audio> |
+| `aura-2-zeus-en` | zeus | male | Adult | en-us | American | Deep, Trustworthy, Smooth | IVR | <audio id="zeus" style="width:188px;" controls src="https://static.deepgram.com/examples/Aura-2-zeus.wav"></audio> |
+
+## Aura 1: All Available Voices
+
+| model | name | expressed gender | age | accent | language | characteristics | use cases | audio sample |
+| :---- | :--- | :----- | :-- | :----- | :------- | :------------- | :-------- | :----------- |
+| `aura-asteria-en` | asteria | female | Adult | en-us | American | Clear, Confident, Knowledgeable, Energetic | Advertising | <audio id="asteria" style="width:188px;" controls src="https://res.cloudinary.com/deepgram/video/upload/v1709565353/aura/asteria_docs_venw0r.wav"></audio> |
+| `aura-luna-en` | luna | female | Young Adult | en-us | American | Friendly, Natural, Engaging | IVR | <audio id="luna" style="width:188px;" controls src="https://res.cloudinary.com/deepgram/video/upload/v1709565351/aura/luna_docs_clom0e.wav"></audio> |
+| `aura-stella-en` | stella | female | Adult | en-us | American | Clear, Professional, Engaging | Customer service | <audio id="stella" style="width:188px;" controls src="https://res.cloudinary.com/deepgram/video/upload/v1709565349/aura/stella_docs_xh5jbv.wav"></audio> |
+| `aura-athena-en` | athena | female | Mature | en-gb | British | Calm, Smooth, Professional | Storytelling | <audio id="athena" style="width:188px;" controls src="https://res.cloudinary.com/deepgram/video/upload/v1709565613/aura/athena_docs_wyznud.wav"></audio> |
+| `aura-hera-en` | hera | female | Adult | en-us | American | Smooth, Warm, Professional | Informative | <audio id="hera" style="width:188px;" controls src="https://res.cloudinary.com/deepgram/video/upload/v1709565347/aura/hera_docs_xjkt4x.wav"></audio> |
+| `aura-orion-en` | orion | male | Adult | en-us | American | Approachable, Comfortable, Calm, Polite | Informative | <audio id="orion" style="width:188px;" controls src="https://res.cloudinary.com/deepgram/video/upload/v1709565346/aura/orion_docs_aljv1q.mp3"></audio> |
+| `aura-arcas-en` | arcas | male | Adult | en-us | American | Natural, Smooth, Clear, Comfortable | Customer service, casual chat | <audio id="arcas" style="width:188px;" controls src="https://res.cloudinary.com/deepgram/video/upload/v1709565348/aura/arcas_docs_pc9hxp.mp3"></audio> |
+| `aura-perseus-en` | perseus | male | Adult | en-us | American | Confident, Professional, Clear | Customer service | <audio id="perseus" style="width:188px;" controls src="https://res.cloudinary.com/deepgram/video/upload/v1709565350/aura/perseus_docs_ap7fc0.wav"></audio> |
+| `aura-angus-en` | angus | male | Adult | en-ie | Irish | Warm, Friendly, Natural | Storytelling | <audio id="angus" style="width:188px;" controls src="https://res.cloudinary.com/deepgram/video/upload/v1709565352/aura/angus_docs_lgse2b.wav"></audio> |
+| `aura-orpheus-en` | orpheus | male | Adult | en-us | American | Professional, Clear, Confident, Trustworthy | Customer service, storytelling | <audio id="orpheus" style="width:188px;" controls src="https://res.cloudinary.com/deepgram/video/upload/v1709565350/aura/orpheus_docs_zdlpcf.wav"></audio> |
+| `aura-helios-en` | helios | male | Adult | en-gb | British | Professional, Clear, Confident | Customer service | <audio id="helios" style="width:188px;" controls src="https://res.cloudinary.com/deepgram/video/upload/v1709565346/aura/helios_docs_ycjwoo.wav"></audio> |
+| `aura-zeus-en` | zeus | male | Adult | en-us | American | Deep, Trustworthy, Smooth | IVR | <audio id="zeus" style="width:188px;" controls src="https://res.cloudinary.com/deepgram/video/upload/v1709565347/aura/zeus_docs_fupdiv.wav"></audio> |
 
 <Info>
   We'd love to get your feedback on Deepgram's Aura Text-to-Speech voice models. Let us know which languages you need by [completing this survey.](https://deepgram.typeform.com/aura-languages)
