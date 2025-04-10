@@ -534,3 +534,34 @@ div[id="/reference/speech-to-text-api/listen#request"]
 .DocSearch-Logo {
   opacity: 0 !important;
 }
+
+/* Voice Model Table Styles */
+
+.voice-model-table {
+  width: clamp(808px, 60%, 1008px);
+  margin-inline: auto;
+  overflow-x: auto;
+}
+
+/* Audio player styles */
+.voice-model-table audio {
+  width: 100px;
+  height: 48px;
+}
+
+/* Audio player styles */
+.voice-model-table audio::-webkit-media-controls-panel {
+  background: linear-gradient(90deg, #333333 -91.5%, #717171 80.05%);
+  justify-content: center;
+  align-items: center;
+}
+
+/* Audio player styles */
+.voice-model-table audio::-webkit-media-controls-timeline,
+.voice-model-table audio::-webkit-media-controls-time-remaining-display,
+.voice-model-table audio::-webkit-media-controls-current-time-display,
+.voice-model-table audio::-webkit-media-controls-volume-slider,
+.voice-model-table audio::-webkit-media-controls-mute-button,
+.voice-model-table audio::-webkit-media-controls-toggle-closed-captions-button {
+  display: none;
+}

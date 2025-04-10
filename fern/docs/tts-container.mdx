@@ -24,7 +24,7 @@ Choosing the appropriate container format for the audio output is essential for 
 To enable the Container feature, include the `container` parameter in the query string with the desired container format value.
 
 <CodeGroup>
-  ```shell Shell
+  ```text Text
   https://api.deepgram.com/v1/speak?encoding=linear16&container=wav
   ```
 </CodeGroup>
@@ -42,16 +42,19 @@ You can use the following cURL command in a terminal or your favorite API client
 <CodeGroup>
   ```bash cURL
   curl --request POST \
-       --url "https://api.deepgram.com/v1/speak?model=aura-asteria-en&encoding=linear16&container=wav" \
+       --url "https://api.deepgram.com/v1/speak?model=aura-2-thalia-en&encoding=linear16&container=wav" \
        --header "Authorization: Token DEEPGRAM_API_KEY" \
        --header 'Content-Type: application/json' \
+       --data '{"text": "Hello, how can I help you today?"}' \
        --output container_wav_output.wav \
-       --data '{"text": "Hello, how can I help you today?"}'
        --fail-with-body \
-       --silent \
-       || (jq . container_wav_output.wav && rm container_wav_output.wav)
+       --silent || echo "Request failed"
   ```
 </CodeGroup>
+
+<Warning>
+  Replace `YOUR_DEEPGRAM_API_KEY` with your [Deepgram API Key](/docs/create-additional-api-keys).
+</Warning>
 
 ### Query Parameters
 
@@ -59,9 +62,9 @@ You can use the following cURL command in a terminal or your favorite API client
 | ----------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- | -------- | ----------------------------------------------------- |
 | `container` | See list of supported audio format combinations in the [Audio Format Combinations table](/docs/tts-media-output-settings#audio-format-combinations). | `string` | The desired file format wrapper for the output audio. |
 
-<Warning>
+<Info>
   When using VoIP (Voice over Internet Protocol), we recommend adding `container=none` to your request to prevent request header information being misinterpreted as audio, which can result in static or click sounds.
-</Warning>
+</Info>
 
 ## Analyze Response
 
@@ -99,9 +102,3 @@ This includes:
 * `dg-model-name`: The name of the model used to process the request.
 * `transfer-encoding`: Specifies the form of encoding used to safely transfer the payload to the recipient.
 * `date`: The date and time the response was sent.
-
-## API Error Responses
-
-<Info>
-  For information on Deepgram's error messages and error codes, read the API Reference [Errors](/reference/errors) page.
-</Info>

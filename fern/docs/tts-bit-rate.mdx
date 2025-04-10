@@ -36,20 +36,22 @@ To enable the Bit Rate feature, include the `bit_rate` parameter in the query st
 You can use the following cURL command in a terminal or your favorite API client to synthesize text into speech with a specific bitrate.
 
 **MP3 encoding with bitrate of 32 kbits/second:**:
-
 <CodeGroup>
   ```bash cURL
   curl --request POST \
-       --header "Content-Type: application/json" \
+       --url "https://api.deepgram.com/v1/speak?model=aura-2-thalia-en&encoding=mp3&bit_rate=32000" \
        --header "Authorization: Token DEEPGRAM_API_KEY" \
-       --output your_output_file.mp3 \
-       --data '{"text":"Hello, how can I help you today?"}' \
-       --url "https://api.deepgram.com/v1/speak?model=aura-asteria-en&encoding=mp3&bit_rate=32000" \
+       --header 'Content-Type: application/json' \
+       --data '{"text": "Hello, how can I help you today?"}' \
+       --output outputfile_mp3_32000.mp3 \
        --fail-with-body \
-       --silent \
-       || (jq . your_output_file.mp3 && rm your_output_file.mp3)
+       --silent || echo "Request failed"
   ```
 </CodeGroup>
+
+<Warning>
+  Replace `YOUR_DEEPGRAM_API_KEY` with your [Deepgram API Key](/docs/create-additional-api-keys).
+</Warning>
 
 ### Query Parameters
 
@@ -71,7 +73,7 @@ Upon successful processing of the request, you will receive an audio file contai
   ```text http
   HTTP/1.1 200 OK
   < content-type: audio/mpeg
-  < dg-model-name: aura-asteria-en
+  < dg-model-name: aura-2-thalia-en
   < dg-model-uuid: e4979ab0-8475-4901-9d66-0a562a4949bb
   < dg-char-count: 32
   < dg-request-id: bf6fc5c7-8f84-479f-b70a-602cf5bf18f3
@@ -93,9 +95,3 @@ This includes:
 * `dg-model-name`: The name of the model used to process the request.
 * `transfer-encoding`: Specifies the form of encoding used to safely transfer the payload to the recipient.
 * `date`: The date and time the response was sent.
-
-## API Error Responses
-
-<Info>
-  For information on Deepgram's error messages and error codes, read the API Reference [Errors](/reference/errors) page.
-</Info>
