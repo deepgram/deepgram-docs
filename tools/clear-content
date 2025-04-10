@@ -1,0 +1,25 @@
+#!/usr/bin/env node
+
+const fs = require('fs');
+const path = require('path');
+
+// Define the directory path
+const dirPath = path.join(__dirname, '../fern/content');
+
+// Check if the directory exists
+if (!fs.existsSync(dirPath)) {
+    return;
+}
+
+// Remove all contents of the directory
+fs.readdir(dirPath, (err, files) => {
+    if (err) throw err;
+
+    for (const file of files) {
+        fs.unlink(path.join(dirPath, file), err => {
+            if (err) throw err;
+        });
+    }
+
+    console.log('Successfully cleared contents of ../fern/content directory');
+});

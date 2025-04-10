@@ -1,0 +1,35 @@
+#!/usr/bin/env node
+
+const { execSync } = require('child_process');
+const fs = require('fs');
+const path = require('path');
+
+// Configuration
+const REPO_URL = 'https://github.com/deepgram/content.git';
+const TARGET_DIR = 'articles/en/docs';
+const TEMP_DIR = 'temp_content';
+const OUTPUT_DIR = path.join(__dirname, '../fern/content');
+
+// Create temporary directory
+if (!fs.existsSync(TEMP_DIR)) {
+    fs.mkdirSync(TEMP_DIR);
+}
+
+// Clone the repository (shallow clone to save bandwidth)
+console.log('Cloning Deepgram content repository...');
+execSync(`git clone --depth 1 ${REPO_URL} ${TEMP_DIR}`, { stdio: 'inherit' });
+
+// Create output directory
+if (!fs.existsSync(OUTPUT_DIR)) {
+    fs.mkdirSync(OUTPUT_DIR, { recursive: true });
+}
+
+// Copy the target directory while maintaining structure
+console.log(`Copying files to ${OUTPUT_DIR}...`);
+execSync(`cp -R ${path.join(TEMP_DIR, TARGET_DIR)}/* ${OUTPUT_DIR}/`, { stdio: 'inherit' });
+
+// Clean up
+console.log('Cleaning up temporary files...');
+execSync(`rm -rf ${TEMP_DIR}`, { stdio: 'inherit' });
+
+console.log(`Successfully downloaded and mirrored the Deepgram docs content to ${OUTPUT_DIR}`);

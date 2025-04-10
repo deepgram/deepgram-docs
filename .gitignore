@@ -49,3 +49,10 @@ Thumbs.db
 
 # Fern
 /fern/dist
+
+# Deepgram ignores
+/temp_specs
+/temp_content
+/fern/content
+/fern/openapi-test.yml
+/fern/asyncapi-test.yml

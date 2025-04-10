@@ -1,0 +1,35 @@
+#!/usr/bin/env node
+
+const { execSync } = require('child_process');
+const fs = require('fs');
+const path = require('path');
+
+// Configuration
+const REPO_URL = 'https://github.com/deepgram/deepgram-api-specs.git';
+const TEMP_DIR = 'temp_specs';
+const OUTPUT_DIR = path.join(__dirname, '../fern');
+
+// Create temporary directory
+if (!fs.existsSync(TEMP_DIR)) {
+    fs.mkdirSync(TEMP_DIR);
+}
+
+// Clone the repository (shallow clone to save bandwidth)
+console.log('Cloning Deepgram API specifications repository...');
+execSync(`git clone --depth 1 ${REPO_URL} ${TEMP_DIR}`, { stdio: 'inherit' });
+
+// Create output directory
+if (!fs.existsSync(OUTPUT_DIR)) {
+    fs.mkdirSync(OUTPUT_DIR, { recursive: true });
+}
+
+// Copy the specification files
+console.log(`Copying specification files to ${OUTPUT_DIR}...`);
+fs.copyFileSync(path.join(TEMP_DIR, 'openapi.yml'), path.join(OUTPUT_DIR, 'openapi-test.yml'));
+fs.copyFileSync(path.join(TEMP_DIR, 'asyncapi.yml'), path.join(OUTPUT_DIR, 'asyncapi-test.yml'));
+
+// Clean up
+console.log('Cleaning up temporary files...');
+execSync(`rm -rf ${TEMP_DIR}`, { stdio: 'inherit' });
+
+console.log(`Successfully downloaded and mirrored the Deepgram API specifications to ${OUTPUT_DIR}`);

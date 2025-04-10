@@ -6,6 +6,23 @@
     "email": "devrel@deepgram.com"
   },
   "devDependencies": {
-    "@types/react": "^19.0.8"
+    "@types/react": "^19.0.8",
+    "fern-api": "^0.57.17"
+  },
+  "scripts": {
+    "predev": "npm run clear && npm run sync",
+    "dev": "fern docs dev --log-level trace",
+    "postdev": "npm run tidyup",
+    "prepreview": "npm --prefix custom-app install && npm --prefix custom-app run build && npm run clear && npm run sync",
+    "preview": "fern generate --docs --preview",
+    "postpreview": "npm run tidyup",
+    "sync": "npm run sync:content && npm run sync:specs",
+    "sync:content": "./tools/download-content",
+    "sync:specs": "./tools/download-specs",
+    "clear": "npm run clear:dist && npm run clear:content && npm run clear:specs",
+    "clear:dist": "rm -rf /fern/dist",
+    "clear:content": "./tools/clear-content",
+    "clear:specs": "./tools/clear-specs",
+    "tidyup": "rm -rf temp_specs temp_content"
   }
 }

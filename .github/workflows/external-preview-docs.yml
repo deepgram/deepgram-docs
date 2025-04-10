@@ -1,6 +1,9 @@
-name: Preview Docs
+name: Remote Change Preview
+description: Preview any changes triggered from a remote repository
 
-on: pull_request
+on:
+  repository_dispatch:
+    types: [preview-docs]
 
 jobs:
   run:
@@ -15,21 +18,18 @@ jobs:
         with:
           node-version: "22"
 
-      - name: Install Fern
-        run: npm install -g fern-api
+      - name: Install dependencies
+        run: npm i
 
-      - name: Install custom component dependencies
-        run: npm --prefix custom-app install
-
-      - name: Build the custom components
-        run: npm --prefix custom-app run build
+      - name: Setup project
+        run: npm run prepreview
 
       - name: Generate preview output
         id: generate-docs
         env:
           FERN_TOKEN: ${{ secrets.FERN_TOKEN }}
         run: |
-          OUTPUT=$(fern generate --docs --preview 2>&1) || true
+          OUTPUT=$(npx fern generate --docs --preview 2>&1) || true
           echo "$OUTPUT"
           URL=$(echo "$OUTPUT" | grep -oP 'Published docs to \K.*(?= \()')
           echo "Preview URL: $URL"
@@ -40,7 +40,10 @@ jobs:
           echo "$OUTPUT" >> output.txt
           echo '```' >> output.txt
 
-      - name: Comment on the PR
-        uses: thollander/actions-comment-pull-request@v2.4.3
+      - name: Return preview output to triggering repository
+        uses: peter-evans/repository-dispatch@v2
         with:
-          filePath: output.txt
+          token: ${{ secrets.REPO_ACCESS_TOKEN }}
+          repository: ${{ github.event.client_payload.repository }}
+          event-type: preview-docs-response
+          client-payload: '{"output": "$(cat output.txt)"}'
