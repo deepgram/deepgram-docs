@@ -11,6 +11,11 @@ slug: docs/language-detection
 <Markdown src="../snippets/pre-recorded.mdx"/> <Markdown src="../snippets/dep-streaming.mdx" />
 </div>
 
+<Info>
+If you need to process multiple languages for real-time streaming, we recommend using Deepgram's [Nova-2](./models-languages-overview#nova-2) or [Nova-3](./models-languages-overview#nova-3) multilingual models.
+
+</Info>
+
 Deepgram’s Language Detection feature identifies the dominant language spoken in submitted audio, transcribes the audio in the identified language, and returns the detected language code in the JSON response.
 
 If you are submitting multichannel audio, Language Detection identifies one language per channel. Language Detection is supported for the following languages:
@@ -100,17 +105,19 @@ In this response, we see that each channel contains:
 
 If you specify both `detect_language=true` and a `model` in your query parameter, Deepgram will attempt to use the specified model for the language that is detected. However, if the detected language is not available for that model, Deepgram will automatically select the next highest model to complete the request.
 
-To use the best Deepgram model available, use `model=nova-3-general&detect_language=true`. The order of preference will be Nova-3 -> Nova-2 -> Nova-1 -> Enhanced -> Base.
+To use the best Deepgram model available, use `model=nova-3-general&detect_language=true`. The order of precedence  will be: `Nova-3 -> Nova-2 -> Nova-1 -> Enhanced -> Base`.
 
-For example, you may send an ASR request with the parameters `detect_language=true&model=nova-3-general`. If the detected language is supported by Base and Enhanced models, but not a Nova-3 model, Deepgram will process the request with the Enhanced model since that is the next highest model available for that language.
+For example, you may send a request with the parameters `detect_language=true&model=nova-3-general`. If the detected language is supported by Base and Enhanced models, but not a Nova-3 model, Deepgram will process the request with the Enhanced model since that is the next highest model available for that language.
 
 ### Interaction with `language` query parameter
 
-If the `language` query parameter is set and `detect_language=true` is also present, the language detected by Deepgram will be used for inference instead of the language specified in the `language` parameter.
+If the `language` parameter is set with a language option and `detect_language` is set to `true`, language detection will override the `language` option specified.
 
 ### Restricting the detectable languages
 
-You can restrict the possible set of detectable languages. This is useful if, for example, you know your audio files only contain English or Spanish audio. To restrict the possible set of detectable languages, use a multivalued query parameter with the language codes as the values. For example, `detect_language=en&detect_language=es` will choose either English or Spanish as the detected language.
+You can also restrict the set of detectable languages. This is useful if when you know your audio files only contain English or Spanish audio. To restrict the set of detectable languages, use a multi-valued query parameter with the language codes as the values.
+
+For example, `detect_language=en&detect_language=es` will choose either English or Spanish as the detected language.
 
 ### How to use `language_confidence`
 
@@ -126,10 +133,12 @@ It is critical to know that the `language_confidence` score only takes into acco
 
 ## Streaming and Multilingual Alternatives
 
-As noted above, Language Detection is not currently supported for streaming. If you need to handle multiple languages in a real-time streaming context, we recommend using Deepgram's Nova-2 or Nova-3 multilingual models instead. 
+Language Detection is not currently supported for streaming. If you need to handle multiple languages in a real-time streaming context, we recommend using Deepgram's [Nova-2](./models-languages-overview#nova-2) or [Nova-3](./models-languages-overview#nova-3) multilingual models instead.
 
 These models can transcribe speech containing multiple languages within the same audio stream without requiring explicit language detection, making them ideal for streaming applications where language detection functionality is needed.
 
-For more information about multilingual support and code-switching capabilities, please see our [Multilingual Documentation](https://developers.deepgram.com/docs/multilingual-code-switching).
 
 ***
+What's Next
+
+[Multilingual Codeswitching](https://developers.deepgram.com/docs/multilingual-code-switching).
