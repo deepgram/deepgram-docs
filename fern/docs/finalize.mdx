@@ -307,6 +307,7 @@ Here are more complete examples that make a streaming request and use Finalize. 
                   print("Transcript:", transcript)
           
               # Check if this is the final result from finalize
+              # Note: in most cases, you will receive this response, but it is not guaranteed if there is no significant amount of audio data left to process.
               if response.get("from_finalize", False):
                   print("Finalization complete.")
       except json.JSONDecodeError as e:
