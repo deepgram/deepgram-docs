@@ -42,7 +42,7 @@ Once the SDK is initialized, you can make a request to convert text into speech.
     const response = await deepgram.speak.request(
       { text },
       {
-        model: "aura-asteria-en",
+        model: "aura-2-thalia-en",
         encoding: "linear16",
         container: "wav",
       }
@@ -115,7 +115,7 @@ The following example demonstrates how to stream the audio as soon as the first 
     const response = await deepgram.speak.request(
       { text },
       {
-        model: 'aura-asteria-en',
+        model: 'aura-2-thalia-en',
         encoding: 'linear16',
         container: 'wav',
       }

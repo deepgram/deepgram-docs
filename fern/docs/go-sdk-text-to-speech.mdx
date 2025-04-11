@@ -51,7 +51,7 @@ To begin using Deepgram's Text-to-Speech functionality, you need to install the 
 
   	// set the Transcription options
   	options := &interfaces.SpeakOptions{
-  		Model: "aura-asteria-en",
+  		Model: "aura-2-thalia-en",
   	}
 
   	// create a Deepgram client
@@ -123,10 +123,10 @@ The following example demonstrates how to stream the audio as soon as the first 
     // By default, the DEEPGRAM_API_KEY environment variable will be used for the API Key
   	c := client.NewWithDefaults()
   	dg := speak.New(c)
-    
+
    	// STEP 3: Configure the options (such as model choice, audio configuration, etc.)
   	options := &interfaces.SpeakOptions{
-  		Model: "aura-asteria-en",
+  		Model: "aura-2-thalia-en",
   	}
 
     // STEP 4: send/process the desired text to Deepgram to convert to Speech
@@ -191,10 +191,10 @@ This example shows how to chunk the text source by sentence boundaries and strea
     // By default, the DEEPGRAM_API_KEY environment variable will be used for the API Key
   	c := client.NewWithDefaults()
   	dg := speak.New(c)
-    
+
    	// STEP 3: Configure the options (such as model choice, audio configuration, etc.)
   	options := &interfaces.SpeakOptions{
-  		Model: "aura-asteria-en",
+  		Model: "aura-2-thalia-en",
   	}
 
     // STEP 4: send/process the desired text to Deepgram to convert to Speech
