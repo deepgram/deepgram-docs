@@ -5,61 +5,69 @@ slug: docs/improving-aura-2-formatting
 description: "Formatting Text for Aura-2"
 ---
 
-Aura-2 is a context-aware text-to-speech (TTS) model that applies natural pacing, expressiveness, and fillers based on the context of the provided text. The quality of your text input directly impacts the naturalness of the audio output. This guide provides strategies for optimizing your text to get the most natural-sounding speech from Aura-2.
+Aura-2 is a context-aware text-to-speech (TTS) model that applies natural pacing, expressiveness, and fillers based on the context of the provided text. The quality of your text input directly impacts the naturalness of the audio output.
+
+This guide provides essential formatting techniques to optimize text for Aura-2 text-to-speech conversion. Following these guidelines will produce more natural-sounding speech output with appropriate pacing, intonation, and emphasis.
 
 <Info title="Note for LLM-Generated Text">
 If you are using a Large Language Model (LLM) to generate input text for Aura-2, you can prompt the LLM to provide conversational responses. For example, instruct the LLM to "respond in a natural, conversational tone with appropriate punctuation for text-to-speech" to get output that will sound more natural when processed by Aura-2.
 </Info>
 
-## Basic Formatting Principles
+## Core Principles
 
-* **Use proper sentence-ending punctuation.** Add periods at the end of sentences to create natural pauses. For example, write `Hello. One moment. I'm looking up your medical records.` instead of `Hello One Moment I'm looking up your medical records`.
+| Principle | Do This ✓ | Not This ✗ |
+|-----------|-----------|------------|
+| **End sentences with periods** | Hello. One moment. I'm looking up your records. | Hello One Moment I'm looking up your records |
+| **Use question marks for questions** | Would you like to add a drink for $1 more? | Would you like to add a drink for $1 more |
+| **Add exclamation points for enthusiasm** | Thanks for contacting our support team! | Thanks for contacting our support team |
+| **Use commas for natural pauses** | You can reach us by phone, chat, or email. | You can reach us by phone chat or email |
+| **Put command words in quotes** | Say "add item" to add more to your order. | Say add item to add more to your order |
 
-* **Use expressive punctuation for emotional tone.** Add exclamation points to convey enthusiasm or excitement. For example, write `Thanks for contacting our support team!` instead of `Thanks for contacting our support team.`
+## Natural Speech Patterns
 
-* **Always use question marks for questions.** This ensures proper rising intonation. For example, write `Would you like to add a drink to your order for $1 more?` instead of `Would you like to add a drink to your order for $1 more`.
+- **Direct address:** Include commas before names
+  - ✓ "Hello, Maria! We have a special offer today."
+  - ✗ "Hello Maria We have a special offer today"
 
-* **Add commas for natural breathing patterns.** Place commas strategically to create natural pauses. For example, write `You can reach us by phone, chat, or email during business hours.` instead of `You can reach us by phone chat or email during business hours.`
+- **Lists:** Insert commas between items
+  - ✓ "Would you like fries, a drink, or an apple pie?"
+  - ✗ "Would you like fries a drink or an apple pie"
 
-## Advanced Techniques
+- **Conversational flow:** Use short, standalone phrases
+  - ✓ "One moment. I'm searching for that information."
+  - ✗ Long combined sentences without pauses
 
-* **Use quotation marks for command words.** This helps emphasize specific phrases users should say. For example, write `Say "add item" to add more to your order, or say "checkout" to complete your purchase.` instead of `Say add item to add more to your order or say checkout to complete your purchase.`
+## Special Formatting
 
-* **Include commas before names in direct address.** This creates a natural greeting pause. For example, write `Hello, Maria! We have a special offer just for you today.` instead of `Hello Maria We have a special offer just for you today`.
+| Technique | Example |
+|-----------|---------|
+| **Hyphens for additional pauses** | Your total is $45.82 - please pull forward. |
+| **Clear step boundaries** | Please arrive early. Bring your insurance card - and medications. |
 
-* **Add commas in lists.** Insert commas between items in a list for natural pacing. For example, write `Would you like fries, a drink, or an apple pie with your meal?` instead of `Would you like fries a drink or an apple pie with your meal?`
+## Context Adaptation
 
-* **Use short, standalone phrases for a conversational feel.** Brief statements often sound more natural than forced complete sentences. For example, `One moment. I'm searching for that information.` creates a more natural flow than a longer combined sentence.
+- **Professional tone:** "We've processed your refund according to company policy."
+- **Casual tone:** "Good news! We've processed your refund - money should be back soon."
 
-## Special Formatting Instructions
+## Common Pitfalls
 
-* **Insert pauses with hyphens.** To create additional pauses in your text, insert "-" where you need the pause. For example, write `Your total comes to $45.82 - please pull forward to the next window.` instead of `Your total comes to $45.82 please pull forward to the next window.`
-
-## Context-Aware Formatting
-
-* **Adjust tone based on context.** Use different punctuation and phrasing depending on whether you need a professional or casual tone. For example, professional: `We've processed your refund according to company policy.` vs. casual: `Good news! We've processed your refund - the money should be back in your account soon.`
-
-* **Format instructions with clear boundaries.** Use periods and hyphens to separate different steps. For example, write `Please arrive 15 minutes early. Bring your insurance card - and a list of current medications.` instead of `Please arrive 15 minutes early bring your insurance card and a list of current medications.`
-
-## Common Pitfalls to Avoid
-
-1. **Missing punctuation** - Forces Aura-2 to guess at pacing and intonation
-2. **Run-on sentences** - Creates unnatural, breathless sounding speech
-3. **Inconsistent formatting** - Leads to unpredictable speech patterns
-4. **Abbreviations without context** - May be misinterpreted or mispronounced
-5. **Overuse of emphasis** - Too many exclamation points or capitalized words can sound unnatural
-6. **No space before question mark after URLs/emails** - Causes the question mark to be read as part of the address
-7. **Insufficient pauses in complex information** - Makes important details hard to comprehend
+- ❌ Missing punctuation
+- ❌ Run-on sentences
+- ❌ Inconsistent formatting
+- ❌ Unexplained abbreviations
+- ❌ Overusing emphasis (!!!, ALL CAPS)
+- ❌ No space before ? after URLs/emails
+- ❌ Insufficient pauses for complex information
 
 ## Testing Your Text
 
-Before implementing in production:
-
 1. Read your text aloud naturally
-2. Mark pauses where you naturally stop
-3. Ensure punctuation reflects these natural pauses
-4. Test variations with the Aura-2 model to find the most natural output
+2. Mark where you naturally pause
+3. Add punctuation to match these pauses
+4. Test variations with Aura-2 to find the most natural output
 
-## Conclusion
 
-The more natural your text input, the more natural Aura-2's speech output will be. By following these formatting guidelines, you can significantly improve the quality and naturalness of your text-to-speech implementations with Aura-2.
+**Remember:** Natural text input produces natural speech output. The formatting choices you make directly impact how Aura-2 interprets and vocalizes your content.
+
+---
+
