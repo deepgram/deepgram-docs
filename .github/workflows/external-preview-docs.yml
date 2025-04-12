@@ -36,10 +36,15 @@ jobs:
           echo "🌿 Preview your docs: $URL" > output.txt
           echo '' >> output.txt
           echo '<details>' >> output.txt
+          echo '' >> output.txt
           echo '<summary>Build Logs</summary>' >> output.txt
+          echo '' >> output.txt
           echo '```' >> output.txt
+          echo '' >> output.txt
           echo "$OUTPUT" >> output.txt
+          echo '' >> output.txt
           echo '```' >> output.txt
+          echo '' >> output.txt
           echo '</details>' >> output.txt
 
       - name: Return preview output to triggering repository
