@@ -35,10 +35,17 @@ jobs:
           echo "Preview URL: $URL"
           echo "🌿 Preview your docs: $URL" > output.txt
           echo '' >> output.txt
-          echo 'Build output:' >> output.txt
+          echo '<details>' >> output.txt
+          echo '' >> output.txt
+          echo '<summary>Build Logs</summary>' >> output.txt
+          echo '' >> output.txt
           echo '```' >> output.txt
+          echo '' >> output.txt
           echo "$OUTPUT" >> output.txt
+          echo '' >> output.txt
           echo '```' >> output.txt
+          echo '' >> output.txt
+          echo '</details>' >> output.txt
 
       - name: Comment on the PR
         uses: thollander/actions-comment-pull-request@v2.4.3
