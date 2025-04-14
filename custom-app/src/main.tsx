@@ -5,105 +5,75 @@ const NEXT_CONTAINER_ID = '__next'
 const DEEPGRAM_HEADER_CONTAINER_ID = 'deepgram-header'
 
 /**
- * Registers a MutationObserver to the first object with the specified value of the ID attribute.
- * @param {string} elementId String that specifies the ID value.
+ * Load the Deepgram header component
  */
-function registerObserverById(elementId: string) {
-  let observations = 0
+function loadHeader() {
+  const deepgramHeaderId = document.getElementById(DEEPGRAM_HEADER_CONTAINER_ID)
+  const fernHeaderContainer = document.getElementById(FERN_HEADER_CONTAINER_ID)
 
-  /**
-   * Get element to observe
-   */
-  const targetNode = document.getElementById(elementId)
-
-  if (targetNode) {
-    /**
-     * Options for the observer (which mutations to observe).
-     */
-    const config = { childList: true, subtree: true }
-
-    /**
-     * Callback function to execute when mutations are observed.
-     */
-    const callback: MutationCallback = async (
-      e: MutationRecord[],
-      o: MutationObserver,
-    ) => {
-      observableChanges()
-
-      for (const item of e) {
-        if (item.target instanceof HTMLElement) {
-          const target = item.target
-          if (target.id === 'fern-header') {
-            if (observations < 3) {
-              // react hydration will trigger a mutation event
-              observations++
-            } else {
-              o.disconnect()
-            }
-            break
-          }
-        }
-      }
+  if (!deepgramHeaderId && fernHeaderContainer) {
+    try {
+      const deepgramContentWrapper = document.createElement('deepgram-header')
+      deepgramContentWrapper.setAttribute('id', DEEPGRAM_HEADER_CONTAINER_ID)
+      deepgramContentWrapper.setAttribute('active', 'docs')
+      fernHeaderContainer.insertBefore(deepgramContentWrapper, fernHeaderContainer.firstChild)
+    } catch (error) {
+      // Silently fail
     }
+  }
+}
 
-    /**
-     * Create an observer instance linked to the callback function.
-     */
-    const observer = new MutationObserver(callback)
+/**
+ * Observe DOM changes to ensure header is present
+ */
+function observeHeaderChanges() {
+  const config = { childList: true, subtree: true }
+  let headerAttempts = 0
+  const MAX_ATTEMPTS = 50
 
-    /**
-     * Start observing the target node for configured mutations.
-     */
+  const callback: MutationCallback = (mutations, observer) => {
+    const relevantMutations = mutations.filter(mutation => {
+      const target = mutation.target as HTMLElement
+      return target.id === FERN_HEADER_CONTAINER_ID || 
+             target.id === NEXT_CONTAINER_ID ||
+             mutation.removedNodes.length > 0
+    })
+
+    if (relevantMutations.length === 0) return
+
+    if (!document.getElementById(DEEPGRAM_HEADER_CONTAINER_ID)) {
+      loadHeader()
+    }
+    
+    headerAttempts++
+    if (headerAttempts >= MAX_ATTEMPTS) {
+      observer.disconnect()
+    }
+  }
+
+  const observer = new MutationObserver(callback)
+  
+  const startObserving = () => {
+    const targetNode = document.getElementById(NEXT_CONTAINER_ID) || document.body
     observer.observe(targetNode, config)
   }
+
+  startObserving()
 }
 
-/**
- * Load custom components
- */
-function loadCustomComponents() {
-  const deepgramHeaderId = document.getElementById(DEEPGRAM_HEADER_CONTAINER_ID)
+const initialize = () => {
+  loadHeader()
+  observeHeaderChanges()
+}
 
-  if (!deepgramHeaderId) {
-    // Create a header using the @deepgram/web-components/deepgram-header web component
-    const deepgramContentWrapper = document.createElement('deepgram-header')
-    deepgramContentWrapper.setAttribute('id', DEEPGRAM_HEADER_CONTAINER_ID)
-    deepgramContentWrapper.setAttribute('active', 'docs') // this is the value of the active site (docs here)
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initialize)
+} else {
+  initialize()
+}
 
-    // Get or create fern-header container
-    let fernHeaderContainer = document.getElementById(FERN_HEADER_CONTAINER_ID)
-    if (!fernHeaderContainer) {
-      fernHeaderContainer = document.createElement('div')
-      fernHeaderContainer.setAttribute('id', FERN_HEADER_CONTAINER_ID)
-      document.body.appendChild(fernHeaderContainer)
-    }
-
-    // Insert deepgram header at the beginning of fern-header
-    fernHeaderContainer.insertBefore(
-      deepgramContentWrapper,
-      fernHeaderContainer.firstChild,
-    )
+window.addEventListener('load', () => {
+  if (!document.getElementById(DEEPGRAM_HEADER_CONTAINER_ID)) {
+    loadHeader()
   }
-}
-
-/**
- * Changes once the page has initialized.
- */
-function launchChanges() {
-  loadCustomComponents()
-  console.clear()
-}
-
-/**
- * Changes that run when #Explorer mutations are observed.
- */
-function observableChanges() {
-  loadCustomComponents()
-}
-
-window.onload = function () {
-  // Initial page changes.
-  launchChanges()
-  registerObserverById(NEXT_CONTAINER_ID)
-}
+})
