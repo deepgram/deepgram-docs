@@ -9,6 +9,10 @@ slug: docs/streaming-text-to-speech
 
 <Markdown src="../snippets/tts-ws.mdx" />
 
+<Warning>
+Aura-2 is currently available for the [TTS REST API only](/reference/text-to-speech-api/speak). Websocket support is coming soon.
+</Warning>
+
 This guide will walk you through how to turn streaming text into speech with Deepgram's text-to-speech Websocket API.
 
 <Info>
@@ -232,7 +236,7 @@ Deepgram has several SDKs that can make the API easier to use. Follow these step
 
     const deepgram = createClient(process.env.DEEPGRAM_API_KEY);
 
-    const dgConnection = deepgram.speak.live({ model: "aura-2-thalia-en" });
+    const dgConnection = deepgram.speak.live({ model: "aura-asteria-en" });
 
     let audioBuffer = Buffer.alloc(0);
 
@@ -329,7 +333,7 @@ Deepgram has several SDKs that can make the API easier to use. Follow these step
 
           # connect to websocket
           options = SpeakWSOptions(
-              model="aura-2-thalia-en",
+              model="aura-asteria-en",
               encoding="linear16",
               sample_rate=16000,
           )
@@ -453,7 +457,7 @@ Deepgram has several SDKs that can make the API easier to use. Follow these step
 
   	// set the TTS options
   	ttsOptions := &interfaces.SpeakOptions{
-  		Model: "aura-2-thalia-en",
+  		Model: "aura-asteria-en",
   	}
 
   	// create the callback
