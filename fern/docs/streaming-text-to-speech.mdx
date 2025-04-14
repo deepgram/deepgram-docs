@@ -6,8 +6,11 @@ subtitle: >-
 slug: docs/streaming-text-to-speech
 ---
 
-
 <Markdown src="../snippets/tts-ws.mdx" />
+
+<Warning>
+Aura-2 is currently available for the [TTS REST API only](/reference/text-to-speech-api/speak). Websocket support is coming soon.
+</Warning>
 
 This guide will walk you through how to turn streaming text into speech with Deepgram's text-to-speech Websocket API.
 
@@ -647,7 +650,7 @@ Below is a high-level workflow for obtaining an audio stream from user-provided 
 
 ### Establish a WebSocket Connection
 
-To establish a connection, you must provide a few parameters on the URL to describe the type of audio you want. You can visit the API Ref (TODO: Link) to set the audio model, which controls the voice, the encoding, and the sample rate of the audio.
+To establish a connection, you must provide a few parameters on the URL to describe the type of audio you want. You can check out the [API Reference](/reference/text-to-speech-api/speak-streaming) to set the audio model, which controls the voice, the encoding, and the sample rate of the audio.
 
 ### Sending Text and Retrieving Audio
 
@@ -713,7 +716,15 @@ The maximum number of times you can send the [Flush message](/docs/tts-ws-flush)
 ### Rate Limits
 
 <Info>
-  The current rate limit per project for Pay As You Go is `40` concurrent connections and for Growth plans `80` concurrent connections. Learn more about [API Rate Limits](/reference/api-rate-limits).
+  For information on Deepgram's Concurrency Rate Limits, refer to our [API Rate Limits Documentation](/reference/api-rate-limits).
+</Info>
+
+#### Handling Rate Limits
+
+If the number of in-progress requests for a project meets or exceeds the rate limit, new requests will receive a **429: Too Many Requests** error.
+
+<Info>
+  For suggestions on handling Concurrency Rate Limits, refer to our [Working with Concurrency Rate Limits Documentation](/docs/working-with-concurrency-rate-limits) guide.
 </Info>
 
 ## What's Next?
@@ -728,10 +739,6 @@ Deepgram's features help you customize your request to produce the best output f
 * [Text Chunking for TTS Optimization](/docs/text-chunking-for-tts-optimization-copy)
 * [Sending LLM Outputs to the Websocket](/docs/send-llm-outputs-to-the-tts-web-socket)
 
-### Build your own End-to-End Deepgram Conversational Demo with Twilio
+### Starter Apps
 
-You can get started with building a simple conversational demo using Twilio and Deepgram streaming transcription and text-to-speech WebSockets by checking out our [Twilio Example with STT + TTS Streaming WS](/docs/build-voice-agent-with-twilio-deepgram-openai)
-
-<Info>
-  We'd love to get your feedback on Deepgram's Aura text-to-speech. You will receive $50 in additional console credits within two weeks after filling out the form, and you may be invited to join a group of users with access to the latest private releases. To fill out the form, [Click Here](https://deepgram.typeform.com/to/mcRYgKbd).
-</Info>
+* Clone and run one of our [Starter App](/docs/tts-starter-apps#text-to-speech-streaming) repositories to see a full application with a frontend UI and a backend server sending text to Deepgram to be converted into audio.

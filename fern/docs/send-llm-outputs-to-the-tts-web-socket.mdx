@@ -46,7 +46,7 @@ The code below demonstrates the simple use case of feeding simple text into the 
   RATE = 48000
   CHUNK = 8000
 
-  DEFAULT_URL = f"wss://api.deepgram.com/v1/speak?encoding=linear16&sample_rate={RATE}"
+  DEFAULT_URL = f"wss://api.deepgram.com/v1/speak?model=aura-asteria-en&encoding=linear16&sample_rate={RATE}"
   DEFAULT_TOKEN = os.environ.get("DEEPGRAM_API_KEY", None)
 
   def main():
@@ -187,7 +187,7 @@ The code below demonstrates the simple use case of feeding simple text into the 
 
   if __name__ == "__main__":
       main()
-      
+
   ```
 </CodeGroup>
 
@@ -216,7 +216,7 @@ The code below demonstrates using the OpenAI API to initiate a conversation with
   RATE = 48000
   CHUNK = 8000
 
-  DEFAULT_URL = f"wss://api.deepgram.com/v1/speak?encoding=linear16&sample_rate={RATE}"
+  DEFAULT_URL = f"wss://api.deepgram.com/v1/speak?model=aura-asteria-en&encoding=linear16&sample_rate={RATE}"
   DEFAULT_DEEPGRAM_TOKEN = os.environ.get("DEEPGRAM_API_KEY", None)
   DEFAULT_OPENAI_TOKEN = os.environ.get("OPENAI_API_KEY", None)
 
@@ -417,7 +417,7 @@ The code below demonstrates using the Anthropic API to initiate a conversation w
   CHUNK = 8000
 
   DEFAULT_URL = (
-      f"wss://api.beta.deepgram.com/v1/speak?encoding=linear16&sample_rate={RATE}"
+      f"wss://api.beta.deepgram.com/v1/speak?model=aura-asteria-en&encoding=linear16&sample_rate={RATE}"
   )
   DEFAULT_DEEPGRAM_TOKEN = os.environ.get("DEEPGRAM_API_KEY", None)
   DEFAULT_ANTHROPIC_TOKEN = os.environ.get("ANTHROPIC_API_KEY", None)

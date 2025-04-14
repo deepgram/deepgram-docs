@@ -30,16 +30,19 @@ You can use the following cURL command in a terminal or your favorite API client
 <CodeGroup>
   ```bash cURL
   curl --request POST \
-       --url "https://api.deepgram.com/v1/speak?model=aura-asteria-en&encoding=linear16&sample_rate=24000" \
+       --url "https://api.deepgram.com/v1/speak?model=aura-2-thalia-en&encoding=linear16&sample_rate=24000" \
        --header "Authorization: Token DEEPGRAM_API_KEY" \
        --header 'Content-Type: application/json' \
+       --data '{"text": "Hello, how can I help you today?"}' \
        --output sample_rate_24000.wav \
-       --data '{"text": "Hello, how can I help you today?"}'
        --fail-with-body \
-       --silent \
-       || (jq . sample_rate_24000.wav && rm sample_rate_24000.wav)
+       --silent || echo "Request failed"
   ```
 </CodeGroup>
+
+<Warning>
+  Replace `YOUR_DEEPGRAM_API_KEY` with your [Deepgram API Key](/docs/create-additional-api-keys).
+</Warning>
 
 ### Query Parameters
 
@@ -61,7 +64,7 @@ Upon successful processing of the request, you will receive an audio file contai
   ```text http
   HTTP/1.1 200 OK
   < content-type: audio/mpeg
-  < dg-model-name: aura-asteria-en
+  < dg-model-name: aura-2-thalia-en
   < dg-model-uuid: e4979ab0-8475-4901-9d66-0a562a4949bb
   < dg-char-count: 32
   < dg-request-id: bf6fc5c7-8f84-479f-b70a-602cf5bf18f3
@@ -83,9 +86,3 @@ This includes:
 * `dg-model-name`: The name of the model used to process the request.
 * `transfer-encoding`: Specifies the form of encoding used to safely transfer the payload to the recipient.
 * `date`: The date and time the response was sent.
-
-## API Error Responses
-
-<Info>
-  For information on Deepgram's error messages and error codes, read the API Reference [Errors](/reference/errors) page.
-</Info>

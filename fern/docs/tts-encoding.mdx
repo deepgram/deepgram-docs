@@ -13,10 +13,6 @@ slug: docs/tts-encoding
 
 The Encoding feature gives users the ability to specify the desired format of the resulting text-to-speech audio output.
 
-<Info>
-  The following encoding options are supported for Rest or Streaming.
-</Info>
-
 | Encoding     | Description                                 | Availability        |
 | ------------ | ------------------------------------------- | ------------------- |
 | **linear16** | 16-bit, little-endian, signed PCM WAV data. | `REST` ,`Streaming` |
@@ -48,14 +44,13 @@ You can use the following cURL command in a terminal or your favorite API client
 <CodeGroup>
   ```bash cURL
   curl --request POST \
-       --url "https://api.deepgram.com/v1/speak?model=aura-asteria-en&encoding=linear16&container=wav" \
+       --url "https://api.deepgram.com/v1/speak?model=aura-2-thalia-en&encoding=linear16&container=wav" \
        --header "Authorization: Token DEEPGRAM_API_KEY" \
        --header 'Content-Type: application/json' \
-       --output outputfile_Linear16.wav \
        --data '{"text": "Hello, how can I help you today?"}' \
+       --output outputfile_Linear16.wav \
        --fail-with-body \
-       --silent \
-       || (jq . outputfile_Linear16.wav && rm outputfile_Linear16.wav)
+       --silent || echo "Request failed"
   ```
 </CodeGroup>
 
@@ -63,17 +58,20 @@ You can use the following cURL command in a terminal or your favorite API client
 
 <CodeGroup>
   ```bash cURL
-  `curl --request POST \
-       --url "https://api.deepgram.com/v1/speak?model=aura-asteria-en&encoding=mp3&bit_rate=32000" \
+  curl --request POST \
+       --url "https://api.deepgram.com/v1/speak?model=aura-2-thalia-en&encoding=mp3&bit_rate=32000" \
        --header "Authorization: Token DEEPGRAM_API_KEY" \
        --header 'Content-Type: application/json' \
-       --output outputfile_mp3_32000.mp3 \
        --data '{"text": "Hello, how can I help you today?"}' \
+       --output outputfile_mp3_32000.mp3 \
        --fail-with-body \
-       --silent \
-       || (jq . outputfile_mp3_32000.mp3 && rm outputfile_mp3_32000.mp3)`
+       --silent || echo "Request failed"
   ```
 </CodeGroup>
+
+<Warning>
+  Replace `YOUR_DEEPGRAM_API_KEY` with your [Deepgram API Key](/docs/create-additional-api-keys).
+</Warning>
 
 ### Query Parameters
 
@@ -95,7 +93,7 @@ Upon successful processing of the request, you will receive an audio file contai
   ```text http
   HTTP/1.1 200 OK
   < content-type: audio/mpeg
-  < dg-model-name: aura-asteria-en
+  < dg-model-name: aura-2-thalia-en
   < dg-model-uuid: e4979ab0-8475-4901-9d66-0a562a4949bb
   < dg-char-count: 32
   < dg-request-id: bf6fc5c7-8f84-479f-b70a-602cf5bf18f3
@@ -117,9 +115,3 @@ This includes:
 * `dg-model-name`: The name of the model used to process the request.
 * `transfer-encoding`: Specifies the form of encoding used to safely transfer the payload to the recipient.
 * `date`: The date and time the response was sent.
-
-## API Error Responses
-
-<Info>
-  For information on Deepgram's error messages and error codes, read the API Reference [Errors](/reference/errors) page.
-</Info>

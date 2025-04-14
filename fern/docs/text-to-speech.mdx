@@ -36,7 +36,7 @@ Next, try it with CURL. Add your own API key where it says `YOUR_DEEPGRAM_API_KE
        --header "Authorization: Token DEEPGRAM_API_KEY" \
        --output your_output_file.mp3 \
        --data '{"text":"Hello, how can I help you today?"}' \
-       --url "https://api.deepgram.com/v1/speak?model=aura-asteria-en"
+       --url "https://api.deepgram.com/v1/speak?model=aura-2-thalia-en"
   ```
 </CodeGroup>
 
@@ -62,7 +62,7 @@ To see the error message in your terminal, add this to your CURL request:
   ```
 </CodeGroup>
 
-This example will capture the error message using `jq` and remove the output file (tts.mp3) automatically.
+This example will capture the error message using the [JQ](https://jqlang.org/) JSON processor library and remove the output file `tts.mp3` automatically.
 
 <CodeGroup>
   ```bash cURL
@@ -154,7 +154,7 @@ Open your terminal, navigate to the location on your drive where you want to cre
     const response = await deepgram.speak.request(
       { text },
       {
-        model: "aura-asteria-en",
+        model: "aura-2-thalia-en",
         encoding: "linear16",
         container: "wav",
       }
@@ -225,7 +225,7 @@ Open your terminal, navigate to the location on your drive where you want to cre
 
           # STEP 2 Call the save method on the speak property
           options = SpeakOptions(
-              model="aura-asteria-en",
+              model="aura-2-thalia-en",
           )
 
           response = deepgram.speak.rest.v("1").save(filename, SPEAK_TEXT, options)
@@ -268,7 +268,7 @@ Open your terminal, navigate to the location on your drive where you want to cre
 
   	// STEP 3: define options for the request
   	options := interfaces.SpeakOptions{
-  		Model:     "aura-asteria-en",
+  		Model:     "aura-2-thalia-en",
   		Encoding:  "linear16",
   		Container: "wav",
   	}
@@ -324,7 +324,7 @@ Open your terminal, navigate to the location on your drive where you want to cre
                   "test.mp3",
                   new SpeakSchema()
                   {
-                      Model = "aura-asteria-en",
+                      Model = "aura-2-thalia-en",
                   });
 
               //Console.WriteLine(response);
@@ -361,7 +361,7 @@ Upon successful processing of the request, you will receive an audio file contai
   ```text http
   HTTP/1.1 200 OK
   < content-type: audio/mpeg
-  < dg-model-name: aura-asteria-en
+  < dg-model-name: aura-2-thalia-en
   < dg-model-uuid: e4979ab0-8475-4901-9d66-0a562a4949bb
   < dg-char-count: 32
   < dg-request-id: bf6fc5c7-8f84-479f-b70a-602cf5bf18f3
@@ -395,18 +395,17 @@ Keep these limits in mind when making a Deepgram text-to-speech request.
 
 ### Rate Limits
 
-* **Pay As You Go Plan**: 480 requests per minute.
-* **Growth Plan**: 720 requests per minute.
-
 <Info>
-  The current rate limit per project is 480 requests per minute for Pay As You Go and 720 requests per minute for Growth plans. Learn more at Deepgram's [pricing page](https://deepgram.com/pricing) or [share your feedback on our TTS rate limits](https://deepgram.typeform.com/tts-rate-limit).
+  For information on Deepgram's Concurrency Rate Limits, refer to our [API Rate Limits Documentation](/reference/api-rate-limits).
 </Info>
 
 #### Handling Rate Limits
 
-* If the number of in-progress requests for a project meets or exceeds the rate limit, new requests will receive a **429: Too Many Requests** error.
-* With a typical response time of 250ms, users of our Pay As You Go or Growth plans can achieve a request rate of roughly:\
-  `2 (concurrent requests) / 0.250 (250 ms response time) * 60 (seconds/minute) = 480 requests per minute.`
+If the number of in-progress requests for a project meets or exceeds the rate limit, new requests will receive a **429: Too Many Requests** error.
+
+<Info>
+  For suggestions on handling Concurrency Rate Limits, refer to our [Working with Concurrency Rate Limits Documentation](/docs/working-with-concurrency-rate-limits) guide.
+</Info>
 
 ## What's Next?
 
@@ -414,7 +413,7 @@ Now that you've transformed text into speech with Deepgram's API, enhance your k
 
 ### Starter Apps
 
-* Clone and run one of our [Starter App](/docs/stt-pre-recorded-starter-apps) repositories to see a full application with a frontend UI and a backend server sending text to Deepgram to be converted into audio.
+* Clone and run one of our [Starter App](/docs/tts-starter-apps#text-to-speech-rest) repositories to see a full application with a frontend UI and a backend server sending text to Deepgram to be converted into audio.
 
 ### Read the Feature Guides
 
@@ -424,20 +423,12 @@ Deepgram's features help you to customize your request to produce the output tha
 * [Callback](/docs/tts-callback): Discover how to provide a callback url, so that your audio can be processed asynchronously.
 * [Feature Overview](/docs/tts-feature-overview): Review the list of features available for pre-recorded speech-to-text. Then, dive into individual guides for more details.
 
-### Transcribe Speech-to-Text
-
-* Check out how you can use Deepgram to turn audio into text. Read the [Pre-Recorded Speech-To-Text](/docs/getting-started-with-pre-recorded-audio) guide or the [Streaming Speech-To-Text Guide](/docs/getting-started-with-live-streaming-audio).
-
 ### Try the Conversational AI Demo
 
 * The purpose of[ this demo](https://aura-tts-demo.deepgram.com/) is to showcase how you can build a Conversational AI application that engages users in natural language interactions, mimicking human conversation through natural language processing using Deepgram and [OpenAI ChatGPT.](https://openai.com/chatgpt)
 
 ### Watch This Video
 
-* See how you can use Deepgram Aura with [Groq](https://groq.com/) to build a blazing fast Conversational AI application.
-
-<Info>
-  We'd love to get your feedback on Deepgram's Aura text-to-speech. You will receive $50 in additional console credits within two weeks after filling out the form, and you may be invited to join a group of users with access to the latest private releases. To fill out the form, [Click Here](https://deepgram.typeform.com/to/mcRYgKbd).
-</Info>
+* Watch this [video](https://www.youtube.com/watch?v=J2sbC8X5Pp8) to learn how you can use Deepgram Aura with [Groq](https://groq.com/) to build a blazing fast Conversational AI application.
 
 ***

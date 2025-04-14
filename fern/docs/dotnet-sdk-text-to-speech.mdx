@@ -4,7 +4,6 @@ subtitle: An overview of the Deepgram .NET SDK and Deepgram text-to-speech.
 slug: docs/dotnet-sdk-text-to-speech
 ---
 
-
 ## Installing the SDK
 
 To begin using Deepgram's Text-to-Speech functionality, you need to install the Deepgram .NET SDK in your existing project. You can do this using the following command:
@@ -45,7 +44,7 @@ To begin using Deepgram's Text-to-Speech functionality, you need to install the 
                   "test.mp3",
                   new SpeakSchema()
                   {
-                      Model = "aura-asteria-en",
+                      Model = "aura-2-thalia-en",
                   });
 
               //Console.WriteLine(response);
@@ -88,7 +87,7 @@ Deepgram's TTS API allows you to start playing the audio as soon as the first by
                   new TextSource("Hello World!"),
                   new SpeakSchema()
                   {
-                      Model = "aura-asteria-en",
+                      Model = "aura-2-thalia-en",
                   });
 
               await foreach (var audioSegment in response.AudioStream)
@@ -128,14 +127,14 @@ Deepgram's TTS API allows you to start playing the audio as soon as the first by
             	// STEP 3: process the desired text in segments
               // Send each seqment to Deepgram to convert to Speech
               var segments = SegmentTextBySentence(inputText);
-            
+
               foreach (var segment in segments)
               {
                   var response = await deepgramClient.Stream(
                       new TextSource(segment),
                       new SpeakSchema()
                       {
-                          Model = "aura-asteria-en",
+                          Model = "aura-2-thalia-en",
                       });
 
                   await foreach (var audioSegment in response.AudioStream)

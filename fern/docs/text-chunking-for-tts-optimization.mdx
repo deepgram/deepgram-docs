@@ -56,19 +56,19 @@ This is a straightforward example which does not take into consideration charact
 
           # Choose a model to use for synthesis
           options = SpeakOptions(
-              model="aura-helios-en",
+              model="aura-2-thalia-en",
           )
 
           # Chunk the text into smaller parts
           text_chunks = chunk_text(input_text, MAX_CHUNK_SIZE)
-          
+
           # Synthesize audio for each chunk
           for i, chunk in enumerate(text_chunks):
               print(f"\nProcessing chunk {i + 1}...{chunk}\n")
               filename = f"chunk_{i + 1}.mp3"
 
               SPEAK_OPTIONS = {"text": chunk}
-          
+
               response = deepgram.speak.v("1").save(filename, SPEAK_OPTIONS, options)
               print(response.to_json(indent=4))
 
@@ -125,19 +125,19 @@ These are two grammatical rules for identifying clauses, but you may decide to i
 
           # Choose a model to use for synthesis
           options = SpeakOptions(
-              model="aura-helios-en",
+              model="aura-2-thalia-en",
           )
 
           # Chunk the text into smaller parts
           text_chunks = chunk_text_by_clause(input_text)
-          
+
           # Synthesize audio for each chunk
           for i, chunk in enumerate(text_chunks):
               print(f"\nProcessing chunk {i + 1}...{chunk}\n")
               filename = f"chunk_{i + 1}.mp3"
 
               SPEAK_OPTIONS = {"text": chunk}
-          
+
               response = deepgram.speak.v("1").save(filename, SPEAK_OPTIONS, options)
               print(response.to_json(indent=4))
 
@@ -211,19 +211,19 @@ This next example implements a more flexible chunking strategy that adjusts chun
 
           # Choose a model to use for synthesis
           options = SpeakOptions(
-              model="aura-helios-en",
+              model="aura-2-thalia-en",
           )
 
           # Chunk the text into smaller parts
           text_chunks = chunk_text_dynamically(input_text)
-          
+
           # Synthesize audio for each chunk
           for i, chunk in enumerate(text_chunks):
               print(f"\nProcessing chunk {i + 1}...{chunk}\n")
               filename = f"chunk_{i + 1}.mp3"
 
               SPEAK_OPTIONS = {"text": chunk}
-          
+
               response = deepgram.speak.v("1").save(filename, SPEAK_OPTIONS, options)
               # print(response.to_json(indent=4))
 
@@ -273,7 +273,7 @@ In this example, the text is chunked by sentence boundaries. Then each chunk is 
       deepgram = DeepgramClient(api_key="DEEPGRAM_API_KEY")
       # Choose a model to use for synthesis
       options = SpeakOptions(
-              model="aura-helios-en",
+              model="aura-2-thalia-en",
           )
       speak_options = {"text": text}
       # Synthesize audio and stream the response
@@ -308,9 +308,9 @@ In this example, the text is chunked by sentence boundaries. Then each chunk is 
 
 When using text chunking as a strategy to minimize latency, some factors to keep in mind are the following:
 
-* preserving naturalness of speech - Maintain proper pronunciation, intonation, and rhythm to enhance the user experience.
-* contextual understanding - Analyze the structure and meaning of the text to identify natural breakpoints, such as sentence or clause boundaries, for dividing the text.
-* dynamic chunking - Implement a flexible chunking strategy that adjusts chunk sizes dynamically based on the length and structure of the input text.
-* user expectations - Consider the preferences and needs of users, such as their tolerance for latency, the desired quality of synthesized speech, and their overall satisfaction with the application's performance.
+* Preserving naturalness of speech - Maintain proper pronunciation, intonation, and rhythm to enhance the user experience.
+* Contextual understanding - Analyze the structure and meaning of the text to identify natural breakpoints, such as sentence or clause boundaries, for dividing the text.
+* Dynamic chunking - Implement a flexible chunking strategy that adjusts chunk sizes dynamically based on the length and structure of the input text.
+* User expectations - Consider the preferences and needs of users, such as their tolerance for latency, the desired quality of synthesized speech, and their overall satisfaction with the application's performance.
 
 ***

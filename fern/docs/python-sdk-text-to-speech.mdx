@@ -47,7 +47,7 @@ There are two functions provided to translate text-to-speech:
 
           # STEP 2: Configure the options (such as model choice, audio configuration, etc.)
           options = SpeakOptions(
-              model="aura-asteria-en",
+              model="aura-2-thalia-en",
           )
 
           # STEP 3: Call the save method on the speak property
@@ -76,7 +76,7 @@ There are two functions provided to translate text-to-speech:
 
           # STEP 2: Configure the options (such as model choice, audio configuration, etc.)
           options = SpeakOptions(
-              model="aura-asteria-en",
+              model="aura-2-thalia-en",
           )
 
           # STEP 3: Call the save method on the speak property
@@ -115,7 +115,7 @@ The following example demonstrates how to stream the audio as soon as the first 
 
   def synthesizeAudio(text):
       options = SpeakOptions(
-          model="aura-asteria-en",
+          model="aura-2-thalia-en",
       )
 
       response = deepgram.speak.rest.v("1").stream(filename, SPEAK_OPTIONS, options)
@@ -163,7 +163,7 @@ This example shows how to chunk the text source by sentence boundaries and strea
 
   def synthesizeAudio(text):
       options = SpeakOptions(
-          model="aura-asteria-en",
+          model="aura-2-thalia-en",
       )
 
       response = deepgram.speak.rest.v("1").stream(filename, SPEAK_OPTIONS, options)

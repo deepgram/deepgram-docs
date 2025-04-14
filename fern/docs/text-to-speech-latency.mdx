@@ -32,11 +32,11 @@ Run the following CURL command to measure the total latency it takes to make a c
   -w "dns_resolution: %{time_namelookup}, tcp_established: %{time_connect}, ssl_handshake_done: %{time_appconnect}, TTFB: %{time_starttransfer}\n" \
   -X POST \
   -d "Welcome to Deepgram! We offer essential building blocks for voice AI." \
-  "https://api.deepgram.com/v1/speak?model=aura-asteria-en"
+  "https://api.deepgram.com/v1/speak?model=aura-2-thalia-en"
   ```
 </CodeGroup>
 
-In the output you can see information about the total latency, as well as its subcomponents. In this example, the total latency is 745 milliseconds.
+In the output you can see information about the total latency, as well as its sub-components. In this example, the total latency is 745 milliseconds.
 
 <CodeGroup>
   ```bash output
@@ -85,7 +85,7 @@ Leverage the streaming output by playing audio immediately upon receiving the fi
 
 <CodeGroup>
   ```python Python
-  with requests.post("https://api.deepgram.com/v1/speak", stream=True, headers=headers, json={"text": "Hello world!"}) as r:
+  with requests.post("https://api.deepgram.com/v1/speak?model=aura-2-thalia-en", stream=True, headers=headers, json={"text": "Hello world!"}) as r:
       for chunk in r.iter_content(chunk_size=1024):
           if chunk:
               stream.write(chunk)
@@ -95,7 +95,7 @@ Leverage the streaming output by playing audio immediately upon receiving the fi
 You can begin streaming after receiving the first byte of audio because Deepgram's speed-up factor is high, far greater than the speed-up factor of 1x required to stream the output in real time.
 
 <Info>
-  **Tip:** Stream the audio output after receiving the first byte. Read the guide [Streaming Audio Outputs](/docs/streaming-the-audio-output) to learn more.
+  Stream the audio output after receiving the first byte. Read the guide [Streaming Audio Outputs](/docs/streaming-the-audio-output) to learn more.
 </Info>
 
 ### Audio Synthesis Latency
@@ -106,7 +106,7 @@ If you wait for the entire audio file to be returned to you before playing it, y
 
 <CodeGroup>
   ```python Python
-  response = requests.post("https://api.deepgram.com/v1/speak", headers=headers, json={"text": "Hello world!"})
+  response = requests.post("https://api.deepgram.com/v1/speak?model=aura-2-thalia-en", headers=headers, json={"text": "Hello world!"})
 
   if response.status_code == 200:
       data = response.content
@@ -137,7 +137,7 @@ The configuration and location of servers can greatly impact latency. Optimal se
 Consider optimizing server deployment by strategically locating them closer to your target audience, investing in high-performance hardware tailored to workload demands, and implementing load balancing mechanisms to evenly distribute incoming requests, thereby minimizing latency and ensuring consistent performance.
 
 <Info>
-  **Tip:** Maximize server performance and reduce latency by strategically placing servers near your target audience, investing in high-performance hardware, and implementing efficient load balancing techniques.
+  Maximize server performance and reduce latency by strategically placing servers near your target audience, investing in high-performance hardware, and implementing efficient load balancing techniques.
 </Info>
 
 ### Length of Text Input
@@ -150,14 +150,14 @@ Deepgram TTS accepts up to 2000 characters of text input. There is a baseline le
   ```
 </CodeGroup>
 
-Imagine a 300 character input. The latency could be estimated as: `600 + 40 * 3 = 720 ms`.
+Consider a 300 character input. The latency could be estimated as: `600 + 40 * 3 = 720 ms`.
 
-Then imagine tripling that to a 900-character input. The latency estimate is `600 + 40 * 9 = 960 ms`.
+Then consider tripling that to a 900-character input. The latency estimate is `600 + 40 * 9 = 960 ms`.
 
 Note that while the 900-character request is slower than the 300-character request, it takes 1.33x time to process 3x characters. Keep that in mind for longer-form content: for lowest cumulative latency across multiple requests, include as close to the max of 2000 characters in each request if you are chunking your text to fit Deepgram's input character limit.
 
 <Info>
-  **Tip:** For optimal latency across multiple requests, aim to include as close to the maximum of 2000 characters in each request when chunking your text to fit input character limits.
+  For optimal latency across multiple requests, aim to include as close to the maximum of 2000 characters in each request when chunking your text to fit input character limits.
 </Info>
 
 You can also run timing experiments yourself via CURL by modifying the number of characters in your text input:
@@ -173,7 +173,7 @@ You can also run timing experiments yourself via CURL by modifying the number of
   -H 'content-type: text/plain' \
   -X POST \
   -d "Frolic, a sprightly squirrel, stumbles onto Splash, a unique flying fish tangled on the riverbank. As diverse fellows, they traverse each other’s worlds. Splash, on land, savors forest fruits while Frolic, underwater, discovers vivid coral reefs. Their journey forms a profound bond." \
-  "https://api.deepgram.com/v1/speak"
+  "https://api.deepgram.com/v1/speak?model=aura-2-thalia-en"
   ```
 </CodeGroup>
 
@@ -201,7 +201,7 @@ You can also run timing experiments yourself via CURL by modifying the number of
   -H 'content-type: text/plain' \
   -X POST \
   -d "In a serene woodland, Frolic, an adventurous squirrel, crosses paths with Splash, a flying fish marooned by a misjudged wave on the riverbank. Using his wits, Frolic helps his new friend back into the river. As a token of thanks, Splash offers Frolic an unusual proposition – a tour of each other's world. First, Splash rides on Frolic's back, savoring forest fruits and learning about rustling leaves. Then, with the help of a magical Splash-provided air bubble, Frolic dives underwater, opening gateways to vibrant coral reefs, mysterious underwater cave systems, and friendly aquatic creatures. This extraordinary journey shapes a deep-seated comradeship between the unlikeliest of friends, illuminating the joy of shared experiences and breaking down their comfort zones' barriers." \
-  "https://api.deepgram.com/v1/speak"
+  "https://api.deepgram.com/v1/speak?model=aura-2-thalia-en"
   ```
 </CodeGroup>
 
@@ -220,7 +220,7 @@ You can also run timing experiments yourself via CURL by modifying the number of
 You will notice variation in latency; these numbers are an illustration of general trends and concepts, not a fixed result.
 
 <Info>
-  **Tip:** On long content, provide the maximum number of characters per request.
+On long content, provide the maximum number of characters per request.
 </Info>
 
 ### Audio Output Formats
@@ -232,7 +232,7 @@ Consider `linear16` encoded `wav` audio when prioritizing high-fidelity audio qu
 Choose compressed formats like `mp3` or `opus` when file size and bandwidth efficiency are critical factors. These formats offer reduced file sizes while maintaining acceptable audio quality, potentially reducing latency in streaming and transmission.
 
 <Info>
-  **Tip:** Choose the audio format that best suits your specific use case and requirements, considering factors such as audio quality, compatibility, file size, and efficiency, rather than solely focusing on minimizing latency.
+  Choose the audio format that best suits your specific use case and requirements, considering factors such as audio quality, compatibility, file size, and efficiency, rather than solely focusing on minimizing latency.
 </Info>
 
 ## More Tips to Minimize Latency
@@ -256,7 +256,3 @@ While this guide focuses on TTS latency, in the full context of a voice bot appl
 1. If self-hosted, can a smaller model be used, or can more powerful hardware be used to serve requests?
 2. If using an external API, does the provider offer their own set of latency recommendations? Do they offer certain parameters or product tiers that enable lower latency?
 3. Can you reduce the number of input or output tokens to produce a shorter reply? For instance, add a system prompt to reply in fewer than a certain number of words or sentences (e.g. "Reply in three sentences or less").
-
-### Open-Source Resources and Demos
-
-Try out our browser-based [AI Agent Conversational Demo](https://deepgram-conversational-demo.vercel.app/), and then jump start your own voice bot with its open-source implementation on GitHub at [deepgram-conversational-demo](https://github.com/deepgram-devs/deepgram-conversational-demo).
