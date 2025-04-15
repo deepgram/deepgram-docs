@@ -1,11 +1,11 @@
 ---
-title: Token-based Auth
+title: Token-Based Auth
 subtitle: >-
   Generates a temporary JSON Web Token (JWT) with a 30-second TTL (Time To Live) for Deepgram APIs.
 slug: docs/token-based-authentication
 ---
 
-An temporary token is a secure, authentication credential that provides time-limited access to Deepgram's APIs. These tokens have a 30 second Time To Live (TTL) and are designed specifically for short-lived, secure API access scenarios, particularly in client-side applications where long-term credential storage is not recommended. Unlike traditional API keys, temporary tokens are ideal for real-time applications requiring secure, temporary access to Deepgram's services.
+A temporary token is a secure, authentication credential that provides time-limited access to Deepgram's APIs. These tokens have a 30 second Time To Live (TTL) and are designed specifically for short-lived, secure API access scenarios, particularly in client-side applications where long-term credential storage is not recommended. Unlike traditional API keys, temporary tokens are ideal for real-time applications requiring secure, temporary access to Deepgram's services.
 
 <div style="width: 100%; display: flex; justify-content: center; margin: 2rem 0;">
 <img src="../images/temp-auth-tokens.svg" alt="Token-based auth flow" width="600" height="446"/>
@@ -13,7 +13,7 @@ An temporary token is a secure, authentication credential that provides time-lim
 
 ## Use Cases
 
-Temporary tokens are ideal for client-side/untrusted applications, because they allow clients to directly access the Deepgram API. Normal API keys, to be secure, require proxying traffic through your own servers where the API key is stored.
+Temporary tokens are ideal for client-side/untrusted applications because they allow clients to directly access the Deepgram API. Normal API keys, to be secure, require proxying traffic through your own servers where the API key is stored.
 
 Direct access to the Deepgram API is particularly useful for client-side/untrusted applications that are more latency-sensitive, like realtime connections.
 
@@ -93,7 +93,7 @@ To use the JWT token, you can then pass it in the `Authorization` header of your
 `{"err_code":"FORBIDDEN","err_msg":"Insufficient permissions."}`
 
 The API key you use for the `/auth/grant` request needs to have at least Member permissions.
-To create a key with Member permissions. Login to the [Deepgram Console](https://console.deepgram.com/) and click on API Keys from the left sidebar. Click the "Create Key" button, then select "Advanced" options and choose "Member" from the permissions dropdown.
+To create a key with Member permissions, login to the [Deepgram Console](https://console.deepgram.com/) and click on "API Keys" from the left sidebar. Click the "Create Key" button, then select "Advanced" options and choose "Member" from the permissions dropdown.
 
 Alternatively, you can create a key with Member permissions using the [Create Key](/reference/management-api/keys/create) endpoint.
 
@@ -105,7 +105,7 @@ We currently don't support modifying the TTL value of temporary tokens.
 
 Yes! You only need the temporary token to be valid during the initial websocket connection to Deepgram's APIs. The websocket connection will then stay open as it would in any other case until you close it.
 
-### Which Deepgram APIs can I use with an temporary tokens?
+### Which Deepgram APIs can I use with a temporary token?
 
 Temporary tokens have usage::write permission for these Deepgram APIs:
 
@@ -134,7 +134,7 @@ Not yet, but SDK support is coming soon!
 - Fewer Disruptions: Temporary tokens are more resilient to outages, reducing the chances of interruptions to your workflow — especially during planned maintenance or unexpected incidents.
 - Cleaner Deepgram Console Experience: Using temporary tokens means you’ll no longer see pages cluttered with expired API keys. Your usage summary and API keys views will be cleaner and easier to navigate.
 - Smoother Console Performance: Switching to temporary tokens means the Deepgram Console will remain fast and efficient, even as your usage scales.
-- Faster Access: Creating a temporary token is faster than creating an API key, which means faster connection times for Web Sockets.
+- Faster Access: Creating a temporary token is faster than creating an API key, which means faster connection times for WebSockets.
 
 ### Can I track the usage from temporary tokens?
 
