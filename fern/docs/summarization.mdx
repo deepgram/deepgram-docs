@@ -19,10 +19,6 @@ slug: docs/summarization
 
 Deepgram’s Summarization feature summarizes the content of the submitted audio and returns a brief summary in the JSON response.
 
-<Info>
-  Summarization `V2` (`summarize=v2`) requires a minimum of greater than 50 words for summarization. For shorter inputs (<50 words), the original input will be returned. In this case, no tokens in or out are billed as summarization usage.
-</Info>
-
 ## Enable Feature
 
 To enable Summarization V2, use the following parameter in the query string when you call Deepgram’s `/listen` endpoint :
@@ -53,6 +49,10 @@ To transcribe audio from a file on your computer, run the following curl command
 | `summarize` | `v2`    | string  | Enables the `V2` version of summarization. The output response will include a single object with a result and short summary of the entire audio. It will generate one summary across all channels.                                              |
 | `summarize` | `true`  | boolean | Enables the `V1` version of summarization. The output response will include an array of objects with `summary`, `start_word`, and `end_word`. It will generate summaries per channel. Summarization V1 is deprecated. |
 | `summarize` | `false` | boolean | Disables the summarization feature.                                                                                                                                                                                               |
+
+<Info>
+  Summarization `V2` (`summarize=v2`) requires a minimum of greater than 50 words for summarization. For shorter inputs (<50 words), the original input will be returned. In this case, no tokens in or out are billed as summarization usage.
+</Info>
 
 ## Analyze Response
 
