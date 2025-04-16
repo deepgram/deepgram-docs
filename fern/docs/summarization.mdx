@@ -50,6 +50,10 @@ To transcribe audio from a file on your computer, run the following curl command
 | `summarize` | `true`  | boolean | Enables the `V1` version of summarization. The output response will include an array of objects with `summary`, `start_word`, and `end_word`. It will generate summaries per channel. Summarization V1 is deprecated. |
 | `summarize` | `false` | boolean | Disables the summarization feature.                                                                                                                                                                                               |
 
+<Info>
+  Summarization `V2` (`summarize=v2`) requires a minimum of greater than 50 words for summarization. For shorter inputs ( less than 50 words), the original input will be returned. In this case, no tokens in or out are billed as summarization usage.
+</Info>
+
 ## Analyze Response
 
 When the file is finished processing, you’ll receive a JSON response that has the following basic structure:
