@@ -35,7 +35,7 @@ function insertHeap() {
 
 function insertWidget() {
   const widget = document.createElement("deepgram-widget");
-  widget.setAttribute("client-token", "YOUR TOKEN HERE")
+  widget.setAttribute("client-token", "9d8bbf43824dcf38a77cb14238264b89099aeadc")
 
   document.body.appendChild(widget);
   const widgetScript = document.createElement("script");
