@@ -1296,7 +1296,8 @@ redirects:
     destination: /docs/text-chunking-for-tts-optimization
   - source: /docs/genesys-with-deepgram
     destination: /docs/genesys-deepgram-legacy
-
+  - source: /reference/ephemeral-auth-api/grant-token
+    destination: /reference/token-based-auth-api/grant-token
 analytics:
   gtm:
     container-id: ${GTM_CONTAINER_ID}
