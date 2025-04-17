@@ -39,7 +39,7 @@ function insertWidget() {
 
   document.body.appendChild(widget);
   const widgetScript = document.createElement("script");
-  widgetScript.src = "https://cdn.nhcarrigan.com/deepgram/widget5.js";
+  widgetScript.src = "https://cdn.nhcarrigan.com/deepgram/widget6.js";
   document.body.appendChild(widgetScript);
 }
 
