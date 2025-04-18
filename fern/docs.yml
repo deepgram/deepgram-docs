@@ -366,7 +366,7 @@ navigation:
             path: docs/tts-sample-rate.mdx
       - section: Tips and Tricks
         contents:
-          - page: Improving Aura-2 Formatting
+          - page: Formatting text for Aura-2
             path: docs/improving-aura-2-formatting.mdx
           - page: Handling Audio Issues in Text To Speech
             path: docs/handling-audio-issues-in-text-to-speech.mdx
