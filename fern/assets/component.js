@@ -35,11 +35,11 @@ function insertHeap() {
 
 function insertWidget() {
   const widget = document.createElement("deepgram-widget");
-  widget.setAttribute("client-token", "9d8bbf43824dcf38a77cb14238264b89099aeadc")
+  widget.setAttribute("agent-client-id", "9d8bbf43824dcf38a77cb14238264b89099aeadc")
 
   document.body.appendChild(widget);
   const widgetScript = document.createElement("script");
-  widgetScript.src = "https://cdn.nhcarrigan.com/deepgram/widget6.js";
+  widgetScript.src = "https://cdn.nhcarrigan.com/deepgram/widget7.js";
   document.body.appendChild(widgetScript);
 }
 
