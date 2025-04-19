@@ -76,6 +76,10 @@ To analyze text from a hosted file, run the following curl command in a terminal
 | `summarize` | `true` | boolean | Enables summarization. The output response will include a `summary` object, and within that object will be a `text`property that contains a short summary of the entire text. |
 | `language`  | `en`   | string  | The language of your input text (Only English is supported at this time)                                                                                                      |
 
+<Info>
+  Summarization requires a minimum of greater than 50 words for summarization. For shorter inputs (less than 50 words), the original input will be returned. In this case, no tokens in or out are billed as summarization usage.
+</Info>
+
 ## Analyze Response
 
 When the file is finished processing, you’ll receive a JSON response that has the following basic structure:
@@ -89,13 +93,13 @@ When the file is finished processing, you’ll receive a JSON response that has 
       "language": "en",
       "summary_info": {
         "model_uuid": "67875a7f-c9c4-48a0-aa55-5bdb8a91c34a",
-        "input_tokens": 21,
+        "input_tokens": 103,
         "output_tokens": 33
       }
     },
     "results": {
       "summary": {
-        "text": "Jake calls the Honda dealership and speaks with Josh about the new Honda Civic 2023. Jake schedules a test drive for the hybrid model on Friday and provides his contact information.Josh confirms the appointment and tells Jake to call if he has any further questions."
+        "text": "Jake calls the Honda dealership and speaks with Josh about the new Honda Civic 2023. Jake schedules a test drive for the hybrid model on Friday and provides his contact information. Josh confirms the appointment and tells Jake to call if he has any further questions."
       }
     }
   }
