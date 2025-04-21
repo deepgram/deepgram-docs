@@ -1,0 +1,97 @@
+---
+title: Settings
+subtitle: >-
+  Send a Settings message to configure the voice agent's behavior, audio formats,
+  and provider configurations before starting the conversation.
+slug: docs/voice-agent-settings
+---
+
+<Markdown src="../snippets/voice-agent.mdx" />
+
+# What is the `Settings` Message
+
+The `Settings` message is a JSON command that serves as an initialization step, setting up both the behavior of the voice agent and the audio transmission formats before any actual voice data is exchanged over the websocket connection. This message configures the voice agent and sets the input and output audio formats.
+
+<Info>
+  For a detailed explanation of all the options available for the `Settings` message, see our documentation on how to [Configure the Voice Agent](/docs/configure-voice-agent).
+</Info>
+
+## Sending `Settings`
+
+To send the `Settings` message, you need to send the following JSON message to the server:
+
+<Warning>
+  The client should send a `Settings` message immediately after opening the websocket and before sending any audio.
+</Warning>
+
+### Basic Example
+
+This example uses a very basic `Settings` to establish a connection.
+
+<CodeGroup>
+  ```json JSON
+{
+  "type": "Settings",
+  "audio": {
+    "input": {
+      "encoding": "linear16",
+      "sample_rate": 24000
+    },
+    "output": {
+      "encoding": "linear16",
+      "sample_rate": 24000,
+      "container": "none"
+      // ... additional output options: bitrate
+    }
+  },
+  "agent": {
+    "language": "en",
+    "listen": {
+      "provider": {
+        "type": "deepgram",
+        "model": "nova-3"
+        // ... additional provider options: keyterms (nova-3 'en' only)
+      }
+    },
+    "think": {
+      "provider": {
+        "type": "open_ai",
+        "model": "gpt-4o-mini",
+        "temperature": 0.7
+        // ... additional provider options: endpoint (for non-deepgram providers)
+      },
+      // ... additional think options: prompt, functions, endpoint
+    },
+    "speak": {
+      "provider": {
+        "type": "deepgram",
+        "model": "aura-asteria-en"
+        // ... additional provider options based on type:
+        // - eleven_labs: model_id, language_code
+        // - cartesia: model_id, voice (mode, id), language
+        // - open_ai: voice
+      }
+      // ... additional speak options: endpoint (for non-deepgram providers)
+    }
+    // ... additional agent options: greeting
+  }
+  // ... additional top-level options: experimental
+}
+```
+</CodeGroup>
+
+## `Settings` Confirmation
+
+Upon receiving the `Settings` message, the server will process all remaining audio data and return the following [Settings Applied](/docs/voice-agent-setting-applied-message) message.
+
+<CodeGroup>
+  ```json JSON
+  {
+      "type": "SettingsApplied"
+  }
+  ```
+</CodeGroup>
+
+# Conclusion
+
+The `Settings` message is an initialization command that establishes both the behavior of the voice agent and the audio transmission formats before voice data is exchanged. By configuring the agent and setting the input/output audio formats upfront, it ensures smooth and efficient communication over the WebSocket connection, laying the foundation for effective voice interactions.

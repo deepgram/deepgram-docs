@@ -108,8 +108,8 @@ navigation:
       - section: "Inputs: Client Messages"
         path: docs/voice-agent-inputs.mdx
         contents:
-          - page: Settings Configuration
-            path: docs/voice-agent-settings-configuration.mdx
+          - page: Settings
+            path: docs/voice-agent-settings.mdx
           - page: Update Instructions
             path: docs/voice-agent-update-instructions.mdx
           - page: Update Speak
@@ -139,10 +139,16 @@ navigation:
             path: docs/voice-agent-function-calling-message.mdx
           - page: Agent Started Speaking
             path: docs/voice-agent-agent-started-speaking.mdx
+          - page: Prompt Updated
+            path: docs/voice-agent-prompt-updated.mdx
+          - page: Speak Updated
+            path: docs/voice-agent-speak-updated.mdx
           - page: Agent Audio Done
             path: docs/voice-agent-agent-audio-done.mdx
           - page: Agent Server Errors
             path: docs/voice-agent-server-errors.mdx
+          - page: Agent Warnings
+            path: docs/voice-agent-warning.mdx
       - page: LLM Models
         path: docs/voice-agent-llm-models.mdx
       - page: TTS Models
@@ -1298,6 +1304,8 @@ redirects:
     destination: /docs/genesys-deepgram-legacy
   - source: /reference/ephemeral-auth-api/grant-token
     destination: /reference/token-based-auth-api/grant-token
+  - source: /docs/voice-agent-settings-configuration
+    destination: /docs/voice-agent-settings
 analytics:
   gtm:
     container-id: ${GTM_CONTAINER_ID}

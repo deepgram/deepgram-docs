@@ -1,0 +1,27 @@
+---
+title: Prompt Updated
+subtitle: Confirms that an UpdatePrompt message from the client has been applied.
+slug: docs/voice-agent-prompt-updated
+---
+
+<Markdown src="../snippets/voice-agent.mdx" />
+
+# What is the `PromptUpdated` Message
+
+The `PromptUpdated` message is sent by the server to the client to confirm that the prompt has been updated.
+
+## Receiving `PromptUpdated`
+
+If the client has sent a new Prompt message within their [Settings](/docs/voice-agent-settings) Message the server will respond with a `PromptUpdated` message to confirm that the prompt has been updated.
+
+<CodeGroup>
+  ```json JSON
+  {
+    "type": "PromptUpdated"
+  }
+  ```
+</CodeGroup>
+
+## Conclusion
+
+The `PromptUpdated` message is sent by the server to the client to confirm that the prompt has been updated.
