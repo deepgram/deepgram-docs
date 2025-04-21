@@ -46,7 +46,7 @@ To transcribe audio from a file on your computer, run the following cURL command
 
 A space must be properly URL-encoded to ensure compatibility. Both `%20` and `+` are valid encodings, but their usage depends on context. In URL paths, spaces must be encoded as `%20`, while in query parameters, either `%20` or `+` can be used.
 
-You can pass in multiple keywords in you query string in several ways:
+You can pass in multiple keywords in your query string in several ways:
 
 
 Repeat the `keyterm` parameter for each keyterm to ensure each keyterm is processed individually.
@@ -71,7 +71,7 @@ Use an encoded space `%20` to separate each keyterm and combine multiple keyterm
     --header 'Authorization: Token YOUR_DEEPGRAM_API_KEY' \
     --header 'Content-Type: audio/wav' \
     --data-binary @youraudio.wav \
-    --url 'curl -X GET "https://api.deepgram.com/v1/listen?model=nova-3&keyterm=term1%20term2"
+    --url "https://api.deepgram.com/v1/listen?model=nova-3&keyterm=term1%20term2"
   ```
 </CodeGroup>
 
@@ -83,10 +83,21 @@ Use a plus `+` to separate each keyterm and combine multiple keyterms into a sin
     --header 'Authorization: Token YOUR_DEEPGRAM_API_KEY' \
     --header 'Content-Type: audio/wav' \
     --data-binary @youraudio.wav \
-    --url 'curl -X GET "curl -X GET "https://api.deepgram.com/v1/listen?model=nova-3&keyterm=term1+term2"
+    --url "https://api.deepgram.com/v1/listen?model=nova-3&keyterm=term1+term2"
   ```
 </CodeGroup>
 
+## Case Sensitivity and Formatting
+Keyterms preserve formatting (including case and punctuation) which can help control how proper nouns, product names, or company names are transcribed. The model will use both the keyterm formatting and the audio context to determine the final transcription format.
+
+Best practices for keyterm formatting:
+
+* For proper nouns (names, brands, titles): Use appropriate capitalization (`Deepgram`, `iPhone`, `Dr. Smith`)
+* For non-proper nouns: Use lowercase (`tretinoin`, `algorithm`, `protocol`)
+
+When smart formatting is applied to the transcript, words that start sentences may be automatically capitalized regardless of keyterm formatting.
+
+Note that while the model was trained with formatted keyterms, the final transcription may not always exactly match the keyterm's formatting. The model balances the keyterm information with the audio context when determining capitalization and punctuation in the output.
 
 ## Example Using Key Terms
 
