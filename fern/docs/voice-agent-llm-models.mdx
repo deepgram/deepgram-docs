@@ -12,54 +12,64 @@ slug: docs/voice-agent-llm-models
 Defines the LLM (*Large Language Model*) to be used with your Agent.
 
 <Info>
-  You can set your LLM model in the [Setting Configuration](/docs/voice-agent-settings-configuration) for your Voice Agent. See the docs for more information.
+  You can set your Voice Agent's LLM model in the [Settings Message](/docs/configure-voice-agent) See the docs for more information.
 </Info>
 
-## Supported LLM providers and models
+## Supported LLM providers
 
-| think.provider.type | think.model values        | think.provider.url values  | think.provider.headers values                   |
-| ------------------- | ------------------------- | -------------------------- | ----------------------------------------------- |
-| `open_ai`           | `gpt-4o-mini`             | none                       | none                                            |
-| `anthropic`         | `claude-3-haiku-20240307` | none                       | none                                            |
-| `custom`            | `YOUR_MODEL_NAME`         | `YOUR_LLM_COMPLETIONS_URL` | `Array of Headers to pass with your auth token` |
+<Info>
+   Provider endpoint and headers are optional if the LLM provider is Deepgram but are required for non-Deepgram LLM providers.
+</Info>
+
+| `agent.think.provider.type` | `agent.think.provider.endpoint` | `agent.think.provider.headers` |
+|-------------------|--------------------------|-----------------------------|
+| `open_ai` | optional | optional |
+| `anthropic` | optional | optional |
+| `x_ai` | optional | optional |
+| `amazon_bedrock` | optional | optional |
 
 ## Example
 
 <CodeGroup>
   ```json JSON
-  {
-    "think": {
-      "provider": {
-        "type": "open_ai"
-      },
-      "instructions": "this is the LLM System prompt",
-      "model": "gpt-4o-mini"
-    }
-  }
+  // ... other settings ...
+   "think": {
+        "provider": {
+          "type": "open_ai",
+          "model": "gpt-4",
+          "temperature": 0.7
+        },
+        "endpoint": { // Optional if LLM provider is Deepgram. Required for non-Deepgram LLM providers
+          "url": "https://api.example.com/llm",
+          "headers": {
+            "authorization": "Bearer {{token}}"
+          }
+        },
+  // ... other settings ...
   ```
 </CodeGroup>
 
 ## Passing a custom LLM through a Cloud Provider
 
-You can pass a custom chat completions URL and headers to set your authorization or api-key etc
+You can use a custom LLM hosted by a 3rd party Cloud Provider by setting the `provider.type` to one of the supported provider values and setting the `provider.endpoint.url` and `provider.headers` fields to the correct values for your Cloud Provider.
 
 <CodeGroup>
   ```json JSON
   {
-    "think": {
-      "provider": {
-        "type": "custom",
-        "url": "YOUR_LLM_CHAT_COMPLETIONS_URL",
-        "headers": [
-          {
-            "key": "Authorization",
-            "value": "Bearer sk-xxx"
+    // ... other settings ...
+  "think": {
+        "provider": {
+          "type": "open_ai",
+          "model": "gpt-4",
+          "temperature": 0.7
+        },
+        "endpoint": { // Optional if LLM provider is Deepgram. Required for non-Deepgram LLM providers
+          "url": "https://cloud.provider.com/llm",
+          "headers": {
+            "authorization": "Bearer {{token}}"
           }
-        ]
-      },
-      "instructions": "this is the LLM System prompt",
-      "model": "your-model-name"
-    }
+        },
+    // ... other settings ...
   }
   ```
 </CodeGroup>
@@ -68,8 +78,3 @@ You can pass a custom chat completions URL and headers to set your authorization
 
 * Checkout the docs on[ how to create and deploy an Azure OpenAI](https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/create-resource?pivots=web-portal) service resource.
 * See this [code repository](https://github.com/deepgram-devs/voice-agent-azure-open-ai-services) for a getting started example.
-
-### Amazon Bedrock
-
-* [Checkout our workshop](https://catalog.us-east-1.prod.workshops.aws/workshops/318f009b-6147-46b2-a86c-0e4a52866016/en-US) on using the Deepgram Voice Agent API with Amazon Bedrock.
-* See this [code repository](https://github.com/DamienDeepgram/amazon-bedrock-deepgram-voice-agent-client) for a getting started example.
