@@ -137,16 +137,14 @@ navigation:
             path: docs/voice-agent-function-call-request.mdx
           - page: Function Calling Message
             path: docs/voice-agent-function-calling-message.mdx
-          - page: Agent Started Speaking
-            path: docs/voice-agent-agent-started-speaking.mdx
           - page: Prompt Updated
             path: docs/voice-agent-prompt-updated.mdx
           - page: Speak Updated
             path: docs/voice-agent-speak-updated.mdx
           - page: Agent Audio Done
             path: docs/voice-agent-agent-audio-done.mdx
-          - page: Agent Server Errors
-            path: docs/voice-agent-server-errors.mdx
+          - page: Agent Errors
+            path: docs/voice-agent-errors.mdx
           - page: Agent Warnings
             path: docs/voice-agent-warning.mdx
       - page: LLM Models
@@ -619,6 +617,9 @@ navigation:
             hidden: true
           - page: Genesys and Deepgram (Legacy)
             path: hidden-pages/genesys-deepgram-legacy.mdx
+            hidden: true
+          - page: Agent Started Speaking
+            path: hidden-pages/voice-agent-agent-started-speaking.mdx
             hidden: true
   - tab: sdks
     layout:
@@ -1306,6 +1307,8 @@ redirects:
     destination: /reference/token-based-auth-api/grant-token
   - source: /docs/voice-agent-settings-configuration
     destination: /docs/voice-agent-settings
+  - source: /docs/voice-agent-server-errors
+    destination: /docs/voice-agent-errors
 analytics:
   gtm:
     container-id: ${GTM_CONTAINER_ID}

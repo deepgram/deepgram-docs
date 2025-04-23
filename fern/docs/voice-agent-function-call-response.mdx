@@ -1,38 +1,34 @@
 ---
 title: Function Call Response
-subtitle: Configure the voice agent and configure the function call response.
+subtitle: Response message sent after executing a function in a voice agent.
 slug: docs/voice-agent-function-call-response
 ---
 
-
 <Markdown src="../snippets/voice-agent.mdx" />
-
-<Info>
-  When the LLM decides to call a function, it sends a message to the client indicating the need to invoke a specific function—this message is called a [FunctionCallRequest.](/docs/voice-agent-server-messages#functioncallrequest) In response, the client processes the request, calls the desired function, and then sends back the result as a FunctionCallResponse.
-</Info>
 
 # What is the `FunctionCallResponse` Message
 
-The`FunctionCallResponse` message is a JSON command that the client should reply with every time there is a `FunctionCallRequest` received.
+The `FunctionCallResponse` message contains the result of a function execution. When you receive a `FunctionCallRequest`, you must respond with a `FunctionCallResponse` containing the function's output.
 
 ## Sending `FunctionCallResponse`
 
-To send the `FunctionCallResponse` message, you need to send the following JSON message to the server:
+Here's an example of a `FunctionCallResponse` message:
 
 <CodeGroup>
   ```json JSON
   {
     "type": "FunctionCallResponse",
-    "function_call_id": "", // The same ID received in the request
-    "output": "" // A string containing the result of the function call
+    "id": "fc_12345678-90ab-cdef-1234-567890abcdef",
+    "name": "check_order_status",
+    "content": "Order #123456 status: Shipped - Expected delivery date: 2024-03-15"
   }
   ```
 </CodeGroup>
 
 ## `FunctionCallResponse` Confirmation
 
-There is no confirmation message sent to the client after it sends a `FunctionCallResponse` to the server. You know your function call was processed successfully if the conversation proceeds and the agent replies
+There is no confirmation message sent to the client after it sends a `FunctionCallResponse` to the server. You know your function call was processed successfully if the conversation proceeds and the agent replies.
 
 # Conclusion
 
-the `FunctionCallResponse` message serves as a standardized JSON command that the client must send in direct response to each FunctionCallRequest received. This ensures consistent communication, facilitates prompt data exchange, and maintains a reliable workflow between the client and server.
+Each `FunctionCallRequest` should be answered with a `FunctionCallResponse`. The response provides the function's result back to the voice agent, allowing it to continue the conversation with the updated information.

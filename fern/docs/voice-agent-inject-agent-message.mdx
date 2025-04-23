@@ -7,14 +7,13 @@ slug: docs/voice-agent-inject-agent-message
 
 <Markdown src="../snippets/voice-agent.mdx" />
 
-Some common ways to use the `injectAgentMessage` are:
-
-* Informing the user that the agent is working on a lengthy function call ("Hold on while I look that up for you")
-* Prompting the user to continue if the user hasn't spoken for a while ("Are you still on the line?")
-
 # What is the `InjectAgentMessage`
 
-The`InjectAgentMessage` message is a JSON command you can send to immediately trigger an agent statement. If the injection request arrives while the user is speaking, or while the server is in the middle of sending audio for an agent response, then the request will be ignored and the server will reply with an`InjectionRefused`. The client should only try to inject agent messages during silent portions of the conversation.
+<Info>
+The client should only try to inject agent messages during silent portions of the conversation.
+</Info>
+
+The`InjectAgentMessage` message is a JSON message you can send to immediately trigger an agent statement. If the injection request arrives while the user is speaking, or while the server is in the middle of sending audio for an agent response, then the request will be ignored and the server will reply with an`InjectionRefused response.
 
 ## Sending `InjectAgentMessage`
 
@@ -31,7 +30,7 @@ To send the `InjectAgentMessage` message, you need to send the following JSON me
 
 ## `InjectAgentMessage` Confirmation
 
-The server will send an AgentAudioDone message immediately after it sends the last audio message in a piece of agent speech. See [Agent Audio Done](/docs/voice-agent-agent-audio-done) for more details.
+After completing the agent's speech audio transmission, the server sends an [Agent Audio Done](/docs/voice-agent-agent-audio-done) message.
 
 <CodeGroup>
   ```json JSON
@@ -52,6 +51,13 @@ The server will send an `InjectionRefused` message when an `InjectAgentMessage` 
   }
   ```
 </CodeGroup>
+
+## Use Cases
+
+Some common ways to use the `injectAgentMessage` are:
+
+* Informing the user that the agent is working on a lengthy function call ("Hold on while I look that up for you")
+* Prompting the user to continue if the user hasn't spoken for a while ("Are you still on the line?")
 
 # Conclusion
 
