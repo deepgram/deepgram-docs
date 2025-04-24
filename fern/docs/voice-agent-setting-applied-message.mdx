@@ -1,8 +1,7 @@
 ---
 title: Settings Applied
 subtitle: >-
-  Confirm the server has successfully received and applied the Settings
-  Configuration message.
+  Confirms the server has successfully received and applied the Settings message.
 slug: docs/voice-agent-setting-applied-message
 ---
 
@@ -11,11 +10,11 @@ slug: docs/voice-agent-setting-applied-message
 
 # What is the `SettingsApplied` Message
 
-The `SettingsApplied` message is a JSON message that confirms the server has successfully received and applied the `SettingsConfiguration` message.
+The `SettingsApplied` message is a JSON message that confirms the server has successfully received and applied the `Settings` message.
 
 ## Receiving `SettingsApplied`
 
-The server will send a `SettingsApplied` message as confirmation that the server received the [Settings Configuration](/docs/voice-agent-settings-configuration) message.
+The server will send a `SettingsApplied` message as confirmation that the server received the [Settings](/docs/voice-agent-settings) message.
 
 <CodeGroup>
   ```json JSON
@@ -27,4 +26,4 @@ The server will send a `SettingsApplied` message as confirmation that the server
 
 ## Conclusion
 
-The `SettingsApplied` message confirms that the server has successfully received and applied the `SettingsConfiguration` message. This ensures synchronization between the client and server, providing assurance that the desired settings are now in effect. By sending this message, the server enables the voice agent to proceed with operations based on the updated configuration confidently and without ambiguity.
+The `SettingsApplied` message confirms that the server has successfully received and applied the `Settings` message. This ensures synchronization between the client and server, providing assurance that the desired settings are now in effect. By sending this message, the server enables the voice agent to proceed with operations based on the updated configuration.

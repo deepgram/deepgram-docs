@@ -11,17 +11,17 @@ slug: docs/the-deepgram-model-improvement-partnership-program
 
 In the rapidly advancing field of AI, model improvement partnerships are crucial for the frequent development and continuous improvement of increasingly powerful models that drive intelligent systems. The Deepgram Model Improvement Partnership Program provides transparency and definition for how customer data is handled, stored, and utilized by Deepgram, as well as specifies the many benefits participants enjoy. Chief among these is the opportunity for our customers to shape the future of voice AI. These customers gain early and regular access to more accurate models that perform well for their specific use cases through inclusion of relevant real-world data during the model training process.
 
-At Deepgram, we take our customers’ data privacy concerns seriously, which is why we have implemented robust data security policies and flexible data retention options that allow our customers to strike the right balance for their individual needs.
+At Deepgram, we take our customers' data privacy concerns seriously, which is why we have implemented robust data security policies and flexible data retention options that allow our customers to strike the right balance for their individual needs.
 
 # How do we improve our models?
 
-Deepgram utilizes end-to-end deep learning to develop all of our voice AI models. These models are built through an iterative process that learns the inherent relationships in the conversational audio data used for training. This involves hundreds of thousands of hours of conversational data broadly spanning a given language’s vocabulary, as well as inclusion of a wide variety of speaker groups across a large number of dimensions including age, sex, accents, background noise, acoustic environments, etc.
+Deepgram utilizes end-to-end deep learning to develop all of our voice AI models. These models are built through an iterative process that learns the inherent relationships in the conversational audio data used for training. This involves hundreds of thousands of hours of conversational data broadly spanning a given language's vocabulary, as well as inclusion of a wide variety of speaker groups across a large number of dimensions including age, sex, accents, background noise, acoustic environments, etc.
 
 Our in-house DataOps team employs state-of-the-art techniques to curate high quality training data sets and ensure proper balance across the dimensions listed above. Both overrepresentation and underrepresentation of different sample types can have adverse effects on model accuracy. By incorporating some of the data we collect through the Deepgram Model Improvement Partnership Program during training, we are able to produce high quality, in-distribution training data sets that lead to robust model performance both generally and for the specific use cases of interest for our customers.
 
 For speech-to-text, this results in more accurate models that work better for you and everyone speaking your language through improved recognition of the complex and nuanced aspects of real-world speech (e.g. accents, regional dialects, jargon, slang phrases, differences in sentence structure across different languages, etc.). For text-to-speech, this results in more natural models that better portray your brand through improved pronunciation, expressiveness, and emotion in everyday interactions.
 
-After training, a deep learning model for voice AI is essentially a giant mathematical equation that approximates all of the inherent relationships and underlying concepts that comprise human speech (e.g. “‘I’ before ‘E’ except after ‘C’ or when sounded as ‘A’ as in ‘neighbor’ or ‘weigh’”). And the magic of deep learning is that it does this by learning these concepts implicitly from the training data itself instead of being explicitly programmed by humans to do so. Importantly, the model has no rote memory or storage for any of the data used to train it, meaning there is no risk of any data leakage when the model is used in production.
+After training, a deep learning model for voice AI is essentially a giant mathematical equation that approximates all of the inherent relationships and underlying concepts that comprise human speech (e.g. "'I' before 'E' except after 'C' or when sounded as 'A' as in 'neighbor' or 'weigh'"). And the magic of deep learning is that it does this by learning these concepts implicitly from the training data itself instead of being explicitly programmed by humans to do so. Importantly, the model has no rote memory or storage for any of the data used to train it, meaning there is no risk of any data leakage when the model is used in production.
 
 # How do we handle your data and ensure security and privacy?
 
@@ -38,7 +38,7 @@ Participation in this program is voluntary and includes a number of valuable ben
 * Better technical support with faster root cause analysis and time to resolution.
 * Preferential placement on early access wait lists for future voice AI models, features, and functionality.
 * Accelerated custom model training timelines for individual customers in need of additional accuracy.
-* Reduced model drift. Language is fluid and constantly changing, with new jargon and slang popping up in daily conversation over time. Our model improvement partnership program ensures our models will evolve along with your customers’ speech patterns.
+* Reduced model drift. Language is fluid and constantly changing, with new jargon and slang popping up in daily conversation over time. Our model improvement partnership program ensures our models will evolve along with your customers' speech patterns.
 * Support for Responsible AI by mitigating model bias and ensuring sufficient representation of underrepresented speaker groups based on age, sex, accents, etc. in our training data sets.
 
 # Need more help?
@@ -49,9 +49,9 @@ Have additional questions?[ Get in touch](https://deepgram.com/contact-us).
 
 Add `mip_opt_out=true` as a query parameter of all API requests that you want to be excluded from the Model Improvement Program. By opting out of the Model Improvement Program, customers on Pay as you Go, Growth, or Enterprise plans will forego their 50% discount on the rates listed in your signed contract or on [deepgram.com/pricing](https://deepgram.com/pricing). Data from opted-out requests is retained only for the duration necessary to process the request.
 
-## Examples
+## Speech-to-Text Examples
 
-Here are some examples of opting out.
+Here are some examples of opting out for Speech-to-Text requests.
 
 <Info>
   The SDK examples below use a custom add on parameter. To learn more about using custom add on parameters with our SDKs refer to [the Documentation on using custom add on Parameters](/docs/using-custom-parameters-sdks).
@@ -264,3 +264,50 @@ Here are some examples of opting out.
 <Warning>
   Replace `YOUR_DEEPGRAM_API_KEY` with your [Deepgram API Key](/docs/create-additional-api-keys).
 </Warning>
+
+## Voice Agent Example
+
+Here is an example of opting out for Voice Agent requests using the `Settings` message.
+
+<CodeGroup>
+  ```bash json
+  {
+    "type": "Settings",
+    "mip_opt_out": true,
+    "audio": {
+      "input": {
+        "encoding": "linear16",
+        "sample_rate": 24000
+      },
+      "output": {
+        "encoding": "linear16",
+        "sample_rate": 24000,
+        "container": "none"
+      }
+    },
+    "agent": {
+      "language": "en",
+      "listen": {
+        "provider": {
+          "type": "deepgram",
+          "model": "nova-3"
+        }
+      },
+      "think": {
+        "provider": {
+          "type": "open_ai",
+          "model": "gpt-4o-mini",
+          "temperature": 0.7
+        }
+      },
+      "speak": {
+        "provider": {
+          "type": "deepgram",
+          "model": "aura-2-thalia-en"
+        }
+      }
+    }
+  }
+  ```
+
+</CodeGroup>
