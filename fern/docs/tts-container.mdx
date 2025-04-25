@@ -47,6 +47,7 @@ You can use the following cURL command in a terminal or your favorite API client
        --header 'Content-Type: application/json' \
        --data '{"text": "Hello, how can I help you today?"}' \
        --output container_wav_output.wav \
+       --write-out "Time-to-First-Byte: %{time_starttransfer}s Time-to-Last-Byte: %{time_total}s\n" \
        --fail-with-body \
        --silent || echo "Request failed"
   ```

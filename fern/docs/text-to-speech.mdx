@@ -35,6 +35,7 @@ Next, try it with CURL. Add your own API key where it says `YOUR_DEEPGRAM_API_KE
        --header "Content-Type: application/json" \
        --header "Authorization: Token DEEPGRAM_API_KEY" \
        --output your_output_file.mp3 \
+       --write-out "Time-to-First-Byte: %{time_starttransfer}s Time-to-Last-Byte: %{time_total}s\n" \
        --data '{"text":"Hello, how can I help you today?"}' \
        --url "https://api.deepgram.com/v1/speak?model=aura-2-thalia-en"
   ```
@@ -70,6 +71,7 @@ This example will capture the error message using the [JQ](https://jqlang.org/) 
        --header "Content-Type: application/json" \
        --header "Authorization: Token DEEPGRAM_API_KEY" \
        --output your_output_file.mp3 \
+       --write-out "Time-to-First-Byte: %{time_starttransfer}s Time-to-Last-Byte: %{time_total}s\n" \
        --data '{"text":"Hello, how can I help you today?"}' \
        --url 'https://api.deepgram.com/v1/speak?model=testing_error' \
        --fail-with-body \
