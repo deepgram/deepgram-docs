@@ -27,6 +27,7 @@ A comma (`,`) or a period (`.`) present in your text will be treated as a very *
        --header "Content-Type: application/json" \
        --header "Authorization: Token DEEPGRAM_API_KEY" \
        --output your_output_file.mp3 \
+       --write-out "Time-to-First-Byte: %{time_starttransfer}s Time-to-Last-Byte: %{time_total}s\n" \
        --data '{"text":"Hello, how can I help you today? ... Are you there ... Hello?"}' \
        --url "https://api.deepgram.com/v1/speak?model=aura-2-thalia-en"
   ```
@@ -62,6 +63,7 @@ Silent pauses are pauses that have a higher probability of staying silent in the
        --header "Content-Type: application/json" \
        --header "Authorization: Token DEEPGRAM_API_KEY" \
        --output your_output_file.mp3 \
+       --write-out "Time-to-First-Byte: %{time_starttransfer}s Time-to-Last-Byte: %{time_total}s\n" \
        --data '{"text":"To confirm, is your registration number BY. . 3984. . 0297?"}' \
        --url "https://api.deepgram.com/v1/speak?model=aura-2-thalia-en"
   ```
@@ -81,6 +83,7 @@ Filler words such as `um` and `uh` can also be used to offer a more natural soun
        --header "Content-Type: application/json" \
        --header "Authorization: Token DEEPGRAM_API_KEY" \
        --output your_output_file.mp3 \
+       --write-out "Time-to-First-Byte: %{time_starttransfer}s Time-to-Last-Byte: %{time_total}s\n" \
        --data '{"text":"Hello, how can I help you today? um Are you there uh Hello?"}' \
        --url "https://api.deepgram.com/v1/speak?model=aura-2-thalia-en"
   ```
@@ -102,6 +105,7 @@ While we do not offer pronunciation control as part of our API, you can create s
        --header "Content-Type: application/json" \
        --header "Authorization: Token DEEPGRAM_API_KEY" \
        --output your_output_file.mp3 \
+       --write-out "Time-to-First-Byte: %{time_starttransfer}s Time-to-Last-Byte: %{time_total}s\n" \
        --data '{"text":" To confirm, is your referral code Queue Why. Eigh Beee?"}' \
        --url "https://api.deepgram.com/v1/speak?model=aura-2-thalia-en"
   ```
@@ -127,6 +131,7 @@ You can add natural pauses between groups of 2 - 4 alphabets to include pauses.
        --header "Content-Type: application/json" \
        --header "Authorization: Token DEEPGRAM_API_KEY" \
        --output your_output_file.mp3 \
+       --write-out "Time-to-First-Byte: %{time_starttransfer}s Time-to-Last-Byte: %{time_total}s\n" \
        --data '{"text":" To confirm, is your referral code Queue Why. Eigh Beee?"}' \
        --url "https://api.deepgram.com/v1/speak?model=aura-2-thalia-en"
   ```
@@ -146,6 +151,7 @@ In most cases, acronyms can be handled by just providing the letters of the acro
        --header "Content-Type: application/json" \
        --header "Authorization: Token DEEPGRAM_API_KEY" \
        --output your_output_file.mp3 \
+       --write-out "Time-to-First-Byte: %{time_starttransfer}s Time-to-Last-Byte: %{time_total}s\n" \
        --data '{"text":"I love watching NBA Basketball."}' \
        --url "https://api.deepgram.com/v1/speak?model=aura-2-thalia-en"
   ```
@@ -167,6 +173,7 @@ Explicitly add the word `and` to tell the model to pronounce the entire phrase a
        --header "Content-Type: application/json" \
        --header "Authorization: Token DEEPGRAM_API_KEY" \
        --output your_output_file.mp3 \
+       --write-out "Time-to-First-Byte: %{time_starttransfer}s Time-to-Last-Byte: %{time_total}s\n" \
        --data '{"text":"The total is 1235, or twelve hundred and thirty-five."}' \
        --url "https://api.deepgram.com/v1/speak?model=aura-2-thalia-en"
   ```
@@ -190,6 +197,7 @@ If you are having trouble with words rooted in different languages in your text,
        --header "Content-Type: application/json" \
        --header "Authorization: Token DEEPGRAM_API_KEY" \
        --output your_output_file.mp3 \
+       --write-out "Time-to-First-Byte: %{time_starttransfer}s Time-to-Last-Byte: %{time_total}s\n" \
        --data '{"text":"I want to rahn-day-voo with you."}' \
        --url "https://api.deepgram.com/v1/speak?model=aura-2-thalia-en"
   ```
