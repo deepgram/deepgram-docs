@@ -9,7 +9,7 @@ slug: docs/voice-agent
 
 <Markdown src="../snippets/voice-agent.mdx" />
 
-In this guide, you'll learn how to develop applications using Deepgram's Agent API. Visit the [API Reference](/reference/build-a-voice-agent) for more details on how to use the Agent API.
+In this guide, you'll learn how to create a very basic voice agent using Deepgram's Agent API. Visit the [API Reference](/reference/build-a-voice-agent) for more details on how to use the Agent API.
 
 <Info>
   Before you start, you'll need to follow the steps in the [Make Your First API Request](/docs/make-your-first-api-request) guide to obtain a Deepgram API key, and configure your environment if you are choosing to use a Deepgram SDK.
@@ -17,7 +17,7 @@ In this guide, you'll learn how to develop applications using Deepgram's Agent A
 
 ## API Playground
 
-First, explore the Voice Agent in our API Playground where you can quickly interact with the Agent API using Deepgram's API Playground.
+Explore the Voice Agent API in our API Playground where you can quickly interact with the Agent API.
 
 <div class="api-playground-call">
 <span>
@@ -27,11 +27,61 @@ First, explore the Voice Agent in our API Playground where you can quickly inter
 
 ## Build a Basic Voice Agent
 
-Deepgram has several SDKs that can make it easier to use the API. Follow these steps to use the SDK of your choice to make a Deepgram Voice Agent request.
+### 1. Set up your environment
 
-### 1. Install the SDK
+In the steps below, we'll use the Terminal to:
 
-Open your terminal, navigate to the location on your drive where you want to create your project, and install the Deepgram SDK.
+1. Create a new directory for our project
+2. Create a new file for our code
+3. Export our Deepgram API key to the environment so we can use it in our code
+4. Run any additional commands to initialize our project
+
+<CodeGroup>
+  ```shell Python
+mkdir deepgram-agent-demo
+cd deepgram-agent-demo
+touch index.py
+export DEEPGRAM_API_KEY="your_Deepgram_API_key_here"
+@TODO other Python commands
+  ```
+
+  ```shell JavaScript
+mkdir deepgram-agent-demo
+cd deepgram-agent-demo
+touch index.js
+export DEEPGRAM_API_KEY="your_Deepgram_API_key_here"
+npm init -y
+  ```
+
+  ```shell C#
+# for MacOS
+mkdir deepgram-agent-demo
+cd deepgram-agent-demo
+touch index.cs
+export DEEPGRAM_API_KEY="your_Deepgram_API_key_here"
+@TODO other C# commands
+
+# for Windows Powershell
+mkdir deepgram-agent-demo
+cd deepgram-agent-demo
+New-Item index.cs -ItemType File
+$env:DEEPGRAM_API_KEY = "your_Deepgram_API_key_here"
+@TODO other C# commands
+  ```
+
+  ```shell Go
+mkdir deepgram-agent-demo
+cd deepgram-agent-demo
+touch index.go
+go other Go commands
+  ```
+</CodeGroup>
+
+### 2. Install the Deepgram SDK
+
+Deepgram has several [SDKs](/docs/deepgram-sdks) that can make it easier to build a Voice Agent. Follow these steps below to use one of our SDKs to make your first Deepgram Voice Agent request.
+
+In your terminal, navigate to the location on your drive where you created your project above, and install the Deepgram SDK and any other dependencies.
 
 <CodeGroup>
   ```shell Python
@@ -39,9 +89,9 @@ Open your terminal, navigate to the location on your drive where you want to cre
   ```
 
   ```shell JavaScript
-  npm install @deepgram/sdk
+  npm install @deepgram/sdk cross-fetch
   - or -
-  yarn add @deepgram/sdk
+  yarn add @deepgram/sdk cross-fetch
   ```
 
   ```shell C#
@@ -53,257 +103,384 @@ Open your terminal, navigate to the location on your drive where you want to cre
   ```
 </CodeGroup>
 
-### 2. Initialize the WebSocket Connection
+### 3. Import dependencies and set up the main function
 
-Create a WebSocket connection to the Deepgram Voice Agent API endpoint. The connection requires authentication using your API key.
-
-@TODO: Check this code for accuracy
+Next, we'll import the necessary dependencies and set up our main application function.
 
 <CodeGroup>
   ```python Python
-  import websockets
-
-  async def connect_to_agent():
-      ws = await websockets.connect(
-          "wss://agent.deepgram.com/agent",
-          subprotocols=["token", "YOUR_DEEPGRAM_API_KEY"]
-      )
-      return ws
+  @TODO
   ```
 
   ```javascript JavaScript
-  const ws = new WebSocket('wss://agent.deepgram.com/agent', ['token', 'YOUR_DEEPGRAM_API_KEY']);
-  ```
+  const { createClient, AgentEvents } = require("@deepgram/sdk");
+  const { writeFile, appendFile } = require("fs/promises");
+  const fetch = require("cross-fetch");
+  const { join } = require("path");
 
+  const agent = async () => {
+      // The code in the following steps will go here
+  };
+
+  void agent();
+  ```
   ```csharp C#
-  var client = new DeepgramClient("YOUR_DEEPGRAM_API_KEY");
-  var ws = await client.Agent.ConnectAsync();
+@TODO
   ```
 
   ```go Go
-  import (
-    "github.com/deepgram/deepgram-go-sdk"
-  )
-  client := deepgram.NewClient("YOUR_DEEPGRAM_API_KEY")
-  ws, err := client.Agent.Connect()
+  @TODO
   ```
 </CodeGroup>
 
-### 3. Configure the Agent
+### 4. Initialize the Voice Agent
 
-@TODO: Check this code for accuracy
-
-Send a Settings message to configure the agent's behavior and audio formats. This must be done immediately after establishing the connection.
-
-<CodeGroup>
-  ```json JSON
-  {
-    "type": "Settings",
-    "audio": {
-      "input": {
-        "encoding": "linear16",
-        "sample_rate": 24000
-      },
-      "output": {
-        "encoding": "linear16",
-        "sample_rate": 24000
-      }
-    },
-    "agent": {
-      "language": "en",
-      "listen": {
-        "provider": {
-          "type": "deepgram",
-          "model": "nova-3"
-        }
-      },
-      "think": {
-        "provider": {
-          "type": "open_ai",
-          "model": "gpt-4",
-          "temperature": 0.7
-        }
-      },
-      "speak": {
-        "provider": {
-          "type": "deepgram",
-          "model": "aura-2-thalia-en"
-        }
-      }
-    }
-  }
-  ```
-</CodeGroup>
+Now we'll initialize the voice agent by creating an empty audio buffer to store incoming audio data, setting up a counter for output file naming, and defining a sample audio file URL. We can then establish a connection to Deepgram and set up a welcome handler to log when the connection is successfully established.
 
 <Info>
-  You'll receive a [SettingsApplied](/docs/voice-agent-settings-applied-message) message when the configuration is successful.
+This example code doesn't use microphone audio input as that is much more complex and requires additional knowledge of how to handle audio input through a microphone.
 </Info>
 
-### 4. Handle Audio Streams
+<CodeGroup>
+  ```python Python
+  @TODO
+  ```
+  ```javascript JavaScript
+  let audioBuffer = Buffer.alloc(0);
+  let i = 0;
+  const url = "https://dpgr.am/spacewalk.wav";
+  const connection = deepgram.agent();
+  connection.on(AgentEvents.Welcome, () => {
+    console.log("Welcome to the Deepgram Voice Agent!");
+    // The code in the following steps will go here
+  });
 
-@TODO: Check this code for accuracy
+  ```
+  ```csharp C#
+  @TODO
+  ```
+  ```go Go
+  @TODO
+  ```
+</CodeGroup>
 
-Set up handlers for sending and receiving audio data. The agent expects raw audio data in the configured format.
+### 5. Configure the Agent
+
+Next we need to set up a very simplified version of the [Settings](/docs/voice-agent-settings) message to configure our Agent's behavior and set the required settings options for our Agent.
+
+<Info>
+  To learn more about all settings options available for an Agent, refer to the [Configure the Voice Agent](/docs/configure-voice-agent) documentation.
+</Info>
 
 <CodeGroup>
   ```python Python
-  async def handle_audio(ws):
-      # Send audio data
-      await ws.send(audio_data)  # Binary audio data
+  @TODO
+  ```
 
-      # Receive audio responses
-      async for message in ws:
-          if isinstance(message, bytes):
-              # Handle binary audio data
-              play_audio(message)
-          elif isinstance(message, str):
-              # Handle JSON messages
-              handle_json_message(json.loads(message))
+  ```javascript JavaScript
+connection.configure({
+      audio: {
+        input: {
+          encoding: "linear16",
+          sample_rate: 24000,
+        },
+        output: {
+          encoding: "linear16",
+          sample_rate: 16000,
+          container: "wav",
+        },
+      },
+      agent: {
+        language: "en",
+        listen: {
+          provider: {
+            type: "deepgram",
+            model: "nova-3",
+          },
+        },
+        think: {
+          provider: {
+            type: "open_ai",
+            model: "gpt-4o-mini",
+          },
+          prompt: "You are a friendly AI assistant.",
+        },
+        speak: {
+          provider: {
+            type: "deepgram",
+            model: "aura-2-thalia-en",
+          },
+        },
+        greeting: "Hello! How can I help you today?",
+      },
+    });
+
+    console.log("Deepgram agent configured!");
+  ```
+
+  ```csharp C#
+  @TODO
+  ```
+
+  ```go Go
+  @TODO
+  ```
+</CodeGroup>
+
+### 6. Send Keep Alive messages
+
+Next we'll send a keep-alive signal every 5 seconds to maintain the WebSocket connection. This prevents the connection from timing out during long audio processing. We will also fetch an audio file from the specified URL [spacewalk.wav](https://dpgr.am/spacewalk.wav) and stream the audio data in chunks to the Agent. Each chunk is sent as it becomes available in the readable stream.
+
+<CodeGroup>
+  ```python Python
+  @TODO
+
   ```
   ```javascript JavaScript
-  ws.onmessage = function(event) {
-    const message = JSON.parse(event.data);
-    if (message.type === 'UserStartedSpeaking') {
-      // Handle user speech detection
-    }
-  }
+
+setInterval(() => {
+      console.log("Keep alive!");
+      connection.keepAlive();
+    }, 5000);
+
+    fetch(url)
+      .then((r) => r.body)
+      .then((res) => {
+        res.on("readable", () => {
+          console.log("Sending audio chunk");
+          connection.send(res.read());
+        });
+      });
   ```
   ```csharp C#
-  ws.OnMessage += (sender, eventArgs) => {
-    var message = JsonConvert.DeserializeObject<JsonMessage>(eventArgs.Message);
-    if (message.Type == "UserStartedSpeaking") {
-      // Handle user speech detection
-    }
-  }
+  @TODO
   ```
   ```go Go
-  ws.OnMessage = func(message []byte) {
-    var jsonMessage JsonMessage
-    err := json.Unmarshal(message, &jsonMessage)
-    if err != nil {
+  @TODO
 ```
 </CodeGroup>
 
-@TODO: Check this code for accuracy
+### 6. Setup Event Handlers
 
-### 5. Process Agent Responses
-
-Handle different types of server messages to manage the conversation flow.
+Next we'll use this code to set up event handlers for the voice agent to manage the entire conversation lifecycle, from connection opening to closing. It handles audio processing by collecting chunks into a buffer and saving completed responses as WAV files, while also managing interruptions, logging conversations, and handling errors.
 
 <CodeGroup>
   ```python Python
-  def handle_json_message(message):
-      if message["type"] == "UserStartedSpeaking":
-          # Handle user speech detection
-          pass
-      elif message["type"] == "AgentThinking":
-          # Handle agent processing
-          pass
-      elif message["type"] == "FunctionCallRequest":
-          # Handle function calls
-          pass
-  ```
-
-  ```javascript JavaScript
-  ws.onmessage = function(event) {
-    const message = JSON.parse(event.data);
-    if (message.type === 'UserStartedSpeaking') {
-      // Handle user speech detection
-    }
-  }
-  ```
-  ```csharp C#
-  ws.OnMessage += (sender, eventArgs) => {
-    var message = JsonConvert.DeserializeObject<JsonMessage>(eventArgs.Message);
-    if (message.Type == "UserStartedSpeaking") {
-      // Handle user speech detection
-    }
-  }
-  ```
-  ```go Go
-  ws.OnMessage = func(message []byte) {
-    var jsonMessage JsonMessage
-    err := json.Unmarshal(message, &jsonMessage)
-```
-</CodeGroup>
-
-### 6. Manage the Connection
-
-@TODO: Check this code for accuracy
-
-Keep the connection alive and handle proper closure.
-
-<CodeGroup>
-  ```python Python
-  async def keep_alive(ws):
-      while True:
-          await ws.send(json.dumps({"type": "KeepAlive"}))
-          await asyncio.sleep(8)  # Send every 8 seconds
-
-  async def close_connection(ws):
-      await ws.close()
+ @TODO
   ```
   ```javascript JavaScript
-  ws.onclose = function() {
-    // Handle connection closure
-  }
+
+  connection.on(AgentEvents.Open, () => {
+    console.log("Connection opened");
+  });
+
+  connection.on(AgentEvents.Close, () => {
+    console.log("Connection closed");
+    process.exit(0);
+  });
+
+  connection.on(AgentEvents.ConversationText, async (data) => {
+    await appendFile(join(__dirname, `chatlog.txt`), JSON.stringify(data) + "\n");
+  });
+
+  connection.on(AgentEvents.UserStartedSpeaking, () => {
+    if (audioBuffer.length) {
+      console.log("Interrupting agent.");
+      audioBuffer = Buffer.alloc(0);
+    }
+  });
+
+  connection.on(AgentEvents.Metadata, (data) => {
+    console.dir(data, { depth: null });
+  });
+
+  connection.on(AgentEvents.Audio, (data) => {
+    console.log("Audio chunk received");
+    // Concatenate the audio chunks into a single buffer
+    const buffer = Buffer.from(data);
+    audioBuffer = Buffer.concat([audioBuffer, buffer]);
+  });
+
+  connection.on(AgentEvents.Error, (err) => {
+    console.error("Error!");
+    console.error(JSON.stringify(err, null, 2));
+    console.error(err.message);
+  });
+
+  connection.on(AgentEvents.AgentAudioDone, async () => {
+    console.log("Agent audio done");
+    await writeFile(join(__dirname, `output-${i}.wav`), audioBuffer);
+    audioBuffer = Buffer.alloc(0);
+    i++;
+  });
+
+  connection.on(AgentEvents.Unhandled, (data) => {
+    console.dir(data, { depth: null });
+  });
+};
+
   ```
   ```csharp C#
-  ws.OnClose += (sender, eventArgs) => {
-    // Handle connection closure
-  }
+  @TODO
   ```
   ```go Go
-  ws.OnClose = func() {
-    // Handle connection closure
-  }
+  @TODO
   ```
 </CodeGroup>
 
-### 7. Store Responses
-
-@TODO: Check this code for accuracy
-
-For example purposes we'll store the conversational text and audio in a file.
+### 7. Run the Voice Agent
+Now that we have our complete code, we can run the Voice Agent! If it works you should see the conversation text and audio in the files: `output-0.wav` and `chatlog.txt`. These files will be saved in the same directory as your main application file.
 
 <CodeGroup>
   ```python Python
-  def store_response(audio_data, text_data):
-      # Save audio to file
-      with open("response.wav", "wb") as f:
-          f.write(audio_data)
-
-      # Save text to file
-      with open("conversation.txt", "a") as f:
-          f.write(text_data + "\n")
+  @TODO
   ```
   ```javascript JavaScript
-  ws.onmessage = function(event) {
-    const message = JSON.parse(event.data);
-    if (message.type === 'UserStartedSpeaking') {
-      // Handle user speech detection
-    }
-  }
+  node index.js
   ```
   ```csharp C#
-  ws.OnMessage += (sender, eventArgs) => {
-    var message = JsonConvert.DeserializeObject<JsonMessage>(eventArgs.Message);
-    if (message.Type == "UserStartedSpeaking") {
-      // Handle user speech detection
-    }
-  }
+  @TODO
   ```
   ```go Go
-  ws.OnMessage = func(message []byte) {
-    var jsonMessage JsonMessage
-    err := json.Unmarshal(message, &jsonMessage)
-    if err != nil {
-      // Handle error
+  @TODO
+  ```
+</CodeGroup>
+
+### 8. Putting it all together
+
+Below is the final code for the Voice Agent we just built. If you saw any errors after running your Agent, you can compare the code below to the code you wrote in the steps above to find and fix the errors.
+
+<CodeGroup>
+  ```python Python
+  @TODO
+  ```
+  ```javascript JavaScript
+const { writeFile, appendFile } = require("fs/promises");
+const { createClient, AgentEvents } = require("@deepgram/sdk");
+const fetch = require("cross-fetch");
+const { join } = require("path");
+
+const deepgram = createClient(process.env.DEEPGRAM_API_KEY);
+
+const agent = async () => {
+  let audioBuffer = Buffer.alloc(0);
+  let i = 0;
+  const url = "https://dpgr.am/spacewalk.wav";
+  const connection = deepgram.agent();
+  connection.on(AgentEvents.Welcome, () => {
+    console.log("Welcome to the Deepgram Voice Agent!");
+
+    connection.configure({
+      audio: {
+        input: {
+          encoding: "linear16",
+          sample_rate: 24000,
+        },
+        output: {
+          encoding: "linear16",
+          sample_rate: 16000,
+          container: "wav",
+        },
+      },
+      agent: {
+        language: "en",
+        listen: {
+          provider: {
+            type: "deepgram",
+            model: "nova-3",
+          },
+        },
+        think: {
+          provider: {
+            type: "open_ai",
+            model: "gpt-4o-mini",
+          },
+          prompt: "You are a friendly AI assistant.",
+        },
+        speak: {
+          provider: {
+            type: "deepgram",
+            model: "aura-2-thalia-en",
+          },
+        },
+        greeting: "Hello! How can I help you today?",
+      },
+    });
+
+    console.log("Deepgram agent configured!");
+
+    setInterval(() => {
+      console.log("Keep alive!");
+      connection.keepAlive();
+    }, 5000);
+
+    fetch(url)
+      .then((r) => r.body)
+      .then((res) => {
+        res.on("readable", () => {
+          console.log("Sending audio chunk");
+          connection.send(res.read());
+        });
+      });
+  });
+
+  connection.on(AgentEvents.Open, () => {
+    console.log("Connection opened");
+  });
+
+  connection.on(AgentEvents.Close, () => {
+    console.log("Connection closed");
+    process.exit(0);
+  });
+
+  connection.on(AgentEvents.ConversationText, async (data) => {
+    await appendFile(join(__dirname, `chatlog.txt`), JSON.stringify(data) + "\n");
+  });
+
+  connection.on(AgentEvents.UserStartedSpeaking, () => {
+    if (audioBuffer.length) {
+      console.log("Interrupting agent.");
+      audioBuffer = Buffer.alloc(0);
     }
-    if jsonMessage.Type == "UserStartedSpeaking" {
-      // Handle user speech detection
-    }
-  }
+  });
+
+  connection.on(AgentEvents.Metadata, (data) => {
+    console.dir(data, { depth: null });
+  });
+
+  connection.on(AgentEvents.Audio, (data) => {
+    console.log("Audio chunk received");
+    // Concatenate the audio chunks into a single buffer
+    const buffer = Buffer.from(data);
+    audioBuffer = Buffer.concat([audioBuffer, buffer]);
+  });
+
+  connection.on(AgentEvents.Error, (err) => {
+    console.error("Error!");
+    console.error(JSON.stringify(err, null, 2));
+    console.error(err.message);
+  });
+
+  connection.on(AgentEvents.AgentAudioDone, async () => {
+    console.log("Agent audio done");
+    await writeFile(join(__dirname, `output-${i}.wav`), audioBuffer);
+    audioBuffer = Buffer.alloc(0);
+    i++;
+  });
+
+  connection.on(AgentEvents.Unhandled, (data) => {
+    console.dir(data, { depth: null });
+  });
+};
+
+void agent();
+
+  ```
+  ```csharp C#
+  @TODO
+  ```
+  ```go Go
+  @TODO
   ```
 </CodeGroup>
 
