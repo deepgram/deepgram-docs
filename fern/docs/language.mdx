@@ -38,6 +38,10 @@ To transcribe audio from a file on your computer, run the following curl command
   Replace `YOUR_DEEPGRAM_API_KEY` with your [Deepgram API Key](/docs/create-additional-api-keys).
 </Warning>
 
+## Language Restriction Behavior
+
+When a specific language is set using the `language` parameter (e.g., `language=en`), Deepgram will only attempt to transcribe speech in that specified language. Speech in other, non-specified languages will not be transcribed. If you expect your audio to contain multiple languages and want Deepgram to transcribe across them, consider using `language=multi` with one of our [multilingual models](/docs/multilingual-code-switching).
+
 ## Results
 
 Once the language option is applied, results will appear in the transcript.
