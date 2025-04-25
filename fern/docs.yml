@@ -110,8 +110,6 @@ navigation:
         contents:
           - page: Settings
             path: docs/voice-agent-settings.mdx
-          - page: Update Instructions
-            path: docs/voice-agent-update-instructions.mdx
           - page: Update Speak
             path: docs/voice-agent-update-speak.mdx
           - page: Inject Agent Message
@@ -620,6 +618,9 @@ navigation:
             hidden: true
           - page: Agent Started Speaking
             path: hidden-pages/voice-agent-agent-started-speaking.mdx
+            hidden: true
+          - page: Update Instructions
+            path: hidden-pages/voice-agent-update-instructions.mdx
             hidden: true
   - tab: sdks
     layout:
