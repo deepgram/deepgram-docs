@@ -29,12 +29,12 @@ Explore the Voice Agent API in our API Playground where you can quickly interact
 
 ### 1. Set up your environment
 
-In the steps below, we'll use the Terminal to:
+In the steps below, you'll use the Terminal to:
 
-1. Create a new directory for our project
-2. Create a new file for our code
-3. Export our Deepgram API key to the environment so we can use it in our code
-4. Run any additional commands to initialize our project
+1. Create a new directory for your project
+2. Create a new file for your code
+3. Export your Deepgram API key to the environment so you can use it in your code
+4. Run any additional commands to initialize your project
 
 <CodeGroup>
   ```shell Python
@@ -105,7 +105,7 @@ In your terminal, navigate to the location on your drive where you created your 
 
 ### 3. Import dependencies and set up the main function
 
-Next, we'll import the necessary dependencies and set up our main application function.
+Next, import the necessary dependencies and set up your main application function.
 
 <CodeGroup>
   ```python Python
@@ -135,7 +135,7 @@ Next, we'll import the necessary dependencies and set up our main application fu
 
 ### 4. Initialize the Voice Agent
 
-Now we'll initialize the voice agent by creating an empty audio buffer to store incoming audio data, setting up a counter for output file naming, and defining a sample audio file URL. We can then establish a connection to Deepgram and set up a welcome handler to log when the connection is successfully established.
+Now you can initialize the voice agent by creating an empty audio buffer to store incoming audio data, setting up a counter for output file naming, and defining a sample audio file URL. You can then establish a connection to Deepgram and set up a welcome handler to log when the connection is successfully established.
 
 <Info>
 This example code doesn't use microphone audio input as that is much more complex and requires additional knowledge of how to handle audio input through a microphone. Please refer to our [Voice Agent Starter Apps](/docs/voice-agent-starter-apps) for examples using microphone audio input.
@@ -166,7 +166,7 @@ This example code doesn't use microphone audio input as that is much more comple
 
 ### 5. Configure the Agent
 
-Next we need to set up a very simplified version of the [Settings](/docs/voice-agent-settings) message to configure our Agent's behavior and set the required settings options for our Agent.
+Next you will need to set up a very simplified version of the [Settings](/docs/voice-agent-settings) message to configure your Agent's behavior and set the required settings options for your Agent.
 
 <Info>
   To learn more about all settings options available for an Agent, refer to the [Configure the Voice Agent](/docs/configure-voice-agent) documentation.
@@ -229,7 +229,7 @@ connection.configure({
 
 ### 6. Send Keep Alive messages
 
-Next we'll send a keep-alive signal every 5 seconds to maintain the WebSocket connection. This prevents the connection from timing out during long audio processing. We will also fetch an audio file from the specified URL [spacewalk.wav](https://dpgr.am/spacewalk.wav) and stream the audio data in chunks to the Agent. Each chunk is sent as it becomes available in the readable stream.
+Next you will send a keep-alive signal every 5 seconds to maintain the WebSocket connection. This prevents the connection from timing out during long audio processing. You will also fetch an audio file from the specified URL [spacewalk.wav](https://dpgr.am/spacewalk.wav) and stream the audio data in chunks to the Agent. Each chunk is sent as it becomes available in the readable stream.
 
 <CodeGroup>
   ```python Python
@@ -262,7 +262,7 @@ setInterval(() => {
 
 ### 6. Setup Event Handlers
 
-Next we'll use this code to set up event handlers for the voice agent to manage the entire conversation lifecycle, from connection opening to closing. It handles audio processing by collecting chunks into a buffer and saving completed responses as WAV files, while also managing interruptions, logging conversations, and handling errors.
+Next you will use this code to set up event handlers for the voice agent to manage the entire conversation lifecycle, from connection opening to closing. It handles audio processing by collecting chunks into a buffer and saving completed responses as WAV files, while also managing interruptions, logging conversations, and handling errors.
 
 <CodeGroup>
   ```python Python
@@ -329,7 +329,7 @@ Next we'll use this code to set up event handlers for the voice agent to manage 
 </CodeGroup>
 
 ### 7. Run the Voice Agent
-Now that we have our complete code, we can run the Voice Agent! If it works you should see the conversation text and audio in the files: `output-0.wav` and `chatlog.txt`. These files will be saved in the same directory as your main application file.
+Now that you have your complete code, you can run the Voice Agent! If it works you should see the conversation text and audio in the files: `output-0.wav` and `chatlog.txt`. These files will be saved in the same directory as your main application file.
 
 <CodeGroup>
   ```python Python
@@ -348,7 +348,7 @@ Now that we have our complete code, we can run the Voice Agent! If it works you 
 
 ### 8. Putting it all together
 
-Below is the final code for the Voice Agent we just built. If you saw any errors after running your Agent, you can compare the code below to the code you wrote in the steps above to find and fix the errors.
+Below is the final code for the Voice Agent you just built. If you saw any errors after running your Agent, you can compare the code below to the code you wrote in the steps above to find and fix the errors.
 
 <CodeGroup>
   ```python Python
