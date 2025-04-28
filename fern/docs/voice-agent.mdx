@@ -514,26 +514,6 @@ Next you will use this code to set up event handlers for the voice agent to mana
                     return;
                 }
 
-                subscribeResult = await agentClient.Subscribe(new EventHandler<FunctionCallingResponse>((sender, e) =>
-                {
-                    Console.WriteLine($"----> {e} received");
-                }));
-                if (!subscribeResult)
-                {
-                    Console.WriteLine("Failed to subscribe to FunctionCallingResponse event");
-                    return;
-                }
-
-                subscribeResult = await agentClient.Subscribe(new EventHandler<FunctionCallRequestResponse>((sender, e) =>
-                {
-                    Console.WriteLine($"----> {e} received");
-                }));
-                if (!subscribeResult)
-                {
-                    Console.WriteLine("Failed to subscribe to FunctionCallRequestResponse event");
-                    return;
-                }
-
                 subscribeResult = await agentClient.Subscribe(new EventHandler<UserStartedSpeakingResponse>((sender, e) =>
                 {
                     Console.WriteLine($"----> {e} received");
@@ -1011,26 +991,6 @@ namespace SampleApp
                 if (!subscribeResult)
                 {
                     Console.WriteLine("Failed to subscribe to ConversationTextResponse event");
-                    return;
-                }
-
-                subscribeResult = await agentClient.Subscribe(new EventHandler<FunctionCallingResponse>((sender, e) =>
-                {
-                    Console.WriteLine($"----> {e} received");
-                }));
-                if (!subscribeResult)
-                {
-                    Console.WriteLine("Failed to subscribe to FunctionCallingResponse event");
-                    return;
-                }
-
-                subscribeResult = await agentClient.Subscribe(new EventHandler<FunctionCallRequestResponse>((sender, e) =>
-                {
-                    Console.WriteLine($"----> {e} received");
-                }));
-                if (!subscribeResult)
-                {
-                    Console.WriteLine("Failed to subscribe to FunctionCallRequestResponse event");
                     return;
                 }
 
