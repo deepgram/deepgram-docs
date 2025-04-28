@@ -57,16 +57,14 @@ npm init -y
 # for MacOS
 mkdir deepgram-agent-demo
 cd deepgram-agent-demo
-touch index.cs
+dotnet new console
 export DEEPGRAM_API_KEY="your_Deepgram_API_key_here"
-@TODO other C# commands
 
 # for Windows Powershell
 mkdir deepgram-agent-demo
 cd deepgram-agent-demo
-New-Item index.cs -ItemType File
+dotnet new console
 $env:DEEPGRAM_API_KEY = "your_Deepgram_API_key_here"
-@TODO other C# commands
   ```
 
   ```shell Go
@@ -339,7 +337,7 @@ Now that you have your complete code, you can run the Voice Agent! If it works y
   node index.js
   ```
   ```csharp C#
-  @TODO
+  dotnet run Program.cs
   ```
   ```go Go
   @TODO
