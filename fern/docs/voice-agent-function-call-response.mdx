@@ -1,6 +1,6 @@
 ---
 title: Function Call Response
-subtitle: Response message sent after executing a function in a voice agent.
+subtitle: Client-side or server-side function call request sent by the server
 slug: docs/voice-agent-function-call-response
 ---
 
@@ -8,7 +8,7 @@ slug: docs/voice-agent-function-call-response
 
 # What is the `FunctionCallResponse` Message
 
-The `FunctionCallResponse` message contains the result of a function execution. When you receive a `FunctionCallRequest`, you must respond with a `FunctionCallResponse` containing the function's output.
+The `FunctionCallResponse` can be sent by the client or server. When sent from the client it is a response to a function call, but when sent from the server it is information about a function call that was requested by the agent. When you receive a `FunctionCallRequest`, you must respond with a `FunctionCallResponse` containing the function's output.
 
 ## Sending `FunctionCallResponse`
 
@@ -31,4 +31,4 @@ There is no confirmation message sent to the client after it sends a `FunctionCa
 
 # Conclusion
 
-Each `FunctionCallRequest` should be answered with a `FunctionCallResponse`. The response provides the function's result back to the voice agent, allowing it to continue the conversation with the updated information.
+The `FunctionCallResponse` serves a dual purpose. It can be sent by either the client or server: when sent from the client, it responds to a function call request, while when sent from the server, it provides information about a function call initiated by the agent. Each `FunctionCallRequest` must be answered with a `FunctionCallResponse` containing the function's output. This response mechanism enables the voice agent to continue the conversation with the updated information, maintaining the flow of interaction between the client and server.

@@ -95,7 +95,7 @@ Below is an in-depth example showing all the available fields for `Settings`.
           "model": "gpt-4",
           "temperature": 0.7
         },
-        "endpoint": { // Optional if LLM provider is Deepgram. Required for non-Deepgram LLM providers
+        "endpoint": { // Optional for non-Deepgram LLM providers. When present, must include url field and headers object
           "url": "https://api.example.com/llm",
           "headers": {
             "authorization": "Bearer {{token}}"
@@ -116,7 +116,7 @@ Below is an in-depth example showing all the available fields for `Settings`.
               },
               "required": ["order_id"]
             },
-            "endpoint": { // Optional. If not provided, function is called client-side
+            "endpoint": { // If not provided, function is called client-side
               "url": "https://api.example.com/orders/status",
               "method": "post",
               "headers": {
@@ -138,7 +138,7 @@ Below is an in-depth example showing all the available fields for `Settings`.
           "language": "en", // Optional if TTS provider is Deepgram. Use for Cartesia
           "language_code": "en-US" // Optional if TTS provider is Deepgram. Use for Eleven Labs
         },
-        "endpoint": { // Optional if TTS provider is Deepgram
+        "endpoint": {
           "url": "https://api.example.com/tts",
           "headers": {
             "authorization": "Bearer {{token}}"

@@ -105,6 +105,10 @@ navigation:
         contents:
           - page: Build A Function Call
             path: docs/build-a-function-call.mdx
+          - page: Function Call Request
+            path: docs/voice-agent-function-call-request.mdx
+          - page: Function Call Response
+            path: docs/voice-agent-function-call-response.mdx
       - section: "Inputs: Client Messages"
         path: docs/voice-agent-inputs.mdx
         contents:
@@ -114,8 +118,6 @@ navigation:
             path: docs/voice-agent-update-speak.mdx
           - page: Inject Agent Message
             path: docs/voice-agent-inject-agent-message.mdx
-          - page: Function Call Response
-            path: docs/voice-agent-function-call-response.mdx
           - page: Agent Keep Alive
             path: docs/agent-keep-alive.mdx
       - section: "Outputs: Server Events"
@@ -131,10 +133,6 @@ navigation:
             path: docs/voice-agent-user-started-speaking.mdx
           - page: Agent Thinking
             path: docs/voice-agent-agent-thinking.mdx
-          - page: Function Call Request
-            path: docs/voice-agent-function-call-request.mdx
-          - page: Function Calling Message
-            path: docs/voice-agent-function-calling-message.mdx
           - page: Prompt Updated
             path: docs/voice-agent-prompt-updated.mdx
           - page: Speak Updated
@@ -621,6 +619,9 @@ navigation:
             hidden: true
           - page: Update Instructions
             path: hidden-pages/voice-agent-update-instructions.mdx
+            hidden: true
+          - page: Function Calling Message
+            path: hidden-pages/voice-agent-function-calling-message.mdx
             hidden: true
   - tab: sdks
     layout:
