@@ -1,0 +1,48 @@
+---
+title: LLM Prompt Best Practices
+subtitle: >-
+  Tips and tricks to get the most out of your LLM prompts for the Voice Agent.
+slug: docs/voice-agent-llm-prompts-best-practices
+---
+
+<Markdown src="../snippets/voice-agent.mdx" />
+
+There are a few things to keep in mind when constructing the initial system prompt for your Voice Agent. The following best practices will help you get the most out of your Agent.
+
+## 1. Always clarify the voice component
+
+The LLM will not automatically know that it is being used for a voice agent. Including a line in your prompt like "You are a friendly voice assistant" will help the LLM understand the context of the conversation. This enables the LLM to generate responses that are more appropriate for a voice interface, and more conversational in nature.
+
+## 2. Provide context on your organization
+
+When using a voice agent intended for customer-facing support, it is important to provide context on your organization. This includes information about your products, services, and any other relevant details that will help the LLM understand the context of the conversation. For example, you might say "You are a voice assistant for Naomi's Hardware, a company that sells home improvement tools. We also offer a selection of hands-on workshops to help people learn how to DIY." This will help the LLM generate responses that are more relevant to your organization and its offerings.
+
+## 3. Include relevant links
+
+If your organization has a website or other online resources, including links to these resources in your prompt can help the LLM generate more accurate and relevant responses. For example, you might say "You can find more information about our products and services at www.deepgram.com." This will help the LLM understand the context of the conversation and provide more accurate responses. Note that this will not work for LLMs that cannot access external resources.
+
+## 4. Set expectations for tone and personality
+
+Different use cases may call for different personalities. You can fine-tune how the Voice Agent interacts by specifying tone, formality, and persona. For example, "You are a cheerful and empathetic assistant who uses simple, encouraging language" or "Maintain a professional and concise tone when speaking to business clients." This helps ensure consistency across all interactions.
+
+## 5. Specify fallback behavior and boundaries
+
+It's important to define how the Voice Agent should handle unknown or sensitive questions. For instance: "You should not make up information. If you don't know something, politely let the user know and offer to redirect them." This reduces hallucinations and improves trustworthiness. You can also specify how the agent should handle sensitive topics, such as "If a user asks about a medical condition, politely inform them that you cannot provide medical advice and suggest they consult a healthcare professional."
+
+## 6. Use delimiters and formatting wisely
+
+If you're embedding structured data, examples, or instructions inside the prompt, using clear delimiters (like `"""`, `<<< >>>`, or markdown) can help the LLM distinguish instructions from context. It also prevents confusion when interpreting multiple sections of your prompt.
+
+## 7. Provide example conversations or FAQs
+
+You can boost the LLM's understanding by including a short example conversation or a list of common questions and desired response styles. This is especially helpful if you want the agent to mimic a certain pattern or phrasing!
+
+```
+Example:
+Q: What time do you open?
+A: We're open from 9 a.m. to 6 p.m., Monday through Saturday!
+```
+
+## 8. Iterate and test regularly
+
+Voice interactions are tricky! What looks good in a written prompt might not sound great when spoken. Always test the prompt with real voice input/output to fine-tune pacing, intonation, and phrasing. Consider A/B testing variations for tone, verbosity, and helpfulness!
