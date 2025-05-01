@@ -1,11 +1,10 @@
 ---
-title: Deploy Deepgram Services
+title: Deploy Deepgram Aura-2 Self-Hosted Services
 subtitle: With Docker/Podman
-slug: docs/deploy-deepgram-services
+slug: docs/deploy-aura-2-self-hosted
 ---
 
-
-Deepgram services are distributed as container images, as described in the [Deployment Environments](/docs/self-hosted-deployment-environments#container-orchestration) overview. We need to download and deploy these images from a container image repository. We also need to download configuration files and AI models that will be given to you directly by Deepgram.
+As with other Deepgram self-hosted services, the Aura-2 services are distributed as container images, as described in the [Deployment Environments](/docs/self-hosted-deployment-environments#container-orchestration) overview. We need to download and deploy these images from a container image repository. We also need to download configuration files and a license file that will be given to you directly by Deepgram.
 
 ## Prerequisites
 
@@ -21,18 +20,10 @@ Use the image repository credentials you generated in the [self-service licensin
 
 <CodeGroup>
   ```shell Shell
-  # Complete with login information generated in Deepgram Console
+  # Complete with login information generated in Deepgram Console                                                                                                                                          
   docker login quay.io
   ```
 </CodeGroup>
-
-## Choosing A Deployment Type
-
-For customers deploying Deepgram’s self-hosted solution in highly available production environments, Deepgram recommends the License Proxy, which is a caching proxy that communicates with the Deepgram-hosted license server to ensure uptime and simplify network security. If you aren't certain which products your contract includes or if you are interested in adding the License Proxy to your self-hosted deployment, please consult your Deepgram Account Representative.
-
-If your project is authorized to use the License Proxy, in the following section you may choose to use either a standard deployment or a deployment with the License Proxy.
-
-See the [License Proxy](/docs/license-proxy) guide for more details on the benefits and setup.
 
 ## Import Your Docker Compose, Container Configuration, and Model Files
 
@@ -43,94 +34,15 @@ Before you can run your self-hosted deployment, you must configure the required 
    <CodeGroup>
      ```shell Shell
      mkdir config
-     mkdir models
      ```
    </CodeGroup>
 
-2. The following sub-steps will download Deepgram configuration template files:
+2. Deepgram will provide you with the following required configuration files:
+   - `docker-config.yml` - The Docker Compose configuration for Aura-2
+   - `api.toml` - Configuration for the Aura-2 API service
+   - `license.toml` - License file for the Aura-2 Engine service
 
-   1. Choose to use either a standard deployment, or a deployment with the [License Proxy](/docs/license-proxy) if it is enabled for your project. Execute one of the following lines accordingly:
-
-      <CodeGroup>
-        ```shell Shell
-        # If using a deployment with the License Proxy, execute this line in your shell
-        DEPLOY_TYPE="license-proxy"
-
-        # If using a standard deployment, execute this line in your shell
-        DEPLOY_TYPE="standard"
-        ```
-      </CodeGroup>
-
-   2. Download the appropriate files from the self-hosted resources repository.
-
-      <CodeGroup>
-        ```shell Shell
-        BASE_URL="https://raw.githubusercontent.com/deepgram/self-hosted-resources/refs/heads/main"
-        COMPOSE_FILES=("docker/docker-compose" "podman/podman-compose")
-        CONFIG_FILES=("api.toml" "engine.toml")
-        [ "$DEPLOY_TYPE" = "license-proxy" ] && CONFIG_FILES+=("license-proxy.toml")
-
-        for file in "${COMPOSE_FILES[@]}"; do
-        	filename=$(basename "$file")
-        	curl -sSL "$BASE_URL/$file.$DEPLOY_TYPE.yml" -o "config/$filename.yml"
-        done
-
-        DEPLOY_DIR="${DEPLOY_TYPE//-/_}_deploy"
-        for file in "${CONFIG_FILES[@]}"; do
-        	curl -sSL "$BASE_URL/common/$DEPLOY_DIR/$file" \
-        		-o "config/$file"
-        done
-        ```
-      </CodeGroup>
-
-   3. Modify the Docker/Podman templates to point to the correct paths.
-
-      <CodeGroup>
-        ```shell Shell
-        sed -i 's#/path/to/\(api\|engine\|license-proxy\).toml#./\1.toml#' config/*.yml
-        ```
-      </CodeGroup>
-
-3. Download the Deepgram model files (file extension `.dg`) that have been provided to you by your Deepgram Account Representative.
-
-   2. Create a fresh text file and copy over the list of links to the provided models.
-
-      <CodeGroup>
-        ```bash Bash
-        touch model_links.txt
-        # Edit this file with `vim`, `nano` or the editor of your choice
-        ```
-      </CodeGroup>
-
-      After editing, your `model_links.txt` file should look like this:
-
-      <CodeGroup>
-        ```text Text
-        https://LINK_TO_MODEL_1.dg
-        https://LINK_TO_MODEL_2.dg
-        https://LINK_TO_MODEL_3.dg
-        ...
-        https://LINK_TO_MODEL_N.dg
-        ```
-      </CodeGroup>
-
-   3. Download all the models specified in your `model_links.txt` file.
-
-      <CodeGroup>
-        ```bash Bash
-        wget --directory-prefix models --input-file model_links.txt
-        ```
-      </CodeGroup>
-
-   4. Modify the Compose file templates to point to your models directory.
-
-      <CodeGroup>
-        ```shell Shell
-        sed -i 's#/path/to/models#../models#' config/*.yml
-        ```
-      </CodeGroup>
-
-See the [Model Maintenance](/docs/maintaining#model-selection) guide for more details on how Deepgram models power voice AI inference in your self-hosted deployment.
+   Place these files in the `config` directory you created in step 1.
 
 ## Customize Your Configuration
 
@@ -148,7 +60,9 @@ You will need to have an environment variable `DEEPGRAM_API_KEY` exported with y
 
 #### Compose File
 
-The Docker Compose or Podman Compose configuration file makes it possible to spin up the containers using a single command. This makes spinning up a standard POC deployment quick and easy.
+The Docker Compose configuration file (`docker-config.yml`) provided by Deepgram makes it possible to spin up the containers using a single command. This file is specifically designed for the Aura-2 self-hosted deployment and uses the special container images:
+- `quay.io/deepgram/self-hosted-aura-2-api:release-250501`
+- `quay.io/deepgram/self-hosted-aura-2-engine:release-250501`
 
 Make sure to export your self-hosted API key secret in your deployment environment.
 
@@ -158,11 +72,11 @@ Make sure to export your self-hosted API key secret in your deployment environme
   ```
 </CodeGroup>
 
-#### `api.toml` , `engine.toml`, and `license-proxy.toml`
+#### `api.toml` and `license.toml`
 
-The API and Engine containers, and the optional License Proxy container, are configured with TOML configuration files. The templates provided by Deepgram in the `deepgram-self-hosted` repository contain sane defaults that will work well for most use cases; these need to be mounted to the containers (see the `volumes` section in the Compose file).
+The Aura-2 API container and Aura-2 Engine license are defined in these TOML files provided by Deepgram. These files contain settings specific to your Aura-2 deployment and need to be mounted to the containers (see the `volumes` section in the Compose file).
 
-There are header comments describing each config value available in both of these files. If you have any questions about modifying these files, refer to those comments or reach out to your Deepgram Account Representative.
+If you have any questions about modifying these files, reach out to your Deepgram Account Representative.
 
 ## Testing Your Containers
 
@@ -177,12 +91,10 @@ Now that you have your configuration files and AI models set up and in the corre
   cd config
 
   # Running without elevated privileges
-  docker compose up -d
-  # or `podman-compose up -d`
+  docker compose -f docker-config.yml up -d
 
   # Running with elevated privileges
-  sudo --preserve-env=DEEPGRAM_API_KEY docker compose up -d
-  # or `sudo --preserve-env=DEEPGRAM_API_KEY podman-compose up -d`
+  sudo --preserve-env=DEEPGRAM_API_KEY docker compose -f docker-config.yml up -d
   ```
 </CodeGroup>
 
@@ -214,31 +126,20 @@ Unless you have HTTPS or TLS running on your API instance, construct your Deepgr
 
 Test your environment and container setup with a local file.
 
-1. Download a sample file from Deepgram (or supply your own file).
-   <CodeGroup>
-     ```shell Shell
-     wget https://dpgr.am/bueller.wav
-     ```
-   </CodeGroup>
-2. Send your audio file to your local Deepgram setup for transcription.
+1. Send an Aura-2 speak request to your local Deepgram setup for voice synthesis.
    <CodeGroup>
      ```shell Shell
      # If needed, adjust the query parameters to match the directions from your Deepgram Account Representative
-     curl -X POST --data-binary @bueller.wav "http://localhost:8080/v1/listen?model=nova-3&smart_format=true"
+     curl --request POST \
+        --header "Content-Type: application/json" \
+        --output aura-2-output.wav \
+        --data '{"text":"This is an Aura 2 self-hosted test."}' \
+        --url "http://localhost:8080/v1/speak?model=aura-2-thalia-en"
      ```
    </CodeGroup>
 
 <Info>
-  If you're using your own file, make sure to replace `bueller.wav` with the name of your audio file.
+If you do not specify a `model`, the default voice model `aura-asteria-en` will be used. You can find all of our available voices [here](/docs/tts-models).
 </Info>
 
-You should receive a JSON response with the transcription and associated metadata. Congratulations - your self-hosted setup is working!
-
-***
-
-What’s Next
-
-Now that you have a basic Deepgram setup working, take some time to learn about building up to a production-level environment, as well as helpful Deepgram add-on services.
-
-* [Scaling and Deployment Strategies](/docs/scaling-and-deployment-strategies)
-* [Self-Hosted Add Ons](/docs/on-prem-add-ons)
+You should receive an response with the audio output. You can copy this file locally to manually evaluate the synthesized speech within. Congratulations - your self-hosted Aura-2 setup is working!
