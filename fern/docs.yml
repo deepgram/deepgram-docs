@@ -560,6 +560,9 @@ navigation:
           - page: Aura 2 Private Preview
             path: hidden-pages/aura-2-preview.mdx
             hidden: true
+          - page: Aura 2 Self-Hosted Deployment Guide
+            path: hidden-pages/deploy-aura-2-self-hosted.mdx
+            hidden: true
           - page: Amazon Elastic Container Service
             path: hidden-pages/aws-ecs.mdx
             hidden: true
