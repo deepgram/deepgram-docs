@@ -29,9 +29,9 @@ Use the image repository credentials you generated in the [self-service licensin
 
 ## Import Your Docker Compose, Container Configuration, and Model Files
 
-Before you can run your self-hosted deployment, you must configure the required components. To do this, you will need to customize your configuration files and create a directory to house models that have been encrypted for use in your requests.
+Before you can run your self-hosted deployment, you must configure the required components. To do this, you will need to customize your configuration files.
 
-1. In your home directory, create the following directories. This is where you will save your Docker Compose files, Deepgram configuration files, and Deepgram model files.
+1. In your home directory, create the following directories. This is where you will save your Docker Compose file, the Aura-2 API configuration file, and the Aura-2 Engine license file.
 
    <CodeGroup>
      ```shell Shell
@@ -86,7 +86,7 @@ To make sure your Deepgram self-hosted deployment is properly configured and run
 
 ### Start the Deepgram Containers
 
-Now that you have your configuration files and AI models set up and in the correct location to be used by the container, use Docker Compose to run the container:
+Now that you have your configuration files setup up and in the correct location to be used by the container, use Docker Compose to run the container:
 
 <CodeGroup>
   ```shell Shell
