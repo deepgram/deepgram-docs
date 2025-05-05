@@ -7,6 +7,11 @@ slug: docs/build-a-function-call
 
 <Markdown src="../snippets/voice-agent.mdx" />
 
+<Warning>
+This Guide is not updated yet to use the new [V1 Agent API](/reference/voice-agent-api/agent). Please refer to the [Voice Agent API Migration Guide](/docs/link-to-migration-guide) for more information on migrating to the new Voice Agent API.
+</Warning>
+
+
 This guide walks you through how to build a simple function call for a demo application. Please refer to this [code repository](https://github.com/deepgram-devs/flask-agent-function-calling-demo) for the complete application code.
 
 ## Getting Started
@@ -67,7 +72,7 @@ This function handles:
       phone = params.get("phone")
       email = params.get("email")
       customer_id = params.get("customer_id")
-      
+
       result = await get_customer(phone=phone, email=email, customer_id=customer_id)
       return result
   ```
@@ -86,7 +91,7 @@ This function handles:
       customer_id = params.get("customer_id")
       if not customer_id:
           return {"error": "customer_id is required"}
-      
+
       result = await get_customer_appointments(customer_id)
       return result
   ```
@@ -107,7 +112,7 @@ This function handles:
       customer_id = params.get("customer_id")
       if not customer_id:
           return {"error": "customer_id is required"}
-      
+
       result = await get_customer_orders(customer_id)
       return result
   ```
@@ -127,10 +132,10 @@ This function handles:
       customer_id = params.get("customer_id")
       date = params.get("date")
       service = params.get("service")
-      
+
       if not all([customer_id, date, service]):
           return {"error": "customer_id, date, and service are required"}
-      
+
       result = await schedule_appointment(customer_id, date, service)
       return result
   ```
@@ -150,10 +155,10 @@ This function handles:
       """Check available appointment slots."""
       start_date = params.get("start_date")
       end_date = params.get("end_date", (datetime.fromisoformat(start_date) + timedelta(days=7)).isoformat())
-      
+
       if not start_date:
           return {"error": "start_date is required"}
-      
+
       result = await get_available_appointment_slots(start_date, end_date)
       return result
   ```
@@ -238,14 +243,14 @@ Each function definition follows a JSON Schema format with:
           Customer ID formats:
           - Numbers only (e.g., '169', '42') → Format as 'CUST0169', 'CUST0042'
           - With prefix (e.g., 'CUST169', 'customer 42') → Format as 'CUST0169', 'CUST0042'
-          
+
           Phone number recognition:
           - Standard format: '555-123-4567' → Format as '+15551234567'
           - With area code: '(555) 123-4567' → Format as '+15551234567'
           - Spoken naturally: 'five five five, one two three, four five six seven' → Format as '+15551234567'
           - International: '+1 555-123-4567' → Use as is
           - Always add +1 country code if not provided
-          
+
           Email address recognition:
           - Spoken naturally: 'my email is john dot smith at example dot com' → Format as '[email protected]'
           - With domain: '[email protected]' → Use as is
@@ -282,7 +287,7 @@ Each function definition follows a JSON Schema format with:
           - A customer asks about their upcoming appointments
           - A customer wants to know their appointment schedule
           - A customer asks 'When is my next appointment?'
-          
+
           Always verify you have the customer's account first using find_customer before checking appointments.""",
           "parameters": {
               "type": "object",
@@ -301,7 +306,7 @@ Each function definition follows a JSON Schema format with:
           - A customer asks about their orders
           - A customer wants to check order status
           - A customer asks questions like 'Where is my order?' or 'What did I order?'
-          
+
           Always verify you have the customer's account first using find_customer before checking orders.""",
           "parameters": {
               "type": "object",
@@ -319,7 +324,7 @@ Each function definition follows a JSON Schema format with:
           "description": """Schedule a new appointment for a customer. Use this function when:
           - A customer wants to book a new appointment
           - A customer asks to schedule a service
-          
+
           Before scheduling:
           1. Verify customer account exists using find_customer
           2. Check availability using check_availability
@@ -350,7 +355,7 @@ Each function definition follows a JSON Schema format with:
           - A customer wants to know available appointment times
           - Before scheduling a new appointment
           - A customer asks 'When can I come in?' or 'What times are available?'
-          
+
           After checking availability, present options to the customer in a natural way, like:
           'I have openings on [date] at [time] or [date] at [time]. Which works better for you?'""",
           "parameters": {
@@ -374,14 +379,14 @@ Each function definition follows a JSON Schema format with:
           - User says goodbye, thank you, etc.
           - User indicates they're done ("that's all I need", "I'm all set", etc.)
           - User wants to end the conversation
-          
+
           Examples of triggers:
           - "Thank you, bye!"
           - "That's all I needed, thanks"
           - "Have a good day"
           - "Goodbye"
           - "I'm done"
-          
+
           Do not call this function if the user is just saying thanks but continuing the conversation.""",
           "parameters": {
               "type": "object",

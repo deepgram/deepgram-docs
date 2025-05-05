@@ -6,6 +6,9 @@ subtitle: >-
 slug: docs/voice-agent-feature-overview
 ---
 
+<Warning>
+You will need to migrate to the new [V1 Agent API](/reference/voice-agent-api/agent) to continue to use the Voice Agent API. Please refer to the [Voice Agent API Migration Guide](/docs/link-to-migration-guide) for more information. **TODO: Need's link**
+</Warning>
 
 ## Voice Selection
 
@@ -24,11 +27,9 @@ slug: docs/voice-agent-feature-overview
 
 | Feature                                                            |
 | ------------------------------------------------------------------ |
-| [Setting Configuration](/docs/voice-agent-settings)                |
-| [Update Instructions](/docs/voice-agent-update-instructions)       |
+| [Settings](/docs/voice-agent-settings)                             |
 | [Update Speak](/docs/voice-agent-update-speak)                     |
 | [Inject Agent Message](/docs/voice-agent-inject-agent-message)     |
-| [Function Call Response](/docs/voice-agent-function-call-response) |
 | [Agent Keep Alive](/docs/agent-keep-alive)                         |
 
 ## Outputs: Server Events
@@ -40,14 +41,20 @@ slug: docs/voice-agent-feature-overview
 | [Conversation Text](/docs/voice-agent-conversation-text)               |
 | [User Started Speaking](/docs/voice-agent-user-started-speaking)       |
 | [Agent Thinking](/docs/voice-agent-agent-thinking)                     |
-| [Function Call Request](/docs/voice-agent-function-call-request)       |
-| [Function Calling Message](/docs/voice-agent-function-calling-message) |
-| [Agent Started Speaking](/docs/voice-agent-agent-started-speaking)     |
 | [Prompt Updated](/docs/voice-agent-prompt-updated)                     |
 | [Speak Updated](/docs/voice-agent-speak-updated)                       |
 | [Agent Audio Done](/docs/voice-agent-agent-audio-done)                 |
-| [Agent Server Errors](/docs/voice-agent-server-errors)                 |
+| [Agent Errors](/docs/voice-agent-errors)                               |
 | [Agent Warnings](/docs/voice-agent-warning)                            |
+
+
+## Input / Output Events
+
+| Feature                                                            |
+| ------------------------------------------------------------------ |
+| [Function Call Request](/docs/voice-agent-function-call-request)   |
+| [Function Call Response](/docs/voice-agent-function-call-response) |
+
 
 ## Rate Limits
 
