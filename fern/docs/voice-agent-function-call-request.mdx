@@ -38,6 +38,7 @@ When the server sends a `FunctionCallRequest`, it includes the `client_side` pro
 
 ## Conclusion
 
-When a function is client-side and the `client_side` property is set to `true`, the server will trigger the function call by sending a `FunctionCallRequest` message. The client is then responsible for executing the function and responding with a [Function Call Response](/docs/voice-agent-function-call-response) containing the function's result.
+When the server sends a `FunctionCallRequest`, it includes the `client_side` property to indicate how the function should be handled:
 
-If you leave the `client_side` property set to `false` you will be instructing your Agent to execute a server side function call. In this case the server will execute the function call and respond with a [Function Call Response](/docs/voice-agent-function-call-response) containing the function's result.
+* If `client_side` is `true`, the client is expected to execute the function and respond with a [[Function Call Response](https://github.com/docs/voice-agent-function-call-response)](/docs/voice-agent-function-call-response) containing the result.
+* If `client_side` is `false`, the server will handle the function internally and reply with the result using a [[Function Call Response](https://github.com/docs/voice-agent-function-call-response)](/docs/voice-agent-function-call-response).
