@@ -1,44 +1,51 @@
 ---
-title: Function Call Request
-subtitle: Client-side or server-side function call request sent by the server
+title: FunctionCallRequest message
+subtitle: Server-initiated message requesting a function call, to be handled by either client or server
 slug: docs/voice-agent-function-call-request
 ---
 
 <Markdown src="../snippets/voice-agent.mdx" />
 
-# What is the `FunctionCallRequest` Message
+The `FunctionCallRequest` message is sent by the Voice Agent server to request a function call. The handling of this call—whether the server executes it or expects the client to—depends on the `client_side` flag.
 
-The `FunctionCallRequest` message is sent by. the Voice Agent. This message will either represent a request for internal function call, or request a client-defined function call, depending on the `client_side` property setting.
+## Purpose
 
-## Receiving `FunctionCallRequest`
+This message is used to trigger either a built-in server-side function or a custom function defined by the client.
+
+- When `client_side` is `false`, the server will handle the function using built-in logic.
+- When `client_side` is `true`, the client must handle the function and respond with a [`FunctionCallResponse`](./voice-agent-function-call-response).
+
+## Handling the message
 
 <Info>
-  The `client_side` property is set by the server to indicate how the function should be handled.
+  The `client_side` property is set by the server to indicate where the function should be executed.
 </Info>
 
-When the server sends a `FunctionCallRequest`, it includes the `client_side` property to tell the client whether the function should be handled locally or not.  
-- If `client_side` is `false`, the server will handle the function using built-in tools.  
-- If `client_side` is `true`, the client is expected to handle the function call and respond with a [Function Call Response](/docs/voice-agent-function-call-response) containing the result.
+When your client receives a `FunctionCallRequest`:
 
-<CodeGroup>
-  ```json JSON
-  {
-    "type": "FunctionCallRequest",
-    "functions": [
-      {
-        "id": "fc_12345678-90ab-cdef-1234-567890abcdef",
-        "name": "check_order_status",
-        "arguments": "{\"order_id\": \"ORD-123456\"}",
-        "client_side": true
-      }
-    ]
-  }
-  ```
-</CodeGroup>
+1. Check the `client_side` field.
+2. If it's `true`, call the appropriate client-defined function.
+3. Return a `FunctionCallResponse` message with the function result.
+4. If it's `false`, no client action is needed; the server will handle it internally.
 
-## Conclusion
+## Example payload
 
-When the server sends a `FunctionCallRequest`, it includes the `client_side` property to indicate how the function should be handled:
+```json
+{
+  "type": "FunctionCallRequest",
+  "functions": [
+    {
+      "id": "fc_12345678-90ab-cdef-1234-567890abcdef",
+      "name": "get_weather",
+      "arguments": "{\"location\": \"Fremont, CA 94539\"}",
+      "client_side": true
+    }
+  ]
+}
+```
 
-* If `client_side` is `true`, the client is expected to execute the function and respond with a [[Function Call Response](https://github.com/docs/voice-agent-function-call-response)](/docs/voice-agent-function-call-response) containing the result.
-* If `client_side` is `false`, the server will handle the function internally and reply with the result using a [[Function Call Response](https://github.com/docs/voice-agent-function-call-response)](/docs/voice-agent-function-call-response).
+In this example, the server is requesting that the client execute a function named `get_weather` with the given arguments.
+
+## Related messages
+
+* [`FunctionCallResponse`](./voice-agent-function-call-response): The expected response from the client when `client_side` is `true`.
