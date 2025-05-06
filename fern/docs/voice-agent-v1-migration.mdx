@@ -125,11 +125,11 @@ The WebSocket path has changed to:
    - `Warning`: For non-fatal errors
 
 ## API Deprecations
-   - [`UpdateInstructions`](/docs/hidden-pages/update-instructions) is now deprecated
-   - [`FunctionCallingMessage`](/docs/hidden-pages/voice-agent-function-calling-message) is now deprecated
+   - [`UpdateInstructions`](/voice-agent-update-instructions) is now deprecated
+   - [`FunctionCallingMessage`](/voice-agent-function-calling-message) is now deprecated
 
  ## Experimental Features
-   - [`AgentStartedSpeaking`](/docs/hidden-docs/agent-started-speaking) is now experimental
+   - [`AgentStartedSpeaking`](/voice-agent-agent-started-speaking) is now experimental
 
 ## Server Messages Changes
 
@@ -147,10 +147,10 @@ For more detailed information about function calling, see our [Function Calling 
 
 **Message Structure Changes:**
    - v0: Used a single `FunctionCallingMessage` type
-   - v1: Split into [`FunctionCallRequest`](/docs/function-call-request) and [`FunctionCallResponse`](/docs/function-call-response) types
+   - v1: Split into [`FunctionCallRequest`](/docs/voice-agent-function-call-request) and [`FunctionCallResponse`](/docs/voice-agent-function-call-response) types
 
-**Function Call Configuration**:
-   - Object structure is`agent.think.functions` in the `Settings` message
+**Function Call Configuration:**
+   - Object structure is `agent.think.functions` in the `Settings` message
 
 <CodeGroup>
     ```yml
