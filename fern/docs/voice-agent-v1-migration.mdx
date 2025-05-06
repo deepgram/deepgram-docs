@@ -1,0 +1,217 @@
+---
+title: Voice Agent v1 API Migration
+subtitle: Guide for migrating from Voice Agent API v0 to v1.
+slug: docs/voice-agent-v1-migration
+---
+
+<Markdown src="../snippets/voice-agent.mdx" />
+
+The Voice Agent v1 Migration guide provides a comprehensive overview of the changes and updates required to migrate from Voice Agent v0 to v1.
+
+<Info>
+The [Deepgram API Spec](https://github.com/deepgram/deepgram-api-specs) and [Voice Agent API Reference](/reference/voice-agent-api/agent) have more details on the new Voice Agent API.
+</Info>
+
+
+## WebSocket Connection
+
+The WebSocket path has changed to:
+
+- **v0**: `wss://agent.deepgram.com/agent`
+- **v1**: `wss://agent.deepgram.com/v1/agent/converse`
+
+## Settings Configuration Changes
+
+* Object name changed from `settings_configuration` to `settings`
+* Under the `agent` object, the `listen` ,`think` and `speak` objects now have an additional `provider` object
+* `Settings` now contains a new `experimental` field to opt-in to experimental Agent features
+* `Settings` now contains a new `mip_opt_out` field to opt-out of the [Deepgram Model Improvement Program](/docs/the-deepgram-model-improvement-partnership-program)
+
+### New Settings Example
+
+<Info>
+  For a detailed explanation of all the options available for `Settings`, refer to our documentation on how to [Configure the Voice Agent](/docs/configure-voice-agent).
+</Info>
+
+
+<CodeGroup>
+  ```json JSON
+{
+  "type": "Settings",
+  "mip_opt_out": false,
+  "experimental": false,
+  "audio": {
+    "input": {
+      "encoding": "linear16",
+      "sample_rate": 24000
+    },
+    "output": {
+      "encoding": "linear16",
+      "sample_rate": 24000,
+      "container": "none"
+      // ... additional output options: bitrate
+    }
+  },
+  "agent": {
+    "language": "en",
+    "listen": {
+      "provider": {
+        "type": "deepgram",
+        "model": "nova-3"
+        // ... additional provider options: keyterms (nova-3 'en' only)
+      }
+    },
+    "think": {
+      "provider": {
+        "type": "open_ai",
+        "model": "gpt-4o-mini",
+        "temperature": 0.7
+        // ... additional provider options: endpoint (for non-deepgram providers)
+      },
+      // ... additional think options: prompt, functions, endpoint
+    },
+    "speak": {
+      "provider": {
+        "type": "deepgram",
+        "model": "aura-2-thalia-en"
+        // ... additional provider options based on type:
+        // - eleven_labs: model_id, language_code
+        // - cartesia: model_id, voice (mode, id), language
+        // - open_ai: voice
+      }
+      // ... additional speak options: endpoint (for non-deepgram providers)
+    }
+    // ... additional agent options: greeting
+  }
+  // ... additional top-level options: experimental
+}
+```
+</CodeGroup>
+
+## Audio Configuration Changes
+
+**Input Audio**:
+   - Object structure is now `audio.input.option`
+   - `audio.input` is now required instead of nullable
+   - Default values: `encoding="linear16"`, `sample_rate=16000`
+
+**Output Audio**:
+   - Object structure is now `audio.output.option`
+
+## Provider Configuration Changes
+
+**Speak Provider:**
+   - Object structure is now `agent.speak.provider`
+   - For Deepgram TTS, only `type` and `model` are required
+   - Other fields like `model_id`, `voice`, `language`, `language_code` are optional and only used for other providers
+
+**Think Provider:**
+   - Object structure is now `agent.think.provider`
+   - For Deepgram LLM, only `type` and `model` are required
+   - Other fields like `endpoint`, `temperature`, `functions`, `prompt` are optional and only used for other providers
+
+## LLM Instructions Changes
+**Prompt / LLM Instructions Location:**
+   - v0: Instructions were set in `agent.think.instructions`
+   - v1: All instructions are now set in `agent.think.prompt`
+
+**Prompt / LLM Instructions Message Types**:
+   - v0: `UpdateInstructions` used `instructions` field.
+   - v1: `UpdateInstructions` now uses `prompt` field.
+
+## New Agent Server Messages
+   - `PromptUpdated`: Confirms prompt updates
+   - `SpeakUpdated`: Confirms speak model changes
+   - `Warning`: For non-fatal errors
+
+## API Deprecations
+   - [`UpdateInstructions`](/docs/hidden-pages/update-instructions) is now deprecated
+   - [`FunctionCallingMessage`](/docs/hidden-pages/voice-agent-function-calling-message) is now deprecated
+
+ ## Experimental Features
+   - [`AgentStartedSpeaking`](/docs/hidden-docs/agent-started-speaking) is now experimental
+
+## Server Messages Changes
+
+**Welcome**
+   - Confirms WebSocket connection success
+   - `v0` Welcome message included `session_id`
+   - `v1` Welcome message now includes `request_id` instead of `session_id`
+
+
+## Function Calling Changes
+
+<Info>
+For more detailed information about function calling, see our [Function Calling Documentation](/docs/voice-agents-function-calling).
+</Info>
+
+**Message Structure Changes:**
+   - v0: Used a single `FunctionCallingMessage` type
+   - v1: Split into [`FunctionCallRequest`](/docs/function-call-request) and [`FunctionCallResponse`](/docs/function-call-response) types
+
+**Function Call Configuration**:
+   - Object structure is`agent.think.functions` in the `Settings` message
+
+<CodeGroup>
+    ```yml
+    functions:
+              type: array
+              items:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    description: Function name
+                  description:
+                    type: string
+                    description: Function description
+                  parameters:
+                    type: object
+                    description: Function parameters
+                  endpoint:
+                    type: object
+                    description: The Function endpoint to call. if not passed, function is called client-side
+                    properties:
+                      url:
+                        type: string
+                        description: Endpoint URL
+                      method:
+                        type: string
+                        description: HTTP method
+                      headers:
+                        type: object
+                        additionalProperties:
+                          type: string
+    ```
+</CodeGroup>
+
+
+**Function Call Execution**:
+   - Client-side functions:
+     - Executed locally in the client application
+     - No endpoint configuration required
+     - Set `client_side: true` in function definition
+   - Server-side functions:
+     - Executed on the server
+     - Requires endpoint configuration
+     - Set `client_side: false` in function definition
+
+
+## Migration Checklist
+
+Consider the following checklist to ensure a smooth migration:
+
+- [ ] WebSocket connection establishes successfully
+- [ ] Settings message is accepted without errors
+- [ ] Audio data is processed correctly
+- [ ] Voice agent responds appropriately
+- [ ] Function calls work as expected
+- [ ] Error handling works correctly
+- [ ] Warning messages are handled properly
+- [ ] Client-side and server-side functions work as expected
+- [ ] Audio input/output configuration is correct
+- [ ] Provider configurations are properly set up
+- [ ] All server messages are properly handled
+- [ ] Client messages are correctly formatted
+- [ ] Error and warning handling is implemented
+- [ ] Audio streaming works in both directions

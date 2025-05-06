@@ -94,6 +94,8 @@ navigation:
     layout:
       - page: Getting Started
         path: docs/voice-agent.mdx
+      - page: Voice Agent v1 API Migration
+        path: docs/voice-agent-v1-migration.mdx
       - page: Feature Overview
         path: docs/voice-agent-feature-overview.mdx
       - page: Starter Apps
@@ -1311,6 +1313,8 @@ redirects:
     destination: /docs/voice-agent-settings
   - source: /docs/voice-agent-server-errors
     destination: /docs/voice-agent-errors
+  - source: /docs/build-a-voice-agent
+    destination: /reference/voice-agent-api/agent
 analytics:
   gtm:
     container-id: ${GTM_CONTAINER_ID}
