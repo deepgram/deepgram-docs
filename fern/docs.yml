@@ -116,7 +116,7 @@ navigation:
             path: docs/voice-agent-settings.mdx
           - page: Update Speak
             path: docs/voice-agent-update-speak.mdx
-          - page: Inject Agent Message
+          - page: Inject Agent
             path: docs/voice-agent-inject-agent-message.mdx
           - page: Agent Keep Alive
             path: docs/agent-keep-alive.mdx

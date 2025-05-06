@@ -7,11 +7,13 @@ slug: docs/voice-agent-agent-thinking
 
 <Markdown src="../snippets/voice-agent.mdx" />
 
-# What is the `AgentThinking` Message
-
 The `AgentThinking` message is used to inform the client the agent is processing information.
 
-## Receiving `AgentThinking`
+## Purpose
+
+The `AgentThinking` message informs the client when the agent is processing internally, without verbalizing its thoughts. This allows the system to handle non-verbalized reasoning and, in some cases, determine which functions to call, ensuring smoother and more dynamic interactions.
+
+## Example Payload
 
 The server will send an `AgentThinking` message to inform the client of a non-verbalized agent thought. When functions are available, some LLMs use these thoughts to decide which functions to call.
 
@@ -24,6 +26,4 @@ The server will send an `AgentThinking` message to inform the client of a non-ve
   ```
 </CodeGroup>
 
-## Conclusion
 
-The `AgentThinking` message informs the client when the agent is processing internally, without verbalizing its thoughts. This allows the system to handle non-verbalized reasoning and, in some cases, determine which functions to call, ensuring smoother and more dynamic interactions.

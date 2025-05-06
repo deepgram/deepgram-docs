@@ -6,11 +6,13 @@ slug: docs/voice-agent-prompt-updated
 
 <Markdown src="../snippets/voice-agent.mdx" />
 
-# What is the `PromptUpdated` Message
-
 The `PromptUpdated` message is sent by the server to the client to confirm that the Prompt Configuration has been updated.
 
-## Receiving `PromptUpdated`
+## Purpose
+
+When receiving a `PromptUpdated` message, the new Prompt Configuration are immediately active and will be used for all subsequent requests. When receiving this message no action is required unless you need to verify the changes.
+
+## Example Payload
 
 If the client has sent a new Prompt message within their [Settings](/docs/voice-agent-settings) Message the server will respond with a `PromptUpdated` message to confirm that the Prompt hase been updated.
 
@@ -22,6 +24,3 @@ If the client has sent a new Prompt message within their [Settings](/docs/voice-
   ```
 </CodeGroup>
 
-## Conclusion
-
-When receiving a `PromptUpdated` message, the new Prompt Configuration are immediately active and will be used for all subsequent requests. When receiving this message no action is required unless you need to verify the changes.

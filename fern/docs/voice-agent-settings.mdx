@@ -8,25 +8,20 @@ slug: docs/voice-agent-settings
 
 <Markdown src="../snippets/voice-agent.mdx" />
 
-# What is the `Settings` Message
+The `Settings` message is a JSON command that serves as an initialization step, setting up both the behavior of the voice agent.
 
-The `Settings` message is a JSON command that serves as an initialization step, setting up both the behavior of the voice agent and the audio transmission formats before any actual voice data is exchanged over the websocket connection. This message configures the voice agent and sets the input and output audio formats.
+## Purpose
+
+The `Settings` message is an initialization command that establishes both the behavior of the voice agent and the audio transmission formats before voice data is exchanged. The client should send a `Settings` message immediately after opening the websocket and before sending any audio.
+
 
 <Info>
   For a detailed explanation of all the options available for the `Settings` message, see our documentation on how to [Configure the Voice Agent](/docs/configure-voice-agent).
 </Info>
 
-## Sending `Settings`
 
-To send the `Settings` message, you need to send the following JSON message to the server:
-
-<Warning>
-  The client should send a `Settings` message immediately after opening the websocket and before sending any audio.
-</Warning>
-
-### Basic Example
-
-This example uses a very basic `Settings` to establish a connection.
+## Example Payloads
+This example uses a very basic `Settings` to establish a connection. To send the `Settings` message, you need to send the following JSON message to the server:
 
 <CodeGroup>
   ```json JSON
@@ -80,9 +75,8 @@ This example uses a very basic `Settings` to establish a connection.
 ```
 </CodeGroup>
 
-## `Settings` Confirmation
 
-Upon receiving the `Settings` message, the server will process all remaining audio data and return the following [Settings Applied](/docs/voice-agent-setting-applied-message) message.
+Upon receiving the `Settings` message, the server will process all remaining audio data and return the following [`SettingsApplied`](/docs/voice-agent-setting-applied-message) message.
 
 <CodeGroup>
   ```json JSON
@@ -91,7 +85,3 @@ Upon receiving the `Settings` message, the server will process all remaining aud
   }
   ```
 </CodeGroup>
-
-# Conclusion
-
-The `Settings` message is an initialization command that establishes both the behavior of the voice agent and the audio transmission formats before voice data is exchanged. By configuring the agent and setting the input/output audio formats upfront, it ensures smooth and efficient communication over the WebSocket connection, laying the foundation for effective voice interactions.

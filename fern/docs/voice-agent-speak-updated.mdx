@@ -6,11 +6,13 @@ slug: docs/voice-agent-speak-updated
 
 <Markdown src="../snippets/voice-agent.mdx" />
 
-# What is the `SpeakUpdated` Message
-
 The `SpeakUpdated` message is sent by the server to the client to confirm that the Speak Configuration has been updated.
 
-## Receiving `SpeakUpdated`
+## Purpose
+
+When receiving a `SpeakUpdated` message, the new Speak Configuration are immediately active and will be used for all subsequent requests. When receiving this message no action is required unless you need to verify the changes.
+
+## Example Payload
 
 If the client has sent a new Speak message within their [Settings](/docs/voice-agent-settings) Message the server will respond with a `SpeakUpdated` message to confirm that the Speak Configuration has been updated.
 
@@ -22,7 +24,3 @@ If the client has sent a new Speak message within their [Settings](/docs/voice-a
   ```
 </CodeGroup>
 
-
-## Conclusion
-
-When receiving a `SpeakUpdated` message, the new Speak Configuration are immediately active and will be used for all subsequent requests. When receiving this message no action is required unless you need to verify the changes.
