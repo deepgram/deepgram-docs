@@ -4,35 +4,35 @@ subtitle: Send messages ensuring uninterrupted communication for your agent.
 slug: docs/agent-keep-alive
 ---
 
-
 <Markdown src="../snippets/voice-agent.mdx" />
 
-# What is the `keepAlive` Message
+The `KeepAlive` message is a JSON message that you can use to ensure that the server does not close the connection.
 
-The `KeepAlive` message is a JSON command that you can use to ensure that the server does not close the connection.
+## Purpose
+
+The `KeepAlive` message is a useful JSON message that helps maintain an open connection with the server, preventing it from being closed due to inactivity. This ensures continuous communication without interruptions during periods when no other data is being transmitted.
 
 <Info>
   Using `KeepAlive` is not recommended for most agent conversations, because you will typically be sending continuous microphone audio to the agent in case the user has something to say.
 </Info>
 
-## Sending `KeepAlive`
+## Example Payload
 
 To send the `KeepAlive` message, you need to send the following JSON message to the server:
 
 This message should only be used during a period of time when the client is not sending audio. During such a period, the client can send a `KeepAlive` message every `8` seconds to keep the connection open.
 
+
 <CodeGroup>
   ```json JSON
   {
-    "type": "KeepAlive" 
+    "type": "KeepAlive"
   }
   ```
 </CodeGroup>
 
-## `KeepAlive` Confirmation
 
 You will not receive a response back from the server.
 
-# Conclusion
 
-The `KeepAlive` message is a useful JSON command that helps maintain an open connection with the server, preventing it from being closed due to inactivity. This ensures continuous communication without interruptions during periods when no other data is being transmitted.
+

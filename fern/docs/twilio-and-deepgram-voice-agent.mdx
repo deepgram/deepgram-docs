@@ -84,11 +84,11 @@ Depending on your situation you may also need to install specific packages used 
   ```
 </CodeGroup>
 
-You can set your Deepgram API key in the `sts_connect` function to run the server:
+You can set your Deepgram API key for the `sts_connect` function to run the server by running the following command in your terminal:
 
 <CodeGroup>
-  ```python Python
-  subprotocols=["token", "YOUR_DEEPGRAM_API_KEY"]
+  ```bash Bash
+  export DEEPGRAM_API_KEY="your_deepgram_api_key"
   ```
 </CodeGroup>
 
@@ -141,11 +141,17 @@ The next block of code `sts_connect`defines a function that establishes a WebSoc
 
 <CodeGroup>
   ```python Python
-  def sts_connect():
-      sts_ws = websockets.connect(
-      "wss://agent.deepgram.com/agent", subprotocols=["token", "YOUR_DEEPGRAM_API_KEY"]
-      )
-      return sts_ws
+ def sts_connect():
+    # you can run export DEEPGRAM_API_KEY="your key" in your terminal to set your API key.
+    api_key = os.getenv('DEEPGRAM_API_KEY')
+    if not api_key:
+        raise ValueError("DEEPGRAM_API_KEY environment variable is not set")
+
+    sts_ws = websockets.connect(
+        "wss://agent.deepgram.com/v1/agent/converse",
+        subprotocols=["token", api_key]
+    )
+    return sts_ws
   ```
 </CodeGroup>
 
@@ -183,38 +189,46 @@ Also included in `twilio_handler` is the [Setting Configuration](/docs/voice-age
 
 <CodeGroup>
   ```python Python
-  async with sts_connect() as sts_ws:
-          config_message = {
-              "type": "SettingsConfiguration",
-              "audio": {
-                  "input": {
-                      "encoding": "mulaw",
-                      "sample_rate": 8000,
-                  },
-                  "output": {
-                      "encoding": "mulaw",
-                      "sample_rate": 8000,
-                      "container": "none",
-                  },
-              },
-              "agent": {
-                  "listen": {
-                    "model": "nova-3"
-                  },
-                  "think": {
-                      "provider": {
-                          "type": "anthropic",
-                      },
-                      "model": "claude-3-haiku-20240307",
-                      "instructions": "You are a helpful car seller.",
-                  },
-                  "speak": {
-                    "model": "aura-2-thalia-en"
-                  },
-              },
-          }
-
-      await sts_ws.send(json.dumps(config_message))
+   async with sts_connect() as sts_ws:
+        config_message = {
+            "type": "Settings",
+            "audio": {
+                "input": {
+                    "encoding": "mulaw",
+                    "sample_rate": 8000,
+                },
+                "output": {
+                    "encoding": "mulaw",
+                    "sample_rate": 8000,
+                    "container": "none",
+                },
+            },
+            "agent": {
+                "language": "en",
+                "listen": {
+                    "provider": {
+                        "type": "deepgram",
+                        "model": "nova-3",
+                        "keyterms": ["hello", "goodbye"]
+                    }
+                },
+                "think": {
+                    "provider": {
+                        "type": "open_ai",
+                        "model": "gpt-4o-mini",
+                        "temperature": 0.7
+                    },
+                    "prompt": "You are a helpful AI assistant focused on customer service."
+                },
+                "speak": {
+                    "provider": {
+                        "type": "deepgram",
+                        "model": "aura-2-thalia-en"
+                    }
+                },
+                "greeting": "Hello! How can I help you today?"
+            }
+        }
   ```
 </CodeGroup>
 
@@ -358,7 +372,3 @@ Finally the last block of code sets up and runs the server, making sure all inco
 </CodeGroup>
 
 ***
-
-What’s Next
-
-* [Build a Voice Agent](/reference/build-a-voice-agent)

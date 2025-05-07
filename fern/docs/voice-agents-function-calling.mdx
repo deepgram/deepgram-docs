@@ -1,6 +1,6 @@
 ---
 title: Function Calling
-subtitle: How to do Function Calling with your Voice Agent.
+subtitle: Overview of Function Calling with Voice Agents.
 slug: docs/voice-agents-function-calling
 ---
 
@@ -9,7 +9,7 @@ slug: docs/voice-agents-function-calling
 
 # What is Function Calling?
 
-LLM function calling is the ability of large language models (LLMs) to invoke external functions or APIs in response to user queries. For example, if a user asks for the current weather in a specific location, the LLM can use function calling to call a weather API, fetch real-time data, and present it in a structured response.
+Function calling is the ability of large language models (LLMs) to invoke external functions or APIs in response to user queries. For example, if a user asks for the current weather in a specific location, the LLM can use function calling to call a weather API, fetch real-time data, and present it in a structured response.
 
 This capability allows LLMs to enhance their functionality by integrating with other systems, services, or databases to provide real-time data, perform specific tasks, or trigger actions.
 
@@ -18,46 +18,54 @@ This capability allows LLMs to enhance their functionality by integrating with o
 * **User Query**: A user asks the LLM something that requires external data or specific action (e.g., "Check the weather in New York" or "Book an appointment").
 * **Function Identification:** The LLM identifies that the query requires a specific function to be called. For instance, if the user asks for the weather, the model recognizes that it needs to call a weather API rather than generate a general response.
 * **Parameter Extraction:** The LLM analyzes the user's query to extract the required parameters (e.g., location, date, or other variables). For example, in the weather query, "New York" would be extracted as the location parameter.
-* **Call the Function:** The LLM triggers an external function or API with the appropriate parameters. This could involve fetching live data, performing a task (e.g., making a booking), or retrieving information that is outside the LLM’s static knowledge.
+* **Call the Function:** The LLM triggers an external function or API with the appropriate parameters. This could involve fetching live data, performing a task (e.g., making a booking), or retrieving information that is outside the LLM's static knowledge.
 * **Return the Result:** The function returns the result (such as the current weather data), which the LLM incorporates into its response back to the user.
 
-![Function Calling Flow Diagram](/images/eeabc83a8fdea7b8dfc046e47c5af0327ac28f87eeef25e6a74182b4185c0b78-Function_call_flow_chart.png)
+![Function Calling Flow Diagram](../images/function_call_flow_chart.png)
 
-A process flow of the Voice Agent API with function calling.
+## Configuring Function Calling
 
-# Settings Configuration
-
-Here is an incomplete Settings Configuration object showing what properties can be added to configure function calling with Deepgram's Voice Agent API. (See a more complete Settings Configuration object in the [relevant documentation](/docs/voice-agents-function-calling).)
+Below is an example of the `Settings` message with the `agent.think` configuration object that includes function calling capabilities. To see a complete example of the `Settings` message, see the [Configure the Voice Agent](/docs/configure-voice-agent) documentation.
 
 <CodeGroup>
   ```json JSON
-
   {
-    "type": "SettingsConfiguration",
-    ... // other settings configuration fields
+    "type": "Settings",
+    ...// other settings fields
     "agent": {
-      "think": {
+        "think": {
+        "provider": {
+          "type": "open_ai",
+          "model": "gpt-4",
+          "temperature": 0.7
+        },
+        "endpoint": { // Optional for non-Deepgram LLM providers. When present, must include url field and headers object
+          "url": "https://api.example.com/llm",
+          "headers": {
+            "authorization": "Bearer {{token}}"
+          }
+        },
+        "prompt": "You are a helpful AI assistant focused on customer service.",
         "functions": [
           {
-            "name": "", // function name
-            "description": "", // tells the agent what the function does, and how and when to use it
-            "url": "", // the endpoint where your function will be called
-            "headers": [
-              {
-                "key": "authorization",
-                "value": ""
-              }
-            ],
-            "method": "post", // the http method to use when calling the function
+            "name": "check_order_status",
+            "description": "Check the status of a customer order",
             "parameters": {
               "type": "object",
               "properties": {
-                "item": { // the name of the input property
-                  "type": "string", // the type of the input
-                  "description":"" // the description of the input so the agent understands what it is
+                "order_id": {
+                  "type": "string",
+                  "description": "The order ID to check"
                 }
               },
-              "required": ["item"] // the list of required input properties for this function to be called
+              "required": ["order_id"]
+            },
+            "endpoint": { // If not provided, function is called client-side
+              "url": "https://api.example.com/orders/status",
+              "method": "post",
+              "headers": {
+                "authorization": "Bearer {{token}}"
+              }
             }
           }
         ]
@@ -67,30 +75,40 @@ Here is an incomplete Settings Configuration object showing what properties can 
   ```
 </CodeGroup>
 
-Not all of the fields are required in every function calling example. If the function will run client-side and you do not need to make a request to your server, you may not need fields such as `url`, `headers`, or `method`, for example. To help visualize this, here is the configuration settings for the client-side weather example:
+## Client-Side Function Calling
+If your function will run client-side and you do not need to make a request to a server, you will not need to use the endpoint object and do not need to provide the `url`, `headers`, or `method` fields.
 
 <CodeGroup>
   ```json JSON
-  functions: [
-          {
-            name: 'get_weather',
-            description: 'Get the current weather for a specific location',
-            parameters: {
-              type: 'object',
-              properties: {
-                location: {
-                  type: 'string',
-                  description: 'The city or location to get weather for',
-                },
-              },
-              required: ['location'],
+{
+  "type": "Settings",
+  ...// other settings fields
+  "agent": {
+      "prompt": "You are a helpful AI assistant that can provide weather information.",
+      "functions": [
+        {
+          "name": "get_weather",
+          "description": "Get the current weather for a specific location",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "location": {
+                "type": "string",
+                "description": "The city or location to get weather for"
+              }
             },
-          },
-        ],
+            "required": ["location"]
+          }
+        }
+      ]
+    }
+  }
+}
+...// other settings fields
   ```
 </CodeGroup>
 
-The function itself would be called when the user interacting with the LLM requests weather information for a specific location:
+In this example code below, the `get_weather` function gets triggered when someone asks the Agent about the weather in a particular place.
 
 <CodeGroup>
   ```javascript JavaScript
@@ -115,56 +133,161 @@ The function itself would be called when the user interacting with the LLM reque
     }
   };
   ```
-</CodeGroup>
+  ```python Python
+import os
+import requests
+from typing import Optional
 
-# Server and Client Function Calling Messages
+def get_weather(location: str) -> Optional[str]:
+    api_key = os.getenv("OPENWEATHER_API_KEY")
 
-Function calling messages are exchanged between the client and Deepgram's Voice Agent API server through the websocket.
+    try:
+        response = requests.get(
+            f"https://api.openweathermap.org/data/2.5/weather",
+            params={"q": location, "appid": api_key}
+        )
+        response.raise_for_status()
 
-## Server Messages (Sent by Deepgram)
-
-* `FunctionCalling` – Indicates that the agent is invoking a function. [Read more](/docs/voice-agent-function-calling-message).
-* `FunctionCallRequest` – Requests execution of a function with extracted parameters. [Read more](/docs/voice-agent-function-call-request).
-* `FunctionCalling` (Tool Response) – Returns the function’s output after execution. [Read more](/docs/voice-agent-function-calling-message).
-
-**Example:**
-
-<CodeGroup>
-  ```json JSON
-  {
-    "type": "FunctionCallRequest",
-    "function_name": "do_math",
-    "function_call_id": "7433439b-c4b6-4369-8ce8-4124f6a98a1d",
-    "input": { "numbers": ["2", "2"], "operation": "add" }
-  }
+        data = response.json()
+        return f"The current weather in {data['name']} is {data['weather'][0]['description']} with a temperature of {data['main']['temp']}°K."
+    except Exception as err:
+        print(f"Error: {err}")
+        return None
   ```
-</CodeGroup>
+  ```CSharp C#
+  using System;
+using System.Net.Http;
+using System.Text.Json;
+using System.Threading.Tasks;
 
-## Client Messages (Sent by your application)
+public class WeatherService
+{
+    private readonly HttpClient _httpClient;
 
-* `FunctionCallResponse` – Sent after executing the function to return the result.
+    public WeatherService(HttpClient httpClient)
+    {
+        _httpClient = httpClient;
+    }
 
-**Example:**
+    public async Task<string?> GetWeather(string location)
+    {
+        var apiKey = Environment.GetEnvironmentVariable("OPENWEATHER_API_KEY");
 
-<CodeGroup>
-  ```json JSON
-  {
-    "type": "FunctionCallResponse",
-    "function_call_id": "7433439b-c4b6-4369-8ce8-4124f6a98a1d",
-    "output": "4"
-  }
+        try
+        {
+            var response = await _httpClient.GetAsync(
+                $"https://api.openweathermap.org/data/2.5/weather?q={location}&appid={apiKey}"
+            );
+
+            response.EnsureSuccessStatusCode();
+
+            var data = await JsonSerializer.DeserializeAsync<WeatherResponse>(
+                await response.Content.ReadAsStreamAsync()
+            );
+
+            return $"The current weather in {data?.Name} is {data?.Weather[0].Description} with a temperature of {data?.Main.Temp}°K.";
+        }
+        catch (Exception ex)
+        {
+            Console.Error.WriteLine($"Error: {ex.Message}");
+            return null;
+        }
+    }
+}
+
+public class WeatherResponse
+{
+    public string Name { get; set; }
+    public Weather[] Weather { get; set; }
+    public Main Main { get; set; }
+}
+
+public class Weather
+{
+    public string Description { get; set; }
+}
+
+public class Main
+{
+    public float Temp { get; set; }
+}
   ```
+  ```Go Go
+ package main
+
+import (
+    "encoding/json"
+    "fmt"
+    "net/http"
+    "os"
+)
+
+type WeatherResponse struct {
+    Name string `json:"name"`
+    Weather []struct {
+        Description string `json:"description"`
+    } `json:"weather"`
+    Main struct {
+        Temp float64 `json:"temp"`
+    } `json:"main"`
+}
+
+func getWeather(location string) (string, error) {
+    apiKey := os.Getenv("OPENWEATHER_API_KEY")
+
+    url := fmt.Sprintf("https://api.openweathermap.org/data/2.5/weather?q=%s&appid=%s", location, apiKey)
+    resp, err := http.Get(url)
+    if err != nil {
+        return "", fmt.Errorf("failed to fetch weather data: %v", err)
+    }
+    defer resp.Body.Close()
+
+    if resp.StatusCode != http.StatusOK {
+        return "", fmt.Errorf("failed to fetch weather data: status code %d", resp.StatusCode)
+    }
+
+    var data WeatherResponse
+    if err := json.NewDecoder(resp.Body).Decode(&data); err != nil {
+        return "", fmt.Errorf("failed to decode response: %v", err)
+    }
+
+    return fmt.Sprintf("The current weather in %s is %s with a temperature of %.2f°K.",
+        data.Name, data.Weather[0].Description, data.Main.Temp), nil
+}
+  ```
+
 </CodeGroup>
 
-### Message Flow
+# Function Calling Message Flow
 
-1. User Query → The agent determines a function is needed.
-2. Server Sends `FunctionCallRequest` → Requests function execution.
-3. Client Executes & Sends `FunctionCallResponse` → Returns the function result.
-4. Server Uses Response → The agent continues the conversation.
+2 types of Function calling messages are exchanged between the client and Deepgram's Voice Agent API server through a websocket.
 
+A [`FunctionCallRequest`](/docs/voice-agent-function-call-request) message is used to initiate function calls in your Voice Agent. This message can trigger either a server-side function execution or request a client-side function execution, depending on the client_side property setting.
+
+A [`FunctionCallResponse`](/docs/voice-agent-function-call-response)can be sent by the client or server. When sent from the client it is a response to a function call, but when sent from the server it is information about a function call that was requested by the agent.
+
+Below is an example of a function call message flow based on the `get_weather` function example above.
+
+1. User submits a query → The agent determines a function is needed.
+2. Server sends a `FunctionCallRequest` → Requests function execution.
+3. Client executes the function and sends a `FunctionCallResponse` → Returns the function result.
+4. Server uses the response.
+5. The agent continues the conversation.
+
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant Agent
+    participant Server
+    participant Client
+
+    User->>Agent: Asks about weather
+    Agent->>Server: Determines function needed
+    Server->>Client: Sends FunctionCallRequest
+    Note over Client: Executes get_weather function
+    Client->>Server: Sends FunctionCallResponse
+    Server->>Agent: Processes response
+    Agent->>User: Provides weather information
+```
 ***
-
-What’s Next
-
-* [Function Call Response](/docs/voice-agent-function-call-response)

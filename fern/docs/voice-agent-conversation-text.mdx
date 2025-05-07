@@ -1,19 +1,19 @@
 ---
 title: Conversation Text
 subtitle: >-
-  Conversation Text facilitates real-time communication by relaying spoken
-  statements from both the user and the assistant.
+  Facilitates real-time communication by relaying spoken statements from both the user and the agent.
 slug: docs/voice-agent-conversation-text
 ---
 
-
 <Markdown src="../snippets/voice-agent.mdx" />
-
-# What is `ConversationText` Message
 
 The `ConversationText` message is a JSON message that will be sent as a user interacts with the agent.
 
-## Receiving `ConversationText`
+## Purpose
+
+The `ConversationText` message facilitates real-time communication by relaying spoken statements from both the user and the assistant. This ensures that the conversation can be dynamically displayed on the client side, enhancing transparency and providing a clear, synchronized view of the interaction as it unfolds.
+
+## Example Payload
 
 The server will send a `ConversationText` message every time the agent hears the user say something, and every time the agent speaks something. These can be used on the client side to display the conversation messages as they happen in real-time.
 
@@ -27,6 +27,5 @@ The server will send a `ConversationText` message every time the agent hears the
   ```
 </CodeGroup>
 
-## Conclusion
 
-The `ConversationText` message facilitates real-time communication by relaying spoken statements from both the user and the assistant. This ensures that the conversation can be dynamically displayed on the client side, enhancing transparency and providing a clear, synchronized view of the interaction as it unfolds.
+

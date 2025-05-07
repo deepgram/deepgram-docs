@@ -1,38 +1,40 @@
 ---
 title: Function Call Response
-subtitle: Configure the voice agent and configure the function call response.
+subtitle: Message containing the result of a function call, sent by client or server
 slug: docs/voice-agent-function-call-response
 ---
 
-
 <Markdown src="../snippets/voice-agent.mdx" />
 
-<Info>
-  When the LLM decides to call a function, it sends a message to the client indicating the need to invoke a specific function—this message is called a [FunctionCallRequest.](/docs/voice-agent-server-messages#functioncallrequest) In response, the client processes the request, calls the desired function, and then sends back the result as a FunctionCallResponse.
-</Info>
+The `FunctionCallResponse` message contains the result of a function call. It is usually sent by the client in response to a `FunctionCallRequest`, but may also be sent by the server if the function was handled internally (When a request contained `client_side: false`).
 
-# What is the `FunctionCallResponse` Message
+## Purpose
 
-The`FunctionCallResponse` message is a JSON command that the client should reply with every time there is a `FunctionCallRequest` received.
+This message completes a function call flow. It provides the output of the function to the agent, regardless of where it was executed.
 
-## Sending `FunctionCallResponse`
+- If the [request](./voice-agent-function-call-request) was marked `client_side: true`, the client sends the `FunctionCallResponse`.
+- If the request had `client_side: false`, the server sends this message after processing the function.
 
-To send the `FunctionCallResponse` message, you need to send the following JSON message to the server:
+## Fields
 
-<CodeGroup>
-  ```json JSON
-  {
-    "type": "FunctionCallResponse",
-    "function_call_id": "", // The same ID received in the request
-    "output": "" // A string containing the result of the function call
-  }
-  ```
-</CodeGroup>
+- `type`: Always `"FunctionCallResponse"`.
+- `id`: The ID of the original function call (optional but recommended for traceability).
+- `name`: The name of the function that was called.
+- `content`: A text summary or result of the function's output. This is often passed to the next step in the conversation, or parsed if it contains encoded text (i.e. JSON).
 
-## `FunctionCallResponse` Confirmation
+## Example payload
 
-There is no confirmation message sent to the client after it sends a `FunctionCallResponse` to the server. You know your function call was processed successfully if the conversation proceeds and the agent replies
+```json
+{
+  "type": "FunctionCallResponse",
+  "id": "fc_12345678-90ab-cdef-1234-567890abcdef",
+  "name": "get_weather",
+  "content": "{\"location\": \"Fremont, CA 94539\", \"temperature_c\": 21, \"condition\": \"Sunny\", \"humidity\": 40, \"wind_kph\": 14}"
+}
+```
 
-# Conclusion
+In this example, the client (or server) returns the result of calling the `get_weather` function.
 
-the `FunctionCallResponse` message serves as a standardized JSON command that the client must send in direct response to each FunctionCallRequest received. This ensures consistent communication, facilitates prompt data exchange, and maintains a reliable workflow between the client and server.
+## Related messages
+
+* [`FunctionCallRequest`](./voice-agent-function-call-request): The message that triggers a function to be called.

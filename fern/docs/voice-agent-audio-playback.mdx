@@ -1,19 +1,19 @@
 ---
 title: Voice Agent Audio & Playback
-subtitle: Learn some tips and strategies for dealing with audio and playback issues.
+subtitle: Learn some strategies for dealing with audio and playback issues.
 slug: docs/voice-agent-audio-playback
 ---
 
 
 The Agent API involves challenges like producing natural-sounding speech and eliminating audio errors. Achieving high-quality output requires careful text pre-processing, accurate phonetic and prosodic modeling, and post-processing steps like noise reduction and compression.
 
-Deepgram handles much of this for you, but if you are experiencing issues with your text-to-speech output, this guide will help you troubleshoot those problems.
+Deepgram handles much of this for you, but if you are experiencing issues with your speech output, this guide will help you troubleshoot those problems.
 
 # Common problems
 
 ## The Audio Output Sounds Like Static
 
-If you are able to connect your websocket to the Agent API successfully, but are getting a screeching or distorted playback on the audio, it is possible that your [SettingsConfiguration](/docs/voice-agent-settings-configuration) was not set correctly. Verify that after you send the `SettingConfiguration` message, you receive a [SettingsApplied](/docs/voice-agent-server-messages#setting-applied) message from the server.
+If you are able to connect your websocket to the Agent API successfully, but are getting a screeching or distorted playback on the audio, it is possible that your Agent [Settings](/docs/voice-agent-settings) were not set correctly. Verify that after you send the `Settings` message, you are properly receiving a [SettingsApplied](/docs/voice-agent-setting-applied-message) message from the server.
 
 The distorted or static-like sounds you are hearing may result from audio `encoding` and `sample_rate` settings for the output being set incorrectly. You may inadvertently be setting an incorrect value, leading to specific default values being used.
 
@@ -23,7 +23,7 @@ The distorted or static-like sounds you are hearing may result from audio `encod
 
 ## Attempting to Play Audio in a Web Browser
 
-When attempting to play generated audio within a web browser, like Chrome, you may not hear any audio playing from your speakers because the stream is not containerized audio (ie, audio with a defining header, for example: `wav` header).
+When attempting to play generated audio within a web browser, like Chrome, you may not hear any audio playing from your speakers because the stream is not containerized audio (ie, audio with a defined header, like `wav`).
 
 Currently, the Text-to-Speech WebSocket implementation does not support[ containerized audio formats.](/docs/tts-container) To support playing audio through a web browser, it is recommended that you create and prepend a containerized audio header for your audio output bytes each time they are generated.
 
@@ -206,5 +206,3 @@ Some browsers provide built-in **echo cancellation** that can help reduce cases 
       });
   ```
 </CodeGroup>
-
-Read more in the guide [Voice Agent Adaptive Echo Cancellation](/docs/voice-agent-echo-cancellation)

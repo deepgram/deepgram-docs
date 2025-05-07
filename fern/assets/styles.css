@@ -272,6 +272,14 @@ span[data-badge-type="status-code"] {
   height: fit-content;
 }
 
+.dg-badge.experimental {
+  background-image: linear-gradient(82.38deg, #ff2eea -99.24%, #4b3cff 99.26%) !important;
+}
+
+.dg-badge.deprecated {
+  background-image: linear-gradient(82.38deg, #ed9e79 -99.24%, #cc0000 99.26%) !important;
+}
+
 .dg-badge span {
   background-color: #1a1a1f !important;
   padding: 4px 12px !important;

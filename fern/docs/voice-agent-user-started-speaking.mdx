@@ -1,28 +1,27 @@
 ---
 title: User Started Speaking
-subtitle: User Started Speaking notifies the client that the user has begun speaking.
+subtitle: Notifies the client that the user has begun speaking.
 slug: docs/voice-agent-user-started-speaking
 ---
 
-
 <Markdown src="../snippets/voice-agent.mdx" />
 
-# What is the `UserStartedSpeaking` Message
 
 The `userStartedSpeaking` message confirms when a user begins to speak.
 
-## Receiving `UserStartedSpeaking`
+## Purpose
+
+The `UserStartedSpeaking` message notifies the server that the user has begun speaking, prompting the client to stop any ongoing agent audio playback and discard any buffered audio, ensuring that the user's input is prioritized and processed immediately.
+
+## Example Payload
 
 The server will send a `UserStartedSpeaking` message every time the user begins a new utterance. If the client is playing agent audio when this message is received, it should stop playback immediately and discard all of its buffered agent audio.
 
 <CodeGroup>
   ```json JSON
   {
-    "type": "UserStartedSpeaking"  
+    "type": "UserStartedSpeaking"
   }
   ```
 </CodeGroup>
 
-## Conclusion
-
-The `UserStartedSpeaking` message notifies the server that the user has begun speaking, prompting the client to stop any ongoing agent audio playback and discard any buffered audio, ensuring that the user's input is prioritized and processed immediately.

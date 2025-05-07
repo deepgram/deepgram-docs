@@ -8,87 +8,149 @@ slug: docs/configure-voice-agent
 
 <Markdown src="../snippets/voice-agent.mdx" />
 
-To configure the voice agent, you'll need to send a [Settings Configuration](/docs/voice-agent-settings-configuration) message immediately after connection. Below is a detailed explanation of the configurations available.
+<Warning>
+You will need to migrate to the new [V1 Agent API](/reference/voice-agent-api/agent) to continue to use the Voice Agent API. Please refer to the [Voice Agent API Migration Guide](/docs/link-to-migration-guide) for more information. **TODO: Need's link**
+</Warning>
 
-## Configuration Parameters
+To configure your Voice Agent, you'll need to send a [Settings](/docs/voice-agent-settings) message immediately after connection. This message configures the agent's behavior, input/output audio formats, and various provider settings.
 
-| Parameter                   | Description                                                                                                                                                                     |
-| --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `audio.input`               | The speech-to-text audio media input you wish to send. The audio must be uncontainerized and have the following encodings: <br /> - `Linear16` <br /> - `alaw` <br /> - `mulaw` |
-| `audio.output`              | The text-to-speech audio media output you wish to receive. [See options](/docs/tts-media-output-settings)                                                                       |
-| `agent.listen.model`        | The Deepgram speech-to-text model to be used. [See options](/docs/models-languages-overview)                                                                                    |
-| `agent.listen.keyterms`     | Keyterms you want increased recognition for. [See more](/docs/keyterm)                                                                                                          |
-| `agent.think.model`         | Defines the LLM Model to be used. [See options](/docs/voice-agent-llm-models)                                                                                                   |
-| `agent.think.provider.type` | Defines the LLM Provider [See options](/docs/voice-agent-llm-models)                                                                                                            |
-| `agent.think.instructions`  | Defines the System Prompt for the LLM                                                                                                                                           |
-| `agent.think.functions`     | Pass functions to the agent that will be called throughout the conversation if/when needed as described per function. [See options](/docs/voice-agent-llm-models)               |
-| `agent.speak.model`         | The Deepgram text-to-speech model to be used. [See options](/docs/voice-agent-tts-models)                                                                                       |
-| `context.messages`          | Used to restore existing conversation if websocket connection break.                                                                                                            |
-| `context.replay`            | Used to to replay the last message, if it is an assistant message.                                                                                                              |
+<Info>
+For more information on the `Settings` message, see the [Voice Agent API Reference](/reference/voice-agent-api/agent)
+</Info>
+
+## Settings Overview
+
+The `Settings` message is a JSON object that contains the following fields:
+
+### Settings
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `type` | String | Must be "Settings" to indicate this is a settings configuration message |
+| `experimental` | Boolean | Enables experimental features. Defaults to `false` |
+
+### Audio
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `audio.input` | Object | The speech-to-text audio media input configuration |
+| `audio.input.encoding` | String | The encoding format for the input audio. Defaults to `linear16` |
+| `audio.input.sample_rate` | Integer | The sample rate in Hz for the input audio. Defaults to 16000 |
+| `audio.output` | Object | The text-to-speech audio media output configuration |
+| `audio.output.encoding` | String | The encoding format for the output audio |
+| `audio.output.sample_rate` | Integer | The sample rate in Hz for the output audio |
+| `audio.output.bitrate` | Integer | The bitrate in bits per second for the output audio |
+| `audio.output.container` | String | The container format for the output audio. Defaults to `none` |
+
+### Agent
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `agent.language` | String | The language code for the agent. Defaults to `en` |
+| `agent.listen.provider.type` | Object | The speech-to-text provider type. Currently only Deepgram is supported |
+| `agent.listen.provider.model` | String | The [Deepgram speech-to-text model](/docs/models-languages-overview) to be used |
+| `agent.listen.provider.keyterms` | Array | The [Keyterms](/docs/keyterms) you want increased recognition for |
+| `agent.think.provider.type` | Object | The [LLM Model](/docs/voice-agent-llm-models) provider type e.g., `open_ai`, `anthropic`, `x_ai`, `amazon_bedrock` |
+| `agent.think.provider.model` | String | The LLM model to use|
+| `agent.think.provider.temperature` | Number | Controls the randomness of the LLM's output. Range: 0-2 for OpenAI, 0-1 for Anthropic |
+| `agent.think.endpoint` | Object | Optional if LLM provider is Deepgram. Required for non-Deepgram LLM providers. When present, must include url field and headers object |
+| `agent.think.functions` | Array | Array of functions the agent can call during the conversation |
+| `agent.think.functions.endpoint` | Object | The Function endpoint to call. if not passed, function is called client-side |
+| `agent.think.prompt` | String | The system prompt that defines the agent's behavior and personality |
+| `agent.speak.provider.type` | Object | The [TTS Model](/docs/voice-agent-tts-models) provider type. e.g., `deepgram`, `eleven_labs`, `cartesia`, `open_ai` |
+| `agent.speak.provider.model` | String | The [TTS Model](/docs/voice-agent-tts-models)  to use for Deepgram or OpenAI |
+| `agent.speak.provider.model_id` | String| The [TTS Model](/docs/voice-agent-tts-models) ID to use for Eleven Labs or Cartesia |
+| `agent.speak.provider.voice` | Object | Voice configuration for Cartesia provider. Requires `model` and `id` |
+| `agent.speak.provider.language` | String | Optional language setting for Cartesia provider |
+| `agent.speak.provider.language_code` | String | Optional language code for Eleven Labs provider |
+| `agent.speak.provider.endpoint` | Object | Optional if TTS provider is Deepgram. Required for non-Deepgram TTS providers. When present, must include url field and headers object |
+| `agent.greeting` | String | Optional initial message that the agent will speak when the conversation starts |
 
 ## Full Example
 
-Below is an in-depth example showing all the fields available fields for `SettingConfigurations` highlighting default values and optional properties.
+Below is an in-depth example showing all the available fields for `Settings`.
 
 <CodeGroup>
   ```json JSON
   {
-    "type": "SettingsConfiguration",
+    "type": "Settings",
+    "experimental": false,
+    "mip_opt_out": false,
     "audio": {
-      "input": { // optional. defaults to 16kHz linear16
-        "encoding": "",
-        "sample_rate": 24000 // defaults to 24k
+      "input": {
+        "encoding": "linear16",
+        "sample_rate": 24000
       },
-      "output": { // optional. see table below for defaults and allowed combinations
-        "encoding": "",
-        "sample_rate": 24000, // defaults to 24k
-        "bitrate": 0,
-        "container": ""
+      "output": {
+        "encoding": "mp3",
+        "sample_rate": 24000,
+        "bitrate": 48000,
+        "container": "none"
       }
     },
     "agent": {
+      "language": "en",
       "listen": {
-        "model": "", // optional. default 'nova-3'
-        "keyterms": [] // optional, only available on nova 3 models
+        "provider": {
+          "type": "deepgram",
+          "model": "nova-3",
+          "keyterms": ["hello", "goodbye"]
+        }
       },
       "think": {
         "provider": {
-          "type": "" // see `LLM providers and models` table below
+          "type": "open_ai",
+          "model": "gpt-4o-mini",
+          "temperature": 0.7
         },
-        "model": "", // see `LLM providers and models` table below
-        "instructions": "", // optional (this is the LLM System prompt)
+        "endpoint": { // Optional for non-Deepgram LLM providers. When present, must include url field and headers object
+          "url": "https://api.example.com/llm",
+          "headers": {
+            "authorization": "Bearer {{token}}"
+          }
+        },
+        "prompt": "You are a helpful AI assistant focused on customer service.",
         "functions": [
           {
-            "name": "", // function name
-            "description": "", // tells the agent what the function does, and how and when to use it
-            "url": "", // the endpoint where your function will be called
-            "headers": [ // optional. Http headers to pass when calling the function. Only supports 'authorization'
-              {
-                "key": "authorization",
-                "value": ""
-              }
-            ],
-            "method": "post", // the http method to use when calling the function
+            "name": "check_order_status",
+            "description": "Check the status of a customer order",
             "parameters": {
               "type": "object",
               "properties": {
-                "item": { // the name of the input property
-                  "type": "string", // the type of the input
-                  "description":"" // the description of the input so the agent understands what it is
+                "order_id": {
+                  "type": "string",
+                  "description": "The order ID to check"
                 }
               },
-              "required": ["item"] // the list of required input properties for this function to be called
+              "required": ["order_id"]
+            },
+            "endpoint": { // If not provided, function is called client-side
+              "url": "https://api.example.com/orders/status",
+              "method": "post",
+              "headers": {
+                "authorization": "Bearer {{token}}"
+              }
             }
           }
         ]
       },
       "speak": {
-        "model": "" // default 'aura-asteria-en' for other providers see TTS Models documentation
-      }
-    },
-    "context": {
-      "messages": [], // LLM message history (e.g. to restore existing conversation if websocket connection breaks)
-      "replay": false // whether to replay the last message, if it is an assistant message
+        "provider": {
+          "type": "deepgram",
+          "model": "aura-2-thalia-en", // Optional if TTS provider is Deepgram. Use for OpenAI OR Deepgram
+          "model_id": "1234567890", // Optional if TTS provider is Deepgram. Use for Eleven Labs OR Cartesia
+          "voice": {
+            "mode": "Cartesia mode type", // Optional if TTS provider is Deepgram. Use for Cartesia
+            "id": "Cartesia voice id" // Optional if TTS provider is Deepgram. Use for Cartesia
+          },
+          "language": "en", // Optional if TTS provider is Deepgram. Use for Cartesia
+          "language_code": "en-US" // Optional if TTS provider is Deepgram. Use for Eleven Labs
+        },
+        "endpoint": {
+          "url": "https://api.example.com/tts",
+          "headers": {
+            "authorization": "Bearer {{token}}"
+          }
+        }
+      },
+      "greeting": "Hello! How can I help you today?"
     }
   }
   ```

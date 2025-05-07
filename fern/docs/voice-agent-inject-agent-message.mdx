@@ -1,22 +1,24 @@
 ---
-title: Inject Agent Message
+title: Inject Agent
 subtitle: Send a message to immediately trigger an Agent statement.
 slug: docs/voice-agent-inject-agent-message
 ---
 
-
 <Markdown src="../snippets/voice-agent.mdx" />
 
-Some common ways to use the `injectAgentMessage` are:
 
-* Informing the user that the agent is working on a lengthy function call ("Hold on while I look that up for you")
-* Prompting the user to continue if the user hasn't spoken for a while ("Are you still on the line?")
+The`InjectAgentMessage` message is a JSON message you can send to immediately trigger an agent statement.
 
-# What is the `InjectAgentMessage`
+## Purpose
 
-The`InjectAgentMessage` message is a JSON command you can send to immediately trigger an agent statement. If the injection request arrives while the user is speaking, or while the server is in the middle of sending audio for an agent response, then the request will be ignored and the server will reply with an`InjectionRefused`. The client should only try to inject agent messages during silent portions of the conversation.
+The `InjectAgentMessage` message provides a way to immediately trigger an agent response during a conversation. However, it must be carefully timed, as the request will be ignored if the user is speaking or if the agent is already responding. To ensure successful injection, the client should only attempt it during silent moments, avoiding interruptions and potential `InjectionRefused` errors.
 
-## Sending `InjectAgentMessage`
+<Info>
+The client should only try to inject agent messages during silent portions of the conversation.
+</Info>
+
+
+## Example Payloads
 
 To send the `InjectAgentMessage` message, you need to send the following JSON message to the server:
 
@@ -29,9 +31,7 @@ To send the `InjectAgentMessage` message, you need to send the following JSON me
   ```
 </CodeGroup>
 
-## `InjectAgentMessage` Confirmation
-
-The server will send an AgentAudioDone message immediately after it sends the last audio message in a piece of agent speech. See [Agent Audio Done](/docs/voice-agent-agent-audio-done) for more details.
+After completing the agent's speech audio transmission, the server sends an [`AgentAudioDone`](/docs/voice-agent-agent-audio-done) message.
 
 <CodeGroup>
   ```json JSON
@@ -40,8 +40,6 @@ The server will send an AgentAudioDone message immediately after it sends the la
   }
   ```
 </CodeGroup>
-
-## `InjectAgentMessage` Refused
 
 The server will send an `InjectionRefused` message when an `InjectAgentMessage` request is ignored because it arrived while the user was speaking or while the server was sending audio for an agent response.
 
@@ -53,6 +51,10 @@ The server will send an `InjectionRefused` message when an `InjectAgentMessage` 
   ```
 </CodeGroup>
 
-# Conclusion
+## Use Cases
 
-The `InjectAgentMessage` message provides a way to immediately trigger an agent response during a conversation. However, it must be carefully timed, as the request will be ignored if the user is speaking or if the agent is already responding. To ensure successful injection, the client should only attempt it during silent moments, avoiding interruptions and potential `InjectionRefused` errors.
+Some common ways to use the `injectAgentMessage` are:
+
+* Informing the user that the agent is working on a lengthy function call ("Hold on while I look that up for you")
+* Prompting the user to continue if the user hasn't spoken for a while ("Are you still on the line?")
+

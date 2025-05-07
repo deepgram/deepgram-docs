@@ -94,6 +94,8 @@ navigation:
     layout:
       - page: Getting Started
         path: docs/voice-agent.mdx
+      - page: Voice Agent v1 API Migration
+        path: docs/voice-agent-v1-migration.mdx
       - page: Feature Overview
         path: docs/voice-agent-feature-overview.mdx
       - page: Starter Apps
@@ -105,19 +107,19 @@ navigation:
         contents:
           - page: Build A Function Call
             path: docs/build-a-function-call.mdx
+          - page: Function Call Request
+            path: docs/voice-agent-function-call-request.mdx
+          - page: Function Call Response
+            path: docs/voice-agent-function-call-response.mdx
       - section: "Inputs: Client Messages"
         path: docs/voice-agent-inputs.mdx
         contents:
-          - page: Settings Configuration
-            path: docs/voice-agent-settings-configuration.mdx
-          - page: Update Instructions
-            path: docs/voice-agent-update-instructions.mdx
+          - page: Settings
+            path: docs/voice-agent-settings.mdx
           - page: Update Speak
             path: docs/voice-agent-update-speak.mdx
-          - page: Inject Agent Message
+          - page: Inject Agent
             path: docs/voice-agent-inject-agent-message.mdx
-          - page: Function Call Response
-            path: docs/voice-agent-function-call-response.mdx
           - page: Agent Keep Alive
             path: docs/agent-keep-alive.mdx
       - section: "Outputs: Server Events"
@@ -133,16 +135,16 @@ navigation:
             path: docs/voice-agent-user-started-speaking.mdx
           - page: Agent Thinking
             path: docs/voice-agent-agent-thinking.mdx
-          - page: Function Call Request
-            path: docs/voice-agent-function-call-request.mdx
-          - page: Function Calling Message
-            path: docs/voice-agent-function-calling-message.mdx
-          - page: Agent Started Speaking
-            path: docs/voice-agent-agent-started-speaking.mdx
+          - page: Prompt Updated
+            path: docs/voice-agent-prompt-updated.mdx
+          - page: Speak Updated
+            path: docs/voice-agent-speak-updated.mdx
           - page: Agent Audio Done
             path: docs/voice-agent-agent-audio-done.mdx
-          - page: Agent Server Errors
-            path: docs/voice-agent-server-errors.mdx
+          - page: Agent Errors
+            path: docs/voice-agent-errors.mdx
+          - page: Agent Warnings
+            path: docs/voice-agent-warning.mdx
       - page: LLM Models
         path: docs/voice-agent-llm-models.mdx
       - page: TTS Models
@@ -616,6 +618,15 @@ navigation:
             hidden: true
           - page: Genesys and Deepgram (Legacy)
             path: hidden-pages/genesys-deepgram-legacy.mdx
+            hidden: true
+          - page: Agent Started Speaking
+            path: hidden-pages/voice-agent-agent-started-speaking.mdx
+            hidden: true
+          - page: Update Instructions
+            path: hidden-pages/voice-agent-update-instructions.mdx
+            hidden: true
+          - page: Function Calling Message
+            path: hidden-pages/voice-agent-function-calling-message.mdx
             hidden: true
   - tab: sdks
     layout:
@@ -1301,6 +1312,12 @@ redirects:
     destination: /docs/genesys-deepgram-legacy
   - source: /reference/ephemeral-auth-api/grant-token
     destination: /reference/token-based-auth-api/grant-token
+  - source: /docs/voice-agent-settings-configuration
+    destination: /docs/voice-agent-settings
+  - source: /docs/voice-agent-server-errors
+    destination: /docs/voice-agent-errors
+  - source: /docs/build-a-voice-agent
+    destination: /reference/voice-agent-api/agent
 analytics:
   gtm:
     container-id: ${GTM_CONTAINER_ID}
