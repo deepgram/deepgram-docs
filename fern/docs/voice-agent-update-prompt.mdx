@@ -1,0 +1,37 @@
+---
+title: Update Prompt
+subtitle: Send a message to update the system prompt of the agent.
+slug: docs/voice-agent-update-prompt
+---
+
+<Markdown src="../snippets/voice-agent.mdx" />
+
+The `UpdatePrompt` message is a JSON message that you can use to update the system prompt of the agent.
+
+## Purpose
+The `UpdatePrompt` message is a JSON message that allows you to update the system prompt of the agent. This flexibility enables real-time adjustments to the agent's behavior, ensuring a more dynamic and responsive interaction tailored to the evolving needs of the conversation.
+
+## Example Payloads
+
+To send the `UpdatePrompt` message, you need to send the following JSON message to the server:
+
+<CodeGroup>
+  ```json JSON
+  {
+    "type": "UpdatePrompt",
+    "prompt": "" // The new system prompt
+  }
+  ```
+</CodeGroup>
+
+Upon receiving the `UpdatePrompt` message, the server will process all remaining audio data and return a [`PromptUpdated`](/docs/voice-agent-prompt-updated) message.
+
+<CodeGroup>
+  ```json JSON
+  {
+      "type": "PromptUpdated"
+  }
+  ```
+</CodeGroup>
+
+
