@@ -118,6 +118,8 @@ navigation:
             path: docs/voice-agent-settings.mdx
           - page: Update Speak
             path: docs/voice-agent-update-speak.mdx
+          - page: Update Prompt
+            path: docs/voice-agent-update-prompt.mdx
           - page: Inject Agent
             path: docs/voice-agent-inject-agent-message.mdx
           - page: Agent Keep Alive
