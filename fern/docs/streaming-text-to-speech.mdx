@@ -21,11 +21,6 @@ Deepgram has several SDKs that can make the API easier to use. Follow these step
 ### Add Dependencies
 
 <CodeGroup>
-  ```python Simple Python
-  # Install the dependencies
-  pip install pyaudio==0.2.14
-  ```
-
   ```shell JavaScript
   # Install the SDK
   npm install @deepgram/sdk
@@ -49,7 +44,7 @@ Deepgram has several SDKs that can make the API easier to use. Follow these step
   # Importing the Deepgram Go SDK should pull in all dependencies required
   ```
 
-  ```shell .NET
+  ```shell C#
   # Install the SDK
   dotnet add package Deepgram
 
@@ -60,234 +55,96 @@ Deepgram has several SDKs that can make the API easier to use. Follow these step
 ### Make the Request with the SDK
 
 <CodeGroup>
-  ```python Simple Python
-  import json
-  import os
-  import threading
-  import asyncio
-  import queue
-
-  import websockets
-  from websockets.sync.client import connect
-
-  import pyaudio
-
-  TIMEOUT = 0.050
-  FORMAT = pyaudio.paInt16
-  CHANNELS = 1
-  RATE = 48000
-  CHUNK = 8000
-
-  DEFAULT_URL = f"wss://api.deepgram.com/v1/speak?encoding=linear16&sample_rate={RATE}"
-  DEFAULT_TOKEN = os.environ.get("DEEPGRAM_API_KEY", None)
-
-  def main():
-      print(f"Connecting to {DEFAULT_URL}")
-
-      _socket = connect(
-          DEFAULT_URL, additional_headers={"Authorization": f"Token {DEFAULT_TOKEN}"}
-      )
-      _exit = threading.Event()
-
-      _story = [
-          "The sun had just begun to rise over the sleepy town of Millfield.",
-          "Emily a young woman in her mid-twenties was already awake and bustling about.",
-      ]
-
-      async def receiver():
-          speaker = Speaker()
-          speaker.start()
-          try:
-              while True:
-                  if _socket is None or _exit.is_set():
-                      break
-
-                  message = _socket.recv()
-                  if message is None:
-                      continue
-
-                  if type(message) is str:
-                      print(message)
-                  elif type(message) is bytes:
-                      speaker.play(message)
-          except Exception as e:
-              print(f"receiver: {e}")
-          finally:
-              speaker.stop()
-
-      _receiver_thread = threading.Thread(target=asyncio.run, args=(receiver(),))
-      _receiver_thread.start()
-
-      for text_input in _story:
-          print(f"Sending: {text_input}")
-          _socket.send(json.dumps({"type": "Speak", "text": text_input}))
-
-      print("Flushing...")
-      _socket.send(json.dumps({"type": "Flush"}))
-
-      input("Press Enter to exit...")
-      _exit.set()
-      _socket.send(json.dumps({"type": "Close"}))
-      _socket.close()
-
-      _receiver_thread.join()
-      _receiver_thread = None
-
-  class Speaker:
-      _audio: pyaudio.PyAudio
-      _chunk: int
-      _rate: int
-      _format: int
-      _channels: int
-      _output_device_index: int
-
-      _stream: pyaudio.Stream
-      _thread: threading.Thread
-      _asyncio_loop: asyncio.AbstractEventLoop
-      _asyncio_thread: threading.Thread
-      _queue: queue.Queue
-      _exit: threading.Event
-
-      def __init__(
-          self,
-          rate: int = RATE,
-          chunk: int = CHUNK,
-          channels: int = CHANNELS,
-          output_device_index: int = None,
-      ):
-          self._exit = threading.Event()
-          self._queue = queue.Queue()
-
-          self._audio = pyaudio.PyAudio()
-          self._chunk = chunk
-          self._rate = rate
-          self._format = FORMAT
-          self._channels = channels
-          self._output_device_index = output_device_index
-
-      def _start_asyncio_loop(self) -> None:
-          self._asyncio_loop = asyncio.new_event_loop()
-          self._asyncio_loop.run_forever()
-
-      def start(self) -> bool:
-          self._stream = self._audio.open(
-              format=self._format,
-              channels=self._channels,
-              rate=self._rate,
-              input=False,
-              output=True,
-              frames_per_buffer=self._chunk,
-              output_device_index=self._output_device_index,
-          )
-
-          self._exit.clear()
-
-          self._thread = threading.Thread(
-              target=_play, args=(self._queue, self._stream, self._exit), daemon=True
-          )
-          self._thread.start()
-
-          self._stream.start_stream()
-
-          return True
-
-      def stop(self):
-          self._exit.set()
-
-          if self._stream is not None:
-              self._stream.stop_stream()
-              self._stream.close()
-              self._stream = None
-
-          self._thread.join()
-          self._thread = None
-
-          self._queue = None
-
-      def play(self, data):
-          self._queue.put(data)
-
-  def _play(audio_out: queue, stream, stop):
-      while not stop.is_set():
-          try:
-              data = audio_out.get(True, TIMEOUT)
-              stream.write(data)
-          except queue.Empty as e:
-              # print(f"queue is empty")
-              pass
-          except Exception as e:
-              print(f"_play: {e}")
-
-  if __name__ == "__main__":
-      main()
-  ```
-
-  ```javascript JS SDK
+  ```javascript JavaScript
   const fs = require("fs");
-  const { createClient, LiveTTSEvents } = require("../../dist/main/index");
+const { createClient, LiveTTSEvents } = require("../../dist/main/index");
 
-  const live = async () => {
-    const text = "Hello, how can I help you today?";
+// Add a wav audio container header to the file if you want to play the audio
+// using the AudioContext or media player like VLC, Media Player, or Apple Music
+// Without this header in the Chrome browser case, the audio will not play.
+// prettier-ignore
+const wavHeader = [
+  0x52, 0x49, 0x46, 0x46, // "RIFF"
+  0x00, 0x00, 0x00, 0x00, // Placeholder for file size
+  0x57, 0x41, 0x56, 0x45, // "WAVE"
+  0x66, 0x6D, 0x74, 0x20, // "fmt "
+  0x10, 0x00, 0x00, 0x00, // Chunk size (16)
+  0x01, 0x00,             // Audio format (1 for PCM)
+  0x01, 0x00,             // Number of channels (1)
+  0x80, 0xBB, 0x00, 0x00, // Sample rate (48000)
+  0x00, 0xEE, 0x02, 0x00, // Byte rate (48000 * 2)
+  0x02, 0x00,             // Block align (2)
+  0x10, 0x00,             // Bits per sample (16)
+  0x64, 0x61, 0x74, 0x61, // "data"
+  0x00, 0x00, 0x00, 0x00  // Placeholder for data size
+];
 
-    const deepgram = createClient(process.env.DEEPGRAM_API_KEY);
+const live = async () => {
+  const text = "Hello, how can I help you today?";
 
-    const dgConnection = deepgram.speak.live({ model: "aura-2-thalia-en" });
+  const deepgram = createClient(process.env.DEEPGRAM_API_KEY);
 
-    let audioBuffer = Buffer.alloc(0);
+  const dgConnection = deepgram.speak.live({
+    model: "aura-asteria-en",
+    encoding: "linear16",
+    sample_rate: 48000,
+  });
 
-    dgConnection.on(LiveTTSEvents.Open, () => {
-      console.log("Connection opened");
+  let audioBuffer = Buffer.from(wavHeader);
 
-      // Send text data for TTS synthesis
-      dgConnection.sendText(text);
+  dgConnection.on(LiveTTSEvents.Open, () => {
+    console.log("Connection opened");
 
-      // Send Flush message to the server after sending the text
-      dgConnection.flush();
+    // Send text data for TTS synthesis
+    dgConnection.sendText(text);
 
-      dgConnection.on(LiveTTSEvents.Close, () => {
-        console.log("Connection closed");
-      });
+    // Send Flush message to the server after sending the text
+    dgConnection.flush();
 
-      dgConnection.on(LiveTTSEvents.Metadata, (data) => {
-        console.dir(data, { depth: null });
-      });
-
-      dgConnection.on(LiveTTSEvents.Audio, (data) => {
-        console.log("Deepgram audio data received");
-        // Concatenate the audio chunks into a single buffer
-        const buffer = Buffer.from(data);
-        audioBuffer = Buffer.concat([audioBuffer, buffer]);
-      });
-
-      dgConnection.on(LiveTTSEvents.Flushed, () => {
-        console.log("Deepgram Flushed");
-        // Write the buffered audio data to a file when the flush event is received
-        writeFile();
-      });
-
-      dgConnection.on(LiveTTSEvents.Error, (err) => {
-        console.error(err);
-      });
+    dgConnection.on(LiveTTSEvents.Close, () => {
+      console.log("Connection closed");
     });
 
-    const writeFile = () => {
-      if (audioBuffer.length > 0) {
-        fs.writeFile("output.mp3", audioBuffer, (err) => {
-          if (err) {
-            console.error("Error writing audio file:", err);
-          } else {
-            console.log("Audio file saved as output.mp3");
-          }
-        });
-        audioBuffer = Buffer.alloc(0); // Reset buffer after writing
-      }
-    };
-  };
+    dgConnection.on(LiveTTSEvents.Metadata, (data) => {
+      console.dir(data, { depth: null });
+    });
 
-  live();
+    dgConnection.on(LiveTTSEvents.Audio, (data) => {
+      console.log("Deepgram audio data received");
+      // Concatenate the audio chunks into a single buffer
+      const buffer = Buffer.from(data);
+      audioBuffer = Buffer.concat([audioBuffer, buffer]);
+    });
+
+    dgConnection.on(LiveTTSEvents.Flushed, () => {
+      console.log("Deepgram Flushed");
+      // Write the buffered audio data to a file when the flush event is received
+      writeFile();
+    });
+
+    dgConnection.on(LiveTTSEvents.Error, (err) => {
+      console.error(err);
+    });
+  });
+
+  const writeFile = () => {
+    if (audioBuffer.length > 0) {
+      fs.writeFile("output.wav", audioBuffer, (err) => {
+        if (err) {
+          console.error("Error writing audio file:", err);
+        } else {
+          console.log("Audio file saved as output.wav");
+        }
+      });
+      audioBuffer = Buffer.from(wavHeader); // Reset buffer after writing
+    }
+  };
+};
+
+live();
   ```
 
-  ```python Python SDK
+  ```python Python
 
   import time
   from deepgram.utils import verboselogs
@@ -363,7 +220,7 @@ Deepgram has several SDKs that can make the API easier to use. Follow these step
       main()
   ```
 
-  ```go Go SDK
+  ```go Go
   package main
 
   import (
@@ -497,7 +354,7 @@ Deepgram has several SDKs that can make the API easier to use. Follow these step
   }
   ```
 
-  ```csharp .NET SDK
+  ```csharp C#
   using Deepgram.Models.Authenticate.v1;
   using Deepgram.Models.Speak.v2.WebSocket;
   using Deepgram.Logger;
