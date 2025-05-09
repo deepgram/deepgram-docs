@@ -6,10 +6,6 @@ subtitle: >-
 slug: docs/js-sdk-streaming-text-to-speech
 ---
 
-<Warning>
-Aura-2 is currently available for the [TTS REST API only](/reference/text-to-speech-api/speak). Websocket support is coming soon.
-</Warning>
-
 The Deepgram JavaScript SDK now works in both server and browser environments. A proxy configuration is required for browser environments (see the section below).
 
 ## Installing the SDK
@@ -48,7 +44,7 @@ Once the SDK is initialized, you can make a request to convert text into speech.
 
     const deepgram = createClient(process.env.DEEPGRAM_API_KEY);
 
-    const dgConnection = deepgram.speak.live({ model: "aura-asteria-en" });
+    const dgConnection = deepgram.speak.live({ model: "aura-2-thalia-en" });
 
     let audioBuffer = Buffer.alloc(0);
 
