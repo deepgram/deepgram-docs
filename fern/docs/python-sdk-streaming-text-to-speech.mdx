@@ -4,11 +4,6 @@ subtitle: An overview of the Deepgram Python SDK and Deepgram streaming text-to-
 slug: docs/python-sdk-streaming-text-to-speech
 ---
 
-<Warning>
-Aura-2 is currently available for the [TTS REST API only](/reference/text-to-speech-api/speak). Websocket support is coming soon.
-</Warning>
-
-
 The Deepgram [`Speak Clients`](https://github.com/deepgram/deepgram-python-sdk/tree/main/deepgram/clients/speak/v1/websocket) allows you to generate human-like audio from text.
 
 <Info>
@@ -108,7 +103,7 @@ The Deepgram [`Speak Clients`](https://github.com/deepgram/deepgram-python-sdk/t
 
           # connect to websocket
           options = SpeakWSOptions(
-              model="aura-asteria-en",
+              model="aura-2-thalia-en",
               encoding="linear16",
               sample_rate=16000,
           )
@@ -215,7 +210,7 @@ The Deepgram [`Speak Clients`](https://github.com/deepgram/deepgram-python-sdk/t
 
           # connect to websocket
           options = SpeakWSOptions(
-              model="aura-asteria-en",
+              model="aura-2-thalia-en",
               encoding="linear16",
               sample_rate=16000,
           )
