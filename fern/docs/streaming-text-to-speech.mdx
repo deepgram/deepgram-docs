@@ -56,7 +56,7 @@ Deepgram has several SDKs that can make the API easier to use. Follow these step
 
 <CodeGroup>
   ```javascript JavaScript
-  const fs = require("fs");
+const fs = require("fs");
 const { createClient, LiveTTSEvents } = require("../../dist/main/index");
 
 // Add a wav audio container header to the file if you want to play the audio
@@ -85,7 +85,7 @@ const live = async () => {
   const deepgram = createClient(process.env.DEEPGRAM_API_KEY);
 
   const dgConnection = deepgram.speak.live({
-    model: "aura-asteria-en",
+    model: "aura-2-thalia-en",
     encoding: "linear16",
     sample_rate: 48000,
   });
@@ -457,6 +457,7 @@ live();
                   // Start the connection
                   var speakSchema = new SpeakSchema()
                   {
+                      Model = "aura-2-thalia-en",
                       Encoding = "linear16",
                       SampleRate = 48000,
                   };
