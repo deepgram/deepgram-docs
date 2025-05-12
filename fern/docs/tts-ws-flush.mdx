@@ -4,16 +4,13 @@ subtitle: Flush forces the generation of audio from Deepgram's internal text buf
 slug: docs/tts-ws-flush
 ---
 
-
-<Markdown src="../snippets/tts-ws.mdx" />
+<div class="flex flex-row gap-2">
+  <Markdown src="../snippets/tts-stream-available.mdx" />
+</div>
 
 When you are sending text to our TTS websocket from an LLM, you will need to send a Flush message whenever the LLM finishes a response to indicate the end of the conversation. This allows Deepgram to generate the audio from its existing text buffer without waiting for additional text.
 
 In other cases in real-time text-to-speech processing, there are scenarios where you may need to force the server to process all (or flush) unprocessed speech-to-text data immediately. Deepgram supports a `Flush` message to handle such situations.
-
-# What is the `Flush` Message?
-
-`Flush` is a required JSON message that forces the generation of audio from our internal text buffer. When your LLM has finished outputting its last token, this is useful if you want our TTS to generate its next audio based on what's in the text buffer until that point.
 
 <Warning>
   Very frequent flushes can affect audio output quality.

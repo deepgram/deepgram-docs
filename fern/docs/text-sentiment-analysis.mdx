@@ -4,15 +4,19 @@ subtitle: Sentiment Analysis recognizes sentiment throughout the inputed text.
 slug: docs/text-sentiment-analysis
 ---
 
+<Card 
+    title="Deepgram API Playground" 
+    icon="flask" 
+    href="https://playground.deepgram.com/?endpoint=read&sentiment=true&language=en"
+>
+    Try this feature out in our API Playground.
+</Card>
+<br/>
 
 `sentiment` *boolean*   Default: `false`
 
-<Markdown src="../snippets/english.mdx" />
-
-<div class="api-playground-call">
-<span>
-<img src="https://res.cloudinary.com/deepgram/image/upload/v1717523786/devex/codey-greeting_rekqe1.svg" alt="Deepgram API Playground"/>   Try this feature out in our [API Playground](https://playground.deepgram.com/?endpoint=read\&sentiment=true\&language=en)!
-</span>
+<div class="flex flex-row gap-2">
+  <Markdown src="../snippets/read-batch-available.mdx" /> <Markdown src="../snippets/english.mdx" />
 </div>
 
 Sentiment Analysis accepts an input text, divides it into a list of segments comprised of sections of the text, and identifies the sentiment of each segment. It also assigns an average sentiment to the entire text.

@@ -4,17 +4,19 @@ subtitle: Keywords can boost or suppress specialized terminology.
 slug: docs/keywords
 ---
 
+<Card 
+    title="Deepgram API Playground" 
+    icon="flask" 
+    href="https://playground.deepgram.com/?endpoint=listen&keywords=test%3A1&language=en&model=nova-2"
+>
+    Try this feature out in our API Playground.
+</Card>
+<br/>
 
-`keywords` *string*
+`keywords` *str
 
 <div class="flex flex-row gap-2">
-<Markdown src="../snippets/pre-recorded.mdx" /> <Markdown src="../snippets/streaming.mdx" /> <Markdown src="../snippets/all-available-languages.mdx" />
-</div>
-
-<div class="api-playground-call">
-<span>
-<img src="https://res.cloudinary.com/deepgram/image/upload/v1717523786/devex/codey-greeting_rekqe1.svg" alt="Deepgram API Playground"/>   Try this feature out in our [API Playground](https://playground.deepgram.com/?endpoint=listen\&keywords=test%3A1\&language=en\&model=nova-3)!
-</span>
+  <Markdown src="../snippets/stt-batch-available.mdx" /> <Markdown src="../snippets/stt-stream-available.mdx" /> <Markdown src="../snippets/all-available-languages.mdx" /> 
 </div>
 
 When using Deepgram’s API to transcribe audio with specialized terminology or uncommon proper nouns, you can provide those words to the model for it to incorporate as possible predictions. This is known as keyword boosting.

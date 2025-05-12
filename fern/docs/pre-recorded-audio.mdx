@@ -4,24 +4,20 @@ subtitle: An introduction to getting transcription data from pre-recorded audio 
 slug: docs/pre-recorded-audio
 ---
 
-
-<Markdown src="../snippets/pre-recorded.mdx" />
+<Card 
+    title="Deepgram API Playground" 
+    icon="flask" 
+    href="https://playground.deepgram.com/?endpoint=listen"
+>
+    Try this feature out in our API Playground.
+</Card>
+<br/>
 
 This guide will walk you through how to transcribe pre-recorded audio with the Deepgram API. We provide two scenarios to try: transcribe a remote file and transcribe a local file.
 
 <Info>
   Before you start, you'll need to follow the steps in the [Make Your First API Request](/docs/make-your-first-api-request) guide to obtain a Deepgram API key, and configure your environment if you are choosing to use a Deepgram SDK.
 </Info>
-
-## API Playground
-
-First, quickly explore Deepgram Speech to Text in our API Playground.
-
-<div class="api-playground-call">
-<span>
-<img src="https://res.cloudinary.com/deepgram/image/upload/v1717523786/devex/codey-greeting_rekqe1.svg" alt="Deepgram API Playground"/>   Try this feature out in our [API Playground](https://playground.deepgram.com/?endpoint=listen)!
-</span>
-</div>
 
 ## CURL
 
@@ -32,7 +28,7 @@ If you run the "Local file CURL Example," be sure to change `@youraudio.wav` to 
 ### Remote File CURL Example
 
 <CodeGroup>
-  ```bash cURL
+  ```curl
   curl \
     --request POST \
     --header 'Authorization: Token YOUR_DEEPGRAM_API_KEY' \
@@ -44,7 +40,7 @@ If you run the "Local file CURL Example," be sure to change `@youraudio.wav` to 
 ### Local File CURL Example
 
 <CodeGroup>
-  ```bash cURL
+  ```curl
   curl \
     --request POST \
     --header 'Authorization: Token YOUR_DEEPGRAM_API_KEY' \
@@ -1100,10 +1096,6 @@ Exceeding these limits will result in a 429: Too Many Requests error.
 ## What's Next?
 
 Now that you've transcribed pre-recorded audio, enhance your knowledge by exploring the following areas.
-
-### Try the Starter Apps
-
-* Clone and run one of our [Starter App](/docs/stt-pre-recorded-starter-apps) repositories to see a full application with a frontend UI and a backend server sending audio to Deepgram.
 
 ### Read the Feature Guides
 

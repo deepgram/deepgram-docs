@@ -19,6 +19,7 @@ logo:
   height: 24
   href: /
 
+
 navbar-links:                       
   - type: minimal
     text: "Playground"
@@ -33,35 +34,44 @@ navbar-links:
     text: "Free API Key"
     href: "https://console.deepgram.com/signup"
 
+
 layout:
   tabs-placement: header
   searchbar-placement: header
   page-width: full
+
+
+colors:
+  accent-primary:
+    dark: "#a1f9d4"
+    light: "#00976e"
+  background:
+    dark: "#0b0b0c"
+    light: "#f5f5f7"
+  sidebar-background:
+    dark: "#0b0b0c"
+    light: "#f5f5f7"
+  header-background:
+    dark: "#1a1a1f"
+    light: "#fbfbff"
+  card-background:
+    dark: "#000"
+    light: "#fff"
+  border:
+    dark: "#2c2c33"
+    light: "#e5e5e7"
+
+
+experimental:
+  mdx-components:
+    - ./components
+
 
 css:
   - assets/styles.css
 js:
   - path: ./assets/component.js
     strategy: lazyOnload
-colors:
-  accent-primary:
-    dark: "#A1F9D4"
-    light: "#027a38"
-  background:
-    dark: "#0B0B0C"
-    light: "#FFFFFF"
-  sidebar-background:
-    dark: "#0B0B0C"
-    light: "#FFFFFF"
-  header-background:
-    dark: "#1A1A1F"
-    light: "#fbfbff"
-  card-background:
-    dark: "#1A1A1F"
-    light: "#ededf2"
-  border:
-    dark: "#2C2C33"
-    light: "#e1e1e5"
 typography:
   bodyFont:
     name: Inter
@@ -124,8 +134,8 @@ navigation:
         path: docs/voice-agent-v1-migration.mdx
       - page: Feature Overview
         path: docs/voice-agent-feature-overview.mdx
-      - page: Starter Apps
-        path: docs/voice-agent-starter-apps.mdx
+      - link: Starter Apps
+        href: https://github.com/search?q=org%3Adeepgram-starters+topic%3Avoice-agent&type=repositories
       - page: Configure the Voice Agent
         path: docs/configure-voice-agent.mdx
       - section: Function Calling
@@ -193,8 +203,8 @@ navigation:
             path: docs/pre-recorded-audio.mdx
           - page: Feature Overview
             path: docs/stt-pre-recorded-feature-overview.mdx
-          - page: Starter Apps
-            path: docs/stt-pre-recorded-starter-apps.mdx
+          - link: Starter Apps
+            href: https://github.com/search?q=org%3Adeepgram-starters+topic%3Aspeech-to-text+-topic%3Alive&type=repositories
           - section: Tips and Tricks
             contents:
               - page: Automatically Generating WebVTT & SRT Captions
@@ -224,8 +234,8 @@ navigation:
             path: docs/stt-streaming-feature-overview.mdx
           - page: Live Streaming Starter Kit
             path: docs/getting-started-with-the-streaming-test-suite.mdx
-          - page: Starter Apps
-            path: docs/stt-streaming-starter-apps.mdx
+          - link: Starter Apps
+            href: https://github.com/search?q=org%3Adeepgram-starters+topic%3Aspeech-to-text+topic%3Alive&type=repositories
           - section: Control Messages
             contents:
               - page: Close Stream
@@ -379,8 +389,8 @@ navigation:
                 path: docs/tts-ws-clear.mdx
               - page: Close
                 path: docs/tts-ws-close.mdx
-      - page: Starter Apps
-        path: docs/tts-starter-apps.mdx
+      - link: Starter Apps
+        href: https://github.com/search?q=org%3Adeepgram-starters+topic%3Atext-to-speech&type=repositories
       - page: Voice Selection
         path: docs/tts-models.mdx
       - section: Media Output Settings

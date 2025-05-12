@@ -6,8 +6,7 @@
     "email": "devrel@deepgram.com"
   },
   "devDependencies": {
-    "@types/react": "^19.0.8",
-    "fern-api": "^0.57.17"
+    "fern-api": "^0.60.29"
   },
   "scripts": {
     "predev": "npm run clear && npm run sync",

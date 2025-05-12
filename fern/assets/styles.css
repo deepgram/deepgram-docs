@@ -10,10 +10,10 @@
 :root {
   /* deepgram main */
   --deepgram-accent-primary: #00976e;
-  --deepgram-background: #ffffff;
+  --deepgram-background: #f5f5f7;
   --deepgram-sidebar-background: #f5f5f7;
-  --deepgram-header-background: #ffffff;
-  --deepgram-card-background: #ffffff;
+  --deepgram-header-background: #fbfbff;
+  --deepgram-card-background: #fff;
   --deepgram-border: #e5e5e7;
   --deepgram-body-text: #1a1a1f; // extra
 }
@@ -24,7 +24,7 @@ html.dark {
   --deepgram-background: #0b0b0c;
   --deepgram-sidebar-background: #0b0b0c;
   --deepgram-header-background: #1a1a1f;
-  --deepgram-card-background: #1a1a1f;
+  --deepgram-card-background: #000;
   --deepgram-border: #2c2c33;
   --deepgram-body-text: #fbfbff; // extra
 }
@@ -46,6 +46,62 @@ body {
 .fern-card {
   background-color: var(--deepgram-card-background);
   border-radius: 0.75rem;
+}
+
+:root {
+  --dg-fill: linear-gradient(
+    45deg,
+    var(--deepgram-background),
+    var(--deepgram-background)
+  );
+  --dg-primary: linear-gradient(45deg, #201cff -91.5%, #13ef95 80.05%);
+  --dg-experimental: linear-gradient(45deg, #ff2eea -99.24%, #4b3cff 99.26%);
+  --dg-deprecated: linear-gradient(45deg, #ed9e79 -99.24%, #cc0000 99.26%);
+  --dg-pink-gradient: linear-gradient(45deg, #ff2eea -99.24%, #ffafea 99.26%);
+  --dg-unavailable: linear-gradient(45deg, #6c6c70 -99.24%, #949498 99.26%);
+}
+
+.dg-badge {
+  --gradient: var(--dg-primary);
+
+  font-size: 12px;
+  background: var(--dg-fill) padding-box, var(--gradient) border-box;
+  border-radius: 0.5rem;
+  border: 0.125rem solid transparent;
+}
+
+.dg-badge span {
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dg-badge.strike-through {
+  text-decoration: line-through;
+}
+
+/* Support both naming patterns */
+.dg-badge.unavailable {
+  --gradient: var(--dg-unavailable);
+}
+
+.dg-badge.experimental {
+  --gradient: var(--dg-experimental);
+}
+
+.dg-badge.deprecated {
+  --gradient: var(--dg-deprecated);
+}
+
+.dg-badge.pink {
+  --gradient: var(--dg-pink-gradient);
+}
+
+.dg-badge .fa-icon {
+  background: var(--gradient);
+  margin-right: 0.5rem;
 }
 
 /**

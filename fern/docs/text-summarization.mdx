@@ -4,15 +4,19 @@ subtitle: Summarization provides a brief summary of the input text.
 slug: docs/text-summarization
 ---
 
+<Card 
+    title="Deepgram API Playground" 
+    icon="flask" 
+    href="https://playground.deepgram.com/?endpoint=read&summarize=true&language=en"
+>
+    Try this feature out in our API Playground.
+</Card>
+<br/>
 
 `summarize` *boolean*   Default: `false`
 
-<Markdown src="../snippets/english.mdx" />
-
-<div class="api-playground-call">
-<span>
-<img src="https://res.cloudinary.com/deepgram/image/upload/v1717523786/devex/codey-greeting_rekqe1.svg" alt="Deepgram API Playground"/>   Try this feature out in our [API Playground](https://playground.deepgram.com/?endpoint=read\&summarize=v2\&language=en)!
-</span>
+<div class="flex flex-row gap-2">
+  <Markdown src="../snippets/read-batch-available.mdx" /> <Markdown src="../snippets/english.mdx" />
 </div>
 
 Summarization accepts an input text and analyzes the text. It then summarizes the content of the submitted text and returns a brief summary in the JSON response.

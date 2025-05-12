@@ -6,9 +6,6 @@ subtitle: >-
 slug: docs/live-streaming-audio
 ---
 
-
-<Markdown src="../snippets/streaming.mdx" />
-
 In this guide, you'll learn how to automatically transcribe live streaming audio in real time using Deepgram's SDKs, which are supported for use with the [Deepgram API](/reference/). (If you prefer not to use a Deepgram SDK, jump to the section [Non-SDK Code Examples](/docs/getting-started-with-live-streaming-audio#non-sdk-code-examples).)
 
 <Info>
@@ -24,67 +21,67 @@ To transcribe audio from an audio stream using one of Deepgram's SDKs, follow th
 Open your terminal, navigate to the location on your drive where you want to create your project, and install the Deepgram SDK.
 
 <CodeGroup>
-  ```shell JavaScript
-  # Install the Deepgram JS SDK
-  # https://github.com/deepgram/deepgram-js-sdk
+  ```JavaScript
+  // Install the Deepgram JS SDK
+  // https://github.com/deepgram/deepgram-js-sdk
 
-  npm install @deepgram/sdk
+  // $ npm install @deepgram/sdk
   ```
 
-  ```shell Python
+  ```Python
   # Install the Deepgram Python SDK
   # https://github.com/deepgram/deepgram-python-sdk
 
-  pip install deepgram-sdk
+  # $ pip install deepgram-sdk
   ```
 
-  ```shell C#
-  # Install the Deepgram .NET SDK
-  # https://github.com/deepgram/deepgram-dotnet-sdk
+  ```csharp C#
+  // Install the Deepgram .NET SDK
+  // https://github.com/deepgram/deepgram-dotnet-sdk
 
-  dotnet add package Deepgram
+  // $ dotnet add package Deepgram
   ```
 
-  ```shell Go
-  # Install the Deepgram Go SDK
-  # https://github.com/deepgram/deepgram-go-sdk
+  ```Go
+  // Install the Deepgram Go SDK
+  // https://github.com/deepgram/deepgram-go-sdk
 
-  go get github.com/deepgram/deepgram-go-sdk
+  // $ go get github.com/deepgram/deepgram-go-sdk
   ```
 </CodeGroup>
 
 ### Add Dependencies
 
 <CodeGroup>
-  ```shell JavaScript
-  # Install cross-fetch: Platform-agnostic Fetch API with typescript support, a simple interface, and optional polyfill.
-  # Install dotenv to protect your api key
+  ```JavaScript
+  // Install cross-fetch: Platform-agnostic Fetch API with typescript support, a simple interface, and optional polyfill.
+  // Install dotenv to protect your api key
 
-  npm install cross-fetch dotenv
+  // $ npm install cross-fetch dotenv
   ```
 
-  ```shell Python
+  ```Python
   # Install python-dotenv to protect your API key
 
-  pip install python-dotenv
+  # $ pip install python-dotenv
   ```
 
   ```csharp C#
   // In your .csproj file, add the Package Reference:
 
-  <ItemGroup>
-      <PackageReference Include="Deepgram" Version="4.4.0" />
-  </ItemGroup>
+  // <ItemGroup>
+  //     <PackageReference Include="Deepgram" Version="4.4.0" />
+  // </ItemGroup>
   ```
 
-  ```shell Go
-  # Importing the Deepgram Go SDK should pull in all dependencies required
+  ```Go
+  // Importing the Deepgram Go SDK should pull in all dependencies required
   ```
 </CodeGroup>
 
 ### Transcribe Audio from a Remote Stream
 
-The following code shows how to transcribe audio from a remote audio stream. If you would like to learn how to stream audio from a microphone, check out our [Live Audio Starter Apps](/docs/stt-streaming-feature-overview) or specific examples in the readme of each of the [Deepgram SDKs](/docs/deepgram-sdks).
+The following code shows how to transcribe audio from a remote audio stream.
 
 <CodeGroup>
   ```javascript JavaScript
@@ -531,10 +528,6 @@ If your scenario requires you to keep the connection alive even while data is no
 ## What's Next?
 
 Now that you've gotten transcripts for streaming audio, enhance your knowledge by exploring the following areas. You can also check out our [Live Streaming API Reference](/reference/streaming) for a list of all possible parameters.
-
-### Try the Starter Apps
-
-* Clone and run one of our [Live Audio Starter App](/docs/starter-apps) repositories to see a full application with a frontend UI and a backend server streaming audio to Deepgram.
 
 ### Read the Feature Guides
 

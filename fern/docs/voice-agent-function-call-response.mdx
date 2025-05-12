@@ -4,7 +4,9 @@ subtitle: Message containing the result of a function call, sent by client or se
 slug: docs/voice-agent-function-call-response
 ---
 
-<Markdown src="../snippets/voice-agent.mdx" />
+<div class="flex flex-row gap-2">
+  <Markdown src="../snippets/va-stream-available.mdx" />
+</div>
 
 The `FunctionCallResponse` message contains the result of a function call. It is usually sent by the client in response to a `FunctionCallRequest`, but may also be sent by the server if the function was handled internally (When a request contained `client_side: false`).
 
