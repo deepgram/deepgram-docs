@@ -6,36 +6,62 @@ instances:
         owner: deepgram
         repo: deepgram-docs
         branch: main
-title: Deepgram | Documentation
+
+
+title: Deepgram's Docs
+favicon: assets/favicon.ico
+default-language: python
+
+
 logo:
-  dark: assets/logo.svg
+  dark: assets/logo-dark.svg
+  light: assets/logo-light.svg
   height: 24
   href: /
+
+navbar-links:                       
+  - type: minimal
+    text: "Playground"
+    href: "https://playground.deepgram.com"
+  - type: minimal
+    text: "Console"
+    href: "https://console.deepgram.com"
+  - type: minimal
+    text: "Community"
+    href: "https://community.deepgram.com"
+  - type: filled
+    text: "Free API Key"
+    href: "https://console.deepgram.com/signup"
+
+layout:
+  tabs-placement: header
+  searchbar-placement: header
+  page-width: full
+
 css:
   - assets/styles.css
 js:
   - path: ./assets/component.js
     strategy: lazyOnload
-  - path: dist/output.js
-    strategy: beforeInteractive
-favicon: assets/favicon.ico
-layout:
-  tabs-placement: header
-  searchbar-placement: header
-  page-width: full
 colors:
   accent-primary:
     dark: "#A1F9D4"
+    light: "#027a38"
   background:
     dark: "#0B0B0C"
+    light: "#FFFFFF"
   sidebar-background:
     dark: "#0B0B0C"
+    light: "#FFFFFF"
   header-background:
     dark: "#1A1A1F"
+    light: "#fbfbff"
   card-background:
     dark: "#1A1A1F"
+    light: "#ededf2"
   border:
     dark: "#2C2C33"
+    light: "#e1e1e5"
 typography:
   bodyFont:
     name: Inter
