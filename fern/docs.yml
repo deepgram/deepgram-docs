@@ -29,6 +29,10 @@ navbar-links:
   - type: minimal
     text: "Community"
     href: "https://community.deepgram.com"
+  - type: outlined
+    text: "Support"
+    href: "/docs/support"
+    rightIcon: fa-solid fa-headset
   - type: filled
     text: "Free API Key"
     href: "https://console.deepgram.com/signup"
