@@ -4,17 +4,17 @@ subtitle: Detects topics throughout a transcript.
 slug: docs/topic-detection
 ---
 
+<Card
+    href="https://playground.deepgram.com/?endpoint=listen&topics=true&language=en"
+>
+  <Markdown src="../snippets/playground-card.mdx" />
+</Card>
+<br/>
 
 `topics` *boolean*   Default: `false`
 
 <div class="flex flex-row gap-2">
-<Markdown src="../snippets/pre-recorded.mdx"/> <Markdown src="../snippets/dep-streaming.mdx" /> <Markdown src="../snippets/english.mdx" />
-</div>
-
-<div class="api-playground-call">
-<span>
-<img src="https://res.cloudinary.com/deepgram/image/upload/v1717523786/devex/codey-greeting_rekqe1.svg" alt="Deepgram API Playground"/>   Try this feature out in our [API Playground](https://playground.deepgram.com/?endpoint=listen\&topics=true\&language=en\&model=nova-3)!
-</span>
+  <Markdown src="../snippets/stt-batch-available.mdx"/> <Markdown src="../snippets/stt-stream-unavailable.mdx" /> <Markdown src="../snippets/english.mdx" />
 </div>
 
 Deepgram’s Topic Detection feature identifies key topics within the transcript, returning a list of text segments and the topics found within each segment.

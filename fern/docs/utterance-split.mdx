@@ -6,17 +6,10 @@ subtitle: >-
 slug: docs/utterance-split
 ---
 
-
 `utt_split` *float* Default: `0.8`
 
 <div class="flex flex-row gap-2">
-<Markdown src="../snippets/pre-recorded.mdx"/> <Markdown src="../snippets/dep-streaming.mdx" /> <Markdown src="../snippets/all-available-languages.mdx" />
-</div>
-
-<div class="api-playground-call">
-<span>
-<img src="https://res.cloudinary.com/deepgram/image/upload/v1717523786/devex/codey-greeting_rekqe1.svg" alt="Deepgram API Playground"/>   Try this feature out in our [API Playground](https://playground.deepgram.com/?endpoint=listen\&utterances=true\&utt_split=0.8\&language=en\&model=nova-3)!
-</span>
+<Markdown src="../snippets/stt-batch-available.mdx" /> <Markdown src="../snippets/stt-stream-unavailable.mdx" /> <Markdown src="../snippets/all-available-languages.mdx" />
 </div>
 
 Deepgram’s Utterance Split feature monitors incoming audio and detects when a sufficiently long pause is detected between words. By default, the length of time Deepgram uses for Utterance Split is 0.8 seconds, but you can configure this value using the `utt_split` parameter.

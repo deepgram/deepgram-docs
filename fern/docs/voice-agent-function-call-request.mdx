@@ -4,7 +4,10 @@ subtitle: Server-initiated message requesting a function call, to be handled by 
 slug: docs/voice-agent-function-call-request
 ---
 
-<Markdown src="../snippets/voice-agent.mdx" />
+<div class="flex flex-row gap-2">
+  <Markdown src="../snippets/va-stream-available.mdx" />
+</div>
+
 
 The `FunctionCallRequest` message is sent by the Voice Agent server to request a function call. The handling of this call—whether the server executes it or expects the client to—depends on the `client_side` flag.
 

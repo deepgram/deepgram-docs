@@ -4,16 +4,16 @@ subtitle: Topic Detection detects topics throughout the input text.
 slug: docs/text-topic-detection
 ---
 
+<Card
+    href="https://playground.deepgram.com/?endpoint=read&topics=true&language=en"
+>
+  <Markdown src="../snippets/playground-card.mdx" />
+</Card>
+<br/>
 
 `topics` *boolean*   Default: `false`
 
 <Markdown src="../snippets/english.mdx" />
-
-<div class="api-playground-call">
-<span>
-<img src="https://res.cloudinary.com/deepgram/image/upload/v1717523786/devex/codey-greeting_rekqe1.svg" alt="Deepgram API Playground"/>   Try this feature out in our [API Playground](https://playground.deepgram.com/?endpoint=read\&topics=true\&language=en)!
-</span>
-</div>
 
 Topic Detection accepts an input text, divides it into a list of segments comprised of sections of the text, and identifies key topics found within each segment.
 
@@ -147,10 +147,6 @@ When the file is finished processing, you’ll receive a JSON response that has 
   }
   ```
 </CodeGroup>
-
-<Info>
-  Use the [API reference](/reference/pre-recorded) or the [API Playground](https://playground.deepgram.com/) to view the detailed response.
-</Info>
 
 The response object values for `topics` are:
 

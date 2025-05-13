@@ -4,10 +4,9 @@ subtitle: Clear will clear out Deepgram's internal text buffer.
 slug: docs/tts-ws-clear
 ---
 
-
-<Markdown src="../snippets/tts-ws.mdx" />
-
-# What is the `Clear` Message?
+<div class="flex flex-row gap-2">
+  <Markdown src="../snippets/tts-stream-available.mdx" />
+</div>
 
 If you're working on a conversational AI use case between a human and a TTS agent, the human may interrupt the Agent at any time, and you may want to clear (or reset) the internal text buffer. This is useful because the TTS websocket will stop sending audio, allowing your LLM to generate a new response. The TTS websocket will then produce audio only based on the new text provided.
 

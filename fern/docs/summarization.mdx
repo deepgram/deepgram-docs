@@ -4,17 +4,17 @@ subtitle: Summarization provides a brief summary of the audio.
 slug: docs/summarization
 ---
 
+<Card
+    href="https://playground.deepgram.com/?endpoint=listen&summarize=v2&language=en&model=nova-3"
+>
+  <Markdown src="../snippets/playground-card.mdx" />
+</Card>
+<br/>
 
 `summarize` *string*.
 
-<div class="flex flex-row gap-2"  >
-<Markdown src="../snippets/pre-recorded.mdx"/> <Markdown src="../snippets/dep-streaming.mdx" /> <Markdown src="../snippets/english.mdx" />
-</div>
-
-<div class="api-playground-call">
-<span>
-<img src="https://res.cloudinary.com/deepgram/image/upload/v1717523786/devex/codey-greeting_rekqe1.svg" alt="Deepgram API Playground"/>   Try this feature out in our [API Playground](https://playground.deepgram.com/?endpoint=listen\&summarize=v2\&language=en\&model=nova-3)!
-</span>
+<div class="flex flex-row gap-2">
+  <Markdown src="../snippets/stt-batch-available.mdx" /> <Markdown src="../snippets/stt-stream-unavailable.mdx" /> <Markdown src="../snippets/english.mdx" />
 </div>
 
 Deepgram’s Summarization feature summarizes the content of the submitted audio and returns a brief summary in the JSON response.

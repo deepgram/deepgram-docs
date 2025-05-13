@@ -4,17 +4,17 @@ subtitle: Paragraphs splits audio into paragraphs to improve transcript readabil
 slug: docs/paragraphs
 ---
 
+<Card
+    href="https://playground.deepgram.com/?endpoint=listen&paragraphs=true&language=en&model=nova-3"
+>
+  <Markdown src="../snippets/playground-card.mdx" />
+</Card>
+<br/>
 
 `paragraphs` *boolean* Default: `false`
 
 <div class="flex flex-row gap-2">
-<Markdown src="../snippets/pre-recorded.mdx"/> <Markdown src="../snippets/dep-streaming.mdx" /> <Markdown src="../snippets/spaces.mdx" />
-</div>
-
-<div class="api-playground-call">
-<span>
-<img src="https://res.cloudinary.com/deepgram/image/upload/v1717523786/devex/codey-greeting_rekqe1.svg" alt="Deepgram API Playground"/>   Try this feature out in our [API Playground](https://playground.deepgram.com/?endpoint=listen\&paragraphs=true\&language=en\&model=nova-3)!
-</span>
+  <Markdown src="../snippets/stt-batch-available.mdx" /> <Markdown src="../snippets/stt-stream-unavailable.mdx" /> <Markdown src="../snippets/spaces.mdx" />
 </div>
 
 * When Paragraphs is enabled, [Punctuation](/docs/punctuation/) feature is enabled by default, and paragraphs are identified based on the transcript's punctuation.

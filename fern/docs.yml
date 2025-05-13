@@ -1,3 +1,5 @@
+# yaml-language-server: $schema=https://schema.buildwithfern.dev/docs-yml.json
+
 instances:
   - url: https://deepgram.docs.buildwithfern.com
     custom-domain: developers.deepgram.com
@@ -6,36 +8,67 @@ instances:
         owner: deepgram
         repo: deepgram-docs
         branch: main
-title: Deepgram | Documentation
-logo:
-  dark: assets/logo.svg
-  height: 24
-  href: /
-css:
-  - assets/styles.css
-js:
-  - path: ./assets/component.js
-    strategy: lazyOnload
-  - path: dist/output.js
-    strategy: beforeInteractive
+
+title: Deepgram's Docs
 favicon: assets/favicon.ico
+default-language: python
+
+logo:
+  dark: assets/logo-dark.svg
+  light: assets/logo-light.svg
+  height: 32
+  href: /
+
+navbar-links:                       
+  - type: minimal
+    text: "Playground"
+    href: "https://playground.deepgram.com"
+  - type: minimal
+    text: "Console"
+    href: "https://console.deepgram.com"
+  - type: minimal
+    text: "Community"
+    href: "https://community.deepgram.com"
+  - type: outlined
+    text: "Support"
+    href: "/docs/support"
+    rightIcon: fa-solid fa-headset
+  - type: filled
+    text: "Free API Key"
+    href: "https://console.deepgram.com/signup"
+
 layout:
   tabs-placement: header
   searchbar-placement: header
   page-width: full
+
 colors:
   accent-primary:
-    dark: "#A1F9D4"
+    dark: "#a1f9d4"
+    light: "#00976e"
   background:
-    dark: "#0B0B0C"
+    dark: "#0b0b0c"
+    light: "#f5f5f7"
   sidebar-background:
-    dark: "#0B0B0C"
+    dark: "#0b0b0c"
+    light: "#f5f5f7"
   header-background:
-    dark: "#1A1A1F"
+    dark: "#1a1a1f"
+    light: "#fbfbff"
   card-background:
-    dark: "#1A1A1F"
+    dark: "#000"
+    light: "#fff"
   border:
-    dark: "#2C2C33"
+    dark: "#2c2c33"
+    light: "#e5e5e7"
+
+css:
+  - assets/styles.css
+
+js:
+  - path: ./assets/component.js
+    strategy: lazyOnload
+
 typography:
   bodyFont:
     name: Inter
@@ -50,6 +83,11 @@ typography:
   codeFont:
     name: FiraMono
     path: assets/FiraMono.woff2
+
+analytics:
+  gtm:
+    container-id: ${GTM_CONTAINER_ID}
+
 tabs:
   home:
     display-name: Home
@@ -58,16 +96,16 @@ tabs:
     display-name: Voice Agent
     slug: voice-agent
   speech-to-text:
-    display-name: Speech to Text
+    display-name: Speech-to-Text
     slug: speech-to-text
   text-to-speech:
-    display-name: Text to Speech
+    display-name: Text-to-Speech
     slug: text-to-speech
   intelligence:
     display-name: Intelligence
     slug: intelligence
   api-ref:
-    display-name: API Ref
+    display-name: API Reference
     slug: reference
   guides:
     display-name: Guides
@@ -78,18 +116,17 @@ tabs:
   self-hosted:
     display-name: Self-Hosted Deployments
     slug: self-hosted
-  security:
-    display-name: Security
-    slug: security
+
+  # THIS IS NOT VISIBLE IN THE NAV BAR
+  pages:
+    display-name: Pages
+    slug: pages
+    hidden: true
 navigation:
   - tab: home
     layout:
       - page: Introduction
         path: docs/landing.mdx
-      - page: Getting Started
-        path: docs/getting-started.mdx
-      - page: Support
-        path: docs/support.mdx
   - tab: voice-agent
     layout:
       - page: Getting Started
@@ -98,8 +135,8 @@ navigation:
         path: docs/voice-agent-v1-migration.mdx
       - page: Feature Overview
         path: docs/voice-agent-feature-overview.mdx
-      - page: Starter Apps
-        path: docs/voice-agent-starter-apps.mdx
+      - link: Starter Apps
+        href: https://github.com/search?q=org%3Adeepgram-starters+topic%3Avoice-agent&type=repositories
       - page: Configure the Voice Agent
         path: docs/configure-voice-agent.mdx
       - section: Function Calling
@@ -167,8 +204,8 @@ navigation:
             path: docs/pre-recorded-audio.mdx
           - page: Feature Overview
             path: docs/stt-pre-recorded-feature-overview.mdx
-          - page: Starter Apps
-            path: docs/stt-pre-recorded-starter-apps.mdx
+          - link: Starter Apps
+            href: https://github.com/search?q=org%3Adeepgram-starters+topic%3Aspeech-to-text+-topic%3Alive&type=repositories
           - section: Tips and Tricks
             contents:
               - page: Automatically Generating WebVTT & SRT Captions
@@ -198,8 +235,8 @@ navigation:
             path: docs/stt-streaming-feature-overview.mdx
           - page: Live Streaming Starter Kit
             path: docs/getting-started-with-the-streaming-test-suite.mdx
-          - page: Starter Apps
-            path: docs/stt-streaming-starter-apps.mdx
+          - link: Starter Apps
+            href: https://github.com/search?q=org%3Adeepgram-starters+topic%3Aspeech-to-text+topic%3Alive&type=repositories
           - section: Control Messages
             contents:
               - page: Close Stream
@@ -353,8 +390,8 @@ navigation:
                 path: docs/tts-ws-clear.mdx
               - page: Close
                 path: docs/tts-ws-close.mdx
-      - page: Starter Apps
-        path: docs/tts-starter-apps.mdx
+      - link: Starter Apps
+        href: https://github.com/search?q=org%3Adeepgram-starters+topic%3Atext-to-speech&type=repositories
       - page: Voice Selection
         path: docs/tts-models.mdx
       - section: Media Output Settings
@@ -764,8 +801,12 @@ navigation:
             path: docs/deepgram-unimrcp-plugin.mdx
       - page: Using SDKs with Self-Hosted
         path: docs/using-sdks-with-self-hosted.mdx
-  - tab: security
+
+  # THIS IS NOT VISIBLE IN THE NAV BAR
+  - tab: pages
     layout:
+      - page: Support
+        path: docs/support.mdx
       - page: Security Policy
         path: docs/security-policy.mdx
       - page: Data Privacy Compliance
@@ -1320,6 +1361,3 @@ redirects:
     destination: /docs/voice-agent-errors
   - source: /docs/build-a-voice-agent
     destination: /reference/voice-agent-api/agent
-analytics:
-  gtm:
-    container-id: ${GTM_CONTAINER_ID}

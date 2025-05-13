@@ -1,85 +1,233 @@
-.fern-button.filled {
-  background: linear-gradient(90deg, #201cff -91.5%, #13ef95 80.05%) !important;
+/**
+ * Deepgram colors
+ *
+ * These are the colors that Deepgram uses for their main theme.
+ * These are also set separately in the fern/docs.yml file.
+ *
+ * @see fern/docs.yml
+ */
+
+:root {
+  --background-rgb: 245, 245, 247;
+  --body-text-rgb: 26, 26, 31;
+  --accent-primary-rgb: 0, 151, 110;
+  --sidebar-background-rgb: 245, 245, 247;
+  --header-background-rgb: 251, 251, 255;
+  --card-background-rgb: 255, 255, 255;
+  --border-rgb: 229, 229, 231;
+
+  --hl-dark-blue: #201cff;
+  --hl-meadow: #13ef95;
+  --hl-pink: #ff2eea;
+  --hl-light-pink: #ffafea;
+  --hl-blue: #4b3cff;
+  --hl-orange: #ed9e79;
+  --hl-red: #cc0000;
+  --hl-gray: #6c6c70;
+  --hl-light-gray: #949498;
+
+  /* deepgram main */
+  --deepgram-background: rgb(var(--background-rgb));
+  --deepgram-body-text: rgb(var(--body-text-rgb));
+
+  --deepgram-accent-primary: rgb(var(--accent-primary-rgb));
+  --deepgram-sidebar-background: rgb(var(--sidebar-background-rgb));
+  --deepgram-header-background: rgb(var(--header-background-rgb));
+  --deepgram-card-background: rgb(var(--card-background-rgb));
+  --deepgram-border: rgb(var(--border-rgb));
+  --deepgram-muted-text: rgba(var(--body-text-rgb), 0.5);
 }
 
-.fern-header-tab-button[data-state="active"] {
-  color: white !important;
+html.dark {
+  --background-rgb: 11, 11, 12;
+  --body-text-rgb: 251, 251, 255;
+  --accent-primary-rgb: 161, 249, 212;
+  --sidebar-background-rgb: 11, 11, 12;
+  --header-background-rgb: 26, 26, 31;
+  --card-background-rgb: 0, 0, 0;
+  --border-rgb: 44, 44, 51;
 }
 
-.fern-header-tab-button[data-state="active"]:after {
-  background: linear-gradient(90deg, #201cff -91.5%, #13ef95 80.05%) !important;
-  height: 2px !important;
+/**
+ * Fern styles
+ */
+
+body {
+  background-color: var(--deepgram-background);
+  color: var(--deepgram-body-text);
 }
 
-.fern-header-tab-button {
-  padding-left: 24px !important;
-  padding-right: 24px !important;
+#fern-header > div > nav > ul > li:last-child {
+  display: none;
 }
 
-@media (max-width: 1350px) {
-  .fern-header-tab-button {
-    padding-left: 16px !important;
-    padding-right: 16px !important;
-  }
+.fern-header-right-menu .fern-button {
+  font-weight: 600;
 }
 
-@media (max-width: 1185px) {
-  .fern-header-tab-button {
-    padding-left: 12px !important;
-    padding-right: 12px !important;
-  }
+.fern-header-right-menu .fern-button:not([disabled]).filled.primary {
+  background-color: var(--deepgram-body-text);
+  color: var(--deepgram-background);
 }
 
-@media (max-width: 1100px) {
-  .fern-header-tab-button {
-    padding-left: 8px !important;
-    padding-right: 8px !important;
-  }
+.fern-card {
+  background-color: var(--deepgram-card-background);
+  border-radius: 0.75rem;
 }
 
-.fern-mdx-link {
-  color: #79affa !important;
-  text-decoration: none;
+:root {
+  --dg-fill: linear-gradient(
+    45deg,
+    var(--deepgram-header-background),
+    var(--deepgram-header-background)
+  );
+  --dg-primary: linear-gradient(
+    45deg,
+    var(--hl-dark-blue) -91.5%,
+    var(--hl-meadow) 80.05%
+  );
+  --dg-experimental: linear-gradient(
+    45deg,
+    var(--hl-pink) -99.24%,
+    var(--hl-blue) 99.26%
+  );
+  --dg-deprecated: linear-gradient(
+    45deg,
+    var(--hl-orange) -99.24%,
+    var(--hl-red) 99.26%
+  );
+  --dg-pink-gradient: linear-gradient(
+    45deg,
+    var(--hl-pink) -99.24%,
+    var(--hl-light-pink) 99.26%
+  );
+  --dg-unavailable: linear-gradient(
+    45deg,
+    var(--hl-gray) -99.24%,
+    var(--hl-light-gray) 99.26%
+  );
+  --dg-primary-hover: linear-gradient(
+    45deg,
+    var(--deepgram-body-text) -91.5%,
+    var(--deepgram-body-text) 80.05%
+  );
 }
 
-.fern-mdx-link svg {
-  color: #79affa !important;
+/*
+ * Deepgram Badge
+ */
+.dg-badge {
+  --gradient: var(--dg-primary);
+
+  font-size: 12px;
+  background: var(--dg-fill) padding-box, var(--gradient) border-box;
+  border-radius: 0.5rem;
+  border: 0.125rem solid transparent;
 }
 
-.white .fern-card span {
-  background: white !important;
-}
-
-@media (min-width: 1024px) {
-  .fern-header-right-menu {
-    display: none !important;
-  }
-}
-
-.banner {
+.dg-badge span {
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
   align-items: center;
-  text-align: center;
+  justify-content: center;
 }
 
-.banner p {
-  margin-top: 0.25rem;
-  margin-bottom: 0.25rem;
+.dg-badge.strike-through {
+  text-decoration: line-through;
 }
 
-.banner h1 {
-  margin-top: 0.5rem;
-  margin-bottom: 16px;
+/* Support both naming patterns */
+.dg-badge.unavailable {
+  --gradient: var(--dg-unavailable);
 }
 
-.fern-sidebar-link-container[data-state="active"] {
-  color: white !important;
+.dg-badge.experimental {
+  --gradient: var(--dg-experimental);
 }
+
+.dg-badge.deprecated {
+  --gradient: var(--dg-deprecated);
+}
+
+.dg-badge.pink {
+  --gradient: var(--dg-pink-gradient);
+}
+
+.dg-badge .fa-icon {
+  background: var(--gradient);
+  margin-right: 0.5rem;
+}
+
+/**
+ * Deepgram Playground Card
+ */
+a.fern-card.interactive[href*="playground.deepgram.com"] {
+  --gradient: var(--dg-experimental);
+
+  font-size: 12px;
+  background: var(--dg-fill) padding-box, var(--gradient) border-box;
+  border-radius: 0.5rem;
+  border: 0.125rem solid transparent;
+}
+
+a.fern-card.interactive[href*="playground.deepgram.com"]:hover {
+  background: var(--dg-fill) padding-box, var(--dg-primary-hover) border-box;
+}
+
+a.fern-card.interactive[href*="playground.deepgram.com"] span.card-icon {
+  background: var(--dg-primary-hover);
+}
+
+/**
+ * Deepgram Announcement Card
+ */
+
+#announcement > .fern-card {
+  --gradient: var(--dg-primary);
+
+  background: var(--dg-fill) padding-box, var(--gradient) border-box;
+  border-radius: 1000px;
+  border: 0.125rem solid transparent;
+  padding: 0.5rem;
+  transform: scale(0.8);
+}
+
+#announcement > .fern-card > div {
+  justify-content: center;
+}
+
+#announcement > .fern-card > div > div {
+  width: auto;
+}
+
+#announcement > .fern-card:hover {
+  background: var(--dg-fill) padding-box, var(--dg-primary-hover) border-box;
+  transform: scale(0.81);
+}
+
+/**
+ * Deepgram Navigation Tabs
+ */
+
+.fern-header-tab-button[data-state="active"] span {
+  color: var(--deepgram-body-text) !important;
+}
+
+.fern-theme-default.fern-container
+  .fern-header-tabs
+  .fern-header-tab-button[data-state="active"]:after {
+  height: 0.125rem;
+  background-color: none;
+  background: var(--dg-primary);
+}
+
+/**
+ * Fern Sidebar
+ */
 
 .fern-sidebar-link-text {
-  font-size: 16px !important;
+  /* font-size: 16px !important; */
 }
 
 .fern-sidebar-link-container[data-state="active"]
@@ -88,16 +236,26 @@
 }
 
 .fern-sidebar-link-container[data-state="active"] .fern-sidebar-link {
-  background-color: #232329 !important;
+  background-color: rgba(
+    0,
+    0,
+    0,
+    0.1
+  ) !important; /* Darkens by adding transparent black overlay */
+}
+
+html.dark .fern-sidebar-link-container[data-state="active"] .fern-sidebar-link {
+  background-color: rgba(
+    255,
+    255,
+    255,
+    0.1
+  ) !important; /* Lightens in dark mode by adding transparent white overlay */
 }
 
 .fern-sidebar-link-container[data-state="active"] .fern-sidebar-link:after {
-  background: linear-gradient(
-    177.85deg,
-    #201cff -102.27%,
-    #13ef95 101.45%
-  ) !important;
-  width: 1px !important;
+  background: var(--dg-primary) !important;
+  width: 2px !important;
   position: absolute !important;
   content: "" !important;
   right: 0 !important;
@@ -128,197 +286,13 @@
   }
 }
 
-.fern-header-tab-button span {
-  font-size: 16px !important;
-  line-height: 17.5px !important;
-  letter-spacing: 2% !important;
-}
-
-.fern-header-tab-button {
-  padding-top: 0.5rem !important;
-  padding-bottom: 0.5rem !important;
-}
-
-.fern-search-bar {
-  --tw-ring-color: #4e4e52 !important;
-  background-color: #0b0b0c !important;
-}
-
 .fern-sidebar-heading-content,
 .fern-sidebar-link-container .font-semibold .fern-sidebar-link-text {
-  font-weight: 700 !important;
+  /* font-weight: 700 !important;
   font-size: 14px !important;
   line-height: 17.5px !important;
-  letter-spacing: 2% !important;
-  color: #a1f9d4 !important;
-}
-
-.fern-breadcrumb-item {
-  color: var(--grayscale-a11) !important;
-  font-weight: 400 !important;
-}
-
-button[role="tab"][data-state="active"] {
-  background-color: #1a1a1f !important;
-}
-
-button[role="tab"][data-state="active"]:after {
-  background: linear-gradient(90deg, #201cff -91.5%, #13ef95 80.05%) !important;
-  height: 2px !important;
-  position: absolute !important;
-  content: "" !important;
-  right: 0 !important;
-  left: 0 !important;
-  bottom: 0 !important;
-}
-
-button[role="tab"] {
-  box-shadow: none !important;
-  position: relative !important;
-}
-
-button[role="tab"]:hover span {
-  background-color: #1a1a1f !important;
-}
-
-div[class*="callout"] {
-  border-left-width: 2px !important;
-  border-color: var(--tw-ring-color) !important;
-}
-
-.callout-outlined,
-.fern-card .fern-button {
-  border-radius: 8px !important;
-}
-
-.bg-tag-default-soft {
-  background-color: #28282b !important;
-}
-
-.code-block-root span[style*="color: rgb(194, 195, 197);"] {
-  --shiki-dark: #949498 !important;
-}
-
-.callout-outlined {
-  background-color: #1d2a34 !important;
-  --tw-ring-color: #149afb !important;
-}
-
-.callout-outlined-warning {
-  background-color: #342d1e !important;
-  --tw-ring-color: #fec84b !important;
-}
-
-.callout-outlined p,
-.callout-outlined h5,
-.callout-outlined-warning p,
-.callout-outlined-warning h5,
-.callout-outlined-success p,
-.callout-outlined-success h5,
-.callout-outlined-danger p,
-.callout-outlined-danger h5,
-.callout-outlined-info p,
-.callout-outlined-info h5,
-.callout-outlined-tip p,
-.callout-outlined-tip h5,
-.callout-outlined-primary p,
-.callout-outlined-primary h5,
-.callout-outlined-check p,
-.callout-outlined-check h5,
-.callout-outlined-secondary p,
-.callout-outlined-warning li {
-  color: #e1e1e5 !important;
-}
-
-.callout-outlined li {
-  margin-top: 0px !important;
-}
-
-.callout-outlined h2 {
-  margin-top: 0px !important;
-}
-
-.callout-outlined-warning h2 {
-  margin-top: 0px !important;
-}
-
-.logs {
-  background-color: #0b0b0c !important;
-  padding: 0.5rem !important;
-  font-family: var(--typography-code-font-family, var(--code-font-fallback));
-}
-
-div[class*="callout"] .mt-0\.5.w-4 {
-  align-self: center !important;
-}
-
-span[data-badge-type="http-method"],
-span[data-badge-type="status-code"] {
-  border-radius: 50px !important;
-}
-
-.dg-badge {
-  margin-right: 6px !important;
-  color: #bbbbbf !important;
-  padding: 1px 1px !important;
-  text-decoration: none !important;
-  border-radius: 4px !important;
-  background-origin: border-box !important;
-  background-image: linear-gradient(90deg, #201cff -91.5%, #13ef95 80.05%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: fit-content;
-  height: fit-content;
-}
-
-.dg-badge.experimental {
-  background-image: linear-gradient(82.38deg, #ff2eea -99.24%, #4b3cff 99.26%) !important;
-}
-
-.dg-badge.deprecated {
-  background-image: linear-gradient(82.38deg, #ed9e79 -99.24%, #cc0000 99.26%) !important;
-}
-
-.dg-badge span {
-  background-color: #1a1a1f !important;
-  padding: 4px 12px !important;
-  border-radius: 4px !important;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.dg-badge .fa-icon {
-  background: linear-gradient(90deg, #201cff -91.5%, #13ef95 80.05%);
-  margin-right: 4px !important;
-}
-
-.fern-card {
-  background-color: #0b0b0c !important;
-  border-radius: 8px !important;
-}
-
-ol li {
-  margin-top: 2rem !important;
-}
-
-.small .fern-card {
-  padding-bottom: 1rem !important;
-  padding-top: 1rem !important;
-}
-
-.small .fern-card .items-start {
-  align-items: center !important;
-}
-
-.small .fern-card .text-base {
-  color: #bbbbbf !important;
-  font-weight: 600 !important;
-}
-
-.fern-card h3 {
-  margin-top: 0px !important;
+  letter-spacing: 2% !important; */
+  color: var(--deepgram-accent-primary) !important;
 }
 
 .fern-sidebar-tabs {
@@ -329,207 +303,72 @@ ol li {
   padding-left: 28px !important;
 }
 
-.api-playground-call {
-  width: fit-content !important;
-  height: fit-content !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  padding: 1px !important;
-  border-radius: 4px !important;
-  background-image: linear-gradient(
-    82.38deg,
-    #ff2eea -99.24%,
-    #4b3cff 99.26%
-  ) !important;
-  width: 100% !important;
-  margin-top: 1rem !important;
-}
-
-.api-playground-call span:first-child {
-  display: flex !important;
-  align-items: center !important;
-  gap: 12px !important;
-  background-color: #1a1a1f !important;
-  padding: 4px !important;
-  border-radius: 4px !important;
-  width: 100% !important;
-  flex-direction: row !important;
-}
-
-.api-playground-call p {
-  margin: 0 !important;
-  display: flex !important;
-  align-items: center !important;
-  white-space: nowrap !important;
-}
-
-.api-playground-call p div:first-child {
-  display: inline-flex !important;
-  align-items: center !important;
-}
-
-.api-playground-call img {
-  width: 2.5rem !important;
-  height: 2.5rem !important;
-  display: inline-block !important;
-  margin-top: 4px !important;
-  margin-bottom: 4px !important;
-  transform: scaleX(-1) !important;
-}
-
-.invert-white {
-  filter: invert(1) !important;
-}
-
-.fa-icon,
-.card-icon {
-  width: 2rem !important;
-  height: 2rem !important;
-}
-
-.dg-badge .fa-icon {
-  width: 1rem !important;
-  height: 1rem !important;
-}
-
-.fern-header,
-.fern-header-tabs {
-  border-bottom-width: 0px !important;
-}
-
-.fern-header-tabs-list-item span {
-  font-family: "Roobert" !important;
-}
-
-.fern-header-tabs-list,
-.fern-header-tabs-list-item {
-  height: 100% !important;
-}
-
 .fern-sidebar-link-indent {
   margin-left: 20px !important;
 }
 
 .fern-sidebar-link-container[data-state="inactive"] .fern-sidebar-link:hover {
-  color: #fbfbff !important;
-}
-
-.t-muted:is(.dark *) {
-  color: #949498 !important;
-}
-
-.dark\:prose-invert:is(.dark *) {
-  --tw-prose-headings: #fbfbff !important;
-  color: #e1e1e5 !important;
-}
-
-.fern-page-heading * {
-  color: #fbfbff !important;
-}
-
-.badge a {
-  text-decoration: none !important;
-  color: unset !important;
-}
-
-.badge svg {
-  display: none !important;
-}
-
-.dep {
-  background: #bbbbbf !important;
-}
-
-.dep .fa-icon {
-  background: #bbbbbf !important;
-}
-
-.dep span {
-  text-decoration: line-through !important;
-}
-
-.pink {
-  background-image: linear-gradient(
-    85deg,
-    #ee028b 5.66%,
-    #ae29ff 99.14%
-  ) !important;
-}
-
-.pink .fa-icon {
-  background: linear-gradient(85deg, #ee028b 5.66%, #ae29ff 99.14%) !important;
-}
-
-.fern-sidebar-container {
-  position: sticky !important;
-  top: 0 !important;
-  margin-top: 10rem !important;
-  overflow-y: auto !important;
-  z-index: 20 !important;
-  height: 100vh !important;
-}
-
-.fern-main {
-  margin-top: calc(var(--header-offset, 0) + 3rem) !important;
-}
-
-.fern-endpoint-content-right .fa-icon,
-.fern-dropdown-item .fa-icon {
-  width: 1rem !important;
-  height: 1rem !important;
-}
-
-.fern-endpoint-content {
-  padding-top: 3rem !important;
-}
-
-#fern-header {
-  position: absolute !important;
-}
-
-div[id="/reference/speech-to-text-api/listen#request"]
-  .flex.flex-col
-  div:nth-of-type(4)
-  span:nth-of-type(2) {
-  display: none !important;
-}
-
-div[id="/reference/speech-to-text-api/listen#request"]
-  .flex.flex-col
-  div:nth-of-type(4)
-  span:nth-of-type(1):after {
-  content: " binary" !important;
-  color: #949498 !important;
-  font-size: 0.75rem;
-  line-height: 1rem;
-  font-family: "Inter" !important;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
-  margin-left: 0.5rem;
-}
-
-#fern-header {
-  position: absolute !important;
-}
-
-.fern-sidebar-fixed + .fern-main {
-  padding-left: 0px !important;
-}
-
-.api-playground-call a {
-  padding-left: 4px !important;
-  padding-right: 4px !important;
-  color: #79affa !important;
-  text-decoration: none !important;
-}
-
-.custom-backdrop {
-  background-color: #0b0b0c !important;
+  color: var(--deepgram-body-text) !important;
 }
 
 /**
- * docsearch
+ * Fern TW styles
  */
+
+/**
+ * Docsearch styles
+ */
+
+.DocSearch {
+  /* docsearch variables that reference deepgram variables */
+  --docsearch-primary-color: var(--deepgram-accent-primary);
+  --docsearch-text-color: var(--deepgram-body-text);
+  --docsearch-spacing: 12px;
+  --docsearch-icon-stroke-width: 1.4;
+  --docsearch-highlight-color: var(--deepgram-accent-primary);
+  --docsearch-muted-color: var(--deepgram-muted-text);
+  --docsearch-container-background: rgba(var(--background-rgb), 0.9);
+  --docsearch-logo-color: var(--deepgram-accent-primary);
+
+  /* modal */
+  --docsearch-modal-width: 720px;
+  --docsearch-modal-height: 800px;
+  --docsearch-modal-background: var(--deepgram-card-background);
+  --docsearch-modal-shadow: inset 1px 1px 0 0 var(--deepgram-background),
+    0 3px 8px 0 var(--deepgram-background);
+
+  /* searchbox */
+  --docsearch-searchbox-height: 56px;
+  --docsearch-searchbox-background: var(--deepgram-background);
+  --docsearch-searchbox-focus-background: var(--deepgram-background);
+  --docsearch-searchbox-shadow: inset 0 0 0 2px var(--deepgram-accent-primary);
+
+  /* hit */
+  --docsearch-hit-height: 56px;
+  --docsearch-hit-color: var(--docsearch-text-color);
+  --docsearch-hit-active-color: var(--deepgram-background);
+  --docsearch-hit-background: var(--deepgram-background);
+  --docsearch-hit-shadow: 0 1px 3px 0 var(--deepgram-card-background);
+
+  /* key */
+  --docsearch-key-gradient: linear-gradient(
+    -225deg,
+    var(--deepgram-border) 0%,
+    var(--deepgram-border) 100%
+  );
+  --docsearch-key-shadow: inset 0 -2px 0 0 var(--deepgram-border),
+    inset 0 0 1px 1px var(--deepgram-border),
+    0 1px 2px 1px var(--docsearch-muted-color);
+  --docsearch-key-pressed-shadow: inset 0 -2px 0 0 var(--deepgram-border),
+    inset 0 0 1px 1px var(--deepgram-border),
+    0 1px 1px 0 var(--docsearch-muted-color);
+
+  /* footer */
+  --docsearch-footer-height: 44px;
+  --docsearch-footer-background: var(--deepgram-card-background);
+  --docsearch-footer-shadow: 0 -1px 0 0 var(--deepgram-border),
+    0 -3px 6px 0 var(--deepgram-background);
+}
 
 @media (min-width: 1024px) {
   .DocSearch-Button {
@@ -543,37 +382,29 @@ div[id="/reference/speech-to-text-api/listen#request"]
   --tw-ring-color: transparent !important;
 }
 
-.DocSearch-Logo {
-  opacity: 0 !important;
-}
+.DocSearch-Button {
+  outline: 1px solid var(--docsearch-muted-color);
 
-/* Voice Model Table Styles */
-
-.voice-model-table {
-  width: clamp(808px, 60%, 1008px);
-  margin-inline: auto;
-  overflow-x: auto;
-}
-
-/* Audio player styles */
-.voice-model-table audio {
-  width: 100px;
-  height: 48px;
-}
-
-/* Audio player styles */
-.voice-model-table audio::-webkit-media-controls-panel {
-  background: linear-gradient(90deg, #333333 -91.5%, #717171 80.05%);
-  justify-content: center;
+  transform: scale(0.9);
+  padding: 0;
+  margin: 0;
   align-items: center;
+  background: transparent;
 }
 
-/* Audio player styles */
-.voice-model-table audio::-webkit-media-controls-timeline,
-.voice-model-table audio::-webkit-media-controls-time-remaining-display,
-.voice-model-table audio::-webkit-media-controls-current-time-display,
-.voice-model-table audio::-webkit-media-controls-volume-slider,
-.voice-model-table audio::-webkit-media-controls-mute-button,
-.voice-model-table audio::-webkit-media-controls-toggle-closed-captions-button {
+.DocSearch-Search-Icon {
+  margin-right: 1rem;
+}
+
+.DocSearch-Button:active,
+.DocSearch-Button:focus,
+.DocSearch-Button:hover {
+  background: none;
+  box-shadow: none;
+  color: transparent;
+  outline: none;
+}
+
+.DocSearch-Logo {
   display: none;
 }

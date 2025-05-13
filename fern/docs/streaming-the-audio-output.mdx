@@ -6,11 +6,6 @@ subtitle: >-
 slug: docs/streaming-the-audio-output
 ---
 
-
-<div class="flex flex-row gap-2">
-<Markdown src="../snippets/tts-rest.mdx" /> <Markdown src="../snippets/tts-english.mdx" />
-</div>
-
 Upon successful processing of a Deepgram text-to-speech request, you will receive an audio file containing the synthesized text-to-speech output.
 
 Fortunately, you do not have to wait for the entire audio file to be available before playing the audio. As soon as the first byte arrives, the playback can begin, and the subsequent bytes can continue to be streamed in while the audio is already playing.
@@ -20,10 +15,6 @@ This guide will give you some tips and provide some examples so you can start st
 ## Implementation Examples
 
 The following two examples demonstrate how to play the audio as soon as the first byte is returned. The first example takes a single text source and sends it to Deepgram for processing, while the second example chunks the text source by sentence boundaries and then consecutively sends each chunk to Deepgram for processing.
-
-<Info>
-  To see similar code examples that use Deepgram's SDKs, check out the output streaming branch of the text-to-speech [Starter Apps](/docs/tts-starter-apps).
-</Info>
 
 ### Single Text Source Payload
 

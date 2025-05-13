@@ -6,11 +6,10 @@ subtitle: >-
 slug: docs/tts-callback
 ---
 
-
 `callback` *string*
 
 <div class="flex flex-row gap-2">
-  <Markdown src="../snippets/tts-rest.mdx" /> <Markdown src="../snippets/tts-english.mdx" />
+  <Markdown src="../snippets/tts-batch-available.mdx"/> <Markdown src="../snippets/tts-stream-unavailable.mdx" /> <Markdown src="../snippets/english-only.mdx" />
 </div>
 
 Deepgram’s Callback feature allows you to supply a callback URL to which generated text-to-speech audio can be returned. When passed, Deepgram will immediately respond with a `request_id` before processing your text asynchronously.

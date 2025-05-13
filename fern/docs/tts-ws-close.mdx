@@ -4,14 +4,11 @@ subtitle: Close will close the websocket connection immediately.
 slug: docs/tts-ws-close
 ---
 
-
-<Markdown src="../snippets/tts-ws.mdx" />
+<div class="flex flex-row gap-2">
+  <Markdown src="../snippets/tts-stream-available.mdx" />
+</div>
 
 To close the websocket connection, you can either send an websocket `Close` frame, or send the optional `close` message.
-
-# What is the `Close` Message?
-
-In real-time text-to-speech processing, there are scenarios where you may need to force the server to end the connection (or close) immediately. Deepgram supports a `Close` message to handle such situations.
 
 ## Sending `Close`
 

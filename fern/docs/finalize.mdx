@@ -7,14 +7,11 @@ subtitle: >-
 slug: docs/finalize
 ---
 
-
-<Markdown src="../snippets/streaming.mdx" />
+<div class="flex flex-row gap-2">
+  <Markdown src="../snippets/stt-stream-available.mdx" />
+</div>
 
 In real-time audio processing, there are scenarios where you may need to force the server to process (*or flush*) all unprocessed audio data immediately. Deepgram supports a `Finalize` message to handle such situations, ensuring that interim results are treated as final.
-
-# What is the `Finalize` Message?
-
-The `Finalize` message is a JSON command that you send to the Deepgram server, instructing it to process and finalize all remaining audio data immediately. This is particularly useful in scenarios where an utterance has ended, or when transitioning to a keep-alive period to ensure that no previous transcripts reappear unexpectedly.
 
 ## Sending `Finalize`
 

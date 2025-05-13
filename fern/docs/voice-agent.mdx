@@ -6,29 +6,24 @@ subtitle: >-
 slug: docs/voice-agent
 ---
 
-<Markdown src="../snippets/voice-agent.mdx" />
-
-<Warning>
-You will need to migrate to the new [V1 Agent API](/reference/voice-agent-api/agent) to continue to use the Voice Agent API. Please refer to the [Voice Agent API Migration Guide](/docs/voice-agent-v1-migration) for more information.
-</Warning>
+<Card 
+    href="https://playground.deepgram.com/?endpoint=agent"
+>
+  <Markdown src="../snippets/playground-card.mdx" />
+</Card>
+<br/>
 
 In this guide, you'll learn how to create a very basic voice agent using Deepgram's Agent API. Visit the [API Reference](/reference/build-a-voice-agent) for more details on how to use the Agent API.
+
+<Warning>
+You will need to migrate to the new ***Voice Agent API V1*** to continue to use the Voice Agent API. Please refer to the [Voice Agent API Migration Guide](/docs/voice-agent-v1-migration) for more information.
+</Warning>
+
+## Build a Basic Voice Agent
 
 <Info>
   Before you start, you'll need to follow the steps in the [Make Your First API Request](/docs/make-your-first-api-request) guide to obtain a Deepgram API key, and configure your environment if you are choosing to use a Deepgram SDK.
 </Info>
-
-## API Playground
-
-Explore the Voice Agent API in our API Playground where you can quickly interact with the Agent API.
-
-<div class="api-playground-call">
-<span>
-<img src="https://res.cloudinary.com/deepgram/image/upload/v1717523786/devex/codey-greeting_rekqe1.svg" alt="Deepgram API Playground"/>  Try this feature out in our [API Playground](https://playground.deepgram.com/?endpoint=agent)!
-</span>
-</div>
-
-## Build a Basic Voice Agent
 
 ### 1. Set up your environment
 
@@ -191,10 +186,6 @@ import (
 ### 4. Initialize the Voice Agent
 
 Now you can initialize the voice agent by creating an empty audio buffer to store incoming audio data, setting up a counter for output file naming, and defining a sample audio file URL. You can then establish a connection to Deepgram and set up a welcome handler to log when the connection is successfully established.
-
-<Info>
-This example code doesn't use microphone audio input as that is much more complex and requires additional knowledge of how to handle audio input through a microphone. Please refer to our [Voice Agent Starter Apps](/docs/voice-agent-starter-apps) for examples using microphone audio input.
-</Info>
 
 <CodeGroup>
   ```python Python

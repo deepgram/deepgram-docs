@@ -8,15 +8,14 @@ slug: docs/language-detection
 `detect_language` *boolean* Default: `false`
 
 <div class="flex flex-row gap-2">
-<Markdown src="../snippets/pre-recorded.mdx"/> <Markdown src="../snippets/dep-streaming.mdx" />
+  <Markdown src="../snippets/stt-batch-available.mdx" /> <Markdown src="../snippets/stt-stream-unavailable.mdx" />
 </div>
 
-<Info>
-If you need to process multiple languages for real-time streaming, we recommend using Deepgram's [Nova-2](./models-languages-overview#nova-2) or [Nova-3](./models-languages-overview#nova-3) multilingual models.
-
-</Info>
-
 Deepgram’s Language Detection feature identifies the dominant language spoken in submitted audio, transcribes the audio in the identified language, and returns the detected language code in the JSON response.
+
+<Info>
+  If you need to process multiple languages for real-time streaming, we recommend using Deepgram's [Nova-2](./models-languages-overview#nova-2) or [Nova-3](./models-languages-overview#nova-3) multilingual models.
+</Info>
 
 If you are submitting multichannel audio, Language Detection identifies one language per channel. Language Detection is supported for the following languages:
 
