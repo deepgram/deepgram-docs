@@ -807,13 +807,16 @@ navigation:
     layout:
       - page: Support
         path: docs/support.mdx
+        hidden: true
       - page: Security Policy
         path: docs/security-policy.mdx
+        hidden: true
       - page: Data Privacy Compliance
         path: docs/data-privacy-compliance.mdx
+        hidden: true
       - page: Information Security & Privacy Statement
         path: docs/information-security-privacy-statement.mdx
-
+        hidden: true
 redirects:
   - source: /api-reference
     destination: /reference
