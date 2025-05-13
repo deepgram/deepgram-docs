@@ -62,11 +62,6 @@ colors:
     light: "#e5e5e7"
 
 
-experimental:
-  mdx-components:
-    - ./components
-
-
 css:
   - assets/styles.css
 js:
