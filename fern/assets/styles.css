@@ -8,25 +8,34 @@
  */
 
 :root {
+  --background-rgb: 245, 245, 247;
+  --body-text-rgb: 26, 26, 31;
+  --accent-primary-rgb: 0, 151, 110;
+  --sidebar-background-rgb: 245, 245, 247;
+  --header-background-rgb: 251, 251, 255;
+  --card-background-rgb: 255, 255, 255;
+  --border-rgb: 229, 229, 231;
+
   /* deepgram main */
-  --deepgram-accent-primary: #00976e;
-  --deepgram-background: #f5f5f7;
-  --deepgram-sidebar-background: #f5f5f7;
-  --deepgram-header-background: #fbfbff;
-  --deepgram-card-background: #fff;
-  --deepgram-border: #e5e5e7;
-  --deepgram-body-text: #1a1a1f; // extra
+  --deepgram-background: rgb(var(--background-rgb));
+  --deepgram-body-text: rgb(var(--body-text-rgb));
+
+  --deepgram-accent-primary: rgb(var(--accent-primary-rgb));
+  --deepgram-sidebar-background: rgb(var(--sidebar-background-rgb));
+  --deepgram-header-background: rgb(var(--header-background-rgb));
+  --deepgram-card-background: rgb(var(--card-background-rgb));
+  --deepgram-border: rgb(var(--border-rgb));
+  --deepgram-muted-text: rgba(var(--body-text-rgb), 0.5);
 }
 
 html.dark {
-  /* deepgram dark */
-  --deepgram-accent-primary: #a1f9d4;
-  --deepgram-background: #0b0b0c;
-  --deepgram-sidebar-background: #0b0b0c;
-  --deepgram-header-background: #1a1a1f;
-  --deepgram-card-background: #000;
-  --deepgram-border: #2c2c33;
-  --deepgram-body-text: #fbfbff; // extra
+  --background-rgb: 11, 11, 12;
+  --body-text-rgb: 251, 251, 255;
+  --accent-primary-rgb: 161, 249, 212;
+  --sidebar-background-rgb: 11, 11, 12;
+  --header-background-rgb: 26, 26, 31;
+  --card-background-rgb: 0, 0, 0;
+  --border-rgb: 44, 44, 51;
 }
 
 /**
@@ -36,6 +45,10 @@ html.dark {
 body {
   background-color: var(--deepgram-background);
   color: var(--deepgram-body-text);
+}
+
+.fern-header-right-menu .fern-button {
+  font-weight: 600;
 }
 
 .fern-header-right-menu .fern-button:not([disabled]).filled.primary {
@@ -113,7 +126,7 @@ body {
 }
 
 /**
- * Playground card
+ * Deepgram Playground Card
  */
 a.fern-card.interactive[href*="playground.deepgram.com"] {
   --gradient: var(--dg-experimental);
@@ -133,6 +146,111 @@ a.fern-card.interactive[href*="playground.deepgram.com"] span.card-icon {
 }
 
 /**
+ * Deepgram Navigation Tabs
+ */
+
+.fern-header-tab-button[data-state="active"] span {
+  color: var(--deepgram-body-text) !important;
+}
+
+.fern-theme-default.fern-container
+  .fern-header-tabs
+  .fern-header-tab-button[data-state="active"]:after {
+  height: 0.125rem;
+  background-color: none;
+  background: var(--dg-primary);
+}
+
+/**
+ * Fern Sidebar
+ */
+
+.fern-sidebar-link-text {
+  /* font-size: 16px !important; */
+}
+
+.fern-sidebar-link-container[data-state="active"]
+  .fern-sidebar-link-indent:after {
+  border: 0px !important;
+}
+
+.fern-sidebar-link-container[data-state="active"] .fern-sidebar-link {
+  background-color: rgba(
+    0,
+    0,
+    0,
+    0.1
+  ) !important; /* Darkens by adding transparent black overlay */
+}
+
+html.dark .fern-sidebar-link-container[data-state="active"] .fern-sidebar-link {
+  background-color: rgba(
+    255,
+    255,
+    255,
+    0.1
+  ) !important; /* Lightens in dark mode by adding transparent white overlay */
+}
+
+.fern-sidebar-link-container[data-state="active"] .fern-sidebar-link:after {
+  background: var(--dg-primary) !important;
+  width: 2px !important;
+  position: absolute !important;
+  content: "" !important;
+  right: 0 !important;
+  top: 0 !important;
+  bottom: 0 !important;
+  border-radius: 8px !important;
+}
+
+.fern-sidebar-link {
+  border-radius: 0 !important;
+}
+
+.fern-sidebar-link-content {
+  padding-left: 1rem !important;
+  padding-right: 1rem !important;
+  padding-top: 0.5rem !important;
+  padding-bottom: 0.5rem !important;
+}
+
+.fern-sidebar-content {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+@media (min-width: 1024px) {
+  .fern-sidebar-container:not(.fern-sidebar-fixed) {
+    padding-left: 0rem !important;
+  }
+}
+
+.fern-sidebar-heading-content,
+.fern-sidebar-link-container .font-semibold .fern-sidebar-link-text {
+  /* font-weight: 700 !important;
+  font-size: 14px !important;
+  line-height: 17.5px !important;
+  letter-spacing: 2% !important; */
+  color: var(--deepgram-accent-primary) !important;
+}
+
+.fern-sidebar-tabs {
+  padding-left: 10px !important;
+}
+
+.fern-sidebar-heading {
+  padding-left: 28px !important;
+}
+
+.fern-sidebar-link-indent {
+  margin-left: 20px !important;
+}
+
+.fern-sidebar-link-container[data-state="inactive"] .fern-sidebar-link:hover {
+  color: var(--deepgram-body-text) !important;
+}
+
+/**
  * Fern TW styles
  */
 
@@ -140,15 +258,15 @@ a.fern-card.interactive[href*="playground.deepgram.com"] span.card-icon {
  * Docsearch styles
  */
 
-:root {
+.DocSearch {
   /* docsearch variables that reference deepgram variables */
   --docsearch-primary-color: var(--deepgram-accent-primary);
-  --docsearch-text-color: #1a1a1f;
+  --docsearch-text-color: var(--deepgram-body-text);
   --docsearch-spacing: 12px;
   --docsearch-icon-stroke-width: 1.4;
   --docsearch-highlight-color: var(--deepgram-accent-primary);
-  --docsearch-muted-color: #6c6c70;
-  --docsearch-container-background: var(--deepgram-background);
+  --docsearch-muted-color: var(--deepgram-muted-text);
+  --docsearch-container-background: rgba(var(--background-rgb), 0.9);
   --docsearch-logo-color: var(--deepgram-accent-primary);
 
   /* modal */
@@ -156,58 +274,7 @@ a.fern-card.interactive[href*="playground.deepgram.com"] span.card-icon {
   --docsearch-modal-height: 800px;
   --docsearch-modal-background: var(--deepgram-card-background);
   --docsearch-modal-shadow: inset 1px 1px 0 0 var(--deepgram-background),
-    0 3px 8px 0 #1a1a1f;
-
-  /* searchbox */
-  --docsearch-searchbox-height: 56px;
-  --docsearch-searchbox-background: var(--deepgram-background);
-  --docsearch-searchbox-focus-background: var(--deepgram-background);
-  --docsearch-searchbox-shadow: inset 0 0 0 2px var(--deepgram-accent-primary);
-
-  /* hit */
-  --docsearch-hit-height: 56px;
-  --docsearch-hit-color: var(--docsearch-text-color);
-  --docsearch-hit-active-color: var(--deepgram-background);
-  --docsearch-hit-background: var(--deepgram-background);
-  --docsearch-hit-shadow: 0 1px 3px 0 var(--deepgram-card-background);
-
-  /* key */
-  --docsearch-key-gradient: linear-gradient(
-    -225deg,
-    var(--deepgram-border) 0%,
-    var(--deepgram-border) 100%
-  );
-  --docsearch-key-shadow: inset 0 -2px 0 0 var(--deepgram-border),
-    inset 0 0 1px 1px var(--deepgram-border),
-    0 1px 2px 1px var(--docsearch-muted-color);
-  --docsearch-key-pressed-shadow: inset 0 -2px 0 0 var(--deepgram-border),
-    inset 0 0 1px 1px var(--deepgram-border),
-    0 1px 1px 0 var(--docsearch-muted-color);
-
-  /* footer */
-  --docsearch-footer-height: 44px;
-  --docsearch-footer-background: var(--deepgram-card-background);
-  --docsearch-footer-shadow: 0 -1px 0 0 var(--deepgram-border),
-    0 -3px 6px 0 var(--deepgram-background);
-}
-
-html.dark {
-  /* docsearch variables that reference deepgram variables */
-  --docsearch-primary-color: var(--deepgram-accent-primary);
-  --docsearch-text-color: #fbfbff;
-  --docsearch-spacing: 12px;
-  --docsearch-icon-stroke-width: 1.4;
-  --docsearch-highlight-color: var(--deepgram-accent-primary);
-  --docsearch-muted-color: #949498;
-  --docsearch-container-background: var(--deepgram-background);
-  --docsearch-logo-color: var(--deepgram-accent-primary);
-
-  /* modal */
-  --docsearch-modal-width: 720px;
-  --docsearch-modal-height: 800px;
-  --docsearch-modal-background: var(--deepgram-card-background);
-  --docsearch-modal-shadow: inset 1px 1px 0 0 var(--deepgram-background),
-    0 3px 8px 0 #1a1a1f;
+    0 3px 8px 0 var(--deepgram-background);
 
   /* searchbox */
   --docsearch-searchbox-height: 56px;
