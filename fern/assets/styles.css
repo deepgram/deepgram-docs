@@ -16,6 +16,16 @@
   --card-background-rgb: 255, 255, 255;
   --border-rgb: 229, 229, 231;
 
+  --hl-dark-blue: #201cff;
+  --hl-meadow: #13ef95;
+  --hl-pink: #ff2eea;
+  --hl-light-pink: #ffafea;
+  --hl-blue: #4b3cff;
+  --hl-orange: #ed9e79;
+  --hl-red: #cc0000;
+  --hl-gray: #6c6c70;
+  --hl-light-gray: #949498;
+
   /* deepgram main */
   --deepgram-background: rgb(var(--background-rgb));
   --deepgram-body-text: rgb(var(--body-text-rgb));
@@ -47,6 +57,10 @@ body {
   color: var(--deepgram-body-text);
 }
 
+#fern-header > div > nav > ul > li:nth-child(1) {
+  display: none;
+}
+
 .fern-header-right-menu .fern-button {
   font-weight: 600;
 }
@@ -64,14 +78,34 @@ body {
 :root {
   --dg-fill: linear-gradient(
     45deg,
-    var(--deepgram-background),
-    var(--deepgram-background)
+    var(--deepgram-header-background),
+    var(--deepgram-header-background)
   );
-  --dg-primary: linear-gradient(45deg, #201cff -91.5%, #13ef95 80.05%);
-  --dg-experimental: linear-gradient(45deg, #ff2eea -99.24%, #4b3cff 99.26%);
-  --dg-deprecated: linear-gradient(45deg, #ed9e79 -99.24%, #cc0000 99.26%);
-  --dg-pink-gradient: linear-gradient(45deg, #ff2eea -99.24%, #ffafea 99.26%);
-  --dg-unavailable: linear-gradient(45deg, #6c6c70 -99.24%, #949498 99.26%);
+  --dg-primary: linear-gradient(
+    45deg,
+    var(--hl-dark-blue) -91.5%,
+    var(--hl-meadow) 80.05%
+  );
+  --dg-experimental: linear-gradient(
+    45deg,
+    var(--hl-pink) -99.24%,
+    var(--hl-blue) 99.26%
+  );
+  --dg-deprecated: linear-gradient(
+    45deg,
+    var(--hl-orange) -99.24%,
+    var(--hl-red) 99.26%
+  );
+  --dg-pink-gradient: linear-gradient(
+    45deg,
+    var(--hl-pink) -99.24%,
+    var(--hl-light-pink) 99.26%
+  );
+  --dg-unavailable: linear-gradient(
+    45deg,
+    var(--hl-gray) -99.24%,
+    var(--hl-light-gray) 99.26%
+  );
   --dg-primary-hover: linear-gradient(
     45deg,
     var(--deepgram-body-text) -91.5%,
@@ -143,6 +177,33 @@ a.fern-card.interactive[href*="playground.deepgram.com"]:hover {
 
 a.fern-card.interactive[href*="playground.deepgram.com"] span.card-icon {
   background: var(--dg-primary-hover);
+}
+
+/**
+ * Deepgram Announcement Card
+ */
+
+#announcement > .fern-card {
+  --gradient: var(--dg-primary);
+
+  background: var(--dg-fill) padding-box, var(--gradient) border-box;
+  border-radius: 1000px;
+  border: 0.125rem solid transparent;
+  padding: 0.5rem;
+  transform: scale(0.8);
+}
+
+#announcement > .fern-card > div {
+  justify-content: center;
+}
+
+#announcement > .fern-card > div > div {
+  width: auto;
+}
+
+#announcement > .fern-card:hover {
+  background: var(--dg-fill) padding-box, var(--dg-primary-hover) border-box;
+  transform: scale(0.81);
 }
 
 /**

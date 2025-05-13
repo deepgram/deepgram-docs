@@ -87,6 +87,10 @@ typography:
     name: FiraMono
     path: assets/FiraMono.woff2
 tabs:
+  pages:
+    display-name: Pages
+    slug: pages
+    hidden: true
   home:
     display-name: Home
     slug: home
@@ -118,14 +122,20 @@ tabs:
     display-name: Security
     slug: security
 navigation:
+  - tab: pages
+    layout:
+      - page: Support
+        path: docs/support.mdx
+      - page: Security Policy
+        path: docs/security-policy.mdx
+      - page: Data Privacy Compliance
+        path: docs/data-privacy-compliance.mdx
+      - page: Information Security & Privacy Statement
+        path: docs/information-security-privacy-statement.mdx
   - tab: home
     layout:
       - page: Introduction
         path: docs/landing.mdx
-      - page: Getting Started
-        path: docs/getting-started.mdx
-      - page: Support
-        path: docs/support.mdx
   - tab: voice-agent
     layout:
       - page: Getting Started
@@ -800,14 +810,6 @@ navigation:
             path: docs/deepgram-unimrcp-plugin.mdx
       - page: Using SDKs with Self-Hosted
         path: docs/using-sdks-with-self-hosted.mdx
-  - tab: security
-    layout:
-      - page: Security Policy
-        path: docs/security-policy.mdx
-      - page: Data Privacy Compliance
-        path: docs/data-privacy-compliance.mdx
-      - page: Information Security & Privacy Statement
-        path: docs/information-security-privacy-statement.mdx
 
 redirects:
   - source: /api-reference
