@@ -85,7 +85,6 @@ tabs:
   pages:
     display-name: Pages
     slug: pages
-    hidden: true
   home:
     display-name: Home
     slug: home
