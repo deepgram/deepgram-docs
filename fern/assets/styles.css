@@ -59,8 +59,16 @@ body {
   --dg-deprecated: linear-gradient(45deg, #ed9e79 -99.24%, #cc0000 99.26%);
   --dg-pink-gradient: linear-gradient(45deg, #ff2eea -99.24%, #ffafea 99.26%);
   --dg-unavailable: linear-gradient(45deg, #6c6c70 -99.24%, #949498 99.26%);
+  --dg-primary-hover: linear-gradient(
+    45deg,
+    var(--deepgram-body-text) -91.5%,
+    var(--deepgram-body-text) 80.05%
+  );
 }
 
+/*
+ * Deepgram Badge
+ */
 .dg-badge {
   --gradient: var(--dg-primary);
 
@@ -102,6 +110,26 @@ body {
 .dg-badge .fa-icon {
   background: var(--gradient);
   margin-right: 0.5rem;
+}
+
+/**
+ * Playground card
+ */
+a.fern-card.interactive[href*="playground.deepgram.com"] {
+  --gradient: var(--dg-experimental);
+
+  font-size: 12px;
+  background: var(--dg-fill) padding-box, var(--gradient) border-box;
+  border-radius: 0.5rem;
+  border: 0.125rem solid transparent;
+}
+
+a.fern-card.interactive[href*="playground.deepgram.com"]:hover {
+  background: var(--dg-fill) padding-box, var(--dg-primary-hover) border-box;
+}
+
+a.fern-card.interactive[href*="playground.deepgram.com"] span.card-icon {
+  background: var(--dg-primary-hover);
 }
 
 /**
