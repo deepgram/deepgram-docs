@@ -57,7 +57,7 @@ body {
   color: var(--deepgram-body-text);
 }
 
-#fern-header > div > nav > ul > li:nth-child(1) {
+#fern-header > div > nav > ul > li:last-child {
   display: none;
 }
 

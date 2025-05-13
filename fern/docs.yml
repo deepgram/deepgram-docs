@@ -1,3 +1,5 @@
+# yaml-language-server: $schema=https://schema.buildwithfern.dev/docs-yml.json
+
 instances:
   - url: https://deepgram.docs.buildwithfern.com
     custom-domain: developers.deepgram.com
@@ -7,18 +9,15 @@ instances:
         repo: deepgram-docs
         branch: main
 
-
 title: Deepgram's Docs
 favicon: assets/favicon.ico
 default-language: python
 
-
 logo:
   dark: assets/logo-dark.svg
   light: assets/logo-light.svg
-  height: 24
+  height: 32
   href: /
-
 
 navbar-links:                       
   - type: minimal
@@ -34,12 +33,10 @@ navbar-links:
     text: "Free API Key"
     href: "https://console.deepgram.com/signup"
 
-
 layout:
   tabs-placement: header
   searchbar-placement: header
   page-width: full
-
 
 colors:
   accent-primary:
@@ -61,12 +58,13 @@ colors:
     dark: "#2c2c33"
     light: "#e5e5e7"
 
-
 css:
   - assets/styles.css
+
 js:
   - path: ./assets/component.js
     strategy: lazyOnload
+
 typography:
   bodyFont:
     name: Inter
@@ -81,10 +79,12 @@ typography:
   codeFont:
     name: FiraMono
     path: assets/FiraMono.woff2
+
+analytics:
+  gtm:
+    container-id: ${GTM_CONTAINER_ID}
+
 tabs:
-  pages:
-    display-name: Pages
-    slug: pages
   home:
     display-name: Home
     slug: home
@@ -92,16 +92,16 @@ tabs:
     display-name: Voice Agent
     slug: voice-agent
   speech-to-text:
-    display-name: Speech to Text
+    display-name: Speech-to-Text
     slug: speech-to-text
   text-to-speech:
-    display-name: Text to Speech
+    display-name: Text-to-Speech
     slug: text-to-speech
   intelligence:
     display-name: Intelligence
     slug: intelligence
   api-ref:
-    display-name: API Ref
+    display-name: API Reference
     slug: reference
   guides:
     display-name: Guides
@@ -112,20 +112,13 @@ tabs:
   self-hosted:
     display-name: Self-Hosted Deployments
     slug: self-hosted
-  security:
-    display-name: Security
-    slug: security
+
+  # THIS IS NOT VISIBLE IN THE NAV BAR
+  pages:
+    display-name: Pages
+    slug: pages
+    hidden: true
 navigation:
-  - tab: pages
-    layout:
-      - page: Support
-        path: docs/support.mdx
-      - page: Security Policy
-        path: docs/security-policy.mdx
-      - page: Data Privacy Compliance
-        path: docs/data-privacy-compliance.mdx
-      - page: Information Security & Privacy Statement
-        path: docs/information-security-privacy-statement.mdx
   - tab: home
     layout:
       - page: Introduction
@@ -805,6 +798,18 @@ navigation:
       - page: Using SDKs with Self-Hosted
         path: docs/using-sdks-with-self-hosted.mdx
 
+  # THIS IS NOT VISIBLE IN THE NAV BAR
+  - tab: pages
+    layout:
+      - page: Support
+        path: docs/support.mdx
+      - page: Security Policy
+        path: docs/security-policy.mdx
+      - page: Data Privacy Compliance
+        path: docs/data-privacy-compliance.mdx
+      - page: Information Security & Privacy Statement
+        path: docs/information-security-privacy-statement.mdx
+
 redirects:
   - source: /api-reference
     destination: /reference
@@ -1352,6 +1357,3 @@ redirects:
     destination: /docs/voice-agent-errors
   - source: /docs/build-a-voice-agent
     destination: /reference/voice-agent-api/agent
-analytics:
-  gtm:
-    container-id: ${GTM_CONTAINER_ID}
