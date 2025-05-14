@@ -48,7 +48,7 @@ The `Settings` message is a JSON object that contains the following fields:
 | `agent.think.provider.type` | Object | The [LLM Model](/docs/voice-agent-llm-models) provider type e.g., `open_ai`, `anthropic`, `x_ai`, `amazon_bedrock` |
 | `agent.think.provider.model` | String | The LLM model to use|
 | `agent.think.provider.temperature` | Number | Controls the randomness of the LLM's output. Range: 0-2 for OpenAI, 0-1 for Anthropic |
-| `agent.think.endpoint` | Object | Optional if LLM provider is Deepgram. Required for non-Deepgram LLM providers. When present, must include url field and headers object |
+| `agent.think.endpoint` | Object | Optional if LLM provider is Deepgram. Required for non-Deepgram LLM providers. When present, must include `url` field and `headers` object |
 | `agent.think.functions` | Array | Array of functions the agent can call during the conversation |
 | `agent.think.functions.endpoint` | Object | The Function endpoint to call. if not passed, function is called client-side |
 | `agent.think.prompt` | String | The system prompt that defines the agent's behavior and personality |
@@ -58,7 +58,7 @@ The `Settings` message is a JSON object that contains the following fields:
 | `agent.speak.provider.voice` | Object | Voice configuration for Cartesia provider. Requires `model` and `id` |
 | `agent.speak.provider.language` | String | Optional language setting for Cartesia provider |
 | `agent.speak.provider.language_code` | String | Optional language code for Eleven Labs provider |
-| `agent.speak.provider.endpoint` | Object | Optional if TTS provider is Deepgram. Required for non-Deepgram TTS providers. When present, must include url field and headers object |
+| `agent.speak.endpoint` | Object | Optional if TTS provider is Deepgram. Required for non-Deepgram TTS providers. When present, must include `url` field and `headers` object |
 | `agent.greeting` | String | Optional initial message that the agent will speak when the conversation starts |
 
 ## Full Example
