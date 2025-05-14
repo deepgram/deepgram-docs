@@ -407,14 +407,16 @@ navigation:
             path: docs/tts-sample-rate.mdx
       - section: Tips and Tricks
         contents:
+          - page: Real-Time TTS with WebSockets
+            path: docs/tts-websocket-streaming.mdx
+          - page: Text Chunking for TTS
+            path: docs/tts-text-chunking.mdx
           - page: Formatting text for Aura-2
             path: docs/improving-aura-2-formatting.mdx
           - page: Handling Audio Issues in Text To Speech
             path: docs/handling-audio-issues-in-text-to-speech.mdx
           - page: Sending LLM Outputs to a WebSocket
             path: docs/send-llm-outputs-to-the-tts-web-socket.mdx
-          - page: Text Chunking for Streaming TTS Optimization
-            path: docs/text-chunking-for-tts-streaming-optimization.mdx
           - page: Text Chunking for TTS REST Optimization
             path: docs/text-chunking-for-tts-optimization.mdx
           - page: Text to Speech Latency
@@ -1364,3 +1366,7 @@ redirects:
     destination: /docs/voice-agent-errors
   - source: /docs/build-a-voice-agent
     destination: /reference/voice-agent-api/agent
+  - source: /docs/text-chunking-for-tts-streaming-optimization
+    destination: /docs/tts-websocket-streaming
+  - source: /docs/text-chunking-techniques-for-tts
+    destination: /docs/tts-text-chunking
