@@ -294,7 +294,7 @@ navigation:
             path: docs/version.mdx
       - section: Formatting
         contents:
-          - page: Diarization
+          - page: Speaker Diarization
             path: docs/diarization.mdx
           - page: Dictation
             path: docs/dictation.mdx
