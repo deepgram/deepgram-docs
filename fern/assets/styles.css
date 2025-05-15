@@ -221,10 +221,6 @@ a.fern-card.interactive[href*="playground.deepgram.com"] span.card-icon {
  * Fern Sidebar
  */
 
-.fern-sidebar-link-text {
-  /* font-size: 16px !important; */
-}
-
 .fern-sidebar-link-container[data-state="active"]
   .fern-sidebar-link-indent:after {
   border: 0px !important;
@@ -283,19 +279,11 @@ html.dark .fern-sidebar-link-container[data-state="active"] .fern-sidebar-link {
 
 .fern-sidebar-heading-content,
 .fern-sidebar-link-container .font-semibold .fern-sidebar-link-text {
-  /* font-weight: 700 !important;
-  font-size: 14px !important;
-  line-height: 17.5px !important;
-  letter-spacing: 2% !important; */
   color: var(--deepgram-accent-primary) !important;
 }
 
 .fern-sidebar-tabs {
   padding-left: 10px !important;
-}
-
-.fern-sidebar-heading {
-  padding-left: 28px !important;
 }
 
 .fern-sidebar-link-indent {
