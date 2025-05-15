@@ -183,27 +183,26 @@ a.fern-card.interactive[href*="playground.deepgram.com"] span.card-icon {
  * Deepgram Announcement Card
  */
 
-#announcement > .fern-card {
+#announcement .fern-card {
   --gradient: var(--dg-primary);
 
   background: var(--dg-fill) padding-box, var(--gradient) border-box;
   border-radius: 1000px;
   border: 0.125rem solid transparent;
   padding: 0.5rem;
-  transform: scale(0.8);
 }
 
-#announcement > .fern-card > div {
+#announcement .fern-card > div {
   justify-content: center;
 }
 
-#announcement > .fern-card > div > div {
+#announcement .fern-card > div > div {
   width: auto;
 }
 
-#announcement > .fern-card:hover {
+#announcement .fern-card:hover {
   background: var(--dg-fill) padding-box, var(--dg-primary-hover) border-box;
-  transform: scale(0.81);
+  transform: scale(1.01);
 }
 
 /**
