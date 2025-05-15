@@ -53,6 +53,6 @@ Thumbs.db
 # Deepgram ignores
 /temp_specs
 /temp_content
-/fern/content
+/fern/content-test
 /fern/openapi-test.yml
 /fern/asyncapi-test.yml
