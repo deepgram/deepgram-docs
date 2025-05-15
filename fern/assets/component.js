@@ -74,6 +74,7 @@ async function startAlgolia() {
   const apiKey = "e50ef768d9ac1a2b80ac6101639df429";
 
   const searchContainer = document.createElement("span");
+  searchContainer.id = "deepgram-search-button";
   searchContainer.style.flex = "1";
 
   const fernSearchButton = document.getElementById("fern-search-button");
@@ -81,7 +82,7 @@ async function startAlgolia() {
 
   fernSearchButton.remove();
 
-  docsearch({ container: desktopSearch, appId, indexName, apiKey });
+  docsearch({ container: "#deepgram-search-button", appId, indexName, apiKey });
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
