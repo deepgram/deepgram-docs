@@ -190,7 +190,6 @@ a.fern-card.interactive[href*="playground.deepgram.com"] span.card-icon {
   border-radius: 1000px;
   border: 0.125rem solid transparent;
   padding: 0.5rem;
-  transform: scale(0.8);
 }
 
 #announcement .fern-card > div {
@@ -203,7 +202,7 @@ a.fern-card.interactive[href*="playground.deepgram.com"] span.card-icon {
 
 #announcement .fern-card:hover {
   background: var(--dg-fill) padding-box, var(--dg-primary-hover) border-box;
-  transform: scale(0.81);
+  transform: scale(1.01);
 }
 
 /**
