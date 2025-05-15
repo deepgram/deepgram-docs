@@ -801,9 +801,7 @@ navigation:
             path: docs/deepgram-unimrcp-plugin.mdx
       - page: Using SDKs with Self-Hosted
         path: docs/using-sdks-with-self-hosted.mdx
-
-  # THIS IS NOT VISIBLE IN THE NAV BAR
-  - tab: pages
+  - tab: pages # THIS IS NOT VISIBLE IN THE NAV BAR
     layout:
       - page: Support
         path: docs/support.mdx
