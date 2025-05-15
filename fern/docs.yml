@@ -19,7 +19,7 @@ logo:
   height: 32
   href: /
 
-navbar-links:                       
+navbar-links:
   - type: minimal
     text: "Playground"
     href: "https://playground.deepgram.com"
@@ -116,9 +116,7 @@ tabs:
   self-hosted:
     display-name: Self-Hosted Deployments
     slug: self-hosted
-
-  # THIS IS NOT VISIBLE IN THE NAV BAR
-  pages:
+  pages: # THIS IS NOT VISIBLE IN THE NAV BAR
     display-name: Pages
     slug: pages
     hidden: true
