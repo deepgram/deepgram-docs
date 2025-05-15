@@ -91,42 +91,222 @@ analytics:
 tabs:
   home:
     display-name: Home
+    icon: fa-solid fa-house
     slug: home
+  api-ref:
+    display-name: API Reference
+    icon: fa-solid fa-code
+    slug: reference
   voice-agent:
     display-name: Voice Agent
+    icon: fa-solid fa-headset
     slug: voice-agent
   speech-to-text:
     display-name: Speech-to-Text
+    icon: fa-solid fa-file
     slug: speech-to-text
   text-to-speech:
     display-name: Text-to-Speech
+    icon: fa-solid fa-volume-high
     slug: text-to-speech
   intelligence:
     display-name: Intelligence
+    icon: fa-solid fa-brain
     slug: intelligence
-  api-ref:
-    display-name: API Reference
-    slug: reference
-  guides:
-    display-name: Guides
-    slug: docs
-  sdks:
-    display-name: SDKs
-    slug: sdks
   self-hosted:
     display-name: Self-Hosted Deployments
+    icon: fa-solid fa-server
     slug: self-hosted
 
-  # THIS IS NOT VISIBLE IN THE NAV BAR
-  pages:
-    display-name: Pages
-    slug: pages
-    hidden: true
 navigation:
+  # <DocsGenerator>
   - tab: home
     layout:
       - page: Introduction
         path: docs/landing.mdx
+      - page: Support
+        path: docs/support.mdx
+      - section: Trust & Security
+        contents:
+          - page: Security Policy
+            path: docs/security-policy.mdx
+          - page: Data Privacy Compliance
+            path: docs/data-privacy-compliance.mdx
+          - page: Information Security & Privacy Statement
+            path: docs/information-security-privacy-statement.mdx
+      - section: SDKs
+        contents:
+          - page: SDK Features
+            path: docs/sdk-feature-matrix.mdx
+          - section: JavaScript SDK
+            contents:
+              - link: Get Started
+                href: https://github.com/deepgram/deepgram-js-sdk?tab=readme-ov-file#installation
+              - page: V2 to V3 Migration Guide
+                path: docs/js-sdk-v2-to-v3-migration-guide.mdx
+          - section: Python SDK
+            contents:
+              - link: Get Started
+                href: https://github.com/deepgram/deepgram-python-sdk?tab=readme-ov-file#installation
+              - page: V2 to V3 Migration Guide
+                path: docs/python-sdk-v2-to-v3-migration-guide.mdx
+              - page: Threaded and AsyncIO
+                path: docs/threaded-and-async-io-task-support.mdx
+              - page: Python Notebooks
+                path: docs/python-notebooks.mdx
+          - section: .NET SDK
+            contents:
+              - link: Get Started
+                href: https://github.com/deepgram/deepgram-dotnet-sdk?tab=readme-ov-file#installation
+              - page: V3 to V4 Migration Guide
+                path: docs/dotnet-sdk-v3-to-v4-migration-guide.mdx
+          - section: Go SDK
+            contents:
+              - link: Get Started
+                href: https://github.com/deepgram/deepgram-go-sdk?tab=readme-ov-file#installation
+              - page: v1.2 to v1.3 Migration Guide
+                path: docs/go-sdk-v12-to-v136-migration-guide.mdx
+      - section: Guides
+        contents:
+          - section: Fundamentals
+            contents:
+              - page: Make Your First API Request
+                path: docs/make-your-first-api-request.mdx
+              - page: Authenticating
+                path: docs/authenticating.mdx
+              - page: Token-based Auth
+                path: docs/token-based-authentication.mdx
+              - page: Model Metadata
+                path: docs/model-metadata.mdx
+              - page: Managing Projects
+                path: docs/managing-projects.mdx
+              - page: Using Multiple Projects
+                path: docs/using-multiple-projects.mdx
+              - page: Working With Roles & API Scopes
+                path: docs/working-with-roles.mdx
+              - page: Supported Audio Formats
+                path: docs/supported-audio-formats.mdx
+              - page: Deployment Options
+                path: docs/deployment-options.mdx
+              - page: Creating API Keys
+                path: docs/create-additional-api-keys.mdx
+              - page: Using the Sec-WebSocket-Protocol
+                path: docs/using-the-sec-websocket-protocol.mdx
+              - page: Logs & Usage Data
+                path: docs/using-logs-usage.mdx
+              - page: Model Improvement Partnership Program
+                path: docs/the-deepgram-model-improvement-partnership-program.mdx
+              - page: Working With Concurrency Rate Limits
+                path: docs/working-with-concurrency-rate-limits.mdx
+          - section: Use Case Examples
+            contents:
+              - page: Build a Voice Agent with Twilio & OpenAI & Deepgram
+                path: docs/build-voice-agent-with-twilio-deepgram-openai.mdx
+              - page: Calculate Talk Time Analytics
+                path: docs/calculate-talk-time-analytics.mdx
+              - page: Transcribe Meetings in Realtime
+                path: docs/transcribe-meetings-in-realtime.mdx
+              - page: Transcribe Recorded Calls With Twilio
+                path: docs/transcribe-recorded-calls-with-twilio.mdx
+          - section: Integrations
+            contents:
+              - page: Amazon Connect and Deepgram
+                path: docs/deepgram-with-amazon-connect.mdx
+              - page: AWS S3 Presigned URLs and Deepgram
+                path: docs/using-aws-s3-presigned-urls-with-the-deepgram-api.mdx
+              - page: Genesys and Deepgram
+                path: docs/genesys-deepgram.mdx
+              - page: Google Dialogflow CX and Deepgram
+                path: docs/use-deepgram-with-dialogflow-cx.mdx
+              - page: Make.com and Deepgram
+                path: docs/makecom-deepgram-integration.mdx
+              - page: Twilio and Deepgram STT
+                path: docs/on-premise-twilio-integration.mdx
+              - page: Twilio and Deepgram TTS
+                path: docs/twilio-and-deepgram-tts.mdx
+              - page: Twilio and Deepgram Voice Agent
+                path: docs/twilio-and-deepgram-voice-agent.mdx
+              - page: Zapier and Deepgram
+                path: docs/zapier-integration.mdx
+              - page: Zoom and Deepgram
+                path: docs/integrate-deepgram-with-zoom.mdx
+          - section: Hidden Docs
+            hidden: true
+            contents:
+              - page: Code of Conduct
+                path: hidden-pages/code-of-conduct.mdx
+                hidden: true
+              - page: Aura 2 Private Preview
+                path: hidden-pages/aura-2-preview.mdx
+                hidden: true
+              - page: Aura 2 Self-Hosted Deployment Guide
+                path: hidden-pages/deploy-aura-2-self-hosted.mdx
+                hidden: true
+              - page: Amazon Elastic Container Service
+                path: hidden-pages/aws-ecs.mdx
+                hidden: true
+              - page: Data Labeling Intro
+                path: hidden-pages/data-labeling-intro.mdx
+                hidden: true
+              - page: Data Labeling Best Practices
+                path: hidden-pages/data-labeling-best-practices.mdx
+                hidden: true
+              - page: Data Labeling Setting Up
+                path: hidden-pages/data-labeling-setting-up.mdx
+                hidden: true
+              - page: Data Labeling Understanding the Workflow
+                path: hidden-pages/data-labeling-understanding-the-workflow.mdx
+                hidden: true
+              - page: Data Labeling Managing Work
+                path: hidden-pages/data-labeling-managing-work.mdx
+                hidden: true
+              - page: Data Labeling Troubleshooting
+                path: hidden-pages/data-labeling-troubleshooting.mdx
+                hidden: true
+              - page: DG Tools Overview
+                path: hidden-pages/dgtools-overview.mdx
+                hidden: true
+              - page: Distro Guide Ubuntu 20.04 LTS
+                path: hidden-pages/distro-guide-ubuntu-2004-lts.mdx
+                hidden: true
+              - page: Distro Guide RHEL 8
+                path: hidden-pages/distro-guide-rhel-8.mdx
+                hidden: true
+              - page: Distro Guide RHEL 7
+                path: hidden-pages/distro-guide-rhel-7.mdx
+                hidden: true
+              - page: RAG & Multi-Agent Workflows
+                path: hidden-pages/voice-agent-rag-multi-agent-workflows.mdx
+                hidden: true
+              - page: Softbank Voice Agent API Reference
+                path: hidden-pages/softbank-voice-agent-api-reference.mdx
+                hidden: true
+              - page: Using the Deepgram Event Captioner
+                path: hidden-pages/using-the-deepgram-event-captioner.mdx
+                hidden: true
+              - page: Tier - Deprecated
+                path: hidden-pages/tier.mdx
+                hidden: true
+              - page: Voice Agent Latency
+                path: hidden-pages/voice-agent-latency.mdx
+                hidden: true
+              - page: Voice Agent Prompting
+                path: hidden-pages/voice-agent-prompting.mdx
+                hidden: true
+              - page: Genesys and Deepgram (Legacy)
+                path: hidden-pages/genesys-deepgram-legacy.mdx
+                hidden: true
+              - page: Agent Started Speaking
+                path: hidden-pages/voice-agent-agent-started-speaking.mdx
+                hidden: true
+              - page: Update Instructions
+                path: hidden-pages/voice-agent-update-instructions.mdx
+                hidden: true
+              - page: Function Calling Message
+                path: hidden-pages/voice-agent-function-calling-message.mdx
+                hidden: true
+
+
   - tab: voice-agent
     layout:
       - page: Getting Started
@@ -530,213 +710,6 @@ navigation:
                 contents:
                   - endpoint: POST /v1/auth/grant
                     title: Grant Token
-  - tab: guides
-    layout:
-      - section: Fundamentals
-        contents:
-          - page: Make Your First API Request
-            path: docs/make-your-first-api-request.mdx
-          - page: Authenticating
-            path: docs/authenticating.mdx
-          - page: Token-based Auth
-            path: docs/token-based-authentication.mdx
-          - page: Model Metadata
-            path: docs/model-metadata.mdx
-          - page: Managing Projects
-            path: docs/managing-projects.mdx
-          - page: Using Multiple Projects
-            path: docs/using-multiple-projects.mdx
-          - page: Working With Roles & API Scopes
-            path: docs/working-with-roles.mdx
-          - page: Supported Audio Formats
-            path: docs/supported-audio-formats.mdx
-          - page: Deployment Options
-            path: docs/deployment-options.mdx
-          - page: Creating API Keys
-            path: docs/create-additional-api-keys.mdx
-          - page: Using the Sec-WebSocket-Protocol
-            path: docs/using-the-sec-websocket-protocol.mdx
-          - page: Logs & Usage Data
-            path: docs/using-logs-usage.mdx
-          - page: Model Improvement Partnership Program
-            path: docs/the-deepgram-model-improvement-partnership-program.mdx
-          - page: Working With Concurrency Rate Limits
-            path: docs/working-with-concurrency-rate-limits.mdx
-      - section: Use Case Examples
-        contents:
-          - page: Build a Voice Agent with Twilio & OpenAI & Deepgram
-            path: docs/build-voice-agent-with-twilio-deepgram-openai.mdx
-          - page: Calculate Talk Time Analytics
-            path: docs/calculate-talk-time-analytics.mdx
-          - page: Transcribe Meetings in Realtime
-            path: docs/transcribe-meetings-in-realtime.mdx
-          - page: Transcribe Recorded Calls With Twilio
-            path: docs/transcribe-recorded-calls-with-twilio.mdx
-      - section: Integrations
-        contents:
-          - page: Amazon Connect and Deepgram
-            path: docs/deepgram-with-amazon-connect.mdx
-          - page: AWS S3 Presigned URLs and Deepgram
-            path: docs/using-aws-s3-presigned-urls-with-the-deepgram-api.mdx
-          - page: Genesys and Deepgram
-            path: docs/genesys-deepgram.mdx
-          - page: Google Dialogflow CX and Deepgram
-            path: docs/use-deepgram-with-dialogflow-cx.mdx
-          - page: Make.com and Deepgram
-            path: docs/makecom-deepgram-integration.mdx
-          - page: Twilio and Deepgram STT
-            path: docs/on-premise-twilio-integration.mdx
-          - page: Twilio and Deepgram TTS
-            path: docs/twilio-and-deepgram-tts.mdx
-          - page: Twilio and Deepgram Voice Agent
-            path: docs/twilio-and-deepgram-voice-agent.mdx
-          - page: Zapier and Deepgram
-            path: docs/zapier-integration.mdx
-          - page: Zoom and Deepgram
-            path: docs/integrate-deepgram-with-zoom.mdx
-      - section: Hidden Docs
-        hidden: true
-        contents:
-          - page: Code of Conduct
-            path: hidden-pages/code-of-conduct.mdx
-            hidden: true
-          - page: Aura 2 Private Preview
-            path: hidden-pages/aura-2-preview.mdx
-            hidden: true
-          - page: Aura 2 Self-Hosted Deployment Guide
-            path: hidden-pages/deploy-aura-2-self-hosted.mdx
-            hidden: true
-          - page: Amazon Elastic Container Service
-            path: hidden-pages/aws-ecs.mdx
-            hidden: true
-          - page: Data Labeling Intro
-            path: hidden-pages/data-labeling-intro.mdx
-            hidden: true
-          - page: Data Labeling Best Practices
-            path: hidden-pages/data-labeling-best-practices.mdx
-            hidden: true
-          - page: Data Labeling Setting Up
-            path: hidden-pages/data-labeling-setting-up.mdx
-            hidden: true
-          - page: Data Labeling Understanding the Workflow
-            path: hidden-pages/data-labeling-understanding-the-workflow.mdx
-            hidden: true
-          - page: Data Labeling Managing Work
-            path: hidden-pages/data-labeling-managing-work.mdx
-            hidden: true
-          - page: Data Labeling Troubleshooting
-            path: hidden-pages/data-labeling-troubleshooting.mdx
-            hidden: true
-          - page: DG Tools Overview
-            path: hidden-pages/dgtools-overview.mdx
-            hidden: true
-          - page: Distro Guide Ubuntu 20.04 LTS
-            path: hidden-pages/distro-guide-ubuntu-2004-lts.mdx
-            hidden: true
-          - page: Distro Guide RHEL 8
-            path: hidden-pages/distro-guide-rhel-8.mdx
-            hidden: true
-          - page: Distro Guide RHEL 7
-            path: hidden-pages/distro-guide-rhel-7.mdx
-            hidden: true
-          - page: RAG & Multi-Agent Workflows
-            path: hidden-pages/voice-agent-rag-multi-agent-workflows.mdx
-            hidden: true
-          - page: Softbank Voice Agent API Reference
-            path: hidden-pages/softbank-voice-agent-api-reference.mdx
-            hidden: true
-          - page: Using the Deepgram Event Captioner
-            path: hidden-pages/using-the-deepgram-event-captioner.mdx
-            hidden: true
-          - page: Tier - Deprecated
-            path: hidden-pages/tier.mdx
-            hidden: true
-          - page: Voice Agent Latency
-            path: hidden-pages/voice-agent-latency.mdx
-            hidden: true
-          - page: Voice Agent Prompting
-            path: hidden-pages/voice-agent-prompting.mdx
-            hidden: true
-          - page: Genesys and Deepgram (Legacy)
-            path: hidden-pages/genesys-deepgram-legacy.mdx
-            hidden: true
-          - page: Agent Started Speaking
-            path: hidden-pages/voice-agent-agent-started-speaking.mdx
-            hidden: true
-          - page: Update Instructions
-            path: hidden-pages/voice-agent-update-instructions.mdx
-            hidden: true
-          - page: Function Calling Message
-            path: hidden-pages/voice-agent-function-calling-message.mdx
-            hidden: true
-  - tab: sdks
-    layout:
-      - page: Deepgram SDKs
-        path: docs/deepgram-sdks.mdx
-      - page: SDK Feature Matrix
-        path: docs/sdk-feature-matrix.mdx
-      - page: Using Custom Add On Parameters with SDKs
-        path: docs/using-custom-parameters-sdks.mdx
-      - page: Using Custom Headers with SDKs
-        path: docs/using-custom-headers-and-sdks.mdx
-      - page: Using Client Options with SDKs
-        path: docs/using-client-options-with-sdks.mdx
-      - section: JavaScript SDK
-        path: docs/js-sdk.mdx
-        contents:
-          - page: JavaScript SDK V2 to V3 Migration Guide
-            path: docs/js-sdk-v2-to-v3-migration-guide.mdx
-          - page: Pre-Recorded Audio Transcription
-            path: docs/node-sdk-pre-recorded-transcription.mdx
-          - page: Live Streaming Audio Transcription
-            path: docs/node-sdk-streaming-transcription.mdx
-          - page: Text to Speech REST
-            path: docs/js-sdk-text-to-speech.mdx
-          - page: Text to Speech Streaming
-            path: docs/js-sdk-streaming-text-to-speech.mdx
-      - section: Python SDK
-        path: docs/python-sdk.mdx
-        contents:
-          - page: Python SDK V2 to V3 Migration Guide
-            path: docs/python-sdk-v2-to-v3-migration-guide.mdx
-          - page: Threaded and Async IO Task Support
-            path: docs/threaded-and-async-io-task-support.mdx
-          - page: Pre-Recorded Audio Transcription
-            path: docs/python-sdk-pre-recorded-transcription.mdx
-          - page: Live Streaming Audio Transcription
-            path: docs/python-sdk-streaming-transcription.mdx
-          - page: Text To Speech REST
-            path: docs/python-sdk-text-to-speech.mdx
-          - page: Text To Speech Streaming
-            path: docs/python-sdk-streaming-text-to-speech.mdx
-          - page: Python Notebooks
-            path: docs/python-notebooks.mdx
-      - section: .NET SDK
-        path: docs/dotnet-sdk.mdx
-        contents:
-          - page: .NET SDK V3 to V4 Migration Guide
-            path: docs/dotnet-sdk-v3-to-v4-migration-guide.mdx
-          - page: Pre-Recorded Audio Transcription
-            path: docs/dotnet-sdk-pre-recorded-transcription.mdx
-          - page: Live Streaming Audio Transcription
-            path: docs/dotnet-sdk-streaming-transcription.mdx
-          - page: Text to Speech REST
-            path: docs/dotnet-sdk-text-to-speech.mdx
-          - page: Text to Speech Streaming
-            path: docs/dotnet-sdk-streaming-text-to-speech.mdx
-      - section: Go SDK
-        path: docs/go-sdk.mdx
-        contents:
-          - page: Go SDK v1.2 to v1.3 Interface Change
-            path: docs/go-sdk-v12-to-v136-migration-guide.mdx
-          - page: Pre-Recorded Audio Transcription
-            path: docs/pre-recorded-audio-transcription.mdx
-          - page: Live Streaming Audio Transcription
-            path: docs/live-streaming-audio-transcription.mdx
-          - page: Text-to-Speech REST
-            path: docs/go-sdk-text-to-speech.mdx
-          - page: Text-to-Speech Streaming
-            path: docs/go-sdk-streaming-text-to-speech.mdx
   - tab: self-hosted
     layout:
       - page: Introduction
@@ -803,23 +776,9 @@ navigation:
             path: docs/deepgram-unimrcp-plugin.mdx
       - page: Using SDKs with Self-Hosted
         path: docs/using-sdks-with-self-hosted.mdx
-
-  # THIS IS NOT VISIBLE IN THE NAV BAR
-  - tab: pages
-    layout:
-      - page: Support
-        path: docs/support.mdx
-        hidden: true
-      - page: Security Policy
-        path: docs/security-policy.mdx
-        hidden: true
-      - page: Data Privacy Compliance
-        path: docs/data-privacy-compliance.mdx
-        hidden: true
-      - page: Information Security & Privacy Statement
-        path: docs/information-security-privacy-statement.mdx
-        hidden: true
+  # </DocsGenerator>
 redirects:
+  # <RedirectsGenerator>
   - source: /api-reference
     destination: /reference
   - source: /api-reference/authentication
@@ -1370,3 +1329,4 @@ redirects:
     destination: /docs/tts-websocket-streaming
   - source: /docs/text-chunking-techniques-for-tts
     destination: /docs/tts-text-chunking
+  # </RedirectsGenerator>

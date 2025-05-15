@@ -57,10 +57,6 @@ body {
   color: var(--deepgram-body-text);
 }
 
-#fern-header > div > nav > ul > li:last-child {
-  display: none;
-}
-
 .fern-header-right-menu .fern-button {
   font-weight: 600;
 }
