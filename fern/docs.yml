@@ -132,7 +132,7 @@ navigation:
             path: docs/security-policy.mdx
           - page: Data Privacy Compliance
             path: docs/data-privacy-compliance.mdx
-          - page: Information Security & Privacy Statement
+          - page: Information Security & Privacy
             path: docs/information-security-privacy-statement.mdx
       - section: SDKs
         contents:

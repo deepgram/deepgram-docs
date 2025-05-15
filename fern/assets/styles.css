@@ -205,13 +205,19 @@ a.fern-card.interactive[href*="playground.deepgram.com"] span.card-icon {
  * Deepgram Navigation Tabs
  */
 
-.fern-header-tab-button[data-state="active"] span {
+.fern-header-tabs > div > a {
+  font-weight: 600 !important;
+}
+
+.fern-header-tabs > div > a[data-state="active"] {
   color: var(--deepgram-body-text) !important;
 }
 
-.fern-theme-default.fern-container
-  .fern-header-tabs
-  .fern-header-tab-button[data-state="active"]:after {
+.fern-header-tabs > div > a[data-state="inactive"] {
+  color: var(--deepgram-muted-text) !important;
+}
+
+.fern-header-tabs > div > a[data-state="active"]:after {
   height: 0.125rem;
   background-color: none;
   background: var(--dg-primary);
@@ -221,77 +227,56 @@ a.fern-card.interactive[href*="playground.deepgram.com"] span.card-icon {
  * Fern Sidebar
  */
 
-.fern-sidebar-link-container[data-state="active"]
-  .fern-sidebar-link-indent:after {
-  border: 0px !important;
-}
+@layer components {
+  @media (width>=64rem) {
+    [data-theme="default"] #fern-sidebar-scroll-area {
+      padding-left: 0 !important;
+      padding-inline: 0 !important;
+    }
 
-.fern-sidebar-link-container[data-state="active"] .fern-sidebar-link {
-  background-color: rgba(
-    0,
-    0,
-    0,
-    0.1
-  ) !important; /* Darkens by adding transparent black overlay */
-}
+    [data-theme="default"] #fern-sidebar-scroll-area .fern-sidebar-link {
+      border-radius: 0 !important;
+    }
 
-html.dark .fern-sidebar-link-container[data-state="active"] .fern-sidebar-link {
-  background-color: rgba(
-    255,
-    255,
-    255,
-    0.1
-  ) !important; /* Lightens in dark mode by adding transparent white overlay */
-}
-
-.fern-sidebar-link-container[data-state="active"] .fern-sidebar-link:after {
-  background: var(--dg-primary) !important;
-  width: 2px !important;
-  position: absolute !important;
-  content: "" !important;
-  right: 0 !important;
-  top: 0 !important;
-  bottom: 0 !important;
-  border-radius: 8px !important;
-}
-
-.fern-sidebar-link {
-  border-radius: 0 !important;
-}
-
-.fern-sidebar-link-content {
-  padding-left: 1rem !important;
-  padding-right: 1rem !important;
-  padding-top: 0.5rem !important;
-  padding-bottom: 0.5rem !important;
-}
-
-.fern-sidebar-content {
-  padding-left: 0 !important;
-  padding-right: 0 !important;
-}
-
-@media (min-width: 1024px) {
-  .fern-sidebar-container:not(.fern-sidebar-fixed) {
-    padding-left: 0rem !important;
+    [data-theme="default"]
+      #fern-sidebar-scroll-area
+      .fern-sidebar-link[data-state="active"]::after {
+      right: 0 !important;
+      left: auto !important;
+    }
   }
-}
 
-.fern-sidebar-heading-content,
-.fern-sidebar-link-container .font-semibold .fern-sidebar-link-text {
-  color: var(--deepgram-accent-primary) !important;
-}
+  [data-theme="default"]
+    #fern-sidebar-scroll-area
+    .fern-sidebar-group.lg\:px-1 {
+    padding-inline: 0 !important;
+  }
 
-.fern-sidebar-tabs {
-  padding-left: 10px !important;
-}
+  [data-theme="default"]
+    #fern-sidebar-scroll-area
+    .fern-sidebar-link[data-state="active"] {
+    background-color: rgba(var(--body-text-rgb), 0.1);
+  }
 
-.fern-sidebar-link-indent {
-  margin-left: 20px !important;
-}
+  [data-theme="default"]
+    #fern-sidebar-scroll-area
+    .fern-sidebar-link[data-state="active"]::after {
+    content: "";
+    position: absolute;
+    right: auto;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 2px;
+    background: var(--dg-primary);
+    z-index: 1;
+  }
 
-.fern-sidebar-link-container[data-state="inactive"] .fern-sidebar-link:hover {
-  color: var(--deepgram-body-text) !important;
+  [data-theme="default"]
+    #fern-sidebar-scroll-area
+    .fern-sidebar-link[data-state="active"] {
+    position: relative;
+  }
 }
 
 /**
