@@ -1,0 +1,155 @@
+---
+title: Go SDK v1.2 to v1.3 Interface Change
+subtitle: Migrating from Deepgram Go SDK v1.2 to v1.3.6
+---
+
+
+<Info>
+  This guide is for users with experience using the Deepgram Go SDK v1.2 who want to migrate to the Deepgram Go SDK v1.3.6. This is not an end-to-end guide, but a reference for people using our existing Go SDK for migration purposes.
+</Info>
+
+## Notable Change(s)
+
+The `v1.3` release introduced a breaking change to the Speech-to-Text Live Client. If you upgrade from any previous version of this SDK, these notes apply to your project.
+
+We discovered that the code to retry the connection was not working properly and would, in many cases, cause the client to reconnect to the websocket and call `websocket.read()` on a tight loop 1000+ times. Many times, this would result in a go panic. Since the root cause of the issue was the reconnect not working properly, the decision was made to break the client interfaces to alleviate this unwanted behavior.
+
+<Info>
+  Since we were introducing a breaking change, it followed that existing issues with the `golangci-lint` static checker were also addressed in this breaking change as well.
+</Info>
+
+## Root Cause
+
+For transparency, the root cause of the issue was that we inadvertently tried to reuse the context `ctx` object for re-connection. This turned out to be the source of the bug. To alleviate this problem, the end user must be able to specify and provide their own `cancel context`. A new `context` input was needed on the `Connect()` and `AttemptReconnect()` function calls, thus breaking the interface.
+
+# Migration Guide
+
+Please review the notes below for a call out on the interface break and instructions on modifying your code to handle this change when upgrading to the latest version.
+
+## WebSocket/Live Client `Connect()`
+
+In `pkg/client/live/client.go`:
+
+**Code change:** If you are testing if `Connect()` was successful, the return value was changed from `*websocket.Conn` to a `bool` result. **Reason:** This is to prevent users from performing a `wsConn.read()` or `wsConn.write()` directly with the WebSocket.
+
+<CodeGroup>
+  ```go Before
+  func (c *Client) Connect() *websocket.Conn
+  ```
+
+  ```go After
+  func (c *Client) Connect() bool
+  ```
+</CodeGroup>
+
+## WebSocket/Live Client `Reconnect()`
+
+In `pkg/client/live/client.go`:
+
+**Code change:** If you are testing if `AttemptReconnect()` was successful, the return value was changed from `*websocket.Conn` to a `bool` result. **Reason:** This is to prevent users from performing a `wsConn.read()` or `wsConn.write()` directly with the WebSocket.
+
+<CodeGroup>
+  ```go Before
+  func (c *Client) AttemptReconnect(retries int64) *websocket.Conn
+  ```
+
+  ```go After
+  func (c *Client) AttemptReconnect(ctx context.Context, retries int64) bool
+  ```
+</CodeGroup>
+
+## PreRecorded/REST Client `New()`
+
+In:
+
+* `pkg/client/live/client.go`: `New()` functions take a pointer to `LiveTranscriptionOptions` struct
+* `pkg/client/prerecorded/client.go`: `New()` functions take a pointer to `PreRecordedTranscriptionOptions` struct
+* `pkg/client/analyze/client.go`: `New()` functions take a pointer to `AnalyzeOptions` struct
+* `pkg/client/speak/client.go`: `New()` functions take a pointer to `SpeakOptions` struct
+
+**Code change:** Instead of passing in a copy of the struct, the pointer to the struct is provided instead **Reason:** This was to solve an initialization issue causing the struct to get duplicated. Depending on the `struct`, the duplicate could be quite expensive.
+
+Using `pkg/client/prerecorded/client.go` for the example below:
+
+<CodeGroup>
+  ```go Before
+  // create a Deepgram client (NOTE: line 2 without the &)
+  c := client.NewREST("", interfaces.ClientOptions{))
+  dg := api.New(c)
+                                                    
+  // transcription options (NOTE: line 6 without the &)
+  options := interfaces.PreRecordedTranscriptionOptions{
+  	Model: "nova-3",
+  }
+                                                    
+  // send/process file to Deepgram
+  res, err := dg.FromFile(ctx, filePath, options)
+  if err != nil {
+  	if e, ok := err.(*interfaces.StatusError); ok {
+  		fmt.Printf("DEEPGRAM ERROR:\n%s:\n%s\n", e.DeepgramError.ErrCode, e.DeepgramError.ErrMsg)
+  	}
+  	fmt.Printf("FromStream failed. Err: %v\n", err)
+  	os.Exit(1)
+  }
+  ```
+
+  ```go After
+  // create a Deepgram client (NOTE: line 2 with the &)
+  c := client.NewREST("", &interfaces.ClientOptions{))
+  dg := api.New(c)
+                                                    
+  // transcription options (NOTE: line 2 with the &)
+  options := &interfaces.PreRecordedTranscriptionOptions{
+  	Model: "nova-3",
+  }
+                                                    
+  // send/process file to Deepgram
+  res, err := dg.FromFile(ctx, filePath, options)
+  if err != nil {
+  	if e, ok := err.(*interfaces.StatusError); ok {
+  		fmt.Printf("DEEPGRAM ERROR:\n%s:\n%s\n", e.DeepgramError.ErrCode, e.DeepgramError.ErrMsg)
+  	}
+  	fmt.Printf("FromStream failed. Err: %v\n", err)
+  	os.Exit(1)
+  }
+  ```
+</CodeGroup>
+
+If you have any questions or need additional support please see our [Support Page ](/docs/support)for more details of how to get help.
+
+## Naming Changes Due to Linting Enforcement
+
+In `v1.3`, we implemented using many static code checkers and code linters on the Go SDK. This, in turn, caused these checkers to complain about everything not being up to par with this enforcement. The code base up until this point tried to implement these standards, but we, unfortunately, missed enforcement for variable and module names.
+
+Should you build your application after migrating to `v1.3+`and you find that the compilation failed due to properties on structs that were renamed, you can find a quick find and replace commands that you can run from the root of your repo. These capture all the renamed properties within the struct interfaces exposed in the Go SDK.
+
+Before running any of these commands, save a copy of your current code base elsewhere to ensure all the intended changes happen correctly. You should be under some kind of source control; if not, start by checking into your application code somewhere.
+
+<CodeGroup>
+  ```shell Shell
+  # struct property linting updates
+  find ./ -type f -iname "*.go" -not -path "./.git" -exec sed -i.bak 's/Url/URL/g' "{}" +;
+  find ./ -type f -iname "*.go" -not -path "./.git" -exec sed -i.bak 's/Api/API/g' "{}" +;
+  find ./ -type f -iname "*.go" -not -path "./.git" -exec sed -i.bak -E 's/([^a-zA-Z])URI/\1uri/g' "{}" +;
+  find ./ -type f -iname "*.go" -not -path "./.git" -exec sed -i.bak 's/Http/HTTP/g' "{}" +;
+  find ./ -type f -iname "*.go" -not -path "./.git" -exec sed -i.bak 's/Uuid/UUID/g' "{}" +;
+  find ./ -type f -iname "*.go" -not -path "./.git" -exec sed -i.bak -E 's/Id([^e])/ID\1/g' "{}" +;
+
+  # Client module name linting updates
+  find ./ -type f -iname "*.go" -not -path "examples" -not -path ".git" -exec sed -i.bak 's/ReplyOptions/Options/g' "{}" +;
+  find ./ -type f -iname "*.go" -not -path "examples" -not -path ".git" -exec sed -i.bak 's/AnalyzeClient/Client/g' "{}" +;
+  find ./ -type f -iname "*.go" -not -path "examples" -not -path ".git" -exec sed -i.bak 's/ManageClient/Client/g' "{}" +;
+  find ./ -type f -iname "*.go" -not -path "examples" -not -path ".git" -exec sed -i.bak 's/PrerecordedClient/Client/g' "{}" +;
+  find ./ -type f -iname "*.go" -not -path "examples" -not -path ".git" -exec sed -i.bak 's/SpeakClient/Client/g' "{}" +;
+
+  # client Options name change from linting updates
+  find ./examples -type f -iname "*.go" -not -path ".git" -exec sed -i.bak -E 's/([a-zA-Z0-9]+[[:blank:]]+:=.*)([[:blank:]]+)([^\&].+[a-zA-Z]+\.ClientOptions\{)(.*)/\1\2\&\3\4/g' "{}" +;
+  find ./examples -type f -iname "*.go" -not -path ".git" -exec sed -i.bak -E 's/([a-zA-Z0-9]+[[:blank:]]+:=.*)([[:blank:]]+)([^\&].+[a-zA-Z]+\.AnalyzeOptions\{)(.*)/\1\2\&\3\4/g' "{}" +;
+  find ./examples -type f -iname "*.go" -not -path ".git" -exec sed -i.bak -E 's/([a-zA-Z0-9]+[[:blank:]]+:=.*)([[:blank:]]+)([^\&].+[a-zA-Z]+\.LiveTranscriptionOptions\{)(.*)/\1\2\&\3\4/g' "{}" +;
+  find ./examples -type f -iname "*.go" -not -path ".git" -exec sed -i.bak -E 's/([a-zA-Z0-9]+[[:blank:]]+:=.*)([[:blank:]]+)([^\&].+[a-zA-Z]+\.PreRecordedTranscriptionOptions\{)(.*)/\1\2\&\3\4/g' "{}" +;
+  find ./examples -type f -iname "*.go" -not -path ".git" -exec sed -i.bak -E 's/([a-zA-Z0-9]+[[:blank:]]+:=.*)([[:blank:]]+)([^\&].+[a-zA-Z]+\.SpeakOptions\{)(.*)/\1\2\&\3\4/g' "{}" +;
+
+  # clean up backup files. Run this ONLY after you have verified that the changes are correct
+  # find ./ -type f -iname "*.bak" -not -path "./.git" -exec rm -rf "{}" +;
+  ```
+</CodeGroup>

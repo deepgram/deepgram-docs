@@ -1,0 +1,144 @@
+---
+title: Token-Based Auth
+subtitle: >-
+  Generates a temporary JSON Web Token (JWT) with a 30-second TTL (Time To Live) for Deepgram APIs.
+---
+
+A temporary token is a secure, authentication credential that provides time-limited access to Deepgram's APIs. These tokens have a 30 second Time To Live (TTL) and are designed specifically for short-lived, secure API access scenarios, particularly in client-side applications where long-term credential storage is not recommended. Unlike traditional API keys, temporary tokens are ideal for real-time applications requiring secure, temporary access to Deepgram's services.
+
+```mermaid
+sequenceDiagram
+    participant Client as Your Client
+    participant Proxy as Your Backend Proxy
+    participant Deepgram as Deepgram
+
+    Client->>Proxy: GET /your-token-endpoint
+    Proxy->>Deepgram: POST /v1/auth/grant
+    note right of Proxy: Authorization: Token <API Key>
+
+    Deepgram-->>Proxy: 200 { access_token: <jwt>, expires_in: 30 }
+    Proxy-->>Client: 200 { access_token: <jwt>, expires_in: 30 }
+
+    Client->>Deepgram: GET /v1/listen
+    note left of Proxy: Authorization: Bearer <JWT>
+    Deepgram-->>Client: { ... }
+```
+
+## Use Cases
+
+Temporary tokens are ideal for client-side/untrusted applications because they allow clients to directly access the Deepgram API. Normal API keys, to be secure, require proxying traffic through your own servers where the API key is stored.
+
+Direct access to the Deepgram API is particularly useful for client-side/untrusted applications that are more latency-sensitive, like realtime connections.
+
+## Implementation Considerations
+
+1. Create a backend service to generate temporary tokens
+2. Generate tokens only when needed (e.g., at connection start)
+3. Pass the token from your backend to your client
+4. Initiate the Deepgram inference request from your client with the token
+5. Use tokens immediately after generation
+6. Implement proper error handling for expired tokens
+
+## Example
+
+To create a JWT token, you can use the `/auth/grant` endpoint using the Authorization header with the `token` scheme.
+
+<CodeGroup>
+  ```Curl cURL
+  curl -X POST https://api.deepgram.com/v1/auth/grant \
+     -H "Authorization: Token YOUR_DEEPGRAM_API_KEY"
+  ```
+</CodeGroup>
+
+<Warning>
+  Replace `YOUR_DEEPGRAM_API_KEY` with your [Deepgram API Key](/docs/create-additional-api-keys).
+</Warning>
+
+## Response
+
+<CodeGroup>
+  ```JSON JSON
+  {
+    "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2ZDNkMWJiYy0yNmI0LTRlZGQtYjliMy0zNjc3MDM3OTFmZTciLCJle BAiOjE3NDM2MjY2MzQsInN1YmplY3QiOiI2ZDNkMWJiYy0yNmI0LTRlZGQtYjliMy0zNjc3MDM3OTFmZTciLCJzY29wZXMiOlsiYXXyOndyaXRlIl0sInByb2plY3RfY2xhaW1zIjpbInVzYWdlOndyaXRlIl0sImFjY2Vzc29yIjoiMDgy1mM1YTMtNDRlMy00MWVkLThlZWItNDJiOGE1MDkwNjYwIiwiYWNjZXNzb3JfZ2VuZXJhdGlvbiI6MCwiY3JlYXRlZCI6IjIwMjMtMDItYjFUMjE6MTM6NDAuMDE0MzczWiJ9.-nutqvuezqlpxgUiBTKK9niCJeAiy855gBRzop32kCw",
+    "expires_in": 30
+}
+  ```
+</CodeGroup>
+
+To use the JWT token, you can then pass it in the `Authorization` header of your request to any Deepgram API that supports token-based authentication using the `Bearer` scheme.
+
+## Example
+
+<CodeGroup>
+ ```Curl cURL
+  curl -X POST https://api.deepgram.com/v1/listen \
+     -H "Authorization: Bearer YOUR_JWT_TOKEN"
+  ```
+
+</CodeGroup>
+
+<Warning>
+  Replace `YOUR_JWT_TOKEN` with the JWT token you received from the `/auth/grant` endpoint.
+</Warning>
+
+## FAQ
+
+### Why do I get a Forbidden error?
+
+`{"err_code":"FORBIDDEN","err_msg":"Insufficient permissions."}`
+
+The API key you use for the `/auth/grant` request needs to have at least Member permissions.
+To create a key with Member permissions, login to the [Deepgram Console](https://console.deepgram.com/) and click on "API Keys" from the left sidebar. Click the "Create Key" button, then select "Advanced" options and choose "Member" from the permissions dropdown.
+
+Alternatively, you can create a key with Member permissions using the [Create Key](/reference/management-api/keys/create) endpoint.
+
+### Can a token have a longer TTL (Time To Live) than 30 seconds?
+
+We currently don't support modifying the TTL value of temporary tokens.
+
+### Can my websocket connection last longer than 30 seconds?
+
+Yes! You only need the temporary token to be valid during the initial websocket connection to Deepgram's APIs. The websocket connection will then stay open as it would in any other case until you close it.
+
+### Which Deepgram APIs can I use with a temporary token?
+
+Temporary tokens have usage::write permission for these Deepgram APIs:
+
+- [`/listen` REST API](/reference/speech-to-text-api/listen) - Speech to Text
+- [`/listen` WebSocket API](/reference/speech-to-text-api/listen-streaming) - Speech to Text
+- [`/speak` REST API](/reference/text-to-speech-api/speak) - Text to Speech
+- [`/speak` WebSocket API](/reference/text-to-speech-api/speak-streaming) - Text to Speech
+- [`/read` REST API](/reference/text-intelligence-api/text-read) - Text Intelligence
+
+These APIs will not work with temporary tokens:
+
+- The collection of [Management APIs](/reference/deepgram-api-overview)
+- The [`/agent` API](/reference/voice-agent-api/agent) - Coming soon!
+
+### Can I use this token for speech-to-text pre-recorded requests?
+
+Yes! You can use this token with speech-to-text pre-recorded requests. Just note that due to the short TTL you may need to request a new token before subsequent pre-recorded requests. Unless you have latency constraints, you're likely better off just making the request from inside the proxy.
+
+
+### Are temporary tokens supported in the Deepgram SDKs?
+
+Yes. The Deepgram SDKs support token-based authentication. Please refer to the [SDKs Feature Matrix](/docs/sdk-feature-matrix#token-based-authentication) page for more information.
+
+### Why should I use temporary tokens over temporary API keys?
+
+- Fewer Disruptions: Temporary tokens are more resilient to outages, reducing the chances of interruptions to your workflow — especially during planned maintenance or unexpected incidents.
+- Cleaner Deepgram Console Experience: Using temporary tokens means you'll no longer see pages cluttered with expired API keys. Your usage summary and API keys views will be cleaner and easier to navigate.
+- Smoother Console Performance: Switching to temporary tokens means the Deepgram Console will remain fast and efficient, even as your usage scales.
+- Faster Access: Creating a temporary token is faster than creating an API key, which means faster connection times for WebSockets.
+
+### Can I track the usage from temporary tokens?
+
+Yes! The temporary tokens generated have the same accessor as the API key used to generate them.
+
+
+***
+
+What's Next
+
+* For more information, refer to the [Token-based Authentication API Reference](/reference/token-based-auth-api/grant-token).
+

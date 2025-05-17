@@ -92,8 +92,8 @@ tabs:
   home:
     display-name: Home
     icon: fa-solid fa-house
-    slug: home
-  api-ref:
+    skip-slug: true # skip slug for home page
+  api-reference:
     display-name: API Reference
     icon: fa-solid fa-code
     slug: reference
@@ -122,190 +122,296 @@ navigation:
   # <DocsGenerator>
   - tab: home
     layout:
-      - page: Introduction
-        path: docs/landing.mdx
-      - page: Support
-        path: docs/support.mdx
+      - page: Introduction # Moved ✅ Slug ✅ Redirected ✅
+        path: ./pages/home.mdx
+        slug: home # /home
+      - page: Support # Moved ✅ Slug ✅ Redirected ✅
+        path: ./pages/support.mdx
+        slug: support # /support
       - section: Trust & Security
+        slug: trust-security # /trust-security
         contents:
-          - page: Security Policy
-            path: docs/security-policy.mdx
-          - page: Data Privacy Compliance
-            path: docs/data-privacy-compliance.mdx
-          - page: Information Security & Privacy
-            path: docs/information-security-privacy-statement.mdx
+          - page: Security Policy  # Moved ✅ Slug ✅ Redirected ✅
+            path: ./pages/trust-security/security-policy.mdx 
+            slug: security-policy # /trust-security/security-policy
+          - page: Data Privacy Compliance  # Moved ✅ Slug ✅ Redirected ✅
+            path: ./pages/trust-security/data-privacy-compliance.mdx
+            slug: data-privacy-compliance # /trust-security/data-privacy-compliance
+          - page: Information Security & Privacy  # Moved ✅ Slug ✅ Redirected ✅
+            path: ./pages/trust-security/information-security-privacy.mdx
+            slug: information-security-privacy # /trust-security/information-security-privacy
       - section: SDKs
+        slug: sdks # /sdks
         contents:
-          - page: SDK Features
-            path: docs/sdk-feature-matrix.mdx
+          - page: SDK Features  # Moved ✅ Slug ✅ Redirected ✅
+            path: ./pages/sdks/sdk-features.mdx
+            slug: sdk-features # /sdks/sdk-features
           - section: JavaScript SDK
+            slug: javascript-sdk # /sdks/javascript-sdk
             contents:
               - link: Get Started
                 href: https://github.com/deepgram/deepgram-js-sdk?tab=readme-ov-file#installation
-              - page: V2 to V3 Migration Guide
-                path: docs/js-sdk-v2-to-v3-migration-guide.mdx
+              - page: V2 to V3 Migration Guide  # Moved ✅ Slug ✅ Redirected ✅
+                path: ./pages/sdks/javascript-sdk/v2-to-v3-migration.mdx
+                slug: v2-to-v3-migration # /sdks/javascript-sdk/v2-to-v3-migration
           - section: Python SDK
+            slug: python-sdk # /sdks/python-sdk
             contents:
               - link: Get Started
                 href: https://github.com/deepgram/deepgram-python-sdk?tab=readme-ov-file#installation
-              - page: V2 to V3 Migration Guide
-                path: docs/python-sdk-v2-to-v3-migration-guide.mdx
-              - page: Threaded and AsyncIO
-                path: docs/threaded-and-async-io-task-support.mdx
-              - page: Python Notebooks
-                path: docs/python-notebooks.mdx
+              - page: V2 to V3 Migration Guide  # Moved ✅ Slug ✅ Redirected ✅
+                path: ./pages/sdks/python-sdk/v2-to-v3-migration.mdx
+                slug: v2-to-v3-migration # /sdks/python-sdk/v2-to-v3-migration
+              - page: Threaded and AsyncIO  # Moved ✅ Slug ✅ Redirected ✅
+                path: ./pages/sdks/python-sdk/threaded-and-asyncio.mdx
+                slug: threaded-and-asyncio # /sdks/python-sdk/threaded-and-asyncio
+              - page: Python Notebooks  # Moved ✅ Slug ✅ Redirected ✅
+                path: ./pages/sdks/python-sdk/python-notebooks.mdx
+                slug: python-notebooks # /sdks/python-sdk/python-notebooks
           - section: .NET SDK
+            slug: dotnet-sdk
             contents:
               - link: Get Started
                 href: https://github.com/deepgram/deepgram-dotnet-sdk?tab=readme-ov-file#installation
-              - page: V3 to V4 Migration Guide
-                path: docs/dotnet-sdk-v3-to-v4-migration-guide.mdx
+              - page: V3 to V4 Migration Guide  # Moved ✅ Slug ✅ Redirected ✅
+                path: ./pages/sdks/dotnet-sdk/v3-to-v4-migration.mdx
+                slug: v3-to-v4-migration # /sdks/dotnet-sdk/v3-to-v4-migration
           - section: Go SDK
+            slug: go-sdk
             contents:
               - link: Get Started
                 href: https://github.com/deepgram/deepgram-go-sdk?tab=readme-ov-file#installation
-              - page: v1.2 to v1.3 Migration Guide
-                path: docs/go-sdk-v12-to-v136-migration-guide.mdx
+              - page: v1.2 to v1.3 Migration Guide  # Moved ✅ Slug ✅ Redirected ✅
+                path: ./pages/sdks/go-sdk/v12-to-v13-migration.mdx
+                slug: v12-to-v13-migration # /sdks/go-sdk/v12-to-v13-migration
       - section: Guides
+        slug: guides
         contents:
           - section: Fundamentals
+            slug: fundamentals
             contents:
-              - page: Make Your First API Request
-                path: docs/make-your-first-api-request.mdx
-              - page: Authenticating
-                path: docs/authenticating.mdx
-              - page: Token-based Auth
-                path: docs/token-based-authentication.mdx
-              - page: Model Metadata
-                path: docs/model-metadata.mdx
-              - page: Managing Projects
-                path: docs/managing-projects.mdx
-              - page: Using Multiple Projects
-                path: docs/using-multiple-projects.mdx
-              - page: Working With Roles & API Scopes
-                path: docs/working-with-roles.mdx
+              - page: Make Your First API Request  # Moved ✅ Slug ✅ Redirected ✅
+                path: ./pages/guides/fundamentals/make-your-first-api-request.mdx
+                slug: make-your-first-api-request # /guides/fundamentals/make-your-first-api-request
+              - page: Authenticating  # Moved ✅ Slug ✅ Redirected ✅
+                path: ./pages/guides/fundamentals/authenticating.mdx
+                slug: authenticating # /guides/fundamentals/authenticating
+              - page: Token-based Auth  # Moved ✅ Slug ✅ Redirected ✅
+                path: ./pages/guides/fundamentals/token-based-authentication.mdx
+                slug: token-based-authentication # /guides/fundamentals/token-based-authentication
+              - page: Model Metadata  # Moved ✅ Slug ✅ Redirected ✅
+                path: ./pages/guides/fundamentals/model-metadata.mdx
+                slug: model-metadata # /guides/fundamentals/model-metadata
+          - section: Deep Dives
+            slug: deep-dives
+            contents:
+              - page: Managing Projects  # Moved ✅ Slug ✅ Redirected ✅
+                path: ./pages/guides/deep-dives/managing-projects.mdx
+                slug: managing-projects # /guides/deep-dives/managing-projects
+              - page: Using Multiple Projects  # Moved ✅ Slug ✅ Redirected ✅
+                path: ./pages/guides/deep-dives/using-multiple-projects.mdx
+                slug: using-multiple-projects # /guides/deep-dives/using-multiple-projects
+              - page: Working With Roles & API Scopes  # Moved ✅ Slug ✅ Redirected ✅
+                path: ./pages/guides/deep-dives/working-with-roles.mdx
+                slug: working-with-roles # /guides/deep-dives/working-with-roles
               - page: Supported Audio Formats
-                path: docs/supported-audio-formats.mdx
+                path: ./pages/guides/deep-dives/supported-audio-formats.mdx
               - page: Deployment Options
-                path: docs/deployment-options.mdx
-              - page: Creating API Keys
-                path: docs/create-additional-api-keys.mdx
+                path: ./pages/guides/deep-dives/deployment-options.mdx
+              - page: Creating AdditionalAPI Keys
+                path: ./pages/guides/deep-dives/create-additional-api-keys.mdx
               - page: Using the Sec-WebSocket-Protocol
-                path: docs/using-the-sec-websocket-protocol.mdx
+                path: ./pages/guides/deep-dives/using-the-sec-websocket-protocol.mdx
               - page: Logs & Usage Data
-                path: docs/using-logs-usage.mdx
-              - page: Model Improvement Partnership Program
-                path: docs/the-deepgram-model-improvement-partnership-program.mdx
+                path: ./pages/guides/deep-dives/using-logs-usage.mdx
+              - page: Model Improvement Program
+                path: ./pages/guides/deep-dives/the-deepgram-model-improvement-partnership-program.mdx
               - page: Working With Concurrency Rate Limits
-                path: docs/working-with-concurrency-rate-limits.mdx
-          - section: Use Case Examples
+                path: ./pages/guides/deep-dives/working-with-concurrency-rate-limits.mdx
+          - section: Use Cases
+            slug: use-cases
             contents:
-              - page: Build a Voice Agent with Twilio & OpenAI & Deepgram
-                path: docs/build-voice-agent-with-twilio-deepgram-openai.mdx
+              - page: Voice Agent with Twilio & OpenAI & Deepgram
+                path: ./pages/guides/use-cases/voice-agent-with-twilio-openai-deepgram.mdx
               - page: Calculate Talk Time Analytics
-                path: docs/calculate-talk-time-analytics.mdx
+                path: ./pages/guides/use-cases/calculate-talk-time-analytics.mdx
               - page: Transcribe Meetings in Realtime
-                path: docs/transcribe-meetings-in-realtime.mdx
+                path: ./pages/guides/use-cases/transcribe-meetings-in-realtime.mdx
               - page: Transcribe Recorded Calls With Twilio
-                path: docs/transcribe-recorded-calls-with-twilio.mdx
+                path: ./pages/guides/use-cases/transcribe-recorded-calls-with-twilio.mdx
           - section: Integrations
+            slug: integrations
             contents:
               - page: Amazon Connect and Deepgram
-                path: docs/deepgram-with-amazon-connect.mdx
+                path: ./pages/guides/integrations/amazon-connect-and-deepgram.mdx
               - page: AWS S3 Presigned URLs and Deepgram
-                path: docs/using-aws-s3-presigned-urls-with-the-deepgram-api.mdx
+                path: ./pages/guides/integrations/aws-s3-presigned-urls-and-deepgram.mdx
               - page: Genesys and Deepgram
-                path: docs/genesys-deepgram.mdx
+                path: ./pages/guides/integrations/genesys-and-deepgram.mdx
               - page: Google Dialogflow CX and Deepgram
-                path: docs/use-deepgram-with-dialogflow-cx.mdx
+                path: ./pages/guides/integrations/google-dialogflow-cx-and-deepgram.mdx
               - page: Make.com and Deepgram
-                path: docs/makecom-deepgram-integration.mdx
+                path: ./pages/guides/integrations/makecom-and-deepgram.mdx
               - page: Twilio and Deepgram STT
-                path: docs/on-premise-twilio-integration.mdx
+                path: ./pages/guides/integrations/twilio-and-deepgram-stt.mdx
               - page: Twilio and Deepgram TTS
-                path: docs/twilio-and-deepgram-tts.mdx
+                path: ./pages/guides/integrations/twilio-and-deepgram-tts.mdx
               - page: Twilio and Deepgram Voice Agent
-                path: docs/twilio-and-deepgram-voice-agent.mdx
+                path: ./pages/guides/integrations/twilio-and-deepgram-voice-agent.mdx
               - page: Zapier and Deepgram
-                path: docs/zapier-integration.mdx
+                path: ./pages/guides/integrations/zapier-and-deepgram.mdx
               - page: Zoom and Deepgram
-                path: docs/integrate-deepgram-with-zoom.mdx
-          - section: Hidden Docs
+                path: ./pages/guides/integrations/zoom-and-deepgram.mdx
+          - section: Pages
+            slug: pages
             hidden: true
             contents:
               - page: Code of Conduct
-                path: hidden-pages/code-of-conduct.mdx
+                path: ./pages/guides/pages/code-of-conduct.mdx
                 hidden: true
               - page: Aura 2 Private Preview
-                path: hidden-pages/aura-2-preview.mdx
+                path: ./pages/guides/pages/aura-2-preview.mdx
                 hidden: true
               - page: Aura 2 Self-Hosted Deployment Guide
-                path: hidden-pages/deploy-aura-2-self-hosted.mdx
+                path: ./pages/guides/pages/deploy-aura-2-self-hosted.mdx
                 hidden: true
               - page: Amazon Elastic Container Service
-                path: hidden-pages/aws-ecs.mdx
+                path: ./pages/guides/pages/aws-ecs.mdx
                 hidden: true
               - page: Data Labeling Intro
-                path: hidden-pages/data-labeling-intro.mdx
+                path: ./pages/guides/pages/data-labeling-intro.mdx
                 hidden: true
               - page: Data Labeling Best Practices
-                path: hidden-pages/data-labeling-best-practices.mdx
+                path: ./pages/guides/pages/data-labeling-best-practices.mdx
                 hidden: true
               - page: Data Labeling Setting Up
-                path: hidden-pages/data-labeling-setting-up.mdx
+                path: ./pages/guides/pages/data-labeling-setting-up.mdx
                 hidden: true
               - page: Data Labeling Understanding the Workflow
-                path: hidden-pages/data-labeling-understanding-the-workflow.mdx
+                path: ./pages/guides/pages/data-labeling-understanding-the-workflow.mdx
                 hidden: true
               - page: Data Labeling Managing Work
-                path: hidden-pages/data-labeling-managing-work.mdx
+                path: ./pages/guides/pages/data-labeling-managing-work.mdx
                 hidden: true
               - page: Data Labeling Troubleshooting
-                path: hidden-pages/data-labeling-troubleshooting.mdx
+                path: ./pages/guides/pages/data-labeling-troubleshooting.mdx
                 hidden: true
               - page: DG Tools Overview
-                path: hidden-pages/dgtools-overview.mdx
+                path: ./pages/guides/pages/dgtools-overview.mdx
                 hidden: true
               - page: Distro Guide Ubuntu 20.04 LTS
-                path: hidden-pages/distro-guide-ubuntu-2004-lts.mdx
+                path: ./pages/guides/pages/distro-guide-ubuntu-2004-lts.mdx
                 hidden: true
               - page: Distro Guide RHEL 8
-                path: hidden-pages/distro-guide-rhel-8.mdx
+                path: ./pages/guides/pages/distro-guide-rhel-8.mdx
                 hidden: true
               - page: Distro Guide RHEL 7
-                path: hidden-pages/distro-guide-rhel-7.mdx
+                path: ./pages/guides/pages/distro-guide-rhel-7.mdx
                 hidden: true
               - page: RAG & Multi-Agent Workflows
-                path: hidden-pages/voice-agent-rag-multi-agent-workflows.mdx
+                path: ./pages/guides/pages/voice-agent-rag-multi-agent-workflows.mdx
                 hidden: true
               - page: Softbank Voice Agent API Reference
-                path: hidden-pages/softbank-voice-agent-api-reference.mdx
+                path: ./pages/guides/pages/softbank-voice-agent-api-reference.mdx
                 hidden: true
               - page: Using the Deepgram Event Captioner
-                path: hidden-pages/using-the-deepgram-event-captioner.mdx
+                path: ./pages/guides/pages/using-the-deepgram-event-captioner.mdx
                 hidden: true
               - page: Tier - Deprecated
-                path: hidden-pages/tier.mdx
+                path: ./pages/guides/pages/tier.mdx
                 hidden: true
               - page: Voice Agent Latency
-                path: hidden-pages/voice-agent-latency.mdx
+                path: ./pages/guides/pages/voice-agent-latency.mdx
                 hidden: true
               - page: Voice Agent Prompting
-                path: hidden-pages/voice-agent-prompting.mdx
+                path: ./pages/guides/pages/voice-agent-prompting.mdx
                 hidden: true
               - page: Genesys and Deepgram (Legacy)
-                path: hidden-pages/genesys-deepgram-legacy.mdx
+                path: ./pages/guides/pages/genesys-deepgram-legacy.mdx
                 hidden: true
               - page: Agent Started Speaking
-                path: hidden-pages/voice-agent-agent-started-speaking.mdx
+                path: ./pages/guides/pages/voice-agent-agent-started-speaking.mdx
                 hidden: true
               - page: Update Instructions
-                path: hidden-pages/voice-agent-update-instructions.mdx
+                path: ./pages/guides/pages/voice-agent-update-instructions.mdx
                 hidden: true
               - page: Function Calling Message
-                path: hidden-pages/voice-agent-function-calling-message.mdx
+                path: ./pages/guides/pages/voice-agent-function-calling-message.mdx
                 hidden: true
 
+  - tab: api-reference
+    layout:
+      - section: General
+        skip-slug: true
+        contents:
+          - page: Deepgram API Overview
+            path: docs/deepgram-api-overview.mdx
+          - page: Authentication
+            path: docs/authentication.mdx
+          - page: Errors
+            path: docs/errors.mdx
+          - page: API Rate Limits
+            path: docs/api-rate-limits.mdx
+      - section: API Reference
+        skip-slug: true
+        contents:
+          - api: REST API
+            skip-slug: true
+            display-errors: true
+            paginated: true
+            flattened: true
+            layout:
+              - section: Voice Agent API
+                contents:
+                  - endpoint: GET /v1/agent/converse
+                    title: Build a Voice Agent
+              - section: Speech to Text API
+                referenced-packages:
+                  - speechToText
+                contents:
+                  - endpoint: POST /v1/listen
+                    title: Pre-Recorded Audio
+                  - endpoint: GET /v1/listen
+                    slug: listen-streaming
+                    title: Live Audio
+              - section: Text to Speech API
+                referenced-packages:
+                  - textToSpeech
+                contents:
+                  - endpoint: POST /v1/speak
+                    title: Single Text Request
+                  - endpoint: GET /v1/speak
+                    slug: speak-streaming
+                    title: Continuous Text Stream
+              - section: Text Intelligence API
+                referenced-packages:
+                  - textIntelligence
+                contents:
+                  - endpoint: POST /v1/read
+                    title: Analyze Text
+              - section: Management API
+                referenced-packages:
+                  - managementApi
+                contents:
+                  - managementApi.models
+                  - managementApi.projects
+                  - managementApi.keys
+                  - managementApi.members
+                  - managementApi.scopes
+                  - managementApi.invitations
+                  - managementApi.usage
+                  - managementApi.purchases
+                  - managementApi.balances
+              - section: Self-Hosted API
+                referenced-packages:
+                  - selfHostedApi
+                contents: []
+              - section: Token-based Auth API
+                referenced-packages:
+                  - authenticationApi
+                contents:
+                  - endpoint: POST /v1/auth/grant
+                    title: Grant Token
 
   - tab: voice-agent
     layout:
@@ -637,79 +743,6 @@ navigation:
             path: docs/text-topic-detection.mdx
           - page: Text Intelligence Callback
             path: docs/text-intelligence-callback.mdx
-  - tab: api-ref
-    layout:
-      - section: General
-        skip-slug: true
-        contents:
-          - page: Deepgram API Overview
-            path: docs/deepgram-api-overview.mdx
-          - page: Authentication
-            path: docs/authentication.mdx
-          - page: Errors
-            path: docs/errors.mdx
-          - page: API Rate Limits
-            path: docs/api-rate-limits.mdx
-      - section: API Reference
-        skip-slug: true
-        contents:
-          - api: REST API
-            skip-slug: true
-            display-errors: true
-            paginated: true
-            flattened: true
-            layout:
-              - section: Voice Agent API
-                contents:
-                  - endpoint: GET /v1/agent/converse
-                    title: Build a Voice Agent
-              - section: Speech to Text API
-                referenced-packages:
-                  - speechToText
-                contents:
-                  - endpoint: POST /v1/listen
-                    title: Pre-Recorded Audio
-                  - endpoint: GET /v1/listen
-                    slug: listen-streaming
-                    title: Live Audio
-              - section: Text to Speech API
-                referenced-packages:
-                  - textToSpeech
-                contents:
-                  - endpoint: POST /v1/speak
-                    title: Single Text Request
-                  - endpoint: GET /v1/speak
-                    slug: speak-streaming
-                    title: Continuous Text Stream
-              - section: Text Intelligence API
-                referenced-packages:
-                  - textIntelligence
-                contents:
-                  - endpoint: POST /v1/read
-                    title: Analyze Text
-              - section: Management API
-                referenced-packages:
-                  - managementApi
-                contents:
-                  - managementApi.models
-                  - managementApi.projects
-                  - managementApi.keys
-                  - managementApi.members
-                  - managementApi.scopes
-                  - managementApi.invitations
-                  - managementApi.usage
-                  - managementApi.purchases
-                  - managementApi.balances
-              - section: Self-Hosted API
-                referenced-packages:
-                  - selfHostedApi
-                contents: []
-              - section: Token-based Auth API
-                referenced-packages:
-                  - authenticationApi
-                contents:
-                  - endpoint: POST /v1/auth/grant
-                    title: Grant Token
   - tab: self-hosted
     layout:
       - page: Introduction
@@ -779,6 +812,10 @@ navigation:
   # </DocsGenerator>
 redirects:
   # <RedirectsGenerator>
+  - source: /home/introduction
+    destination: /introduction
+  - source: /docs/support
+    destination: /support
   - source: /api-reference
     destination: /reference
   - source: /api-reference/authentication
@@ -864,11 +901,15 @@ redirects:
   - source: /documentation/getting-started/audio-formats
     destination: /docs/supported-audio-formats
   - source: /documentation/getting-started/authentication
-    destination: /docs/authenticating
+    destination: /guides/fundamentals/authenticating
+  - source: /docs/authenticating
+    destination: /guides/fundamentals/authenticating
   - source: /documentation/getting-started/deployment-options
     destination: /docs/deployment-options
   - source: /documentation/getting-started/multiple-projects
-    destination: /docs/using-multiple-projects
+    destination: /guides/deep-dives/using-multiple-projects
+  - source: /docs/using-multiple-projects
+    destination: /guides/deep-dives/using-multiple-projects
   - source: /documentation/getting-started/nova-quickstart
     destination: /docs/models-languages-overview
   - source: /documentation/getting-started/prerecorded-es
@@ -878,9 +919,11 @@ redirects:
   - source: /documentation/getting-started/projects
     destination: /docs/prerecorded-español
   - source: /documentation/getting-started/roles
-    destination: /docs/working-with-roles
+    destination: /guides/deep-dives/working-with-roles
+  - source: /docs/working-with-roles
+    destination: /guides/deep-dives/working-with-roles
   - source: /documentation/getting-started/streaming-es
-    destination: /docs/streaming-español/
+    destination: /docs/getting-started-with-live-streaming-audio
   - source: /documentation/getting-started/streaming
     destination: /docs/getting-started-with-live-streaming-audio
   - source: /documentation/glossary
@@ -1091,8 +1134,6 @@ redirects:
     destination: /docs/integrate-deepgram-with-zoom
   - source: /sdks-tools/tools/on-prem-twilio
     destination: /docs/on-premise-twilio-integration
-  - source: /support
-    destination: /docs/support
   - source: /use-cases
     destination: /docs/transcribe-recorded-calls-with-twilio
   - source: /use-cases/speech-analytics/talk-time-analytics
@@ -1162,7 +1203,9 @@ redirects:
   - source: /docs/node-sdk
     destination: /docs/js-sdk
   - source: /docs/node-sdk-v2-to-v3-migration-guide
-    destination: /docs/js-sdk-v2-to-v3-migration-guide
+    destination: /sdks/javascript-sdk/v2-to-v3-migration-guide
+  - source: /docs/js-sdk-v2-to-v3-migration-guide
+    destination: /sdks/javascript-sdk/v2-to-v3-migration-guide
   - source: /docs/javascript-sdk-v2-to-v3-migration-guide-copy
     destination: /docs/js-sdk-v2-to-v3-migration-guide
   - source: /docs/nova-quickstart
@@ -1329,4 +1372,18 @@ redirects:
     destination: /docs/tts-websocket-streaming
   - source: /docs/text-chunking-techniques-for-tts
     destination: /docs/tts-text-chunking
+  - source: /docs/sdk-feature-matrix
+    destination: /sdks/sdk-features
+  - source: /docs/python-sdk-v2-to-v3-migration-guide
+    destination: /sdks/python-sdk/v2-to-v3-migration
+  - source: /docs/threaded-and-async-io-task-support
+    destination: /sdks/python-sdk/threaded-and-asyncio
+  - source: /docs/python-notebooks
+    destination: /sdks/python-sdk/python-notebooks
+  - source: /docs/dotnet-sdk-v3-to-v4-migration-guide
+    destination: /sdks/dotnet-sdk/v3-to-v4-migration
+  - source: /docs/go-sdk-v12-to-v136-migration-guide
+    destination: /sdks/go-sdk/v12-to-v13-migration
+  - source: /docs/managing-projects
+    destination: /guides/deep-dives/managing-projects
   # </RedirectsGenerator>
