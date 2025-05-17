@@ -1,0 +1,72 @@
+---
+title: Working With Concurrency Rate Limits
+subtitle: Learn how to better handle concurrency rate limit issues when using Deepgram.
+slug: docs/working-with-concurrency-rate-limits
+---
+
+
+## Overview
+
+Deepgram's APIs offer powerful capabilities for [speech-to-text](getting-started-with-pre-recorded-audio) and [text-to-speech](/docs/text-to-speech) as well as [audio intelligence](/docs/audio-intelligence) and [text intelligence](/docs/text-intelligence). To ensure all users receive consistent and predictable service, and to prevent accidental misuse, Deepgram enforces concurrency and rate limits on API usage. This guide will help you understand these limits, how to work within them, and strategies to maximize your usage without hitting your limits.
+
+<Info>
+  API concurrency rate limits protect your applications and services built on Deepgram from abuse or failure.
+</Info>
+
+## Working with Concurrency Rate Limits
+
+Concurrency limits define the maximum number of simultaneous API requests you can make. Understanding these limits is crucial for applications that require high throughput.
+
+<Info>
+  For information on Deepgram's Concurrency Rate Limits, refer to our [API Rate Limits Documentation](/reference/api-rate-limits).
+</Info>
+
+### Managing Concurrency
+
+When using the Deepgram Speech-to-Text API, you might need to process multiple audio files simultaneously.
+
+In this scenario, you must ensure your application doesn't exceed the concurrency limits. Implementing a queue system can help manage requests efficiently, ensuring no more than the allowed number of concurrent requests are sent to the Deepgram API.
+
+### Considering Concurrency Rate Limits
+
+Concurrency rate limits define the maximum number of API requests you can make in a given time frame. These limits help maintain service quality and prevent abuse. Deepgram doesn't restrict the number of requests you can send in a given time span, only the number of concurrent requests you can make.
+
+<Info>
+  For information on Deepgram's Concurrency Rate Limits, refer to our [API Rate Limits Documentation](/reference/api-rate-limits).
+</Info>
+
+### Calculation of Concurrency Rate Limits
+
+Concurrency rate limits are typically expressed as the number of requests per minute (RPM). For instance, if your plan allows 480 requests per minute, you can distribute these requests evenly across the minute.
+
+### Handling Rate Limits
+
+To avoid hitting rate limits, consider the following strategies:
+
+1. **Rate Limiting Middleware**: Implement middleware in your application to throttle requests, ensuring they do not exceed the allowed rate.
+2. **Exponential Backoff**: Use an exponential backoff strategy to retry requests after hitting a rate limit, gradually increasing the delay between retries. An exponential-backoff strategy introduces a delay before each retry attempt. The delay between retries increases exponentially with each consecutive failure, helping to mitigate the impact of transient errors and reduce the likelihood of overwhelming the system with retries.
+3. **Monitor Usage**: Regularly monitor your API usage to anticipate and adjust to usage patterns.
+
+## Other Considerations
+
+### What Happens if You Hit Your Concurrency Rate Limits?
+
+If you exceed your rate limits, the API will return a `429: Too Many Requests` error. This error indicates that your project has more concurrent requests than allowed. To learn more, see the [Deepgram Error Documentation](/reference/errors#429-rate-limit-exceeded-1).
+
+### Can You Increase Your Concurrency Rate Limits?
+
+* Users on Pay As You Go and Growth plans cannot have their limits increased.
+* New and existing Enterprise customers can request an increase by discussing your needs with the [Deepgram Sales Team.](https://deepgram.com/contact-us)
+
+## Getting Help
+
+If you encounter issues with concurrency or rate limits, Deepgram offers several support options:
+
+* **Community Support**: Join the [Deepgram Discord community](https://discord.gg/xWRaCDBtW4) or participate in [GitHub Discussions](https://github.com/orgs/deepgram/discussions) for assistance.
+* **Enterprise Support**: Enterprise plan subscribers can reach out to the support team via email or Slack for dedicated support.
+
+***
+
+What’s Next
+
+* [API Rate Limits](/reference/api-rate-limits)

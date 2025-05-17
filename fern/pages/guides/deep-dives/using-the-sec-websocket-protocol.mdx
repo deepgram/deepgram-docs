@@ -1,0 +1,116 @@
+---
+title: Using the Sec-WebSocket-Protocol
+subtitle: >-
+  Learn how to to use the Sec-WebSocket-Protocol with Deepgram APIs to send
+  secure client side requests via web sockets.
+slug: docs/using-the-sec-websocket-protocol
+---
+
+
+## Overview
+
+The `Sec-WebSocket-Protocol` header plays a crucial role in WebSocket communications by enabling the client and server to agree on a specific subprotocol. Subprotocols define a higher-level protocol that runs over the WebSocket connection, specifying the format and semantics of the exchanged messages. This guide aims to provide a comprehensive understanding of how to use this header with Deepgram's Listen WebSocket and and Speak WebSocket endpoint to facilitate seamless , secure and structured communication.
+
+<Info>
+  The use of this header is only required when making "client side" connections to Deepgram, where custom `Authorization` headers are prohibited by security measures in apps, including web apps, mobile apps and certain desktop apps.
+</Info>
+
+## Risks of Use
+
+When utilizing custom subprotocols in WebSocket communications, several security considerations must be addressed to ensure safe and reliable connections. Failure to do so can expose both the client and server to various risks, including unauthorized access, data breaches, and denial-of-service attacks.
+
+## Key Considerations
+
+1. **Authentication and Authorization**:
+
+   * Verify client identities and ensure proper permissions for actions.
+
+2. **Data Encryption**:
+
+   * Use TLS (wss\://) to encrypt connections and consider end-to-end encryption for data payloads.
+
+3. **Input Validation and Sanitization**:
+
+   * Rigorously validate and sanitize all incoming data to prevent injection attacks.
+
+4. **Rate Limiting and Throttling**:
+
+   * Implement mechanisms to prevent abuse and denial-of-service (DoS) attacks.
+
+5. **Message Integrity**:
+
+   * Use integrity checks to ensure messages are untampered during transit.
+
+6. **Session Management**:
+
+   * Securely manage and expire sessions to prevent hijacking.
+
+7. **Error Handling**:
+
+   * Handle errors gracefully without exposing internal details.
+
+8. **Protection Against Common Attacks**:
+
+   * Mitigate risks from attacks like Cross-Site WebSocket Hijacking, XSS, and CSRF.
+
+9. **Custom Subprotocol Security**:
+
+   * Design secure subprotocols and regularly review their implementation for vulnerabilities.
+
+10. **Compliance and Best Practices**:
+
+* Ensure compliance with relevant security standards and follow industry best practices for secure WebSocket communication.
+
+## STT WebSocket Example
+
+To use the `Sec-WebSocket-Protocol` header with [Deepgram's Listen WebSocket endpoint,](/reference/speech-to-text-api/listen-streaming) follow this example:
+
+<CodeGroup>
+  ```text http
+  GET /listen HTTP/1.1
+  Host: wss://api.deepgram.com/
+  Upgrade: websocket
+  Connection: Upgrade
+  Sec-WebSocket-Key: <calculated at runtime>
+  Sec-WebSocket-Version: 13
+  Sec-WebSocket-Protocol: token, YOUR_DEEPGRAM_API_KEY
+  ```
+</CodeGroup>
+
+In this example, the `Sec-WebSocket-Protocol` header specifies two subprotocols: `token` and a valid Deepgram API Key. During the WebSocket handshake, the server will select one of these subprotocols for the communication and authentication.
+
+<Warning>
+  Replace `YOUR_DEEPGRAM_API_KEY` with your [Deepgram API Key](/docs/create-additional-api-keys).
+</Warning>
+
+## TTS WebSocket Example
+
+To use the `Sec-WebSocket-Protocol` header with [Deepgram's Speak WebSocket endpoint](/reference/text-to-speech-api/speak-streaming), follow this example:
+
+<CodeGroup>
+  ```text http
+  GET /speak HTTP/1.1
+  Host: wss://api.deepgram.com/
+  Upgrade: websocket
+  Connection: Upgrade
+  Sec-WebSocket-Key: <calculated at runtime>
+  Sec-WebSocket-Version: 13
+  Sec-WebSocket-Protocol: token, YOUR_DEEPGRAM_API_KEY
+  ```
+</CodeGroup>
+
+In this example, the `Sec-WebSocket-Protocol` header specifies two subprotocols: `token` and a valid Deepgram API Key. During the WebSocket handshake, the server will select one of these subprotocols for the communication and authentication.
+
+<Warning>
+  Replace `YOUR_DEEPGRAM_API_KEY` with your [Deepgram API Key](/docs/create-additional-api-keys).
+</Warning>
+
+## Conclusion
+
+Securing custom subprotocols in WebSocket communications involves ensuring authentication, encryption, input validation, rate limiting, and protection against common attacks. By implementing these measures, you can enhance the security and reliability of your WebSocket connections. The `Sec-WebSocket-Protocol` header is an essential component in this regard, facilitating the agreement on a subprotocol and enabling structured communication between the client and server.
+
+***
+
+What’s Next
+
+* [Authentication](/reference/authentication)

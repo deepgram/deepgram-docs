@@ -1,0 +1,162 @@
+---
+title: Logs & Usage Data
+subtitle: Learn how to use Deepgram's Log and Usage features.
+slug: docs/using-logs-usage
+---
+
+
+<Info>
+  You can obtain up to 90 days of log usage data from Deepgram. If you need log usage data for a longer period of time you can use our [Usage API ](/reference/get-all-requests)to programmatically fetch usage data on an interval and store it for retrieval as needed.
+</Info>
+
+# Using Console Logs & Usage
+
+Within the [Deepgram Console](https://console.deepgram.com) you can view your API usage and API log activity of all your requests.
+
+### To view your Summarized Usage
+
+> Not limited to 90 days.
+
+1. Login to the [Deepgram Console](https://console.deepgram.com)
+2. Click on the Usage Tab in the left navigation panel.
+3. On the Overview Tab, select your filter options.
+4. View the results.
+
+### To view your Logs
+
+> Limited to 90 days.
+
+1. Login to the [Deepgram Console](https://console.deepgram.com)
+2. Click on the Usage Tab in the left navigation panel.
+3. On the Logs Tab, select your filter options.
+4. View the results.
+
+# Obtaining Usage via the API
+
+You can use the Deepgram API to programmatically fetch usage data. Please refer to our [API documentation](/reference/get-all-requests) for more details.
+
+This also enables exporting and reporting on your usage, which can be imported into other tools of your choosing, such as Tableau, Grafana, or Datadog.
+
+<Warning>
+  Replace `YOUR_DEEPGRAM_API_KEY` with your [Deepgram API Key](/docs/create-additional-api-keys).
+</Warning>
+
+### Get All Requests
+
+Replace `YOUR_PROJECT_ID`with your Deepgram project id.
+
+<CodeGroup>
+  ```bash cURL
+  curl --request GET \
+       --url 'https://api.deepgram.com/v1/projects/YOUR_PROJECT_ID/requests?start=2023-10-01&end=2023-10-05&status=succeeded' \
+       --header 'Authorization: Token YOUR_DEEPGRAM_API_KEY' \
+       --header 'accept: application/json'
+  ```
+</CodeGroup>
+
+A response will be returned as such:
+
+<CodeGroup>
+  ```json JSON
+  {
+      "page": 0,
+      "limit": 1,
+      "requests": [
+          {
+              "request_id": "a758d58d-e3ec-xxx",
+              "created": "2023-10-05T22:49:03.509654Z",
+              "path": "/v1/listen?-xxx",
+              "api_key_id": "f54158f4-xxx-xxx",
+              "response": null,
+              "callback": null
+          }
+      ]
+  }
+  ```
+</CodeGroup>
+
+### Summarize Usage
+
+<Info>
+  Summarized usage data is not limited to 90 days.
+</Info>
+
+Replace `YOUR_PROJECT_ID`with your Deepgram project id.
+
+<CodeGroup>
+  ```bash cURL
+  curl --request GET \
+       --url 'https://api.deepgram.com/v1/projects/YOUR_PROJECT_ID/usage?start=2023-10-01&end=2023-10-05' \
+       --header 'Authorization: Token YOUR_DEEPGRAM_API_KEY' \
+       --header 'accept: application/json'
+  ```
+</CodeGroup>
+
+A response will be returned:
+
+<CodeGroup>
+  ```json JSON
+  {
+      "start": "2023-10-01",
+      "end": "2023-10-05",
+      "resolution": {
+          "units": "day",
+          "amount": 1
+      },
+      "results": [
+          {
+              "start": "2023-10-01",
+              "end": "2023-10-01",
+              "hours": 865.7331186111111,
+              "total_hours": 867.6975186111111,
+              "requests": 54105
+          },
+          {
+              "start": "2023-10-02",
+              "end": "2023-10-02",
+              "hours": 1188.9926763888889,
+              "total_hours": 1191.5563763888888,
+              "requests": 56081
+          },
+          {
+              "start": "2023-10-03",
+              "end": "2023-10-03",
+              "hours": 1473.9747994444444,
+              "total_hours": 1477.5771794444445,
+              "requests": 56456
+          },
+          {
+              "start": "2023-10-04",
+              "end": "2023-10-04",
+              "hours": 999.2419933333333,
+              "total_hours": 1001.2063933333334,
+              "requests": 54548
+          },
+          {
+              "start": "2023-10-05",
+              "end": "2023-10-05",
+              "hours": 11447.164485833333,
+              "total_hours": 11449.0443075,
+              "requests": 196209
+          }
+      ]
+  }
+  ```
+</CodeGroup>
+
+## Understanding Console Usage Log States
+
+Within the [Deepgram Console](https://console.deepgram.com) you can view usage request logs and you may see requests in different states. Below is an explanation of what those states mean and a recommended resolution.
+
+| State   | Meaning                                                                                  | Recommended Resolution                                         |
+| ------- | ---------------------------------------------------------------------------------------- | -------------------------------------------------------------- |
+| Pending | Data on the response hasn't been recorded yet.                                           | Give the request time to process.                              |
+| Unknown | We haven't confirmed the resolution of this request yet.                                 | Wait for the request to transition to Lost, Error, or Success. |
+| Lost    | The resolution for this request was never logged. You won't be charged for this request. | Contact [Support](/docs/support) for assistance.               |
+| Error   | This request had an error.                                                               | Retry the request.                                             |
+
+***
+
+What’s Next
+
+* [API Rate Limits](/reference/api-rate-limits)

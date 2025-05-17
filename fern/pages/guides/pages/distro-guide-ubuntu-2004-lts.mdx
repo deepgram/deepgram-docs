@@ -1,0 +1,761 @@
+---
+title: "Distro Guide Ubuntu 20.04 LTS"
+slug: "distro-guide-ubuntu-2004-lts"
+description: "Instructions for deploying Deepgram on Ubuntu 20.04 LTS."
+hidden: true
+og:title: "Deepgram On-premise - Deploying: Ubuntu 20.04 LTS - Deepgram Docs"
+---
+
+Cloud-hosted on-premises (on-prem) deployments are the most common type of deployment performed by customers who want to leverage Deepgram within their own infrastructure. Specific configurations vary, but the Cloud Service Providers that are typically used include Amazon Web Services (AWS), Azure, and Google Cloud Platform (GCP). This guide details steps to set up a deployment to the cloud on an AWS instance running Ubuntu Linux.
+
+## Prerequisites
+
+Before you begin, you will need to ensure you followed [these steps](/docs/aws) to configure your private cloud.
+
+## Configuring Your Cloud Environment
+
+Once you have successfully logged in to your instance, you must remove incompatible kernel drivers and install all of the necessary utilities to run GPU-accelerated containers in Docker.
+
+### Log in to the AWS EC2 instance
+
+First, you must connect to the private cloud instance that you launched. For example, on AWS you would:
+
+1. Open the terminal application for your computer.
+
+2. Connect to your AWS instance:
+
+   ```bash shell
+   ssh -i /path/to/private-key.pem ubuntu@AWS_HOSTNAME
+   ```
+
+ Be sure to replace the `AWS_HOSTNAME` placeholder value with the hostname for your instance. Also check that the path to your `private-key.pem` file is correct.
+
+<Info>
+If you are on a Windows machine, alternatives to `ssh` include PuTTY and the AWS EC2 Instance Connect service.
+</Info>
+
+<Info>
+For AWS Ubuntu instances, the default username is `ubuntu`, not `user` as their documentation would suggest. If you are using a different AMI, the default username will be different - see the `Connect` page on the instance for more details.
+</Info>
+
+3. If you receive a message that indicates that the authenticity of the host can’t be established, type `yes`, then press the Enter key on your keyboard.
+
+### Update Ubuntu’s Aptitude Package Manager
+
+Update your AWS instance’s operating system package manager to get information on updated versions of packages or their dependencies:
+
+```shell
+sudo apt update
+```
+
+You will also want to upgrade your system packages at this point.
+
+```shell
+sudo apt upgrade -y
+```
+
+#### Install GNU Toolchain Components
+
+Install the GNU Compiler Collection (`gcc`) and GNU Make (`make`) tool:
+
+```shell
+sudo apt install -y gcc make
+```
+
+### Remove Nouveau Drivers
+
+The Nouveau kernel driver is incompatible with NVIDIA drivers, so you will need to disable it before installing any NVIDIA drivers.
+
+1. In your terminal, create a new configuration file:
+
+   ```shell
+   sudo touch /etc/modprobe.d/blacklist-nouveau.conf
+   ```
+
+2. Using sudo and the text editor of your choice, add the following lines to the `/etc/modprobe.d/blacklist-nouveau.conf` configuration file:
+
+   ```shell
+   blacklist nouveau
+   options nouveau modeset=0
+   ```
+
+3. Regenerate the kernel with the new conf file added:
+
+   ```shell
+   sudo update-initramfs -u
+   ```
+
+4. Reboot the instance:
+
+   ```shell
+   sudo reboot
+   ```
+
+5. Once the instance has finished rebooting, reconnect via SSH and verify that Nouveau has been removed:
+
+   ```shell
+   lsmod | grep nouveau
+   ```
+
+   If you see no output, Nouveau was successfully removed.
+
+### Install NVIDIA Drivers
+
+Install the latest available NVIDIA drivers for the `g4dn` instance which has the Tesla T4 GPU:
+
+1. Identify the latest driver for the GPU you are using and retrieve its download URL:
+   1. Go to [NVIDIA Official Drivers](https://www.nvidia.com/download/index.aspx).
+   2. Select the product type (Data Center/Tesla), the operating system (Linux 64-bit), and the Download Type (Production Branch). Choose a corresponding CUDA toolkit 11 or greater.
+   3. Select **Search** and check that the correct driver is displayed, then select **Download**.
+   4. Right-click **Agree \& Download**, then copy the link to save the download URL to your clipboard.
+
+2. Download the latest driver for your GPU:
+
+   ```shell
+   # Example: wget  https://us.download.nvidia.com/tesla/510.47.03/NVIDIA-Linux-x86_64-510.47.03.run
+   wget LINK_TO_LATEST_NVIDIA_GPU_DRIVER
+   ```
+
+   <Warning>
+   Be sure to replace the `LINK_TO_LATEST_NVIDIA_GPU_DRIVER` placeholder value with the URL to the latest driver for the GPU you are using.
+   </Warning>
+
+3. Change the permissions on the downloaded file to allow your user to execute it:
+
+   ```shell
+   # Example: chmod +x NVIDIA-Linux-x86_64-535.54.03.run
+   chmod +x DOWNLOADED_FILE_NAME
+   ```
+
+4. Decompress and execute the driver file to install it:
+
+   ```shell
+   # Example: sudo ./NVIDIA-Linux-x86_64-510.47.03.run --silent
+   sudo DOWNLOADED_FILE_NAME --silent
+   ```
+
+   With the `--silent` install, you will see warnings that are similar to the following (they can be ignored):
+
+   ```text
+   WARNING: Ignoring CC version mismatch:
+
+   The kernel was built with gcc (Ubuntu 9.3.0-17ubuntu1~20.04) 9.3.0, GNU ld (GNU Binutils for Ubuntu) 2.34, but the current compiler version is cc (Ubuntu 9.4.0-1ubuntu1~20.04) 9.4.0.
+
+   WARNING: nvidia-installer was forced to guess the X library path '/usr/lib64' and X module path '/usr/lib64/xorg/modules'; these paths were not queryable from the system.  If X fails to find the NVIDIA X driver module, please install the `pkg-config` utility and the X.Org SDK/development package for your distribution and reinstall the driver.
+   ```
+
+5. Test that the NVIDIA drivers are installed:
+
+   ```shell
+   nvidia-smi
+   ```
+
+### Install Docker Engine
+
+For ease of use, Deepgram provides its products in Docker containers, so you must make sure that you have installed the latest version of Docker Engine on all hosts.
+
+1. Install the Docker Engine. To learn how, read [Install Using the Repository](https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository) in Docker’s [Install Docker Engine on Ubuntu](https://docs.docker.com/engine/install/ubuntu) documentation.
+
+2. Ensure that your AWS instance user (`ubuntu`) has sufficient permissions to communicate with the Docker daemon service that runs on your host operating system. To learn how to run Docker commands without elevated privileges, read [Manage Docker as a Non-Root User](https://docs.docker.com/engine/install/linux-postinstall/#manage-docker-as-a-non-root-user) in Docker’s optional [Post-installation steps for Linux](https://docs.docker.com/engine/install/linux-postinstall/) documentation.
+
+#### Install Docker-Compose
+
+Docker Compose V2 is now included with Docker Engine. The plugin for CLI use should be installed with the [Install Docker](#install-docker-engine) steps. If not, you can install it independently.
+
+```shell
+sudo apt-install -y docker-compose-plugin
+```
+
+Test the installation:
+
+```shell
+docker compose version
+```
+
+You should expect the command output to return version 2.X.X.
+
+### Cache Docker Credentials
+
+Once you are satisfied that Docker is installed and configured correctly, we need to login to Deepgram's container image repository, which is hosted on [Quay](https://quay.io). See [our guide](/docs/on-prem-self-service-tutorial#create-a-set-of-container-image-distribution-credentials) on self-service on-prem licensing and credentials for instructions on how to generate credentials for Quay. You may then login with those credentials (see guide again for instructions on logging in). Once your credentials are cached locally, you should not have to log in again (until after you log out (`docker logout`).
+
+To pull Deepgram Docker images in later steps, make sure to login with the Quay credentials you have generated in this step.
+
+### Install the NVIDIA-Docker Runtime
+
+CUDA is NVIDIA's library for interacting with its GPU. CUDA support is made available to Docker containers using [`nvidia-docker`](https://github.com/NVIDIA/nvidia-docker), NVIDIA's custom runtime for Docker. Follow the [Docker instructions from NVIDIA](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html#docker) to setup this runtime.
+
+<Warning>
+We've already installed Docker, so you can skip any steps under the **Setting up Docker** section, or other related headings.
+</Warning>
+
+After you've setup the NVIDIA docker runtime, you can test it with the following command:
+
+```shell
+docker run --runtime=nvidia --rm --gpus all nvidia/cuda:12.1.1-base-ubuntu22.04 nvidia-smi
+```
+
+## Setting up the Deepgram Engine and API Containers
+
+Now that your environment is set up, you can download and set up your Deepgram products. For ease of use, Deepgram provides its products in Docker containers.
+
+### Get Deepgram Products
+
+1. Identify the latest on-prem release in the [Deepgram Changelog](https://deepgram.com/changelog/). Filter by "On-Prem", and select the latest release. You can use either the container image tag or the release tag listed for all images referenced in this documentation.
+
+2. Download the latest Deepgram Engine image from Docker:
+
+   ```shell
+   docker pull quay.io/deepgram/onprem-engine:IMAGE_OR_RELEASE_TAG
+   ```
+
+3. Download the latest Deepgram API image from Docker:
+
+   ```shell
+   docker pull quay.io/deepgram/onprem-api:IMAGE_OR_RELEASE_TAG
+   ```
+
+<Warning>
+Be sure to replace the `IMAGE_OR_RELEASE_TAG` placeholder value with the appropriate tag identified in step 1. Use this tag in all related configuration files.
+</Warning>
+
+<Warning>
+The Deepgram Changelog may not have a domain prefix for the container images. Ensure that each image you pull has a `quay.io` domain prefix, as demonstrated in the commands above.
+</Warning>
+
+### Import Your Docker Compose, Container Configuration, and Model Files
+
+Before you can run your on-prem deployment, you must configure the required components. To do this, you will need to customize your configuration files and create a directory to house models that have been encrypted for use in your requests.
+
+For your deployment, we provide models and configuration files to you via Amazon S3 buckets, so you can download directly to your AWS Ubuntu instance. If you don’t have customized configuration files, you can create configuration files using the examples included in [Customize Your Configuration](#customize-your-configuration).
+
+1. Replace the default `docker-compose.yml` file in your root directory with the customized `docker-compose.yml` file provided by Deepgram:
+
+   ```shell
+   wget LINK_TO_YAML_FILE_PROVIDED_BY_DEEPGRAM
+   ```
+
+   <Warning>
+   Be sure to replace the `LINK_TO_YAML_FILE_PROVIDED_BY_DEEPGRAM` placeholder value with the URL to the `docker-compose.yml` file provided by your Deepgram Account Representative.
+   </Warning>
+
+2. To house your configuration files, in your root directory, create a directory named `config`:
+
+   ```shell
+   mkdir config
+   ```
+
+   <Info>
+   The following example includes the parameter `model=nova`, which tells the API to use Deepgram's You can name this directory whatever you like, as long as you update the `docker-compose.yml` file accordingly.
+   </Info>
+
+3. In your new directory, download each TOML configuration file using the links provided by Deepgram:
+
+   ```shell
+   cd config
+   wget LINK_TO_TOML_CONFIGURATION_FILE_PROVIDED_BY_DEEPGRAM
+   ```
+
+   <Warning>
+   Be sure to replace each `LINK_TO_TOML_CONFIGURATION_FILE_PROVIDED_BY_DEEPGRAM` placeholder value with the URL to the TOML configuration file provided by your Deepgram Account Representative.
+   </Warning>
+
+4. To house models that have been encrypted for use in your requests, in your root directory, create a directory named `models`:
+
+   ```bash
+   mkdir models
+   ```
+
+   <Info>
+   You can name this directory whatever you like, as long as you update the `docker-compose.yml` and `engine.toml` files accordingly.
+   </Info>
+
+5. In your new directory, download each model using the links provided by Deepgram:
+
+   ```bash
+   cd models
+   wget LINK_TO_MODEL_PROVIDED_BY_DEEPGRAM
+   ```
+
+   <Warning>
+   Be sure to replace each `LINK_TO_MODEL_PROVIDED_BY_DEEPGRAM` placeholder value with the URL to the model provided by your Deepgram Account Representative.
+   </Warning>
+
+### Customize Your Configuration
+
+Once your configuration files have been created in your AWS instance, you can update your configuration to customize it for your use case.
+
+#### Configuration Files
+
+<Warning>
+Your Deepgram Account Representative should provide you with download links to customized configuration files. Unless further customized, the example files included in this section are basic and should be used only to spin up a standard proof of concept (POC) deployment or to test your system.
+</Warning>
+
+##### `docker-compose.yml`
+
+The Docker-compose configuration file makes it possible to spin up the containers with Docker using a single command. This makes spinning up a standard POC deployment quick and easy. You will need to have an environment variable `DEEPGRAM_API_KEY` with your on-prem API key secret. See our [Self Service Licensing & Credentials](/docs/on-prem-self-service-tutorial) guide for instructions on generating an on-prem API key for use in this section.
+
+```bash shell
+export DEEPGRAM_API_KEY=API_KEY_SECRET
+```
+
+<Warning>
+Be sure to replace the `API_KEY_SECRET` placeholder value with the Deepgram On-Premises API key secret you generate in the Deepgram Console.
+</Warning>
+
+```yaml
+version: "3.7"
+
+services:
+
+  # The speech API service.
+  api:
+    image: quay.io/deepgram/onprem-api:IMAGE_OR_RELEASE_TAG
+
+    # Here we expose the API port to the host machine. The container port
+    # (right-hand side) must match the port that the API service is listening
+    # on (from its configuration file).
+    ports:
+      - "8080:8080"
+
+    environment:
+      DEEPGRAM_API_KEY: "${DEEPGRAM_API_KEY}"
+
+	# Uncomment the next two lines if using a customized configuration file
+    # volumes:
+      # - "/path/to/api.toml:/api.toml:ro"
+      # The API configuration file needs to be accessible; this should point to
+      # the file on the host machine.
+
+    # Invoke the API server
+    command: -v serve
+    # If you are using a custom configuration file mounted at /api.toml, use the following command instead
+    # command: -v serve /api.toml
+
+  # The speech engine service.
+  engine:
+    image: quay.io/deepgram/onprem-engine:IMAGE_OR_RELEASE_TAG
+
+    # Change the default runtime.
+    runtime: nvidia
+
+    # The Engine models need to be accessible; these paths
+    # should point to files/directories on the host machine.
+    volumes:
+      # The in-container paths must
+      # match the paths specified in the Engine configuration file. The default location is "/models"
+      - "/path/to/models:/models:ro"
+      # Uncomment the next line if using a customized configuration file
+      # - "/path/to/engine.toml:/engine.toml:ro"
+
+    ports:
+      - "9991:9991"
+
+    environment:
+      DEEPGRAM_API_KEY: "${DEEPGRAM_API_KEY}"
+
+    # Invoke the Engine service
+	command: -v serve
+	# If you are using a custom configuration file mounted at /api.toml, use the following command instead
+    # command: -v serve /engine.toml
+```
+
+##### `api.toml` and `engine.toml`
+
+The API and Engine images are configured with `api.toml` and `engine.toml` files, respectively. Versions of the files with sane defaults are bundled with the API and Engine Docker images. If you want to provide custom configurations, you can use the following templates; make sure to edit the `docker-compose.yml` file accordingly.
+
+The Deepgram API configuration file determines how the Deepgram API container built from the Docker image will be run. It includes important file paths and settings related to networking.
+
+```toml
+# Keep in mind that all paths are in-container paths, and do not need to exist
+# on the host machine.
+
+# Configure license validation if you do not pass the DEEPGRAM_API_KEY environment variable.
+# [license]
+  # Your license key.
+  # key = "LICENSE_KEY"
+
+# Configure how the API will listen for your requests
+[server]
+  # The base URL (prefix) for requests to the API.
+  base_url = "/v1"
+  # The IP address to listen on. Since this is likely running in a Docker
+  # container, you will probably want to listen on all interfaces.
+  host = "0.0.0.0"
+  # The port to listen on
+  port = 8080
+
+  # How long to wait for a connection to a callback URL (in seconds)
+  callback_conn_timeout = 1
+  # How long to wait for a response to a callback URL (in seconds)
+  callback_timeout = 10
+
+  # How long to wait for a connection to a fetch URL (in seconds)
+  fetch_conn_timeout = 1
+  # How long to wait for a response to a fetch URL (in seconds)
+  fetch_timeout = 60
+
+[features]
+  endpointing_on_by_default = true
+
+  # Enable topic detection by setting this to true, set to false to disable
+  topic_detection = true # or false
+
+  # Enable summarization by setting this to true, set to false to disable
+  summarization = true # or false
+
+# Configure the DNS resolver, overriding the system default.
+# Typically not needed, although we document it here for completeness.
+# [resolver]
+#   # List of nameservers to use to resolver DNS queries.
+#   nameservers = ["127.0.0.11 53 udp"]
+#   # Override the TTL in the DNS response (in seconds).
+#   max_ttl = 10
+
+# Configure the backend pool of speech engines (generically referred to as
+# "drivers" here). The API will load-balance among drivers in the standard
+# pool; if one standard driver fails, the next one will be tried.
+#
+# Each driver URL will have its hostname resolved to an IP address. If a domain
+# name resolves to multiple IP addresses, the API will load-balance across each
+# IP address.
+#
+# This behavior is provided for convenience, and in a production environment
+# other tools can be used, such as HAProxy.
+
+# A new Speech Engine ("driver") in the "standard" pool.
+[[driver_pool.standard]]
+  # Host to connect to. Here, we use "tasks.engine", which is the Docker Swarm
+  # method for resolving the IP addresses of all "engine" services. If you are
+  # using Docker Compose, then this should just be "engine" instead of
+  # "tasks.engine". If you rename the "engine" service in the Docker Compose
+  # file, then change it accordingly here. Additionally, the port and prefix
+  # should match those defined in the Engine configuration file.
+  # NOTE: This must be HTTPS.
+  url = "https://engine:8080/v2"
+
+  # How long to wait for a connection to be established (in seconds).
+  conn_timeout = 5
+  # Once a connection is established, how many seconds to wait for a response.
+  timeout = 400
+  # Factor to increase the timeout by for each additional retry (for
+  # exponential backoff).
+  timeout_backoff = 1.2
+
+  # If you fail to get a valid response (timeout or unexpected error), then
+  # how many attempts should be made in total, including the initial attempt?
+  # This is applied *per IP address* that the domain name in the URL resolves
+  # to. If your domain resolves to multiple IPs, then "1" may be sufficient.
+  retries_per_ip = 1
+
+  # Before attempting a retry, sleep for this long (in seconds)
+  retry_sleep = 2
+  # Factor to increase the retry sleep by for each additional retry (for
+  # exponential backoff).
+  retry_backoff = 1.6
+
+  # Maximum response to deserialize from Driver (in bytes)
+  max_response_size = 1073741824
+
+# Additional speech engines ("drivers") can be defined here, they too should
+# be in the standard pool using [[driver_pool.standard]],
+```
+
+The Deepgram Engine configuration file determines how the Deepgram Engine container built from the Docker image will be run. It includes important file paths and settings related to models that you will be using.
+
+```toml
+# Keep in mind that all paths are in-container paths and do not need to exist
+# on the host machine.
+
+# Configure license validation if you do not pass the DEEPGRAM_API_KEY environment variable.
+# [license]
+  # Your license key
+  # key = "LICENSE_KEY"
+
+# Configure the server to listen for requests from the API.
+[server]
+  # The IP address to listen on. Since this is likely running in a Docker
+  # container, you will probably want to listen on all interfaces.
+  host = "0.0.0.0"
+  # The port to listen on
+  port = 8080
+
+# To support metrics we need to expose an Engine endpoint
+[metrics_server]
+  host = "0.0.0.0"
+  port = 9991
+
+# Speech models. You can place these in one or multiple directories.
+[model_manager]
+ search_paths = ["/models"]
+
+# Enable ancillary features
+# To disable any of these features, just remove to comment out the respective
+# feature section.
+[features]
+ # Enable Language Detection by setting this to true, set to false to disable
+ language_detection = true # or false
+
+# Size of audio chunks to send in seconds. Min/max default to 7/10s,
+# which is ideal for batch requests. If streaming, we generally
+# recommend 0.5-3s chunks for lowest latency
+# [chunking]
+#  [chunking.streaming]
+#   min_duration = 0.5
+#   max_duration = 3.0
+#
+# Engine will automatically enable half precision operations if your GPU supports
+# them. You can explicitly enable or disable this behavior with the state parameter
+# which supports enabled, disabled, and auto (the default).
+# [half_precision]
+#   state = "enabled" # or "disabled" or "auto"
+```
+
+## Starting and Using Your Container
+
+To make sure your Deepgram on-prem deployment is properly configured and running, you will want to start Docker, run the container, and make a sample request to Deepgram.
+
+### Start Docker
+
+Now that you have your configuration files set up and in the correct location to be used by the container, use Docker-Compose to run the container:
+
+```bash
+docker compose up -d
+```
+
+### Test Your Deepgram Setup with a Sample Request
+
+Test your environment and container setup with a local file.
+
+1. Download a sample file from Deepgram (or supply your own file).
+   ```shell
+   wget https://dpgr.am/bueller.wav
+   ```
+2. Send your audio file to your local Deepgram setup for transcription.
+   ```shell
+   curl -X POST --data-binary @bueller.wav "http://localhost:8080/v1/listen"
+   ```
+
+<Info>
+If you're using your own file, make sure to replace `bueller.wav` with the name of your audio file.
+</Info>
+
+## Adding the License Proxy Server
+
+For customers deploying Deepgram’s on-premises solution in production, Deepgram recommends the License Proxy Server, which is a caching proxy that communicates with the Deepgram-hosted license server to ensure uptime and simplify network security.
+
+<Warning>
+If you aren't certain which products your contract includes or if you are interested in adding the License Proxy Server to your on-premises deployment, please consult a Deepgram Account Representative. To reach one, [contact us](https://deepgram.com/contact-us/)!
+</Warning>
+
+There are many benefits of using the License Proxy Server:
+
+- For production deployments, the License Proxy Server allows your deployed on-premises services to continue to run even if your deployment loses connectivity to the Deepgram license server.
+
+- If network security requirements dictate that traffic over the web is allowed from only certain hosts, the License Proxy Server can be deployed statically while ASR services scale elastically.
+
+- If your customers will deploy Deepgram software as part of your on-premises solution and their traffic must flow back to your environment, you may deploy the License Proxy Server to relay traffic on to the Deepgram license server.
+
+To see an architecture overview or learn about monitoring the License Proxy Server, see [License Proxy Server](/docs/license-proxy/).
+
+### Installing
+
+Deepgram makes all of its products available through Quay.
+
+1. Log in to your Quay account from one of your servers.
+2. Similar to the API and Engine instructions, identify the latest on-prem release in the [Deepgram Changelog](https://deepgram.com/changelog/). Filter by "On-Prem", and select the latest release. You can use either the container image tag or the release tag listed for all images referenced in this documentation.
+3. Run the following command:
+
+   ```bash
+   $ docker pull quay.io/deepgram/onprem-license-proxy:IMAGE_OR_RELEASE_TAG
+   ```
+
+<Warning>
+Be sure to replace the `IMAGE_OR_RELEASE_TAG` placeholder value with the appropriate tag identified in step 2. Use this tag in all related configuration files.
+</Warning>
+
+### Deploying
+
+Before you can run your on-prem deployment with the License Proxy Server, you must configure the License Proxy Server. To do this, you will need to update your Docker Compose and container configuration files, then restart Docker.
+
+#### Update Your Docker Compose File
+
+Replace the default `docker-compose.yml` file in your root directory with the following:
+
+```yaml
+version: "3.7"
+
+services:
+
+  # The speech API service.
+  api:
+    image: quay.io/deepgram/onprem-api:IMAGE_OR_RELEASE_TAG
+
+    # Here we expose the API port to the host machine. The container port
+    # (right-hand side) must match the port that the API service is listening
+    # on (from its configuration file).
+    ports:
+      - "8080:8080"
+
+    environment:
+      DEEPGRAM_API_KEY: "${DEEPGRAM_API_KEY}"
+
+	# Uncomment the next two lines if using a customized configuration file
+    # volumes:
+      # - "/path/to/api.toml:/api.toml:ro"
+      # The API configuration file needs to be accessible; this should point to
+      # the file on the host machine.
+
+    # Invoke the API server
+    command: -v serve
+    # If you are using a custom configuration file mounted at /api.toml, use the following command instead
+    # command: -v serve /api.toml
+
+  # The speech engine service.
+  engine:
+    image: quay.io/deepgram/onprem-engine:IMAGE_OR_RELEASE_TAG
+
+    # Change the default runtime.
+    runtime: nvidia
+
+    # The Engine models need to be accessible; these paths
+    # should point to files/directories on the host machine.
+    volumes:
+      # The in-container paths must
+      # match the paths specified in the Engine configuration file. The default location is "/models"
+      - "/path/to/models:/models:ro"
+      # Uncomment the next line if using a customized configuration file
+      # - "/path/to/engine.toml:/engine.toml:ro"
+
+    ports:
+      - "9991:9991"
+
+    environment:
+      DEEPGRAM_API_KEY: "${DEEPGRAM_API_KEY}"
+
+    # Invoke the Engine service
+	command: -v serve
+	# If you are using a custom configuration file mounted at /api.toml, use the following command instead
+    # command: -v serve /engine.toml
+
+  license-proxy:
+    image: quay.io/deepgram/onprem-license-proxy:IMAGE_OR_RELEASE_TAG
+
+    ports:
+      - "8443:8443"
+      - "8089:8089"
+
+    command: -v serve --license-key "API_KEY_SECRET" --host 0.0.0.0 --port 8443 --status-port 8089
+```
+
+<Warning>
+Be sure to replace the `API_KEY_SECRET` placeholder value with the Deepgram On-Premises API key secret you generate in the Deepgram Console.
+</Warning>
+
+#### Update Your Container Configuration Files
+
+In your `api.toml` and `engine.toml` files, add a line that specifies the URL to your deployed proxy:
+
+```toml
+[license]
+server_url = "https://license-proxy:8443"
+```
+
+#### Restart Docker
+
+Restart Docker to begin directing licensing requests through the proxy:
+
+```bash
+docker compose up -d
+```
+
+After restarting, test that an ASR request is processed as expected.
+
+## Deploying with Kubernetes
+
+You can deploy a local Kubernetes cluster using Deepgram, which will provide an instance of Deepgram's API and Engine services running locally.
+
+### Before You Begin
+
+In addition to the information listed in the [Prerequisites](#prerequisites) section of this document, you'll need a few relevant Kubernetes deployment files. To get these, please [contact Support](https://deepgram.com/contact-us/).
+
+- Kubectl is the command line tool for interacting with a cluster. It can be installed using steps from Kubernetes's [Download Kubernetes](https://kubernetes.io/releases/download/) documentation.
+- Minkube is a tool for quickly creating a Kubernetes cluster. It can be installed using steps from minikube's [minikube start](https://minikube.sigs.k8s.io/docs/start/) documentation.
+
+### Terminology
+
+If you are not overly familiar with Kubernetes, you should be aware of three main concepts:
+
+- Node: A physical computer or virtual machine.
+- Pod: A single container running on a node. One node can have many pods.
+- Cluster: A group of nodes and their pods.
+
+### Creating a Cluster
+
+1. Use minkube to create a cluster and validate that it is running:
+
+   ```bash
+   minikube start
+   kubectl cluster-info
+   ```
+
+2. Your Deepgram Account Representative should provide you with download links to customized configuration files. Create a configuration map using the `engine.toml` and `api.toml` files:
+
+   ```bash
+   kubectl create configmap engine --from-file=/path/to/engine.toml
+   kubectl create configmap api --from-file=/path/to/api.toml
+   ```
+
+<Warning>
+You'll have to delete, then recreate, configuration maps each time a change is made to a .toml file.
+</Warning>
+
+3. Use the customized YAML files provided by your Deepgram Account Representative to deploy Engine and API pods:
+
+   ```bash
+   kubectl apply -f engine.yaml
+   kubectl apply -f api.yaml
+   ```
+
+4. Check the status of each deployment:
+
+   ```bash
+   kubectl get pods
+   ```
+
+The status will show `Running` if successful. If this is any other value, you can further diagnose the issue with the command `kubectl describe pods <pod-name>` or `kubectl logs <pod-name>`. Running the `apply` command again will apply the changes you made to the deployment files.
+
+## Getting Model Files
+
+Your Deepgram Account Representative should provide you with download links to at least one pre-trained AutoML (TM) AI model for testing purposes. Once the API and Engine pods are up and running, copy the provided model files into the directory in which you decided to place the models:
+
+```bash
+kubectl cp model.dg <engine-pod-name>:/models
+```
+
+The newly-added models will appear within a minute or so. To validate that they were added, you can query the `/v1/models` endpoint.
+
+<Info>
+Note that this method is primarily for proof-of-concept. In production, Kubernetes lets you obtain these files automatically by creating `Volumes`. For more information, see Kubernetes' [Volumes](https://kubernetes.io/docs/concepts/storage/volumes/) documentation.
+</Info>
+
+## Querying the API
+
+To send a query:
+
+1. Get the IP address of the API:
+
+   ```bash
+   kubectl get pods -o wide
+   ```
+
+2. Use the IP address in your queries. For example, to query the `/models` endpoint:
+
+   ```bash
+   curl http://<api-pod-ip-address>:<api-pod-port>/v1/models
+   ```
+
+## Additional Notes
+
+- In a production environment, Kubernetes services are typically used to expose public endpoints and create load balancers. To learn more, read Kubernetes' [Service](https://kubernetes.io/docs/concepts/services-networking/service/) documentation.
+- GPU/CPU utilization isn't a reliable metric for load balancing and scaling. We generally recommend a least-connected strategy and scaling based off the number of active requests.
+- We recommend running a single pod per node i.e. one instance of the API per machine, and one instance of the Engine per machine

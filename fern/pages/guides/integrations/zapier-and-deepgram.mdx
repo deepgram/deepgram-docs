@@ -1,0 +1,100 @@
+---
+title: Zapier and Deepgram
+subtitle: Learn how to use Deepgram in Zapier automated workflows.
+slug: docs/zapier-integration
+---
+
+
+[Zapier](https://zapier.com/) is an online automation tool that allows you to connect your favorite apps, such as Amazon S3, Zoom, Deepgram, and more. It enables you to automate tasks between them, without having to write any code.
+
+## Introduction to Zapier
+
+Zapier workflows are called "Zaps." A Zap is a connection between two apps made up of a trigger and one or more actions.
+
+Here's how it works:
+
+1. Trigger: An event in one app that starts the Zap. For example, receiving a new voicemail, recording a new meeting in a video conference software program, or uploading a video of a lecture.
+2. Action: An event that completes the Zap. It's the result or output you want to achieve, such as transcribing a new voicemail to text, converting a recorded meeting to written notes, or generating a summary text document from a spoken lecture.
+
+![](/images/c9a12a1-trigger_action.png)
+
+An example Zap could be the following:
+
+Add an audio file to a folder in Dropbox (Trigger) -> Transcribe the file with Deepgram (Action) -> Add a text file with the transcription to another folder in Dropbox (Action).
+
+Currently, Deepgram offers these actions in Zapier:
+
+1. Create Transcription (Plain Text)
+2. Create Summary
+3. Create Deepgram API Request (Speech-To-Text)
+4. Create Transcription (Callback)
+
+<Info>
+  To use the Create Transcription (Callback) integration, you will need to deploy a server to handle the callback response. This approach is best if you want to automate the transcription of files larger than approximately 200MB. You can find a step-by-step tutorial explaining how to do this in the [Deepgram Blog](https://deepgram.com/learn/no-more-zapier-timeouts-transcribe-large-audio-files-with-deepgram-and-zapier-s-w).
+</Info>
+
+## How to Build a Workflow in Zapier
+
+### Create a Zap
+
+To create a Zap, click on the “Create Zap” button in the left-side navigation bar. This will create a starter zap with a trigger and an action.
+
+![](/images/5a142f0-starter_zap.png)
+
+### Set up the Trigger
+
+Click into the first box to change the trigger. A Zap must start with a trigger. The trigger starts off the workflow with an initial trigger event.
+
+![](/images/20d4e85-change_trigger.png)
+
+<Warning>
+  The Deepgram integration cannot be used as a trigger event so you should choose a different integration to be the trigger.
+</Warning>
+
+Example triggers with Deepgram actions could be:
+
+| Trigger                            | Action                                                                                                                                         |
+| ---------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| New Recording is Completed in Zoom | Deepgram transcribes the recording into a text transcript                                                                                      |
+| New Recording in Twilio            | Deepgram summarizes the content of the message                                                                                                 |
+| New Audio File in Dropbox          | Deepgram makes an API request and returns a JSON response including the transcription, diarization, or any other features available in the API |
+
+Configure the trigger with your chosen integration (Amazon S3, Dropbox, etc.). Integrations may use OAuth to authenticate automatically, or you may have to enter an API key.
+
+![](/images/0397791-sign_in.png)
+
+Once your trigger has been set up, you can add actions.
+
+### Configure a Deepgram Action
+
+Click into the action box to configure it to use Deepgram.
+
+![](/images/f8629d3-configure_deepgram.png)
+
+Connect to your Deepgram account by adding your API key.
+
+![](/images/57500c0-add_api_key.png)
+
+After successfully connecting your account, you will select your configuration options in the form. Be sure to add a publicly accessible URL as the audio file to transcribe.
+
+![](/images/09d6f06-config_options.png)
+
+<Info>
+  Deepgram's Zapier integration only accepts a publicly accessible URL audio file. If you need to convert raw audio to a URL, we recommend using the [Cloud Convert integration](https://www.make.com/en/integrations/cloudconvert) to convert the audio file to a URL.
+</Info>
+
+You can test the workflow by clicking "Test Step". This will run the workflow, and then you should see a transcription response that looks similar to this:
+
+![](/images/ded312a-test_step.png)
+
+If you add another action after your Deepgram action, you can use the transcript in that following action.
+
+![](/images/0b6faab-use_transcript.png)
+
+Click "Publish" in the final step to publish your zap.
+
+***
+
+What’s Next
+
+* [Deepgram API Overview](/reference/deepgram-api-overview)

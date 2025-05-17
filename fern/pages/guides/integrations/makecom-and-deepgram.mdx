@@ -1,0 +1,86 @@
+---
+title: Make.com and Deepgram
+subtitle: Learn how to use Deepgram in Make.com workflows.
+slug: docs/makecom-deepgram-integration
+---
+
+
+[Make](https://www.make.com/en) is a visual platform for automating tasks, workflows, and apps without the need for coding.
+
+## Introduction to Make
+
+Make workflows are called scenarios. Scenarios are automated tasks that start with a trigger (an event which sets off the workflow), and then continue on with actions, the other steps of the workflow.
+
+![](/images/cc983b5-scenario_example.png)
+
+An example workflow could be the following:
+
+Add an audio file to a folder in Dropbox (Trigger) -> Create a shareable URL Link of the file in Dropbox (Action) -> Transcribe the file with Deepgram (Action) -> Add a text file with the transcription to another folder in Dropbox (Action).
+
+Currently, Deepgram offers these actions in Make:
+
+1. Transcribe a Prerecorded Audio File From URL
+2. Summarize an Audio File
+3. Make an API Call
+
+## How to Build a Workflow in Make
+
+### Create a Scenario
+
+To create a scenario, click on the “Scenarios” section in the left-side navigation bar and then click on “Create a Scenario”. You will be presented with an empty scenario.
+
+![](/images/412813f-make_side_nav.png)
+
+### Add a Trigger
+
+Click on the plus sign to add a trigger. A scenario must start with a trigger. The trigger starts off the workflow with an initial trigger event.
+
+![](/images/b86fd4b-new_scenario.png)
+
+Possible triggers with Deepgram actions could be:
+
+| Trigger                                               | Action                                                                            |
+| ----------------------------------------------------- | --------------------------------------------------------------------------------- |
+| A voicemail message is sent with Telegram or WhatsApp | Deepgram transcribes the audio message into text                                  |
+| A new video is added to Vimeo                         | Deepgram summarizes the content of the video                                      |
+| A meeting takes place in Zoom                         | Deepgram transcribes the meeting into a text transcript or summarizes the content |
+
+Select your trigger. You will need to connect the integration you’ve chosen. Integrations may use OAuth to authenticate automatically, or you may have to enter an API key.
+
+![](/images/acc839f-trigger_example.png)
+
+Once your trigger has been set up, you can add actions.
+
+### Add a Deepgram Action
+
+To add a Deepgram action, click on the “Add another module” button. Type Deepgram and then select the appropriate action. This will bring up all the possible Deepgram actions
+
+![](/images/4b0cbdc-deepgram_actions.png)
+
+Next you will be prompted to connect to Deepgram. Enter your API key to connect your account.
+
+![](/images/5100ee2-connect_API.png)
+
+After successfully connecting your account, you will select your configuration options in the form. The only required input is the URL; you can leave the rest blank if you do not have a specific configuration in mind. Read more about each of the form options in our [API Reference](/reference/pre-recorded).
+
+![](/images/db5acf0-deepgram_action_form.png)
+
+<Warning>
+  For the time being, Deepgram’s Make integration only accepts a URL audio file. If you need to convert raw audio to a URL, we recommend using the [Cloud Convert integration](https://www.make.com/en/integrations/cloudconvert) to convert the audio file.
+</Warning>
+
+You can test the workflow by clicking “Run Once”. This will run the workflow one time so you can then check the outputs of each step. Click on the bubble above the Deepgram integration to see the output of the action. By clicking into the form outputs, you can find the transcription within the “Results” section.
+
+![](/images/6045d26-output.png)
+
+If you add another action after your Deepgram action, you can use the transcript in that following action.
+
+![](/images/731e9d3-transcript.png)
+
+Choose `Results: Channels[]` to use the transcript output in this following action.
+
+***
+
+What’s Next
+
+* [Deepgram API Overview](/reference/deepgram-api-overview)

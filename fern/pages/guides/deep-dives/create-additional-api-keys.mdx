@@ -1,0 +1,77 @@
+---
+title: Creating API Keys
+subtitle: >-
+  Learn about the fundamentals of creating API keys with the Deepgram Console or
+  the Deepgram API.
+slug: docs/create-additional-api-keys
+---
+
+
+API keys are associated with Deepgram [Projects](/docs/managing-projects), which organize all of your Deepgram resources and consist of a set of users, a set of API keys, and billing and monitoring settings.
+
+When you create an API key, you assign it a Role, which determines which actions it can be used to perform in the associated Project. Deepgram uses a tiered system of access control to provide granular access to its endpoints. To learn more about roles, see [Working with Roles](/docs/working-with-roles).
+
+<Info>
+  When you sign up, we automatically create your 1st Project for you.
+</Info>
+
+### Create an API key using the Deepgram Console
+
+You must create your first API key using the [Deepgram Console](https://console.deepgram.com/signup?jump=keys). Thereafter, you can continue to add additional API keys using the Console, or you can [create additional API Keys using the Deepgram API](#create-an-api-key-using-the-deepgram-api).
+
+1. Log in to the [Deepgram Console](https://console.deepgram.com).
+
+2. Locate the **Projects** drop down on the top-left, select the project to which you want to add an API Key.
+
+3. Select **Settings**.
+
+4. Select the **API Keys** view.
+
+5. Select **Create a New API Key**.
+
+6. Enter settings, and select **Create Key**:
+
+   | Name                        | Description                                                                                                                                                                                                                                                                       |
+   | --------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+   | **Friendly Name (Comment)** | Name or comment to help you identify and differentiate between your keys.                                                                                                                                                                                                         |
+   | **Permissions**             | Role to assign to the API Key. The API Key may perform only the actions allowed by the permissions associated with this role. To learn more about roles, see [Working with Roles](/docs/working-with-roles/).                                                                     |
+   | **Expiration**              | Expiration date to assign to the API Key. You can enter a specific date, select a duration of time to keep the key valid, or set the key to never expire.                                                                                                                         |
+   | **Tag**                     | Labels to associate with the API Key. Any requests sent using the key will also be tagged with the associated labels. Once set, tags cannot be changed. To learn more about managing multiple projects using tags, see [Using Multiple Projects](/docs/using-multiple-projects/). |
+
+7. Copy the **key secret** and save it somewhere safe, then select **Got it**. For security reasons, we won't be able to show you the key again.
+
+### Create an API Key using the Deepgram API
+
+Once you created your first API key using the Deepgram Console you can now use the API to create additional keys as needed.
+
+<Info>
+  Refer to the API Reference [Create Key](/reference/create-key) for more information.
+</Info>
+
+**Example Request**
+
+<CodeGroup>
+  ```bash cURL
+  curl --request POST \
+       --url https://api.deepgram.com/v1/projects/your_project_id/keys \
+       --header 'Authorization: Token YOUR_TOKEN' \
+       --header 'accept: application/json' \
+       --header 'content-type: application/json' \
+       --data '
+  {
+    "comment": "a nice comment",
+    "scopes": [
+      "usage:read",
+      "usage:write",
+      "keys:write"
+    ]
+  }
+  '
+  ```
+</CodeGroup>
+
+***
+
+What’s Next
+
+* [Make Your First API Request](/docs/make-your-first-api-request)
