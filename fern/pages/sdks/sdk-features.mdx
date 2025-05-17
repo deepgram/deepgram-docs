@@ -1,0 +1,181 @@
+---
+title: SDK Feature Matrix
+subtitle: A matrix of all Deepgram API features supported by our different SDKs.
+---
+
+
+Below is a list of all the features supported by our SDKs. For more details on any of these SDKs or features please refer to the corresponding documentation.
+
+<Info>
+  If an SDK doesn't have support for an API feature please refer to our documentation for how to [use custom add on parameters with our SDKs](/docs/using-custom-parameters-sdks).
+</Info>
+
+# Voice Agent
+
+| API Reference | Options | Status | SDK Availability |
+| ------------- | ------------ | ------ | ---------------- |
+| [Voice Agent](/reference/voice-agent-api/agent) | All Available | `GA` | `JS`, `.NET`, `Python`, `Go` |
+
+
+
+# Transcription API : Pre-recorded
+
+| API Reference                                  | Query Options            | Status | SDK Availability                     |
+| ---------------------------------------------- | ------------------------ | ------ | ------------------------------------ |
+| [Pre-recorded Audio](/reference/listen-remote) | callback                 | `GA`   | `JS`,`.NET`, `Python`,`Go`, `Rust`   |
+| [Pre-recorded Audio](/reference/listen-remote) | callback\_method         | `GA`   | `JS`,`.NET`,`Python`, `Go`, `Rust`   |
+| [Pre-recorded Audio](/reference/listen-remote) | channels                 | `GA`   | `.NET`,`Python`, `Go`, `Rust`        |
+| [Pre-recorded Audio](/reference/listen-remote) | diarize                  | `GA`   | `JS`,`.NET`, `Python`,`Go`, `Rust`   |
+| [Pre-recorded Audio](/reference/listen-remote) | diarize\_version         | `GA`   | `JS`,`.NET`, `Python`, `Rust`        |
+| [Pre-recorded Audio](/reference/listen-remote) | detect\_language         | `GA`   | `JS`,`.NET`, `Python`,`Go`, `Rust`   |
+| [Pre-recorded Audio](/reference/listen-remote) | dictation                | `GA`   | `JS`,`.NET`, `Python`,`Go`, `Rust`   |
+| [Pre-recorded Audio](/reference/listen-remote) | encoding                 | `GA`   | `.NET`,`Python`, `Go`, `Rust`        |
+| [Pre-recorded Audio](/reference/listen-remote) | extra                    | `GA`   | `JS`, `Python`, `Go`, .`NET`, `Rust` |
+| [Pre-recorded Audio](/reference/listen-remote) | filler\_words            | `GA`   | `JS`,`.NET`, `Python`,`Go`, `Rust`   |
+| [Pre-recorded Audio](/reference/listen-remote) | keyterm                  | `GA`   | `JS`,`.NET`, `Python`,`Go`   |
+| [Pre-recorded Audio](/reference/listen-remote) | keywords                 | `GA`   | `JS`,`.NET`, `Python`,`Go`, `Rust`   |
+| [Pre-recorded Audio](/reference/listen-remote) | language                 | `GA`   | `JS`,`.NET`, `Python`,`Go`, `Rust`   |
+| [Pre-recorded Audio](/reference/listen-remote) | measurements             | `GA`   | `JS`,`.NET`, `Python`,`Go`, `Rust`   |
+| [Pre-recorded Audio](/reference/listen-remote) | model                    | `GA`   | `JS`,`.NET`, `Python`,`Go`, `Rust`   |
+| [Pre-recorded Audio](/reference/listen-remote) | multichannel             | `GA`   | `JS`,`.NET`, `Python`,`Go`, `Rust`   |
+| [Pre-recorded Audio](/reference/listen-remote) | numerals                 | `GA`   | `JS`,`.NET`, `Python`,`Go`, `Rust`   |
+| [Pre-recorded Audio](/reference/listen-remote) | paragraph                | `GA`   | `JS`,`.NET`, `Python`,`Go`, `Rust`   |
+| [Pre-recorded Audio](/reference/listen-remote) | punctuate                | `GA`   | `JS`,`.NET`, `Python`,`Go`, `Rust`   |
+| [Pre-recorded Audio](/reference/listen-remote) | profanity\_filter        | `GA`   | `JS`,`.NET`, `Python`,`Go`, `Rust`   |
+| [Pre-recorded Audio](/reference/listen-remote) | redact                   | `GA`   | `JS`,`.NET`, `Python`,`Go`, `Rust`   |
+| [Pre-recorded Audio](/reference/listen-remote) | replace                  | `GA`   | `JS`,`.NET`, `Python`,`Go`, `Rust`   |
+| [Pre-recorded Audio](/reference/listen-remote) | sample\_rate             | `GA`   | `Python`,`Go`                        |
+| [Pre-recorded Audio](/reference/listen-remote) | search                   | `GA`   | `JS`,`.NET`, `Python`,`Go`, `Rust`   |
+| [Pre-recorded Audio](/reference/listen-remote) | smart\_format            | `GA`   | `JS`,`.NET`, `Python`,`Go`, `Rust`   |
+| [Pre-recorded Audio](/reference/listen-remote) | tag                      | `GA`   | `JS`,`.NET`, `Python`,`Go`, `Rust`   |
+| [Pre-recorded Audio](/reference/listen-remote) | utterances               | `GA`   | `JS`,`.NET`, `Python`,`Go`, `Rust`   |
+| [Pre-recorded Audio](/reference/listen-remote) | utt\_split               | `GA`   | `JS`,`.NET`, `Python`,`Go`, `Rust`   |
+| [Pre-recorded Audio](/reference/listen-remote) | version                  | `GA`   | `JS`,`.NET`, `Python`,`Go`, `Rust`   |
+
+# Intelligence API: Audio
+
+| API Reference                                  | Query Options    | Status | SDK Availability                      |
+| ---------------------------------------------- | ---------------- | ------ | ------------------------------------- |
+| [Intelligence Audio](/reference/listen-remote) | detect\_entities | `GA`   | `JS`, `.NET`, `Python`, `Go`, `Rust`  |
+| [Intelligence Audio](/reference/listen-remote) | intents          | `GA`   | `JS`, `.NET`,`Python` , `Go`, `Rust`  |
+| [Intelligence Audio](/reference/listen-remote) | sentiment        | `GA`   | `JS`, `.NET`, `Python` , `Go`, `Rust` |
+| [Intelligence Audio](/reference/listen-remote) | summarize        | `GA`   | `JS`, `.NET`, `Python` , `Go`, `Rust` |
+| [Intelligence Audio](/reference/listen-remote) | topics           | `GA`   | `JS`, `.NET`,`Python` , `Go`, `Rust`  |
+
+# Transcription API : Streaming
+
+| API Reference                       | Query Options            | Status | SDK Availability                      |
+| ----------------------------------- | ------------------------ | ------ | ------------------------------------- |
+| [Streaming](/reference/listen-live) | callback                 | `GA`   | `JS`,`.NET`, `Python`,`Go`, `Rust`    |
+| [Streaming](/reference/listen-live) | callback\_method         | `GA`   | `JS`, `.NET`, `Python` , `Go`, `Rust` |
+| [Streaming](/reference/listen-live) | channels                 | `GA`   | `JS`,`.NET`, `Python`,`Go`, `Rust`    |
+| [Streaming](/reference/listen-live) | diarize                  | `GA`   | `JS`,`.NET`, `Python`,`Go`, `Rust`    |
+| [Streaming](/reference/listen-live) | diarize\_version         | `GA`   | `JS`, `.NET`, `Python`,`Go` `Rust`    |
+| [Streaming](/reference/listen-live) | encoding                 | `GA`   | `JS`,`.NET`, `Python`,`Go`, `Rust`    |
+| [Streaming](/reference/listen-live) | endpointing              | `GA`   | `JS`,`.NET`, `Python`,`Go`, `Rust`    |
+| [Streaming](/reference/listen-live) | extra                    | `GA`   | `JS`, `.NET`,`Python`, `Go`, `Rust`   |
+| [Streaming](/reference/listen-live) | interim\_results         | `GA`   | `JS`,`.NET`, `Python`,`Go`, `Rust`    |
+| [Streaming](/reference/listen-live) | keyterm                  | `GA`   | `JS`,`.NET`, `Python`,`Go`    |
+| [Streaming](/reference/listen-live) | keywords                 | `GA`   | `JS`,`.NET`, `Python`,`Go`, `Rust`    |
+| [Streaming](/reference/listen-live) | language                 | `GA`   | `JS`,`.NET`, `Python`,`Go`, `Rust`    |
+| [Streaming](/reference/listen-live) | model                    | `GA`   | `JS`,`.NET`, `Python`,`Go`, `Rust`    |
+| [Streaming](/reference/listen-live) | multichannel             | `GA`   | `JS`,`.NET`, `Python`,`Go` , `Rust`   |
+| [Streaming](/reference/listen-live) | numerals                 | `GA`   | `JS`,`.NET`, `Python`,`Go`, `Rust`    |
+| [Streaming](/reference/listen-live) | punctuate                | `GA`   | `JS`,`.NET`, `Python`,`Go`, `Rust`    |
+| [Streaming](/reference/listen-live) | profanity\_filter        | `GA`   | `JS`,`.NET`, `Python`,`Go`, `Rust`    |
+| [Streaming](/reference/listen-live) | redact                   | `GA`   | `JS`,`.NET`, `Python`,`Go`, `Rust`    |
+| [Streaming](/reference/listen-live) | replace                  | `GA`   | `JS`,`.NET`, `Python`,`Go`, `Rust`    |
+| [Streaming](/reference/listen-live) | sample\_rate             | `GA`   | `JS`,`.NET`, `Python`,`Go`, `Rust`    |
+| [Streaming](/reference/listen-live) | search                   | `GA`   | `JS`,`.NET`, `Python`,`Go`, `Rust`    |
+| [Streaming](/reference/listen-live) | smart\_format            | `GA`   | `JS`,`.NET`, `Python`,`Go`, `Rust`    |
+| [Streaming](/reference/listen-live) | smart\_format: no\_delay | `GA`   | `JS`,`.NET`, `Python`,`Go`, `Rust`    |
+| [Streaming](/reference/listen-live) | tag                      | `GA`   | `JS`,`.NET`, `Python`,`Go`, `Rust`    |
+| [Streaming](/reference/listen-live) | utterance\_end\_ms       | `GA`   | `JS`, `.NET`,`Python`,`Go`, `Rust`    |
+| [Streaming](/reference/listen-live) | vad\_events              | `Beta` | `JS`, `.NET``Python`,`Go`, `Rust`     |
+| [Streaming](/reference/listen-live) | version                  | `GA`   | `JS`,`.NET`, `Python`,`Go`, `Rust`    |
+
+# Intelligence API: Text
+
+| API Reference                                          | Query Options | Status | SDK Availability             |
+| ------------------------------------------------------ | ------------- | ------ | ---------------------------- |
+| [Intelligence Text](/reference/text-intelligence-apis) | intents       | `GA`   | `JS`, `.NET`, `Python`, `Go` |
+| [Intelligence Text](/reference/text-intelligence-apis) | sentiment     | `GA`   | `JS`, `.NET`, `Python`, `Go` |
+| [Intelligence Text](/reference/text-intelligence-apis) | summarize     | `GA`   | `JS`, `.NET`, `Python`, `Go` |
+| [Intelligence Text](/reference/text-intelligence-apis) | topics        | `GA`   | `JS`, `.NET`, `Python`, `Go` |
+
+# Text to Speech REST API
+
+| API Reference                                   | Query Options | Status | SDK Availability                     |
+| ----------------------------------------------- | ------------- | ------ | ------------------------------------ |
+| [Text to Speech](/reference/text-to-speech-api) | bit\_rate     | `GA`   | `JS`, `.NET`, `Python`, `Go`, `Rust` |
+| [Text to Speech](/reference/text-to-speech-api) | callback      | `GA`   | `JS`, `.NET`, `Python`, `Go`, `Rust` |
+| [Text to Speech](/reference/text-to-speech-api) | container     | `GA`   | `JS`, `.NET`, `Python`, `Go`, `Rust` |
+| [Text to Speech](/reference/text-to-speech-api) | encoding      | `GA`   | `JS`, `.NET`, `Python`, `Go`, `Rust` |
+| [Text to Speech](/reference/text-to-speech-api) | model         | `GA`   | `JS`, `.NET`, `Python`, `Go`, `Rust` |
+| [Text to Speech](/reference/text-to-speech-api) | sample\_rate  | `GA`   | `JS`, `.NET`, `Python`, `Go`, `Rust` |
+
+# Text to Speech Streaming API
+
+| API Reference                                                   | Query Options | Status | SDK Availability             |
+| --------------------------------------------------------------- | ------------- | ------ | ---------------------------- |
+| [Text to Speech](/reference/transform-text-to-speech-websocket) | encoding      | `GA`   | `JS`, `.NET`, `Python`, `Go` |
+| [Text to Speech](/reference/transform-text-to-speech-websocket) | model         | `GA`   | `JS`, `.NET`, `Python`, `Go` |
+| [Text to Speech](/reference/transform-text-to-speech-websocket) | sample\_rate  | `GA`   | `JS`, `.NET`, `Python`, `Go` |
+
+# Management API
+
+| API Reference                                         | Query Options                                                                                                                                                                                                              | Status | SDK Availability                   |
+| ----------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ | ---------------------------------- |
+| [Create Key](/reference/create-key)                   | comment, scopes, tags, expiration\_date, time\_to\_live\_in\_seconds                                                                                                                                                       | `GA`   | `JS`,`.NET`, `Python`,`Go`, `Rust` |
+| [Delete Project](/reference/delete-project)           | N/A                                                                                                                                                                                                                        | `GA`   | `JS`,`.NET`, `Python`,`Go`, `Rust` |
+| [Delete Invites](/reference/delete-invite)            | N/A                                                                                                                                                                                                                        | `GA`   | `JS`, `Python`,`Go`,               |
+| [Delete Key](/reference/delete-key)                   | N/A                                                                                                                                                                                                                        | `GA`   | `JS`,`.NET`, `Python`,`Go`, `Rust` |
+| [Get Balance](/reference/get-balance)                 | N/A                                                                                                                                                                                                                        | `GA`   | `JS`,`.NET`, `Python`,`Go`, `Rust` |
+| [Get All Balances](/reference/get-all-balances)       | N/A                                                                                                                                                                                                                        | `GA`   | `JS`,`.NET`, `Python`,`Go`, `Rust` |
+| [Get Key](/reference/get-key)                         | N/A                                                                                                                                                                                                                        | `GA`   | `JS`,`.NET`, `Python`,`Go`, `Rust` |
+| [Get Members](/reference/get-members)                 | N/A                                                                                                                                                                                                                        | `GA`   | `JS`,`.NET`, `Python`,`Go`, `Rust` |
+| [Get Member Scopes](/reference/get-member-scopes)     | N/A                                                                                                                                                                                                                        | `GA`   | `JS`,`.NET`, `Python`,`Go`, `Rust` |
+| [Get Project](/reference/get-project)                 | start, end, limit, page                                                                                                                                                                                                    | `GA`   | `JS`,`.NET`, `Python`,`Go`, `Rust` |
+| [Get Projects](/reference/get-projects)               | N/A                                                                                                                                                                                                                        | `GA`   | `JS`,`.NET`, `Python`,`Go`, `Rust` |
+| [Get Project Models](/reference/get-project-models)   | include\_outdated                                                                                                                                                                                                          | `GA`   | `JS`, `Python`,`Go`, `.NET`        |
+| [Get Project Model](/reference/get-project-model)     | N/A                                                                                                                                                                                                                        | `GA`   | `JS`, `Python`,`Go`, `.NET`        |
+| [Leave Project](/reference/leave-project)             | N/A                                                                                                                                                                                                                        | `GA`   | `JS`,`Python`,`Go` ,`Rust` ,`.NET` |
+| [List Invites](/reference/list-invites)               | N/A                                                                                                                                                                                                                        | `GA`   | `JS`, `Python`,`Go`, `.NET`        |
+| [List Keys](/reference/list-keys)                     | N/A                                                                                                                                                                                                                        | `GA`   | `JS`,`.NET`, `Python`,`Go`, `Rust` |
+| [Get Models](/reference/get-models)                   | include\_outdated                                                                                                                                                                                                          | `GA`   | `JS`, `Python`,`Go`, `.NET`        |
+| [Get Model](/reference/get-model)                     | N/A                                                                                                                                                                                                                        | `GA`   | `JS`, `Python`,`Go`, `.NET`        |
+| [Remove Member](/reference/remove-member)             | N/A                                                                                                                                                                                                                        | `GA`   | `JS`,`.NET`, `Python`,`Go`, `Rust` |
+| [Send Invites](/reference/send-invites)               | email, scope                                                                                                                                                                                                               | `GA`   | `JS`, `Python`,`Go`, `Rust`        |
+| [Summarize Usage](/reference/summarize-usage)         | start, end, accessor, tag, method, model, multichannel, interim\_results, punctuate, ner, utterances, replace, profanity\_filter, keywords, detect\_topics, diarize, search, redact, alternatives, numerals, smart\_format | `GA`   | `JS`,`.NET`, `Python`,`Go`, `Rust` |
+| [Usage Get All Requests](/reference/get-all-requests) | start, end, limit, status, page                                                                                                                                                                                            | `GA`   | `JS`,`.NET`, `Python`,`Go`, `Rust` |
+| [Usage Get Fields](/reference/get-fields)             | start, end                                                                                                                                                                                                                 | `GA`   | `JS`,`.NET`, `Python`,`Go`, `Rust` |
+| [Usage Get Request](/reference/get-request)           | N/A                                                                                                                                                                                                                        | `GA`   | `JS`,`.NET`, `Python`,`Go`, `Rust` |
+| [Update Project](/reference/update-project)           | name                                                                                                                                                                                                                       | `GA`   | `JS`,`.NET`, `Python`,`Go`, `Rust` |
+| [Update Scope](/reference/update-scope)               | scope                                                                                                                                                                                                                      | `GA`   | `JS`,`.NET`, `Python`,`Go`, `Rust` |
+
+# Self-Hosted API
+
+<Info>
+  In certain cases, our SDKs can be used with Deepgram's [self-hosted](/docs/self-hosted-introduction)-specific endpoints.
+
+  For more details on sending inference requests to a self-hosted deploment, see the [Using SDKs with Self-Hosted](/docs/using-sdks-with-self-hosted) guide.
+</Info>
+
+| API Reference                                       | Query Options | Status | SDK Availability            |
+| --------------------------------------------------- | ------------- | ------ | --------------------------- |
+| [Create Credentials](/reference/create-credentials) | N/A           | `GA`   | `JS`, `.NET`,`Python`, `Go` |
+| [Delete Credentials](/reference/delete-credentials) | N/A           | `GA`   | `JS`,`.NET`, `Python`, `Go` |
+| [Get Credential](/reference/get-credentials)        | N/A           | `GA`   | `JS`, `.NET`,`Python`, `Go` |
+| [Get Credentials](/reference/list-credentials)      | N/A           | `GA`   | `JS`, `.NET`,`Python`, `Go` |
+
+# Token-Based Authentication
+
+| API Reference | Query Options | Status | SDK Availability |
+| ------------- | ------------ | ------ | ---------------- |
+| [Token-Based Authentication](/reference/token-based-auth-api/grant-token) | N/A | `GA` | `JS`, `.NET`, `Python`, `Go` |
+
+***
+
+What's Next
+
+* [Deepgram SDKs](/docs/deepgram-sdks)

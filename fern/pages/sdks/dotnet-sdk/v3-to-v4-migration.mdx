@@ -1,0 +1,469 @@
+---
+title: .NET SDK V3 to V4 Migration Guide
+subtitle: Migrating from Deepgram .NET SDK v3 to the Deepgram .NET SDK v4
+---
+
+
+<Info>
+  This guide is for users with experience using the Deepgram .NET SDK v3 who want to migrate to the Deepgram .NET SDK v4. This is not an end-to-end guide, but a reference for people using our existing .NET SDK to migrate to our newest version.
+</Info>
+
+# Notable Changes
+
+* Significant Restructure of the .NET SDK
+* Improved Implementation for Live, PreRecorded, and Manage Clients
+* Implements Text-to-Speech API
+* Implements Intelligence APIs for PreRecorded and Text (Summary, Intent, Topic, Sentiment)
+* Support for self-hosted/on-prem (previously not supported)
+* Improved and Independent Timeout Capabilities per API Call
+* Verbosity Logging Levels for Troubleshooting
+* Custom Header and Query Parameters for API calls
+* Better Error Handling
+* Support for future products (APIs)
+
+# Migration Guide
+
+This section of the migration guide focuses on the SDK's PreRecorded and Live Clients. It will allow you to transition to the latest version of the SDK.
+
+## Installation
+
+<CodeGroup>
+  ```powershell Terminal
+  # The latest version will definitely be newer than version 4.0.0 listed below
+  # Visit https://www.nuget.org/packages/Deepgram for the latest version available.
+  dotnet add package Deepgram
+  ```
+</CodeGroup>
+
+## Transcription: Pre-Recorded
+
+There are two methods for transcribing Pre-Recorded audio:
+
+* Using a local file on the file system
+* Providing a URL pointing to an supported audio file
+
+### Local File Transcription
+
+Transcribe a local file on the same filesystem as the app is running.
+
+<CodeGroup>
+  ```python Before
+  var credentials = new Credentials(DEEPGRAM_API_KEY);
+
+  var deepgramClient = new DeepgramClient(credentials);
+
+  using (FileStream fs = File.OpenRead("path\\to\\file"))
+  {
+      var response = await deepgramClient.Transcription.Prerecorded.GetTranscriptionAsync(
+          new StreamSource(
+              fs,
+              "audio/wav"),
+          new PrerecordedTranscriptionOptions()
+          {
+              Model = "nova-3",
+          });
+  }
+  ```
+
+  ```python After
+  // Set "DEEPGRAM_API_KEY" environment variable to your Deepgram API Key
+  var deepgramClient = ClientFactory.CreateListenRESTClient();
+
+  var audioData = File.ReadAllBytes(@"Bueller-Life-moves-pretty-fast.wav");
+  var response = await deepgramClient.TranscribeFile(
+    audioData,
+    new PreRecordedSchema()
+    {
+      Model = "nova-3",
+    });
+
+  Console.WriteLine(JsonSerializer.Serialize(response, options));
+  ```
+</CodeGroup>
+
+### URL File Transcription
+
+Transcribe a remote file by sending a publicly accessible URL.
+
+<CodeGroup>
+  ```python Before
+  var credentials = new Credentials("YOUR API KEY");
+  var deepgramClient = new DeepgramClient(credentials);
+
+  var response = await deepgramClient.Transcription.Prerecorded.GetTranscriptionAsync(
+    new UrlSource("https://dpgr.am/bueller.wav"),
+    new PrerecordedTranscriptionOptions(){
+      Tier = "nova-3",
+    }
+  );
+
+  Console.WriteLine(JsonConvert.SerializeObject(response));
+  ```
+
+  ```python After
+  // Set "DEEPGRAM_API_KEY" environment variable to your Deepgram API Key
+  var deepgramClient = ClientFactory.CreateListenRESTClient();
+
+  var response = await deepgramClient.TranscribeUrl(
+    new UrlSource("https://dpgr.am/bueller.wav"),
+    new PreRecordedSchema()
+    {
+      Model = "nova-3",
+    });
+
+  Console.WriteLine(JsonSerializer.Serialize(response, options));
+  ```
+</CodeGroup>
+
+## Transcription: Live
+
+The Live Client abstracts the underlying WebSocket implementation from the user for greater usability. This in turn only requires that you deal with higher-level functions like `Connect()`, `Send()`, `Stop()` methods.
+
+<CodeGroup>
+  ```python Before
+  var credentials = new Credentials(DEEPGRAM_API_KEY);
+
+  var deepgramClient = new DeepgramClient(credentials);
+
+  using (var deepgramLive = deepgramClient.CreateLiveTranscriptionClient())
+  {
+      deepgramLive.TranscriptReceived += HandleTranscriptReceived;
+
+      // Connection opened so start sending audio.
+      async void HandleConnectionOpened(object? sender, ConnectionOpenEventArgs e)
+      {
+          byte[] buffer;
+
+          using (FileStream fs = File.OpenRead("path\\to\\file"))
+          {
+              buffer = new byte[fs.Length];
+              fs.Read(buffer, 0, (int)fs.Length);
+          }
+
+          var chunks = buffer.Chunk(1000);
+
+          foreach (var chunk in chunks)
+          {
+              deepgramLive.SendData(chunk);
+              await Task.Delay(50);
+          }
+
+          await deepgramLive.FinishAsync();
+      }
+
+      void HandleTranscriptReceived(object? sender, TranscriptReceivedEventArgs e)
+      {
+          if (e.Transcript.IsFinal && e.Transcript.Channel.Alternatives.First().Transcript.Length > 0) {
+              var transcript = e.Transcript;
+              Console.WriteLine($"[Speaker: {transcript.Channel.Alternatives.First().Words.First().Speaker}] {transcript.Channel.Alternatives.First().Transcript}");
+          }
+      }
+
+      var options = new LiveTranscriptionOptions()
+    	{
+        Model = "nova-3"
+      };
+      await deepgramLive.StartConnectionAsync(options);
+
+      while (deepgramLive.State() == WebSocketState.Open) { }
+  }
+  ```
+
+  ```python After
+  // Set "DEEPGRAM_API_KEY" environment variable to your Deepgram API Key
+  var liveClient = ClientFactory.CreateListenWebSocketClient();
+
+  // Subscribe to the EventResponseReceived event
+  liveClient.Subscribe(new EventHandler<ResultResponse>((sender, e) =>
+  {
+  	Console.WriteLine($"Speaker: {e.Channel.Alternatives[0].Transcript}\n");
+  }));
+
+  // Start the connection
+  var liveSchema = new LiveSchema()
+  {
+    Model = "nova-3",
+  };
+  await liveClient.Connect(liveSchema);
+
+  // Send some audio data
+  var audioData = File.ReadAllBytes(@"preamble.wav");
+  liveClient.Send(audioData);
+  ```
+</CodeGroup>
+
+## Management API
+
+Below is a transition guide for using the Manage APIs.
+
+### Get all projects for a user
+
+<CodeGroup>
+  ```python Before
+  var result = await deepgramClient.Projects.ListProjectsAsync();
+  ```
+
+  ```python After
+  var result = await manageClient.GetProjects();
+  ```
+</CodeGroup>
+
+[See our API reference for more info](/reference/get-projects).
+
+### Get a project
+
+<CodeGroup>
+  ```python Before
+  var result = await deepgramClient.Projects.ListProjectAsync(projectId);
+  ```
+
+  ```python After
+  var result = await manageClient.GetProject(projectId);
+  ```
+</CodeGroup>
+
+[See our API reference for more info](/reference/get-project).
+
+### Update a project
+
+<CodeGroup>
+  ```python Before
+  var project = new Project()
+  {
+      Project = "projectId string",
+      Name = "New name for Project"
+  }
+  var result = await deepgramClient.Projects.UpdateProjectAsync(project);
+  ```
+
+  ```python After
+  var updateOptions = new ProjectSchema()
+  {
+    Name = "My TEST RENAME Example"
+  };
+
+  var result = await manageClient.UpdateProject(projectId, updateOptions);
+  ```
+</CodeGroup>
+
+[See our API reference for more info](/reference/update-project).
+
+### Delete a project
+
+<CodeGroup>
+  ```python Before
+  var result = await deepgramClient.Projects.DeleteProjectAsync(projectId);
+  ```
+
+  ```python After
+  var result = await manageClient.DeleteProject(projectId);
+  ```
+</CodeGroup>
+
+[See our API reference for more info](/reference/delete-project).
+
+### Get all project key details
+
+<CodeGroup>
+  ```typescript Before
+  var result = await deepgramClient.Keys.ListKeysAsync(projectId);
+  ```
+
+  ```typescript After
+   var result = await manageClient.GetKeys(myId);
+  ```
+</CodeGroup>
+
+[See our API reference for more info](/reference/list-keys).
+
+### Get a project key
+
+<CodeGroup>
+  ```python Before
+  var result = await deepgramClient.Keys.GetKeyAsync(projectId,keyId);
+  ```
+
+  ```python After
+  var result = await manageClient.GetKey(projectId, keyId);
+  ```
+</CodeGroup>
+
+[See our API reference for more info](/reference/get-key).
+
+### Create a project key
+
+<CodeGroup>
+  ```python Before
+  var scopes = new string[]{"admin","member"};
+  var result = await deepgramClient.Keys.CreateKeyAsync(projectId,comment,scopes);
+  ```
+
+  ```python After
+  var createKey = new KeySchema()
+  {
+    Comment = "MyTestKey",
+    Scopes = new List<string> { "member" },
+  };
+
+  var result = await manageClient.CreateKey(projectId, createKey);
+  ```
+</CodeGroup>
+
+[See our API reference for more info](/reference/create-key).
+
+### Delete a project key
+
+<CodeGroup>
+  ```python Before
+  var result = await deepgramClient.Keys.DeleteKeyAsync(projectId, keyId);
+  ```
+
+  ```python After
+  var result = await manageClient.DeleteKey(projectId, keyId);
+  ```
+</CodeGroup>
+
+[See our API reference for more info](/reference/delete-key).
+
+### Get all project members
+
+<CodeGroup>
+  ```python Before
+  var result = await deepgramClient.Projects.GetMembersScopesAsync(projectId,memberId);
+  ```
+
+  ```python After
+  var result = memberClient.GetMembers(projectId);
+  ```
+</CodeGroup>
+
+[See our API reference for more info](/reference/get-members).
+
+### Remove a project member
+
+<CodeGroup>
+  ```typescript Before
+  var result = await deepgramClient.Projects.RemoveMemberAsync(projectId,memberId);
+  ```
+
+  ```typescript After
+  var result = manageClient.RemoveMember(projectId, memberId);
+  ```
+</CodeGroup>
+
+[See our API reference for more info](/reference/remove-member).
+
+### Get all scopes for a project member
+
+<CodeGroup>
+  ```python Before
+  var result = await deepgramClient.Keys. GetMemberScopesAsync(projectId,memberId);
+  ```
+
+  ```python After
+  var result = await manageClient.GetMemberScopes(projectId, memberId);
+  ```
+</CodeGroup>
+
+[See our API reference for more info](/reference/get-member-scopes).
+
+### Update a scope for a project member
+
+<CodeGroup>
+  ```python Before
+  var scopeOptions = new UpdateScopeOption(){Scope = "admin"};
+  var result = await deepgramClient.Keys.UpdateScopeAsync(projectId,memberId,scopeOptions);
+  ```
+
+  ```python After
+  var scopeUpdate = new MemberScopeSchema()
+  {
+    Scope = "admin"
+  };
+  var result = await manageClient.UpdateMemberScope(projectId, memberId, scopeUpdate);
+  ```
+</CodeGroup>
+
+[See our API reference for more info](/reference/update-scope).
+
+### Get all usage requests for a project
+
+<CodeGroup>
+  ```python Before
+  var listAllRequestOptions = new listAllRequestOptions()
+  {
+       StartDateTime = DateTime.Now
+  };
+  var result = await deepgramClient.Usage.ListAllRequestsAsync(projectId,listAllRequestOptions);
+  ```
+
+  ```python After
+  var requestsOptions = new UsageRequestsSchema();
+  var result = await manageClient.GetUsageRequests(projectId, requestsOptions);
+  ```
+</CodeGroup>
+
+[See our API reference for more info](/reference/get-all-requests).
+
+### Get a usage request for a project
+
+<CodeGroup>
+  ```python Before
+  var result = await deepgramClient.Usage.GetUsageRequestAsync(projectId,requestId);
+  ```
+
+  ```python After
+  var result = await manageClient.GetUsageRequest(projectId, requestId);
+  ```
+</CodeGroup>
+
+[See our API reference for more info](/reference/get-request).
+
+### Get the project usage summary
+
+<CodeGroup>
+  ```python Before
+  var getUsageSummmaryOptions = new GetUsageSummmaryOptions()
+  {
+      StartDateTime = DateTime.Now
+  }
+  var result = await deepgramClient.Usage.GetUsageSummaryAsync(projectId,getUsageSummmaryOptions);
+  ```
+
+  ```python After
+  var summaryOptions = new UsageSummarySchema();
+  var result = await manageClient.GetUsageSummary(projectId, summaryOptions);
+  ```
+</CodeGroup>
+
+[See our API reference for more info](/reference/summarize-usage).
+
+### Get project usage fields
+
+<CodeGroup>
+  ```python Before
+  var getUsageFieldsOptions = new getUsageFieldsOptions()
+  {
+      StartDateTime = Datetime.Now
+  }
+  var result = await deepgramClient.Usage.GetUsageFieldsAsync(projectId,getUsageFieldsOptions);
+  ```
+
+  ```python After
+  var fieldsOptions = new UsageFieldsSchema();
+  var result = await manageClient.GetUsageFields(projectId, fieldsOptions);
+  ```
+</CodeGroup>
+
+[See our API reference for more info](/reference/get-fields).
+
+## New to v4
+
+**\[NOTICE]** There were several APIs that were previously unavailable in `v3` of the .NET SDK but that are now available in the `v4` release. These included:
+
+* Self-hosted (on-prem) APIs
+* Manage APIs for Balances and Invitations
+* Intelligence APIs (SITS) for Text and Audio
+* Text-to-Speech
+
+Please refer to the examples in the `examples` folder at the root of the [.NET SDK](https://github.com/deepgram/deepgram-dotnet-sdk) repository for implementation details.
