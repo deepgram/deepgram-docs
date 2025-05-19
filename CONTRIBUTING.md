@@ -21,7 +21,6 @@ This is the standard GitHub workflow used by most projects on GitHub regardless 
     - [1. Squash Commits Manually](#1-squash-commits-manually)
     - [2. Reverting a Commit](#2-reverting-a-commit)
 
-
 ## 0. Simple changes using Edit this page
 
 If you have a simple change or suggestions, you can just click `Edit This Page` on any page you want to change. This will create a branch and a PR for you and use GitHub's UI to help you make the changes.
@@ -185,74 +184,74 @@ To squash your commits, perform an [interactive rebase](https://git-scm.com/book
 
 1. Check your git branch:
 
-  ```bash
-  git status
-  ```
+```bash
+git status
+```
 
-  The output should be similar to this:
+The output should be similar to this:
 
-  ```bash
-  On branch your-contribution
-  Your branch is up to date with 'origin/your-contribution'.
-  ```
+```bash
+On branch your-contribution
+Your branch is up to date with 'origin/your-contribution'.
+```
 
 1. Start an interactive rebase using a specific commit hash, or count backwards from your last commit using `HEAD~<n>`, where `<n>` represents the number of commits to include in the rebase.
 
-  To get this `<n>` value, the easiest way to do this is to run `git log` and then count the number of commits until you hit `main` but not including `main`.
+To get this `<n>` value, the easiest way to do this is to run `git log` and then count the number of commits until you hit `main` but not including `main`.
 
-  ```bash
-  git log
-  ```
+```bash
+git log
+```
 
-  Once you have that number, continue with the rebase and squash.
+Once you have that number, continue with the rebase and squash.
 
-  ```bash
-  git rebase -i HEAD~3
-  ```
+```bash
+git rebase -i HEAD~3
+```
 
-  The output should be similar to this:
+The output should be similar to this:
 
-  ```bash
-  pick 2ebe926 Original commit
-  pick 31f33e9 Address feedback
-  pick b0315fe Second unit of work
+```bash
+pick 2ebe926 Original commit
+pick 31f33e9 Address feedback
+pick b0315fe Second unit of work
 
-  # Rebase 7c34fc9..b0315ff onto 7c34fc9 (3 commands)
-  #
-  # Commands:
-  # p, pick <commit> = use commit
-  # r, reword <commit> = use commit, but edit the commit message
-  # e, edit <commit> = use commit, but stop for amending
-  # s, squash <commit> = use commit, but meld into previous commit
-  # f, fixup <commit> = like "squash", but discard this commit's log message
-  ...
-  ```
+# Rebase 7c34fc9..b0315ff onto 7c34fc9 (3 commands)
+#
+# Commands:
+# p, pick <commit> = use commit
+# r, reword <commit> = use commit, but edit the commit message
+# e, edit <commit> = use commit, but stop for amending
+# s, squash <commit> = use commit, but meld into previous commit
+# f, fixup <commit> = like "squash", but discard this commit's log message
+...
+```
 
 1. Use a command line text editor to change the word `pick` to `squash` for the commits you want to squash, then save your changes and continue the rebase:
 
-  ```bash
-  pick 2ebe926 Original commit
-  squash 31f33e9 Address feedback
-  squash b0315fe Second unit of work
-  ...
-  ```
+```bash
+pick 2ebe926 Original commit
+squash 31f33e9 Address feedback
+squash b0315fe Second unit of work
+...
+```
 
-  The output after saving changes should look similar to this:
+The output after saving changes should look similar to this:
 
-  ```bash
-  [detached HEAD 61fdded] Second unit of work
-   Date: Thu Mar 5 19:01:32 2020 +0100
-   2 files changed, 15 insertions(+), 1 deletion(-)
-   ...
+```bash
+[detached HEAD 61fdded] Second unit of work
+ Date: Thu Mar 5 19:01:32 2020 +0100
+ 2 files changed, 15 insertions(+), 1 deletion(-)
+ ...
 
-  Successfully rebased and updated refs/heads/main.
-  ```
+Successfully rebased and updated refs/heads/main.
+```
 
 1. Force push your changes to your remote branch:
 
-  ```bash
-  git push --force
-  ```
+```bash
+git push --force
+```
 
 ## 2. Reverting a Commit
 

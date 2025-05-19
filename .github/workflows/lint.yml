@@ -1,22 +1,32 @@
-name: Publish Docs
+name: Lint
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
+    paths:
+      - '**.js'
+      - '**.md'
+      - '**.mdx'
+      - '**.yml'
+      - '**.yaml'
+  pull_request:
+    paths:
+      - '**.js'
+      - '**.md'
+      - '**.mdx'
+      - '**.yml'
+      - '**.yaml'
 
 jobs:
-  run:
+  lint:
     runs-on: ubuntu-latest
-    if: ${{ github.event_name == 'push' && contains(github.ref, 'refs/heads/main') && github.run_number > 1 }}
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '22'
+          node-version: '18'
 
       - name: Setup pnpm with cache
         uses: pnpm/action-setup@v2
@@ -33,11 +43,8 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: Install Fern
-        run: pnpm add -g fern-api
+      - name: Check code formatting
+        run: pnpm run format:check
 
-      - name: Publish Docs
-        env:
-          FERN_TOKEN: ${{ secrets.FERN_TOKEN }}
-          GTM_CONTAINER_ID: ${{ secrets.GTM_CONTAINER_ID }}
-        run: fern generate --docs
+      - name: Lint code
+        run: pnpm run lint

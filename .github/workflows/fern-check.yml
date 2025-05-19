@@ -16,16 +16,25 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: "22"
+          node-version: '22'
+
+      - name: Setup pnpm with cache
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+          run_install: false
+
+      - uses: actions/cache@v3
+        with:
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: ${{ runner.os }}-pnpm-
+
+      - name: Install dependencies
+        run: pnpm install
 
       - name: Install Fern
-        run: npm install -g fern-api
-
-      # - name: Install custom component dependencies
-      #   run: npm --prefix custom-app install
-
-      # - name: Build the custom components
-      #   run: npm --prefix custom-app run build
+        run: pnpm add -g fern-api
 
       - name: Check API is valid
         run: fern check

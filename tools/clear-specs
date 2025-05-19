@@ -9,13 +9,13 @@ const asyncapiPath = path.join(__dirname, '../fern/asyncapi-test.yml');
 
 // Check if the files exist and remove them
 if (fs.existsSync(openapiPath)) {
-    fs.unlinkSync(openapiPath);
-    console.log('Removed ../fern/openapi-test.yml');
+  fs.unlinkSync(openapiPath);
+  console.log('Removed ../fern/openapi-test.yml');
 }
 
 if (fs.existsSync(asyncapiPath)) {
-    fs.unlinkSync(asyncapiPath);
-    console.log('Removed ../fern/asyncapi-test.yml');
+  fs.unlinkSync(asyncapiPath);
+  console.log('Removed ../fern/asyncapi-test.yml');
 }
 
 console.log('Successfully cleared specification files');

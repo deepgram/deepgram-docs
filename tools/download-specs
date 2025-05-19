@@ -11,7 +11,7 @@ const OUTPUT_DIR = path.join(__dirname, '../fern');
 
 // Create temporary directory
 if (!fs.existsSync(TEMP_DIR)) {
-    fs.mkdirSync(TEMP_DIR);
+  fs.mkdirSync(TEMP_DIR);
 }
 
 // Clone the repository (shallow clone to save bandwidth)
@@ -20,7 +20,7 @@ execSync(`git clone --depth 1 ${REPO_URL} ${TEMP_DIR}`, { stdio: 'inherit' });
 
 // Create output directory
 if (!fs.existsSync(OUTPUT_DIR)) {
-    fs.mkdirSync(OUTPUT_DIR, { recursive: true });
+  fs.mkdirSync(OUTPUT_DIR, { recursive: true });
 }
 
 // Copy the specification files
@@ -32,4 +32,6 @@ fs.copyFileSync(path.join(TEMP_DIR, 'asyncapi.yml'), path.join(OUTPUT_DIR, 'asyn
 console.log('Cleaning up temporary files...');
 execSync(`rm -rf ${TEMP_DIR}`, { stdio: 'inherit' });
 
-console.log(`Successfully downloaded and mirrored the Deepgram API specifications to ${OUTPUT_DIR}`);
+console.log(
+  `Successfully downloaded and mirrored the Deepgram API specifications to ${OUTPUT_DIR}`
+);
