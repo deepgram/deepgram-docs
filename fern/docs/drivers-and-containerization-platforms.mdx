@@ -142,11 +142,7 @@ Many Linux distributions require Linux kernel development tools to be installed 
      For Ubuntu, make sure to select `Linux 64-bit`, which will eventually deliver a `.run` file. Do not select an `Ubuntu` option for the operating system, as this will deliver a `.deb` file that frequently fails to properly install the drivers.
    </Warning>
 
-5. Finally, choose the Download Type (`Production Branch`), and choose a CUDA toolkit with version between `12.2<=version<=12.6`.
-
-   <Warning>
-     Selecting CUDA toolkit `latest` or `12.7` will provide a driver on major version `565`. This version has a known issue where the Deepgram Engine container will not be able to detect or use the GPU. Ensure you are using drivers with maximum version `560`.
-   </Warning>
+5. Finally, choose the Download Type (`Production Branch`), and choose a CUDA toolkit with a version `>=12.4`.
 
 6. Select **Search** and check that the correct driver is displayed, then select **View**.
 
