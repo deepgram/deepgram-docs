@@ -28,3 +28,13 @@ temp_content/
 .env.test.local
 .env.production.local
 *.log 
+
+# Lock files
+pnpm-lock.yaml
+yarn.lock
+yarn-debug.log*
+yarn-debug.log
+yarn-error.log*
+yarn-error.log
+package-lock.json
+shrinkwrap.yaml
