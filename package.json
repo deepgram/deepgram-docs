@@ -1,6 +1,7 @@
 {
   "name": "deepgram-docs",
   "license": "ISC",
+  "type": "module",
   "author": {
     "name": "Deepgram DevRel Team",
     "email": "devrel@deepgram.com"
