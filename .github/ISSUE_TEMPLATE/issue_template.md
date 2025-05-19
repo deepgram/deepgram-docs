@@ -1,6 +1,6 @@
 ---
-name: "Issue Template"
-about: "Report a bug or feature enhancement to help improve the project"
+name: 'Issue Template'
+about: 'Report a bug or feature enhancement to help improve the project'
 ---
 
 ## Issue
@@ -15,7 +15,6 @@ about: "Report a bug or feature enhancement to help improve the project"
 
 > If applicable, provide a link to the Docs page or API Explorer section where the issue was found.
 
-
 ## API Spec Reference
 
 > If applicable, provide a link to the API Specification section that relates to your issue.
@@ -23,6 +22,3 @@ about: "Report a bug or feature enhancement to help improve the project"
 ## Similar Examples
 
 > If applicable, provide references to examples you like or what inspired you to report this issue.
-
-
-

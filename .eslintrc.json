@@ -1,0 +1,29 @@
+{
+  "root": true,
+  "env": {
+    "node": true,
+    "browser": true
+  },
+  "extends": ["eslint:recommended", "plugin:prettier/recommended"],
+  "plugins": ["prettier", "markdown", "yaml"],
+  "ignorePatterns": ["fern/**", "node_modules/**", "build/**", "dist/**"],
+  "overrides": [
+    {
+      "files": ["**/*.js"],
+      "extends": ["eslint:recommended"]
+    },
+    {
+      "files": ["**/*.md", "**/*.mdx"],
+      "processor": "markdown/markdown"
+    },
+    {
+      "files": ["**/*.yml", "**/*.yaml"],
+      "parser": "yaml-eslint-parser"
+    }
+  ],
+  "rules": {
+    "prettier/prettier": "warn",
+    "no-console": "off",
+    "no-debugger": "off"
+  }
+}

@@ -6,11 +6,11 @@
     },
     "filesystem": {
       "command": "npx",
-      "args": [
-        "-y",
-        "@modelcontextprotocol/server-filesystem",
-        "./"
-      ]
+      "args": ["-y", "@modelcontextprotocol/server-filesystem", "./"]
+    },
+    "npms": {
+      "command": "npx",
+      "args": ["-y", "mcp-server-npms"]
     }
   }
 }

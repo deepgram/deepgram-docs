@@ -46,9 +46,6 @@ fern generate --group java-sdk
 To run a local development server with hot-reloading you can run the following commands:
 
 ```shell
-# Build the custom components
-npm --prefix custom-app run build
-
 # Run the local development server
 fern docs dev
 ```
@@ -66,12 +63,6 @@ fern generate --docs --preview
 To view custom components or API Playground changes in a Preview URL, you can run the following commands:
 
 ```shell
-# Install packages
-npm --prefix custom-app install
-
-# Build the custom components
-npm --prefix custom-app run build
-
 # Generate the docs preview
 fern generate --docs --preview
 ```
@@ -80,7 +71,7 @@ fern generate --docs --preview
 
 Documentation is automatically published when you run the `fern generate` command. We only expect this to be ran via the GitHub Actions workflows.
 
-Please ***DO NOT RUN THIS COMMAND MANUALLY*** unless you know what you're doing.
+Please **_DO NOT RUN THIS COMMAND MANUALLY_** unless you know what you're doing.
 
 ```sh
 fern generate --docs

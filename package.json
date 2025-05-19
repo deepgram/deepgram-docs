@@ -6,13 +6,22 @@
     "email": "devrel@deepgram.com"
   },
   "devDependencies": {
-    "fern-api": "^0.60.29"
+    "eslint": "^9.27.0",
+    "eslint-config-prettier": "^10.1.5",
+    "eslint-plugin-markdown": "^5.1.0",
+    "eslint-plugin-prettier": "^5.4.0",
+    "eslint-plugin-yaml": "^1.1.2",
+    "fern-api": "^0.61.20",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.0.0",
+    "prettier": "^3.5.3",
+    "yaml-eslint-parser": "^1.3.0"
   },
   "scripts": {
     "predev": "npm run clear && npm run sync",
     "dev": "fern docs dev --log-level trace",
     "postdev": "npm run tidyup",
-    "prepreview": "npm --prefix custom-app install && npm --prefix custom-app run build && npm run clear && npm run sync",
+    "prepreview": "npm run clear && npm run sync",
     "preview": "fern generate --docs --preview",
     "postpreview": "npm run tidyup",
     "sync": "npm run sync:content && npm run sync:specs",
@@ -22,6 +31,28 @@
     "clear:dist": "rm -rf /fern/dist",
     "clear:content": "./tools/clear-content",
     "clear:specs": "./tools/clear-specs",
-    "tidyup": "rm -rf temp_specs temp_content"
+    "tidyup": "rm -rf temp_specs temp_content",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "lint": "eslint \"**/*.{js,md,mdx,yml,yaml}\"",
+    "lint:fix": "eslint --fix \"**/*.{js,md,mdx,yml,yaml}\"",
+    "lint:js": "eslint \"**/*.js\"",
+    "lint:md": "eslint \"**/*.{md,mdx}\"",
+    "lint:yaml": "eslint \"**/*.{yml,yaml}\"",
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "*.js": [
+      "prettier --write",
+      "eslint --fix"
+    ],
+    "*.{md,mdx}": [
+      "prettier --write",
+      "eslint --fix"
+    ],
+    "*.{yml,yaml}": [
+      "prettier --write",
+      "eslint --fix"
+    ]
   }
 }

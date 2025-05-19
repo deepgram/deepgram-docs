@@ -13,16 +13,10 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: "22"
+          node-version: '22'
 
       - name: Install Fern
         run: npm install -g fern-api
-
-      # - name: Install custom component dependencies
-      #   run: npm --prefix custom-app install
-
-      # - name: Build the custom components
-      #   run: npm --prefix custom-app run build
 
       - name: Generate preview output
         id: generate-docs
