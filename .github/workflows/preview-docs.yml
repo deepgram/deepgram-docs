@@ -15,8 +15,23 @@ jobs:
         with:
           node-version: '22'
 
+      - name: Setup pnpm with cache
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+          run_install: false
+
+      - uses: actions/cache@v3
+        with:
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: ${{ runner.os }}-pnpm-
+
+      - name: Install dependencies
+        run: pnpm install
+
       - name: Install Fern
-        run: npm install -g fern-api
+        run: pnpm add -g fern-api
 
       - name: Generate preview output
         id: generate-docs

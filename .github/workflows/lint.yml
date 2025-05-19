@@ -27,13 +27,24 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '18'
-          cache: 'npm'
+
+      - name: Setup pnpm with cache
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+          run_install: false
+
+      - uses: actions/cache@v3
+        with:
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: ${{ runner.os }}-pnpm-
 
       - name: Install dependencies
-        run: npm ci
+        run: pnpm install
 
       - name: Check code formatting
-        run: npm run format:check
+        run: pnpm run format:check
 
       - name: Lint code
-        run: npm run lint
+        run: pnpm run lint
