@@ -8,9 +8,11 @@ This guide walks you through how to build a simple function call for a demo appl
 
 ## Getting Started
 
-We'll setup a module called `agent_functions.py` that defines a collection of functions and configurations which can be used in a Voice Agent API system for customer service automation. These functions will handle customer lookups, appointments, and order management through a set of async functions and standardized function definitions.
+We'll be creating 2 files called `agent_functions.py` and `agent_templates.py`.
 
-Please note: `agent_functions.py` will rely on the [business_logic.py](https://github.com/deepgram-devs/flask-agent-function-calling-demo/blob/main/common/business_logic.py) and the [client.py](https://github.com/deepgram-devs/flask-agent-function-calling-demo/blob/main/client.py) files to work end to end.
+`agent_functions.py` will define a collection of functions and configurations which can be used in a Voice Agent API system for customer service automation. These functions will handle customer lookups, appointments, and order management through a set of async functions and standardized function definitions.
+
+`agent_templates.py` will define the prompt and settings for the Voice Agent as well as the factory class `AgentTemplates` which will be used to configure the Voice Agent for different industries.
 
 ### Prerequisites
 
@@ -19,7 +21,11 @@ Please note: `agent_functions.py` will rely on the [business_logic.py](https://g
 * An understanding of how to use Python Virtual environments.
 * Familiarity with the [Deepgram Voice Agent API](/reference/build-a-voice-agent)
 
-## Create a file & set up the dependencies
+## Create the file & set up the dependencies
+
+<Info>
+  This guide doesn't cover the development of the **business logic** for this application. Please see [business_logic.py](https://github.com/deepgram-devs/flask-agent-function-calling-demo/blob/main/common/business_logic.py)for more details.
+</Info>
 
 First, create a file called: `agent_functions.py`. Then in `agent_functions.py` set up the dependencies and import the business logic.
 
@@ -40,11 +46,7 @@ First, create a file called: `agent_functions.py`. Then in `agent_functions.py` 
   ```
 </CodeGroup>
 
-<Info>
-  This guide doesn't cover the development of the **business logic** for this application. Please see [business_logic.py](https://github.com/deepgram-devs/flask-agent-function-calling-demo/blob/main/common/business_logic.py)for more details.
-</Info>
-
-## Implement the Functions
+### Implement the Functions
 
 In the `agent_functions.py` file we'll start by implementing the customer lookup function:
 
@@ -413,7 +415,7 @@ Finally in the same file we'll need to create a `FUNCTION_MAP` which is a dictio
   ```
 </CodeGroup>
 
-## Create a file & set up the dependencies
+## Create the file & set up the dependencies
 
 First, create a file called: `agent_templates.py`. Then in `agent_templates.py` set up the dependencies and import our function definitions.
 
