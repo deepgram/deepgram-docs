@@ -56,3 +56,9 @@ Thumbs.db
 /fern/content-test
 /fern/openapi-test.yml
 /fern/asyncapi-test.yml
+
+# backups
+*.yml.backup*
+*.yml.working*
+*.yml_working*
+*.yml_backup*

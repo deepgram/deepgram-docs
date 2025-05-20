@@ -1,0 +1,1218 @@
+#!/bin/bash
+
+# A helper script for processing documentation files in Deepgram docs
+
+# Immediate backup of docs.yml
+function create_immediate_backup {
+  if [ -f "./fern/docs.yml" ]; then
+    timestamp=$(date +"%Y%m%d_%H%M%S")
+    backup_file="./fern/docs.yml.backup_${timestamp}"
+    cp "./fern/docs.yml" "$backup_file"
+    echo "Created safety backup: $backup_file"
+  fi
+}
+
+# Create backup immediately
+create_immediate_backup
+
+function show_help {
+  echo "Doc Helper - A tool for processing documentation files in the Deepgram docs."
+  echo ""
+  echo "Usage:"
+  echo "  ./doc-helper.sh COMMAND [OPTIONS]"
+  echo ""
+  echo "Commands:"
+  echo "  move-file       Move a file to the target location and create directories if needed"
+  echo "    SOURCE        Source file path"
+  echo "    TARGET        Target file path"
+  echo ""
+  echo "  extract-slug    Extract the slug from a file's frontmatter"
+  echo "    FILE          File to examine"
+  echo ""
+  echo "  remove-slug     Remove the slug from a file's frontmatter"
+  echo "    FILE          File to modify"
+  echo ""
+  echo "  add-slug-to-yaml Add a slug entry to the docs.yml file for a specific file path"
+  echo "    FILE          File path to add slug for"
+  echo "    SLUG          Slug value to add"
+  echo ""
+  echo "  add-redirect    Add a redirect from an old path to a new path"
+  echo "    OLD_PATH      Old URL path (without domain)"
+  echo "    NEW_PATH      New URL path (without domain)"
+  echo ""
+  echo "  sort-redirects  Sort all redirects in docs.yml by destination"
+  echo ""
+  echo "  remove-duplicate-redirects  Remove duplicate redirects based on matching both source and destination"
+  echo ""
+  echo "  list-backups    List all available backups of docs.yml"
+  echo ""
+  echo "  restore-backup  Restore docs.yml from a backup"
+  echo "    [BACKUP]      Optional backup file to restore (defaults to latest)"
+  echo ""
+  echo "  migrate-file    Process a complete file migration"
+  echo "    SOURCE_FILE   Source file path"
+  echo ""
+  echo "Examples:"
+  echo "  ./doc-helper.sh move-file docs/example.mdx ./pages/guides/deep-dives/example.mdx"
+  echo "  ./doc-helper.sh extract-slug docs/example.mdx"
+  echo "  ./doc-helper.sh remove-slug ./pages/guides/deep-dives/example.mdx"
+  echo "  ./doc-helper.sh add-slug-to-yaml ./pages/guides/deep-dives/example.mdx example-slug"
+  echo "  ./doc-helper.sh add-redirect /old/path /new/path"
+  echo "  ./doc-helper.sh sort-redirects"
+  echo "  ./doc-helper.sh remove-duplicate-redirects"
+  echo "  ./doc-helper.sh list-backups"
+  echo "  ./doc-helper.sh restore-backup"
+  echo "  ./doc-helper.sh restore-backup ./fern/docs.yml.backup_20240519_123045"
+  echo "  ./doc-helper.sh migrate-file fern/pages/guides/deep-dives/example.mdx"
+}
+
+function move_file {
+  source=$1
+  target=$2
+  
+  if [ ! -f "$source" ]; then
+    echo "Error: Source file '$source' not found"
+    exit 1
+  fi
+  
+  # Check if source and target are the same file
+  if [ "$source" = "$target" ] || [ "$(realpath "$source")" = "$(realpath "$target")" ]; then
+    echo "Source and target are the same file. Skipping copy."
+    return 0
+  fi
+  
+  target_dir=$(dirname "$target")
+  
+  # Create target directory if it doesn't exist
+  if [ ! -d "$target_dir" ]; then
+    mkdir -p "$target_dir"
+    echo "Created directory: $target_dir"
+  fi
+  
+  # Copy the file
+  cp "$source" "$target"
+  
+  if [ $? -eq 0 ]; then
+    echo "Successfully moved file: $source -> $target"
+    return 0
+  else
+    echo "Error moving file"
+    return 1
+  fi
+}
+
+function extract_slug {
+  file=$1
+  
+  if [ ! -f "$file" ]; then
+    echo "Error: File '$file' not found" >&2
+    exit 1
+  fi
+  
+  # Extract the slug from frontmatter
+  raw_slug=$(sed -n '/^---$/,/^---$/p' "$file" | grep -E '^slug:' | sed -E 's/slug:\s*['\''"]?([^'\''"]*)['\''"]?.*/\1/')
+  
+  # Trim whitespace
+  slug=$(echo "$raw_slug" | xargs)
+  
+  if [ -z "$slug" ]; then
+    # Generate slug from filename
+    filename=$(basename "$file" .mdx)
+    slug=$(echo "$filename" | sed 's/\.mdx$//' | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9]/-/g')
+    echo "No slug found in file. Generated slug from filename: $slug" >&2
+  fi
+  
+  # Just output the slug value with no other text
+  echo "$slug"
+  return 0
+}
+
+function remove_slug {
+  file=$1
+  
+  if [ ! -f "$file" ]; then
+    echo "Error: File '$file' not found"
+    exit 1
+  fi
+  
+  # Check if file has a slug
+  if ! grep -q -E '^slug:' "$file"; then
+    echo "No slug found in file"
+    return 0
+  fi
+  
+  # Create a temporary file
+  temp_file=$(mktemp)
+  
+  # Remove the slug line
+  sed '/^slug:/d' "$file" > "$temp_file"
+  
+  # Check if temp file is valid
+  if [ ! -s "$temp_file" ]; then
+    echo "Error: Generated file is empty after removing slug."
+    rm -f "$temp_file"
+    return 1
+  fi
+  
+  # Copy the temporary file back to the original
+  cp "$temp_file" "$file"
+  rm -f "$temp_file"
+  
+  echo "Successfully removed slug from file"
+  return 0
+}
+
+function add_slug_to_yaml {
+  file_path=$1
+  slug_value=$2
+  
+  if [ -z "$file_path" ] || [ -z "$slug_value" ]; then
+    echo "Error: Both file path and slug value are required"
+    exit 1
+  fi
+  
+  # Check if docs.yml exists and is not empty
+  if [ ! -f "./fern/docs.yml" ] || [ ! -s "./fern/docs.yml" ]; then
+    echo "Error: ./fern/docs.yml not found or is empty"
+    echo "Use 'restore-backup' command to restore from a backup if available"
+    exit 1
+  fi
+  
+  # Create a working backup
+  cp "./fern/docs.yml" "./fern/docs.yml.working_slug"
+  
+  # Get the relative file path without ./fern/ prefix if it exists
+  relative_path=$file_path
+  if [[ $file_path == ./fern/* ]]; then
+    relative_path=${file_path:7}  # Remove ./fern/ prefix
+  elif [[ $file_path == fern/* ]]; then
+    relative_path=${file_path:5}  # Remove fern/ prefix
+  elif [[ $file_path == ./* ]]; then
+    relative_path=${file_path:2}  # Remove ./ prefix
+  fi
+  
+  # Check if the file path already exists in docs.yml
+  if ! grep -q "$relative_path" "./fern/docs.yml"; then
+    echo "Error: File path not found in docs.yml. Adding entry manually."
+    # Extract section from path
+    section=$(echo "$relative_path" | grep -o -E "pages/[^/]+" | cut -d/ -f2)
+    if [ -z "$section" ]; then
+      echo "Could not determine section from file path"
+      echo "A backup was created at: ./fern/docs.yml.working_slug"
+      exit 1
+    fi
+    
+    # Get the filename without extension
+    filename=$(basename "$file_path" .mdx)
+    
+    # For now, just report that we would add the entry
+    echo "Would add path: $relative_path with slug: $slug_value to section: $section"
+    
+    # TODO: Implement logic to add the entry to the YAML
+    # For now, we'll just handle the slug update if path exists
+    return 0
+  fi
+  
+  # Find the line number with the path
+  line_num=$(grep -n "$relative_path" "./fern/docs.yml" | cut -d: -f1)
+  if [ -n "$line_num" ]; then
+    # Get the absolute path for this file using our path builder
+    full_path=$(build_url_path_from_yaml "$file_path" "$slug_value")
+    if [ $? -ne 0 ] || [ -z "$full_path" ]; then
+      echo "Warning: Could not determine full URL path. Using simple path format."
+      # Extract section from path as a fallback
+      section=$(echo "$relative_path" | grep -o -E "pages/[^/]+" | cut -d/ -f2)
+      if [ -z "$section" ]; then
+        section="pages"
+      fi
+      full_path="/$section/$slug_value"
+    fi
+    
+    # Now we have the full path, let's update the YAML
+    indent=$(sed -n "${line_num}p" "./fern/docs.yml" 2>/dev/null | grep -o '^ *' || echo "  ")
+    slug_line="${indent}slug: $slug_value # $full_path"
+    
+    # Create a temporary file
+    temp_file=$(mktemp)
+    
+    # Check if there's already a slug line
+    next_line=$((line_num + 1))
+    next_line_content=$(sed -n "${next_line}p" "./fern/docs.yml" 2>/dev/null)
+    if [[ "$next_line_content" =~ slug: ]]; then
+      # Replace existing slug - strip out comments first
+      sed -i '' "${next_line}s|slug:[^#]*.*|slug: $slug_value # $full_path|" "./fern/docs.yml"
+      cat "./fern/docs.yml" > "$temp_file"
+    else
+      # We need to insert a new slug line after the path line
+      # but before any other properties
+      
+      # Add content up to and including the path line
+      head -n $line_num "./fern/docs.yml" > "$temp_file"
+      
+      # Add the slug line
+      echo "$slug_line" >> "$temp_file"
+      
+      # Add the rest of the file
+      tail -n +$((line_num + 1)) "./fern/docs.yml" >> "$temp_file"
+      
+      # Replace original file
+      cp "$temp_file" "./fern/docs.yml"
+    fi
+    
+    # Check if the temp file is valid
+    if [ ! -s "$temp_file" ]; then
+      echo "Error: Generated file is empty."
+      echo "A backup was created at: ./fern/docs.yml.working_slug"
+      rm -f "$temp_file"
+      exit 1
+    fi
+    
+    # Replace original file if needed (already done for some paths)
+    if ! diff -q "$temp_file" "./fern/docs.yml" > /dev/null 2>&1; then
+      cp "$temp_file" "./fern/docs.yml"
+    fi
+    rm -f "$temp_file"
+    
+    echo "Updated slug in docs.yml for '$file_path'"
+    rm -f "./fern/docs.yml.working_slug"
+    return 0
+  else
+    echo "Error: Could not find line with path in docs.yml"
+    echo "A backup was created at: ./fern/docs.yml.working_slug"
+    exit 1
+  fi
+}
+
+function add_redirect {
+  old_path=$1
+  new_path=$2
+  
+  if [ -z "$old_path" ] || [ -z "$new_path" ]; then
+    echo "Error: Both old path and new path are required"
+    exit 1
+  fi
+
+  # Check if docs.yml exists and is not empty
+  if [ ! -f "./fern/docs.yml" ] || [ ! -s "./fern/docs.yml" ]; then
+    echo "Error: ./fern/docs.yml not found or is empty"
+    echo "Use 'restore-backup' command to restore from a backup if available"
+    exit 1
+  fi
+  
+  # Create a working backup
+  cp "./fern/docs.yml" "./fern/docs.yml.working"
+  
+  # First, check if the redirects section exists
+  if ! grep -q "redirects:" "./fern/docs.yml"; then
+    echo "Error: Could not find 'redirects:' section in docs.yml"
+    echo "A backup was created at: ./fern/docs.yml.working"
+    exit 1
+  fi
+  
+  # Check if the source path already exists
+  if grep -q "source: $old_path" "./fern/docs.yml"; then
+    # Find the line number with the source
+    source_line=$(grep -n "source: $old_path" "./fern/docs.yml" | head -1 | cut -d: -f1)
+    
+    if [ -n "$source_line" ]; then
+      # Get the next line for destination
+      next_line=$((source_line + 1))
+      
+      # Update the destination
+      sed -i '' "${next_line}s|destination:.*|destination: $new_path|" "./fern/docs.yml"
+      
+      # Verify file is still valid
+      if [ ! -s "./fern/docs.yml" ]; then
+        echo "Error: File became empty after edit."
+        echo "A backup was created at: ./fern/docs.yml.working"
+        echo "Use 'restore-backup' command to restore."
+        exit 1
+      fi
+      
+      echo "Updated redirect from '$old_path' to '$new_path'"
+      rm -f "./fern/docs.yml.working"
+      return 0
+    fi
+  fi
+  
+  # If we get here, we need to add a new redirect
+  # Find the redirects section line number
+  redirects_line=$(grep -n "redirects:" "./fern/docs.yml" | head -1 | cut -d: -f1)
+  
+  if [ -z "$redirects_line" ]; then
+    echo "Error: Could not find redirects section in docs.yml"
+    echo "A backup was created at: ./fern/docs.yml.working"
+    echo "Use 'restore-backup' command to restore."
+    exit 1
+  fi
+  
+  # Create a temporary file for safer operation
+  temp_file=$(mktemp)
+  
+  # Split the file to safely add our new redirect
+  head -n $redirects_line "./fern/docs.yml" > "$temp_file"
+  
+  # Add redirects header and our new redirect with proper indentation
+  echo "redirects:" >> "$temp_file"
+  echo "  - source: $old_path" >> "$temp_file"
+  echo "    destination: $new_path" >> "$temp_file"
+  
+  # Add any existing redirects with proper formatting
+  paste -d'|' <(grep "source:" "./fern/docs.yml") <(grep "destination:" "./fern/docs.yml") | \
+    while IFS='|' read -r src dest; do
+      # Extract the path values from src and dest
+      src_path=$(echo "$src" | sed -E 's/.*source:[[:space:]]*([^[:space:]]*).*/\1/')
+      dest_path=$(echo "$dest" | sed -E 's/.*destination:[[:space:]]*([^[:space:]]*).*/\1/')
+      
+      # Skip the one we just added
+      if [ "$src_path" != "$old_path" ]; then
+        echo "  - source: $src_path" >> "$temp_file"
+        echo "    destination: $dest_path" >> "$temp_file"
+      fi
+    done
+  
+  # Find any content after the redirects section
+  end_pattern="^[^[:space:]#]"
+  end_line=$(tail -n +$((redirects_line + 1)) "./fern/docs.yml" | grep -n "$end_pattern" | head -1 | cut -d: -f1)
+  
+  if [ -n "$end_line" ]; then
+    end_line=$((redirects_line + end_line))
+    tail -n +$((end_line)) "./fern/docs.yml" >> "$temp_file"
+  fi
+  
+  # Verify temp file is not empty
+  if [ ! -s "$temp_file" ]; then
+    echo "Error: Generated file is empty."
+    echo "A backup was created at: ./fern/docs.yml.working"
+    echo "Use 'restore-backup' command to restore."
+    rm -f "$temp_file"
+    exit 1
+  fi
+  
+  # Replace original file with our new version
+  mv "$temp_file" "./fern/docs.yml"
+  
+  # Verify the file is still valid
+  if [ ! -s "./fern/docs.yml" ]; then
+    echo "Error: File became empty after edit."
+    echo "A backup was created at: ./fern/docs.yml.working"
+    echo "Use 'restore-backup' command to restore."
+    exit 1
+  fi
+  
+  echo "Added new redirect from '$old_path' to '$new_path'"
+  rm -f "./fern/docs.yml.working"
+  return 0
+}
+
+function list_backups {
+  echo "Available backups for docs.yml:"
+  backup_files=$(ls -lt ./fern/docs.yml.* 2>/dev/null)
+  
+  if [ -z "$backup_files" ]; then
+    echo "No backups found"
+    return 1
+  fi
+  
+  echo "$backup_files"
+  return 0
+}
+
+function restore_backup {
+  backup_file=$1
+  
+  # If no specific backup provided, find the latest one
+  if [ -z "$backup_file" ]; then
+    backup_file=$(ls -t ./fern/docs.yml.backup_* 2>/dev/null | head -1)
+    
+    if [ -z "$backup_file" ]; then
+      echo "No automatic backups found. Checking for working backups..."
+      backup_file=$(ls -t ./fern/docs.yml.working 2>/dev/null | head -1)
+      
+      if [ -z "$backup_file" ]; then
+        echo "No backups found. Cannot restore."
+        return 1
+      fi
+    fi
+  fi
+  
+  # Check if the backup exists and is not empty
+  if [ ! -f "$backup_file" ] || [ ! -s "$backup_file" ]; then
+    echo "Error: Backup file '$backup_file' not found or is empty"
+    return 1
+  fi
+  
+  # Create a backup of the current file, just in case
+  if [ -f "./fern/docs.yml" ]; then
+    timestamp=$(date +"%Y%m%d_%H%M%S")
+    cp "./fern/docs.yml" "./fern/docs.yml.pre_restore_${timestamp}"
+    echo "Created pre-restore backup: ./fern/docs.yml.pre_restore_${timestamp}"
+  fi
+  
+  # Restore the backup
+  cp "$backup_file" "./fern/docs.yml"
+  
+  if [ $? -eq 0 ]; then
+    echo "Successfully restored from backup: $backup_file"
+    return 0
+  else
+    echo "Error restoring from backup"
+    return 1
+  fi
+}
+
+function sort_redirects_by_destination {
+  echo "Starting redirect sorting..."
+  
+  # Check if docs.yml exists and is not empty
+  if [ ! -f "./fern/docs.yml" ] || [ ! -s "./fern/docs.yml" ]; then
+    echo "Error: ./fern/docs.yml not found or is empty"
+    echo "Use 'restore-backup' command to restore from a backup if available"
+    exit 1
+  fi
+  
+  # Create a working backup
+  cp "./fern/docs.yml" "./fern/docs.yml.working"
+  echo "Created backup at ./fern/docs.yml.working"
+  
+  # Check if file contains redirects section
+  if ! grep -q "^redirects:" "./fern/docs.yml"; then
+    echo "Error: Could not find 'redirects:' section in docs.yml"
+    echo "A backup was created at: ./fern/docs.yml.working"
+    exit 1
+  fi
+  
+  # Create temporary directory and files
+  temp_dir=$(mktemp -d)
+  before_redirects_file="$temp_dir/before.yml"
+  redirects_file="$temp_dir/redirects.txt"
+  sorted_redirects_file="$temp_dir/sorted.yml"
+  after_redirects_file="$temp_dir/after.yml"
+  new_file="$temp_dir/new.yml"
+  
+  # Find the line number of the redirects section
+  redirects_line=$(grep -n "^redirects:" "./fern/docs.yml" | head -1 | cut -d: -f1)
+  echo "Found redirects section at line $redirects_line"
+  
+  # Extract everything before the redirects section
+  if [ "$redirects_line" -gt 1 ]; then
+    head -n $((redirects_line - 1)) "./fern/docs.yml" > "$before_redirects_file"
+  else
+    # Create empty file if redirects is the first line
+    touch "$before_redirects_file"
+  fi
+  
+  # Extract all source/destination pairs
+  source_lines=$(grep -n "source:" "./fern/docs.yml" | cut -d: -f1)
+  if [ -z "$source_lines" ]; then
+    echo "No redirects found in file."
+    rm -rf "$temp_dir"
+    exit 1
+  fi
+  
+  # Find the line where the redirects section ends - either the next main section or EOF
+  last_source_line=$(echo "$source_lines" | tail -1)
+  next_dest_line=$((last_source_line + 1))
+  last_dest_line=$(grep -n "destination:" "./fern/docs.yml" | tail -1 | cut -d: -f1)
+  
+  # Find if there's any content after the redirects section
+  if [ -n "$(sed -n "$((last_dest_line + 1)),\$p" "./fern/docs.yml")" ]; then
+    # Look for the next main section (line that isn't indented)
+    end_line=$(tail -n +$((last_dest_line + 1)) "./fern/docs.yml" | grep -n "^[^ ]" | head -1 | cut -d: -f1)
+    if [ -n "$end_line" ]; then
+      end_line=$((last_dest_line + end_line))
+      tail -n +$end_line "./fern/docs.yml" > "$after_redirects_file"
+    fi
+  fi
+  
+  # Extract redirects and sort them
+  echo "redirects:" > "$sorted_redirects_file"
+  
+  # Create a file with all source/destination pairs
+  paste -d '|' <(grep "source:" "./fern/docs.yml") <(grep "destination:" "./fern/docs.yml") | \
+    sort -t':' -k3 | \
+    while IFS='|' read -r src dest; do
+      # Extract the actual paths
+      src_path=$(echo "$src" | sed -E 's/.*source:[[:space:]]*([^[:space:]]*).*/\1/')
+      dest_path=$(echo "$dest" | sed -E 's/.*destination:[[:space:]]*([^[:space:]]*).*/\1/')
+      
+      # Write with proper indentation
+      echo "  - source: $src_path" >> "$sorted_redirects_file"
+      echo "    destination: $dest_path" >> "$sorted_redirects_file"
+    done
+  
+  # Combine the parts into a new file
+  cat "$before_redirects_file" > "$new_file"
+  cat "$sorted_redirects_file" >> "$new_file" 
+  if [ -s "$after_redirects_file" ]; then
+    cat "$after_redirects_file" >> "$new_file"
+  fi
+  
+  # Verify new file is not empty
+  if [ ! -s "$new_file" ]; then
+    echo "Error: Generated file is empty."
+    echo "A backup was created at: ./fern/docs.yml.working"
+    echo "Use 'restore-backup' command to restore."
+    rm -rf "$temp_dir"
+    exit 1
+  fi
+  
+  # Replace original file
+  cp "$new_file" "./fern/docs.yml"
+  
+  # Clean up
+  rm -rf "$temp_dir"
+  
+  echo "Successfully sorted redirects by destination with proper formatting"
+  return 0
+}
+
+function build_url_path_from_yaml {
+  file_path=$1
+  slug=$2
+  
+  # Get the relative file path for matching
+  relative_path=$file_path
+  if [[ $file_path == ./fern/* ]]; then
+    relative_path=${file_path:7}  # Remove ./fern/ prefix
+  elif [[ $file_path == fern/* ]]; then
+    relative_path=${file_path:5}  # Remove fern/ prefix
+  elif [[ $file_path == ./* ]]; then
+    relative_path=${file_path:2}  # Remove ./ prefix
+  fi
+  
+  # Extract filename for more reliable matching if path matching fails
+  filename=$(basename "$file_path")
+  
+  # Find the line where this file is defined in the YAML
+  file_line=$(grep -n "$relative_path" "./fern/docs.yml" | head -1 | cut -d: -f1)
+  if [ -z "$file_line" ]; then
+    # Try with just the filename
+    file_line=$(grep -n "$filename" "./fern/docs.yml" | head -1 | cut -d: -f1)
+    if [ -z "$file_line" ]; then
+      echo "Error: Could not find file in YAML structure"
+      return 1
+    fi
+  fi
+  
+  # Get the file's indentation level
+  file_indent=$(sed -n "${file_line}p" "./fern/docs.yml" | grep -o "^[ ]*" | wc -c)
+  
+  # Working backwards, construct the hierarchy of sections
+  path_components=()
+  current_line=$file_line
+  current_indent=$file_indent
+  prev_indent=$file_indent
+  
+  # Direct approach: start with the section that contains this file and work up
+  while [ $current_line -gt 1 ]; do
+    current_line=$((current_line - 1))
+    line_content=$(sed -n "${current_line}p" "./fern/docs.yml")
+    
+    # Skip empty lines
+    if [ -z "$line_content" ]; then
+      continue
+    fi
+    
+    indent=$(echo "$line_content" | grep -o "^[ ]*" | wc -c)
+    
+    # Only consider lines with lower indentation (parent elements)
+    if [ $indent -lt $current_indent ]; then
+      # Check if this is a section or tab definition
+      if [[ "$line_content" =~ section: ]] || [[ "$line_content" =~ tab: ]]; then
+        # Found a parent section - get its slug
+        slug_line=$((current_line + 1))
+        slug_content=$(sed -n "${slug_line}p" "./fern/docs.yml")
+        
+        # Check for skip-slug directive
+        if [[ "$slug_content" =~ skip-slug:\ true ]]; then
+          # Skip this section in the path
+          current_indent=$indent
+          continue
+        fi
+        
+        # Extract the slug value
+        section_slug=$(echo "$slug_content" | grep -o -E "slug: *[a-zA-Z0-9_-]+" | cut -d: -f2 | tr -d ' ')
+        
+        if [ -n "$section_slug" ]; then
+          # Add this slug to our path components (at the beginning since we're working backwards)
+          path_components=("$section_slug" "${path_components[@]}")
+        fi
+        
+        # Update current indentation to continue looking for parent sections
+        current_indent=$indent
+      fi
+      
+      # If we reach the tab definitions section, stop traversing
+      if [[ "$line_content" =~ ^tabs: ]]; then
+        break
+      fi
+      
+      # If we've reached a navigation line, we're done
+      if [[ "$line_content" =~ ^navigation: ]]; then
+        break
+      fi
+    fi
+  done
+  
+  # Build the path from components
+  full_path=""
+  for component in "${path_components[@]}"; do
+    if [ -n "$component" ]; then
+      full_path="$full_path/$component"
+    fi
+  done
+  
+  # Add the page's slug at the end
+  full_path="$full_path/$slug"
+  
+  # Return the result
+  echo "$full_path"
+  return 0
+}
+
+function update_page_status() {
+  local status=$1
+  local temp_file=$(mktemp)
+  
+  # Get the current page line
+  local page_content=$(sed -n "${page_line}p" "./fern/docs.yml")
+  
+  # Check if there's already a comment
+  if [[ "$page_content" == *"#"* ]]; then
+    # Extract the page name part and the comment part
+    local page_part=$(echo "$page_content" | sed -E 's/(.*page:[^#]*)#.*/\1/')
+    
+    # Check which status indicators are already present
+    if [[ "$page_content" == *"Moved ✅"* ]]; then
+      # Has Moved but not this status
+      if [[ "$status" == "Slug ✅" && "$page_content" != *"$status"* ]]; then
+        sed -i '' "${page_line}s|#.*|# Moved ✅ Slug ✅|" "./fern/docs.yml" 
+        cat "./fern/docs.yml" > "$temp_file"
+      elif [[ "$status" == "Redirected ✅" && "$page_content" != *"$status"* ]]; then
+        sed -i '' "${page_line}s|#.*|# Moved ✅ Slug ✅ Redirected ✅|" "./fern/docs.yml"
+        cat "./fern/docs.yml" > "$temp_file"
+      else
+        # Copy unchanged
+        cp "./fern/docs.yml" "$temp_file"
+      fi
+    else
+      # No status yet, add the first one
+      sed -i '' "${page_line}s|.*|${page_part}# ${status}|" "./fern/docs.yml"
+      cat "./fern/docs.yml" > "$temp_file"
+    fi
+  else
+    # No comment exists, add new comment with status
+    sed -i '' "${page_line}s|.*|${page_content}  # ${status}|" "./fern/docs.yml"
+    cat "./fern/docs.yml" > "$temp_file"
+  fi
+  
+  # Check if the temp file is valid
+  if [ ! -s "$temp_file" ]; then
+    echo "Error: Generated file is empty after updating status."
+    rm -f "$temp_file"
+    return 1
+  fi
+  
+  # Replace original file (already done with sed -i)
+  rm -f "$temp_file"
+  return 0
+}
+
+function migrate_file {
+  source_file=$1
+  
+  if [ ! -f "$source_file" ]; then
+    echo "Error: Source file '$source_file' not found"
+    exit 1
+  fi
+  
+  echo "Starting migration for: $source_file"
+  
+  # Make sure docs.yml exists before proceeding
+  if [ ! -f "./fern/docs.yml" ] || [ ! -s "./fern/docs.yml" ]; then
+    echo "Error: ./fern/docs.yml not found or is empty"
+    echo "Use 'restore-backup' command to restore from a backup if available"
+    exit 1
+  fi
+  
+  # Create a working backup of docs.yml
+  cp "./fern/docs.yml" "./fern/docs.yml.working_migrate"
+  
+  # Extract basename and determine if this is an MDX file
+  filename=$(basename "$source_file")
+  if [[ ! $filename == *.mdx ]]; then
+    echo "Warning: File doesn't have .mdx extension. Make sure this is the correct file type."
+  fi
+  
+  # Generate the slug from filename - this will be our main slug for the YAML
+  name_no_ext=$(basename "$source_file" .mdx)
+  yaml_slug=$(echo "$name_no_ext" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9]/-/g')
+  echo "Generated slug from filename: $yaml_slug"
+  
+  # Also extract slug from file frontmatter (only used for finding old redirects)
+  file_slug=$(extract_slug "$source_file")
+  
+  # Ensure file_slug is not just whitespace
+  if [ -n "$file_slug" ] && [ "$file_slug" != "$yaml_slug" ] && [[ "$file_slug" =~ [a-zA-Z0-9] ]]; then
+    echo "Found slug in file frontmatter: '$file_slug' (will be used only for redirects)"
+    should_add_redirect=true
+  else
+    echo "No valid unique slug found in file frontmatter. Will skip adding redirects."
+    should_add_redirect=false
+  fi
+  
+  # Determine the correct target path - files should be in pages directory
+  # Extract the path components
+  
+  # Special handling for files still in fern/docs directory
+  if [[ $source_file == *fern/docs/* ]]; then
+    # Handle files still in the docs directory
+    target_file="./fern/pages/docs/$filename"
+    section="docs"
+  elif [[ $source_file == *guides/* || $source_file == *pages/guides/* ]]; then
+    # Extract the guide type (deep-dives, use-cases, etc.) and the filename
+    if [[ $source_file == *deep-dives/* ]]; then
+      guide_type="deep-dives"
+    elif [[ $source_file == *use-cases/* ]]; then
+      guide_type="use-cases"
+    elif [[ $source_file == *fundamentals/* ]]; then
+      guide_type="fundamentals"
+    elif [[ $source_file == *integrations/* ]]; then
+      guide_type="integrations"
+    else
+      # Extract guide type from path
+      guide_type=$(echo "$source_file" | grep -o -E "guides/[^/]+" | cut -d/ -f2)
+      if [ -z "$guide_type" ]; then
+        echo "Could not determine guide type from path. Using 'pages' as default."
+        guide_type="pages"
+      fi
+    fi
+    
+    # Construct the correct target path
+    target_file="./fern/pages/guides/${guide_type}/${filename}"
+  else
+    # For non-guide files, determine their section from the path or default to pages
+    section=$(echo "$source_file" | grep -o -E "/pages/[^/]+" | cut -d/ -f2)
+    if [ -z "$section" ]; then
+      # If no section found, try to extract it from the path
+      section=$(echo "$source_file" | grep -o -E "/[^/]+/[^/]+\.mdx" | cut -d/ -f2)
+      if [ -z "$section" ]; then
+        section="pages"
+      fi
+    fi
+    
+    # Construct the target path
+    target_file="./fern/pages/${section}/${filename}"
+  fi
+  
+  echo "Target file: $target_file"
+  
+  # Step 2: Check if the file is already in the right place
+  source_real=$(realpath "$source_file" 2>/dev/null || echo "$source_file")
+  target_real=$(realpath "$target_file" 2>/dev/null || echo "$target_file")
+  
+  if [ "$source_real" = "$target_real" ] || [ "$source_file" = "$target_file" ]; then
+    echo "File is already in the correct location. Skipping move step."
+  else
+    # Create target directory if needed - ALWAYS do this before trying to move or operate on the target
+    target_dir=$(dirname "$target_file")
+    if [ ! -d "$target_dir" ]; then
+      mkdir -p "$target_dir"
+      echo "Created directory structure: $target_dir"
+    fi
+    
+    # Now move the file
+    mv "$source_file" "$target_file"
+    if [ $? -ne 0 ]; then
+      # Try copy then remove if move fails
+      cp "$source_file" "$target_file"
+      if [ $? -eq 0 ]; then
+        rm "$source_file"
+        echo "File moved to correct location ✅"
+      else 
+        echo "Error: Failed to move file"
+        echo "A backup of docs.yml was created at: ./fern/docs.yml.working_migrate"
+        exit 1
+      fi
+    else
+      echo "File moved to correct location ✅"
+    fi
+  fi
+  
+  # Find the page entry in docs.yml to update status comments
+  relative_path=${target_file#./fern/}
+  file_line=$(grep -n "$relative_path" "./fern/docs.yml" | head -1 | cut -d: -f1)
+  
+  # For files coming from fern/docs, we may need to manually add the entry to docs.yml
+  # as they might not exist in the YAML structure yet
+  if [ -z "$file_line" ]; then
+    echo "File path not found in docs.yml. Will not update status comments."
+    page_line=""
+  else
+    page_line=$((file_line - 1))
+  fi
+  
+  # Update status to Moved only if we found the page
+  if [ -n "$page_line" ]; then
+    update_page_status "Moved ✅"
+    if [ $? -ne 0 ]; then
+      echo "Warning: Failed to update page status for 'Moved'"
+    fi
+  fi
+  
+  # Step 4: Build full path for the comment
+  full_path=$(build_url_path_from_yaml "$target_file" "$yaml_slug")
+  if [ $? -ne 0 ] || [ -z "$full_path" ]; then
+    # Fallback to simple path construction if YAML traversal fails
+    if [[ $target_file == *pages/guides/* ]]; then
+      guide_type=$(echo "$target_file" | grep -o -E "guides/[^/]+" | cut -d/ -f2)
+      full_path="/guides/$guide_type/$yaml_slug"
+    else
+      section=$(echo "$target_file" | grep -o -E "pages/[^/]+" | cut -d/ -f2)
+      if [ -z "$section" ]; then
+        section="docs" # Default to docs for items from fern/docs
+      fi
+      full_path="/$section/$yaml_slug"
+    fi
+    echo "Warning: Could not build path from YAML hierarchy. Using simple path construction: $full_path"
+  fi
+  
+  # Update slug in YAML
+  add_slug_to_yaml "$target_file" "$yaml_slug"
+  if [ $? -ne 0 ]; then
+    echo "Error: Failed to add slug to YAML"
+    echo "A backup of docs.yml was created at: ./fern/docs.yml.working_migrate"
+    if [ "$source_file" != "$target_file" ]; then
+      echo "The file was moved to: $target_file"
+    fi
+    exit 1
+  fi
+  echo "Slug added to YAML ✅"
+  
+  # Update status to Slug if we found the page
+  if [ -n "$page_line" ]; then
+    update_page_status "Slug ✅"
+    if [ $? -ne 0 ]; then
+      echo "Warning: Failed to update page status for 'Slug'"
+    fi
+  fi
+  
+  # Step 5: Remove slug from frontmatter
+  remove_slug "$target_file"
+  echo "Slug removed from frontmatter ✅"
+
+  # Step 6 & 7: Add redirects only if we have a valid slug from the file's frontmatter
+  if [ "$should_add_redirect" = true ]; then
+    # Use the previously built full_path
+    new_path="$full_path"
+    
+    # Create old path - always /docs/<slug> using the frontmatter slug
+    old_path="/docs/$file_slug"
+    
+    echo "Creating redirect from '$old_path' to '$new_path'"
+    
+    # Add redirect
+    add_redirect "$old_path" "$new_path"
+    if [ $? -ne 0 ]; then
+      echo "Error: Failed to add redirect"
+      echo "A backup of docs.yml was created at: ./fern/docs.yml.working_migrate"
+      if [ "$source_file" != "$target_file" ]; then
+        echo "The file was moved to: $target_file"
+      fi
+      echo "The slug was added to docs.yml"
+      exit 1
+    fi
+    echo "Redirect added ✅"
+    
+    # Update status to Redirected if we found the page
+    if [ -n "$page_line" ]; then
+      update_page_status "Redirected ✅"
+      if [ $? -ne 0 ]; then
+        echo "Warning: Failed to update page status for 'Redirected'"
+      fi
+    fi
+  else
+    echo "Skipping redirect creation as no valid slug was found in the file frontmatter."
+    
+    # Update status to Redirected anyway since we're skipping it intentionally
+    if [ -n "$page_line" ]; then
+      update_page_status "Redirected ✅"
+      if [ $? -ne 0 ]; then
+        echo "Warning: Failed to update page status for 'Redirected'"
+      fi
+    fi
+  fi
+  
+  # Clean up working backup if everything succeeded
+  rm -f "./fern/docs.yml.working_migrate"
+  
+  echo "Migration completed for: $source_file"
+  echo "Moved: " $([ "$source_file" = "$target_file" ] && echo "Already in correct location ✅" || echo "✅")
+  echo "Slug: ✅ Redirected: " $([ "$should_add_redirect" = true ] && echo "✅" || echo "Skipped (no original slug found)")
+  echo ""
+  if [ "$should_add_redirect" = true ]; then
+    echo "Verify with:"
+    echo "curl -I http://localhost:3002$new_path"
+    echo "curl -I http://localhost:3002$old_path"
+  fi
+  
+  return 0
+}
+
+function migrate_all_files {
+  source_dir=$1
+  
+  if [ -z "$source_dir" ]; then
+    echo "Error: Source directory is required"
+    return 1
+  fi
+  
+  if [ ! -d "$source_dir" ]; then
+    echo "Error: Source directory '$source_dir' not found"
+    return 1
+  fi
+  
+  echo "Starting migration for all files in: $source_dir"
+  
+  # Find all .mdx files in the source directory
+  find "$source_dir" -type f -name "*.mdx" | while read -r file; do
+    migrate_file "$file"
+  done
+  
+  echo "All files migrated successfully"
+  return 0
+}
+
+function remove_duplicate_redirects {
+  echo "Starting redirect de-duplication..."
+  
+  # Check if docs.yml exists and is not empty
+  if [ ! -f "./fern/docs.yml" ] || [ ! -s "./fern/docs.yml" ]; then
+    echo "Error: ./fern/docs.yml not found or is empty"
+    echo "Use 'restore-backup' command to restore from a backup if available"
+    exit 1
+  fi
+  
+  # Create a working backup
+  timestamp=$(date +"%Y%m%d_%H%M%S")
+  backup_file="./fern/docs.yml.backup_${timestamp}"
+  cp "./fern/docs.yml" "$backup_file"
+  echo "Created backup at $backup_file"
+  
+  # Check if file contains redirects section
+  if ! grep -q "^redirects:" "./fern/docs.yml"; then
+    echo "Error: Could not find 'redirects:' section in docs.yml"
+    exit 1
+  fi
+  
+  # Find the line number of the redirects section
+  redirects_line=$(grep -n "^redirects:" "./fern/docs.yml" | head -1 | cut -d: -f1)
+  echo "Found redirects section at line $redirects_line"
+  
+  # Create temporary directory and files
+  temp_dir=$(mktemp -d)
+  before_redirects_file="$temp_dir/before.yml"
+  after_redirects_file="$temp_dir/after.yml"
+  unique_redirects_file="$temp_dir/unique_redirects.yml"
+  new_file="$temp_dir/new.yml"
+  
+  # Extract everything before the redirects section
+  if [ "$redirects_line" -gt 1 ]; then
+    head -n $((redirects_line - 1)) "./fern/docs.yml" > "$before_redirects_file"
+  else
+    # Create empty file if redirects is the first line
+    touch "$before_redirects_file"
+  fi
+  
+  # Extract all redirect pairs
+  # First find the line numbers of all source: lines
+  source_lines=$(grep -n "source:" "./fern/docs.yml" | cut -d: -f1)
+  if [ -z "$source_lines" ]; then
+    echo "No redirects found in file."
+    rm -rf "$temp_dir"
+    exit 1
+  fi
+  
+  # Find the last redirect line to determine where redirects section ends
+  last_dest_line=$(grep -n "destination:" "./fern/docs.yml" | tail -1 | cut -d: -f1)
+  
+  # Find if there's any content after the redirects section
+  next_section_line=""
+  if [ -n "$(sed -n "$((last_dest_line + 1)),\$p" "./fern/docs.yml")" ]; then
+    # Look for the next main section (line that isn't indented)
+    next_section_match=$(tail -n +$((last_dest_line + 1)) "./fern/docs.yml" | grep -n "^[^ ]" | head -1)
+    if [ -n "$next_section_match" ]; then
+      next_section_offset=$(echo "$next_section_match" | cut -d: -f1)
+      next_section_line=$((last_dest_line + next_section_offset))
+      # Save everything after the redirects section
+      tail -n +$next_section_line "./fern/docs.yml" > "$after_redirects_file"
+    fi
+  fi
+  
+  # Start the unique redirects file
+  echo "redirects:" > "$unique_redirects_file"
+  
+  # Create a temporary file to track which redirects we've seen
+  seen_redirects_file="$temp_dir/seen_redirects.txt"
+  touch "$seen_redirects_file"
+  
+  # Get the indent level for redirect entries
+  indent=$(grep "source:" "./fern/docs.yml" | head -1 | grep -o "^[ ]*")
+  
+  # Process redirect pairs and de-duplicate
+  redirect_count=0
+  duplicate_count=0
+  
+  # Read all source and destination pairs
+  paste -d '|' <(grep "source:" "./fern/docs.yml") <(grep "destination:" "./fern/docs.yml") | while read -r line; do
+    # Extract source and destination
+    src=$(echo "$line" | sed -E 's/.*source:[[:space:]]*([^|]*)\|.*/\1/' | xargs)
+    dest=$(echo "$line" | sed -E 's/.*\|.*destination:[[:space:]]*([^[:space:]]*).*/\1/' | xargs)
+    
+    # Create a key combining source and destination
+    combo="$src|$dest"
+    
+    # Check if we've seen this combination before
+    if ! grep -q "^$combo$" "$seen_redirects_file"; then
+      # If not seen before, add it to our tracking file
+      echo "$combo" >> "$seen_redirects_file"
+      
+      # Add it to our unique redirects file
+      echo "${indent}- source: $src" >> "$unique_redirects_file"
+      echo "${indent}  destination: $dest" >> "$unique_redirects_file"
+      
+      redirect_count=$((redirect_count + 1))
+    else
+      duplicate_count=$((duplicate_count + 1))
+    fi
+  done
+  
+  # Combine the parts into a new file
+  cat "$before_redirects_file" > "$new_file"
+  cat "$unique_redirects_file" >> "$new_file"
+  if [ -s "$after_redirects_file" ]; then
+    cat "$after_redirects_file" >> "$new_file"
+  fi
+  
+  # Verify new file is not empty
+  if [ ! -s "$new_file" ]; then
+    echo "Error: Generated file is empty."
+    echo "A backup was created at: $backup_file"
+    echo "Use 'restore-backup' command to restore."
+    rm -rf "$temp_dir"
+    exit 1
+  fi
+  
+  # Count the total redirects in original and new file
+  original_count=$(grep -c "source:" "./fern/docs.yml")
+  new_count=$(grep -c "source:" "$new_file")
+  
+  # Replace original file
+  cp "$new_file" "./fern/docs.yml"
+  
+  # Clean up
+  rm -rf "$temp_dir"
+  
+  echo "De-duplication complete!"
+  echo "Original redirect count: $original_count"
+  echo "New redirect count: $new_count"
+  echo "Removed $duplicate_count duplicate redirects"
+  echo "A backup of the original file was created at: $backup_file"
+  return 0
+}
+
+# Main command processing
+command=$1
+shift
+
+case $command in
+  "move-file")
+    if [ $# -ne 2 ]; then
+      echo "Error: move-file requires SOURCE and TARGET arguments"
+      show_help
+      exit 1
+    fi
+    move_file "$1" "$2"
+    ;;
+    
+  "extract-slug")
+    if [ $# -ne 1 ]; then
+      echo "Error: extract-slug requires FILE argument"
+      show_help
+      exit 1
+    fi
+    extract_slug "$1"
+    ;;
+    
+  "remove-slug")
+    if [ $# -ne 1 ]; then
+      echo "Error: remove-slug requires FILE argument"
+      show_help
+      exit 1
+    fi
+    remove_slug "$1"
+    ;;
+
+  "add-slug-to-yaml")
+    if [ $# -ne 2 ]; then
+      echo "Error: add-slug-to-yaml requires FILE and SLUG arguments"
+      show_help
+      exit 1
+    fi
+    add_slug_to_yaml "$1" "$2"
+    ;;
+
+  "add-redirect")
+    if [ $# -ne 2 ]; then
+      echo "Error: add-redirect requires OLD_PATH and NEW_PATH arguments"
+      show_help
+      exit 1
+    fi
+    add_redirect "$1" "$2"
+    ;;
+    
+  "sort-redirects")
+    sort_redirects_by_destination
+    ;;
+
+  "remove-duplicate-redirects")
+    remove_duplicate_redirects
+    ;;
+
+  "migrate-file")
+    if [ $# -ne 1 ]; then
+      echo "Error: migrate-file requires SOURCE_FILE argument"
+      show_help
+      exit 1
+    fi
+    migrate_file "$1"
+    ;;
+
+  "migrate-all")
+    if [ $# -ne 1 ]; then
+      echo "Error: migrate-all requires SOURCE_DIR argument"
+      show_help
+      exit 1
+    fi
+    migrate_all_files "$1"
+    ;;
+    
+  "list-backups")
+    list_backups
+    ;;
+    
+  "restore-backup")
+    restore_backup "$1"
+    ;;
+
+  "help"|"-h"|"--help")
+    show_help
+    ;;
+    
+  *)
+    echo "Error: Unknown command '$command'"
+    show_help
+    exit 1
+    ;;
+esac 

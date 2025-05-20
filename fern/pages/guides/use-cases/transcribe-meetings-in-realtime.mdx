@@ -1,14 +1,12 @@
 ---
 title: Transcribe Meetings in Realtime
 subtitle: >-
-  With Deepgram’s API, you can add captions to live videos or display captions
+  With Deepgram's API, you can add captions to live videos or display captions
   in real-time at conferences and events, and analyze spoken words for live
   content.
-slug: docs/transcribe-meetings-in-realtime
 ---
 
-
-Real-time meeting transcription uses advanced voice technology for speech-to-text capture of what is discussed and decided in a meeting. With Deepgram’s API, you can add captions to live videos or display captions in real-time at conferences and events, and analyze spoken words for live content.
+Real-time meeting transcription uses advanced voice technology for speech-to-text capture of what is discussed and decided in a meeting. With Deepgram's API, you can add captions to live videos or display captions in real-time at conferences and events, and analyze spoken words for live content.
 
 <Info>
   The demo code in this guide uses an older version of our Node SDK. A new version of our SDK is now available. [A migration guide is available](/docs/js-sdk-v2-to-v3-migration-guide).
@@ -16,7 +14,7 @@ Real-time meeting transcription uses advanced voice technology for speech-to-tex
 
 ## Before You Begin
 
-You will learn how to use Deepgram’s API and streaming endpoint to transcribe voice to text in real-time in a small video chat. The example provided is written in Node.js, and you can [find the code on GitHub](https://github.com/deepgram-devs/video-chat).
+You will learn how to use Deepgram's API and streaming endpoint to transcribe voice to text in real-time in a small video chat. The example provided is written in Node.js, and you can [find the code on GitHub](https://github.com/deepgram-devs/video-chat).
 
 Before you run the code, you'll need to do a few things:
 
@@ -26,7 +24,7 @@ Before you run the code, you'll need to do a few things:
 
 ### Create a Deepgram API Key
 
-To access Deepgram’s API, you'll need to [create a Deepgram API Key](/documentation/getting-started/authentication/#create-an-api-key). Make note of your API Key; you will need it later.
+To access Deepgram's API, you'll need to [create a Deepgram API Key](/documentation/getting-started/authentication/#create-an-api-key). Make note of your API Key; you will need it later.
 
 ## Getting started
 
@@ -92,7 +90,7 @@ By default, the application runs on port 3000, which means you can access it at 
 
 The application is an Express app that uses `public/js/video_chat.js` to build a two-way video call using classic WebRTC technology. It uses an intermediate server (`server.js`) to establish a peer-to-peer connection between itself and another client.
 
-Your browser records your microphone using the [opus-recorder library](https://github.com/chris-rudmin/opus-recorder), then sends the audio stream to the server. In turn, the server forwards the audio stream to Deepgram’s API, using your Deepgram API Key to authenticate with the [real-time streaming endpoint](/api-reference/transcription/#transcribe-live-streaming-audio).
+Your browser records your microphone using the [opus-recorder library](https://github.com/chris-rudmin/opus-recorder), then sends the audio stream to the server. In turn, the server forwards the audio stream to Deepgram's API, using your Deepgram API Key to authenticate with the [real-time streaming endpoint](/api-reference/transcription/#transcribe-live-streaming-audio).
 
 When the server receives the transcription back from the Deepgram API, it displays the transcription data in the browser. The key logic that connects to Deepgram and forwards any transcriptions it receives to the client application lives in the `server.js` file.
 

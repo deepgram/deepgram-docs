@@ -119,7 +119,7 @@ tabs:
     slug: self-hosted
 
 navigation:
-  # <DocsGenerator>
+
   - tab: home
     layout:
       - page: Introduction # Moved ✅ Slug ✅ Redirected ✅
@@ -214,129 +214,174 @@ navigation:
               - page: Working With Roles & API Scopes  # Moved ✅ Slug ✅ Redirected ✅
                 path: ./pages/guides/deep-dives/working-with-roles.mdx
                 slug: working-with-roles # /guides/deep-dives/working-with-roles
-              - page: Supported Audio Formats
+              - page: Supported Audio Formats # Moved ✅ Slug ✅ Redirected ✅
                 path: ./pages/guides/deep-dives/supported-audio-formats.mdx
-              - page: Deployment Options
+                slug: supported-audio-formats # /guides/deep-dives/supported-audio-formats
+              - page: Deployment Options  # Moved ✅ Slug ✅ Redirected ✅
                 path: ./pages/guides/deep-dives/deployment-options.mdx
-              - page: Creating AdditionalAPI Keys
+                slug: deployment-options # /guides/deep-dives/deployment-options
+              - page: Creating AdditionalAPI Keys # Moved ✅ Slug ✅ Redirected ✅
                 path: ./pages/guides/deep-dives/create-additional-api-keys.mdx
-              - page: Using the Sec-WebSocket-Protocol
+                slug: create-additional-api-keys # /guides/deep-dives/create-additional-api-keys
+              - page: Using the Sec-WebSocket-Protocol  # Moved ✅ Slug ✅ Redirected ✅
                 path: ./pages/guides/deep-dives/using-the-sec-websocket-protocol.mdx
-              - page: Logs & Usage Data
+                slug: using-the-sec-websocket-protocol # /guides/deep-dives/using-the-sec-websocket-protocol
+              - page: Logs & Usage Data  # Moved ✅ Slug ✅ Redirected ✅
                 path: ./pages/guides/deep-dives/using-logs-usage.mdx
-              - page: Model Improvement Program
+                slug: using-logs-usage # /guides/deep-dives/using-logs-usage
+              - page: Model Improvement Program  # Moved ✅ Slug ✅ Redirected ✅
                 path: ./pages/guides/deep-dives/the-deepgram-model-improvement-partnership-program.mdx
-              - page: Working With Concurrency Rate Limits
+                slug: the-deepgram-model-improvement-partnership-program # /guides/deep-dives/the-deepgram-model-improvement-partnership-program
+              - page: Working With Concurrency Rate Limits  # Moved ✅ Slug ✅ Redirected ✅
                 path: ./pages/guides/deep-dives/working-with-concurrency-rate-limits.mdx
+                slug: working-with-concurrency-rate-limits # /guides/deep-dives/working-with-concurrency-rate-limits
           - section: Use Cases
             slug: use-cases
             contents:
-              - page: Voice Agent with Twilio & OpenAI & Deepgram
+              - page: Voice Agent with Twilio & OpenAI & Deepgram  # Moved ✅ Slug ✅ Redirected ✅
                 path: ./pages/guides/use-cases/voice-agent-with-twilio-openai-deepgram.mdx
-              - page: Calculate Talk Time Analytics
+                slug: voice-agent-with-twilio-openai-deepgram # /guides/use-cases/voice-agent-with-twilio-openai-deepgram
+              - page: Calculate Talk Time Analytics  # Moved ✅ Slug ✅ Redirected ✅
                 path: ./pages/guides/use-cases/calculate-talk-time-analytics.mdx
-              - page: Transcribe Meetings in Realtime
+                slug: calculate-talk-time-analytics # /guides/use-cases/calculate-talk-time-analytics
+              - page: Transcribe Meetings in Realtime  # Moved ✅ Slug ✅ Redirected ✅
                 path: ./pages/guides/use-cases/transcribe-meetings-in-realtime.mdx
-              - page: Transcribe Recorded Calls With Twilio
+                slug: transcribe-meetings-in-realtime # /guides/use-cases/transcribe-meetings-in-realtime
+              - page: Transcribe Recorded Calls With Twilio  # Moved ✅ Slug ✅ Redirected ✅
                 path: ./pages/guides/use-cases/transcribe-recorded-calls-with-twilio.mdx
+                slug: transcribe-recorded-calls-with-twilio # /guides/use-cases/transcribe-recorded-calls-with-twilio
           - section: Integrations
             slug: integrations
             contents:
-              - page: Amazon Connect and Deepgram
+              - page: Amazon Connect and Deepgram  # Moved ✅ Slug ✅ Redirected ✅
                 path: ./pages/guides/integrations/amazon-connect-and-deepgram.mdx
-              - page: AWS S3 Presigned URLs and Deepgram
+                slug: amazon-connect-and-deepgram # /guides/integrations/amazon-connect-and-deepgram
+              - page: AWS S3 Presigned URLs and Deepgram  # Moved ✅ Slug ✅ Redirected ✅
                 path: ./pages/guides/integrations/aws-s3-presigned-urls-and-deepgram.mdx
-              - page: Genesys and Deepgram
+                slug: aws-s3-presigned-urls-and-deepgram # /guides/integrations/aws-s3-presigned-urls-and-deepgram
+              - page: Genesys and Deepgram  # Moved ✅ Slug ✅ Redirected ✅
                 path: ./pages/guides/integrations/genesys-and-deepgram.mdx
-              - page: Google Dialogflow CX and Deepgram
+                slug: genesys-and-deepgram # /guides/integrations/genesys-and-deepgram
+              - page: Google Dialogflow CX and Deepgram  # Moved ✅ Slug ✅ Redirected ✅
                 path: ./pages/guides/integrations/google-dialogflow-cx-and-deepgram.mdx
-              - page: Make.com and Deepgram
+                slug: google-dialogflow-cx-and-deepgram # /guides/integrations/google-dialogflow-cx-and-deepgram
+              - page: Make.com and Deepgram  # Moved ✅ Slug ✅ Redirected ✅
                 path: ./pages/guides/integrations/makecom-and-deepgram.mdx
-              - page: Twilio and Deepgram STT
+                slug: makecom-and-deepgram # /guides/integrations/makecom-and-deepgram
+              - page: Twilio and Deepgram STT  # Moved ✅ Slug ✅ Redirected ✅
                 path: ./pages/guides/integrations/twilio-and-deepgram-stt.mdx
-              - page: Twilio and Deepgram TTS
+                slug: twilio-and-deepgram-stt # /guides/integrations/twilio-and-deepgram-stt
+              - page: Twilio and Deepgram TTS  # Moved ✅ Slug ✅ Redirected ✅
                 path: ./pages/guides/integrations/twilio-and-deepgram-tts.mdx
-              - page: Twilio and Deepgram Voice Agent
+                slug: twilio-and-deepgram-tts # /guides/integrations/twilio-and-deepgram-tts
+              - page: Twilio and Deepgram Voice Agent  # Moved ✅ Slug ✅ Redirected ✅
                 path: ./pages/guides/integrations/twilio-and-deepgram-voice-agent.mdx
-              - page: Zapier and Deepgram
+                slug: twilio-and-deepgram-voice-agent # /guides/integrations/twilio-and-deepgram-voice-agent
+              - page: Zapier and Deepgram  # Moved ✅ Slug ✅ Redirected ✅
                 path: ./pages/guides/integrations/zapier-and-deepgram.mdx
-              - page: Zoom and Deepgram
+                slug: zapier-and-deepgram # /guides/integrations/zapier-and-deepgram
+              - page: Zoom and Deepgram  # Moved ✅ Slug ✅ Redirected ✅
                 path: ./pages/guides/integrations/zoom-and-deepgram.mdx
+                slug: zoom-and-deepgram # /guides/integrations/zoom-and-deepgram
           - section: Pages
             slug: pages
             hidden: true
             contents:
-              - page: Code of Conduct
+              - page: Code of Conduct  # Moved ✅ Slug ✅ Redirected ✅
                 path: ./pages/guides/pages/code-of-conduct.mdx
+                slug: code-of-conduct # /guides/pages/code-of-conduct
                 hidden: true
-              - page: Aura 2 Private Preview
+              - page: Aura 2 Private Preview  # Moved ✅ Slug ✅ Redirected ✅
                 path: ./pages/guides/pages/aura-2-preview.mdx
+                slug: aura-2-preview # /guides/pages/aura-2-preview
                 hidden: true
-              - page: Aura 2 Self-Hosted Deployment Guide
+              - page: Aura 2 Self-Hosted Deployment Guide  # Moved ✅ Slug ✅ Redirected ✅
                 path: ./pages/guides/pages/deploy-aura-2-self-hosted.mdx
+                slug: deploy-aura-2-self-hosted # /guides/pages/deploy-aura-2-self-hosted
                 hidden: true
-              - page: Amazon Elastic Container Service
+              - page: Amazon Elastic Container Service  # Moved ✅ Slug ✅ Redirected ✅
                 path: ./pages/guides/pages/aws-ecs.mdx
+                slug: aws-ecs # /guides/pages/aws-ecs
                 hidden: true
-              - page: Data Labeling Intro
+              - page: Data Labeling Intro  # Moved ✅ Slug ✅ Redirected ✅
                 path: ./pages/guides/pages/data-labeling-intro.mdx
+                slug: data-labeling-intro # /guides/pages/data-labeling-intro
                 hidden: true
-              - page: Data Labeling Best Practices
+              - page: Data Labeling Best Practices  # Moved ✅ Slug ✅ Redirected ✅
                 path: ./pages/guides/pages/data-labeling-best-practices.mdx
+                slug: data-labeling-best-practices # /guides/pages/data-labeling-best-practices
                 hidden: true
-              - page: Data Labeling Setting Up
+              - page: Data Labeling Setting Up  # Moved ✅ Slug ✅ Redirected ✅
                 path: ./pages/guides/pages/data-labeling-setting-up.mdx
+                slug: data-labeling-setting-up # /guides/pages/data-labeling-setting-up
                 hidden: true
-              - page: Data Labeling Understanding the Workflow
+              - page: Data Labeling Understanding the Workflow  # Moved ✅ Slug ✅ Redirected ✅
                 path: ./pages/guides/pages/data-labeling-understanding-the-workflow.mdx
+                slug: data-labeling-understanding-the-workflow # /guides/pages/data-labeling-understanding-the-workflow
                 hidden: true
-              - page: Data Labeling Managing Work
+              - page: Data Labeling Managing Work  # Moved ✅ Slug ✅ Redirected ✅
                 path: ./pages/guides/pages/data-labeling-managing-work.mdx
+                slug: data-labeling-managing-work # /guides/pages/data-labeling-managing-work
                 hidden: true
-              - page: Data Labeling Troubleshooting
+              - page: Data Labeling Troubleshooting  # Moved ✅ Slug ✅ Redirected ✅
                 path: ./pages/guides/pages/data-labeling-troubleshooting.mdx
+                slug: data-labeling-troubleshooting # /guides/pages/data-labeling-troubleshooting
                 hidden: true
-              - page: DG Tools Overview
+              - page: DG Tools Overview  # Moved ✅ Slug ✅ Redirected ✅
                 path: ./pages/guides/pages/dgtools-overview.mdx
+                slug: dgtools-overview # /guides/pages/dgtools-overview
                 hidden: true
-              - page: Distro Guide Ubuntu 20.04 LTS
+              - page: Distro Guide Ubuntu 20.04 LTS  # Moved ✅ Slug ✅ Redirected ✅
                 path: ./pages/guides/pages/distro-guide-ubuntu-2004-lts.mdx
+                slug: distro-guide-ubuntu-2004-lts # /guides/pages/distro-guide-ubuntu-2004-lts
                 hidden: true
-              - page: Distro Guide RHEL 8
+              - page: Distro Guide RHEL 8  # Moved ✅ Slug ✅ Redirected ✅
                 path: ./pages/guides/pages/distro-guide-rhel-8.mdx
+                slug: distro-guide-rhel-8 # /guides/pages/distro-guide-rhel-8
                 hidden: true
-              - page: Distro Guide RHEL 7
+              - page: Distro Guide RHEL 7  # Moved ✅ Slug ✅ Redirected ✅
                 path: ./pages/guides/pages/distro-guide-rhel-7.mdx
+                slug: distro-guide-rhel-7 # /guides/pages/distro-guide-rhel-7
                 hidden: true
-              - page: RAG & Multi-Agent Workflows
+              - page: RAG & Multi-Agent Workflows Multi-Agent Workflows  # Moved ✅ Slug ✅ Redirected ✅
                 path: ./pages/guides/pages/voice-agent-rag-multi-agent-workflows.mdx
+                slug: voice-agent-rag-multi-agent-workflows # /guides/pages/voice-agent-rag-multi-agent-workflows
                 hidden: true
-              - page: Softbank Voice Agent API Reference
+              - page: Softbank Voice Agent API Reference  # Moved ✅ Slug ✅ Redirected ✅
                 path: ./pages/guides/pages/softbank-voice-agent-api-reference.mdx
+                slug: softbank-voice-agent-api-reference # /guides/pages/softbank-voice-agent-api-reference
                 hidden: true
-              - page: Using the Deepgram Event Captioner
+              - page: Using the Deepgram Event Captioner  # Moved ✅ Slug ✅ Redirected ✅
                 path: ./pages/guides/pages/using-the-deepgram-event-captioner.mdx
+                slug: using-the-deepgram-event-captioner # /guides/pages/using-the-deepgram-event-captioner
                 hidden: true
-              - page: Tier - Deprecated
+              - page: Tier - Deprecated  # Moved ✅ Slug ✅ Redirected ✅
                 path: ./pages/guides/pages/tier.mdx
+                slug: tier # /guides/pages/tier
                 hidden: true
-              - page: Voice Agent Latency
+              - page: Voice Agent Latency  # Moved ✅ Slug ✅ Redirected ✅
                 path: ./pages/guides/pages/voice-agent-latency.mdx
+                slug: voice-agent-latency # /guides/pages/voice-agent-latency
                 hidden: true
-              - page: Voice Agent Prompting
+              - page: Voice Agent Prompting  # Moved ✅ Slug ✅ Redirected ✅
                 path: ./pages/guides/pages/voice-agent-prompting.mdx
+                slug: voice-agent-prompting # /guides/pages/voice-agent-prompting
                 hidden: true
-              - page: Genesys and Deepgram (Legacy)
+              - page: Genesys and Deepgram (Legacy)  # Moved ✅ Slug ✅ Redirected ✅
                 path: ./pages/guides/pages/genesys-deepgram-legacy.mdx
+                slug: genesys-deepgram-legacy # /guides/pages/genesys-deepgram-legacy
                 hidden: true
-              - page: Agent Started Speaking
+              - page: Agent Started Speaking  # Moved ✅ Slug ✅ Redirected ✅
                 path: ./pages/guides/pages/voice-agent-agent-started-speaking.mdx
+                slug: voice-agent-agent-started-speaking # /guides/pages/voice-agent-agent-started-speaking
                 hidden: true
-              - page: Update Instructions
+              - page: Update Instructions  # Moved ✅ Slug ✅ Redirected ✅
                 path: ./pages/guides/pages/voice-agent-update-instructions.mdx
+                slug: voice-agent-update-instructions # /guides/pages/voice-agent-update-instructions
                 hidden: true
-              - page: Function Calling Message
+              - page: Function Calling Message  # Moved ✅ Slug ✅ Redirected ✅
                 path: ./pages/guides/pages/voice-agent-function-calling-message.mdx
+                slug: voice-agent-function-calling-message # /guides/pages/voice-agent-function-calling-message
                 hidden: true
 
   - tab: api-reference
@@ -415,8 +460,9 @@ navigation:
 
   - tab: voice-agent
     layout:
-      - page: Getting Started
-        path: docs/voice-agent.mdx
+      - page: Getting Started  # Moved ✅ Slug ✅ Redirected ✅
+        path: ./pages/voice-agent/getting-started.mdx
+        slug: getting-started # /voice-agent/getting-started
       - page: Voice Agent v1 API Migration
         path: docs/voice-agent-v1-migration.mdx
       - page: Feature Overview
@@ -809,124 +855,13 @@ navigation:
             path: docs/deepgram-unimrcp-plugin.mdx
       - page: Using SDKs with Self-Hosted
         path: docs/using-sdks-with-self-hosted.mdx
-  # </DocsGenerator>
+
 redirects:
-  # <RedirectsGenerator>
-  - source: /home/introduction
-    destination: /introduction
-  - source: /docs/support
-    destination: /support
-  - source: /api-reference
-    destination: /reference
-  - source: /api-reference/authentication
-    destination: /reference/authentication
-  - source: /api-reference/billing
-    destination: /reference/get-all-balances
-  - source: /api-reference/invitations
-    destination: /reference/leave-project
-  - source: /api-reference/keys
-    destination: /reference/list-keys
-  - source: /api-reference/members
-    destination: /reference/get-members
-  - source: /api-reference/projects
-    destination: /reference/get-projects
-  - source: /api-reference/scopes
-    destination: /reference/get-member-scopes
-  - source: /get-member-scopes
-    destination: /reference/get-member-scopes
-  - source: /api-reference/transcription
-    destination: /reference/pre-recorded
-  - source: /api-reference/usage
-    destination: /reference/get-all-requests
-  - source: /documentation
-    destination: /home
-  - source: /documentation/features
-    destination: /docs/stt-pre-recorded-feature-overview
-  - source: /documentation/features/callback
-    destination: /docs/callback
-  - source: /documentation/features/channels
-    destination: /docs/channels
-  - source: /documentation/features/detect-language
-    destination: /docs/language-detection
-  - source: /documentation/features/detect-topics
-    destination: /docs/topic-detection
-  - source: /documentation/features/diarize
-    destination: /docs/diarization
-  - source: /documentation/features/encoding
-    destination: /docs/encoding
-  - source: /documentation/features/endpointing
-    destination: /docs/endpointing
-  - source: /documentation/features/interim-results
-    destination: /docs/interim-results
-  - source: /documentation/features/keywords
-    destination: /docs/keywords
-  - source: /documentation/features/language
-    destination: /docs/language
-  - source: /documentation/features/model
-    destination: /docs/model
-  - source: /documentation/features/multichannel
-    destination: /docs/multichannel
-  - source: /documentation/features/numerals
-    destination: /docs/numerals
-  - source: /documentation/features/paragraphs
-    destination: /docs/paragraphs
-  - source: /documentation/features/profanity-filter
-    destination: /docs/profanity-filter
-  - source: /documentation/features/punctuate
-    destination: /docs/punctuation
-  - source: /documentation/features/redact
-    destination: /docs/redaction
-  - source: /documentation/features/replace
-    destination: /docs/find-and-replace
-  - source: /documentation/features/sample-rate
-    destination: /docs/sample-rate
-  - source: /documentation/features/search
-    destination: /docs/search
-  - source: /documentation/features/smart-format
-    destination: /docs/smart-format
-  - source: /documentation/features/summarize
-    destination: /docs/summarization
-  - source: /documentation/features/tag
-    destination: /docs/tagging
-  - source: /documentation/features/tier
-    destination: /docs/tier
-  - source: /documentation/features/utterance-split
-    destination: /docs/utterance-split
-  - source: /documentation/features/utterances
-    destination: /docs/utterances
-  - source: /documentation/features/version
-    destination: /docs/version
-  - source: /documentation/getting-started
-    destination: /docs/getting-started-with-pre-recorded-audio
-  - source: /documentation/getting-started/audio-formats
-    destination: /docs/supported-audio-formats
-  - source: /documentation/getting-started/authentication
-    destination: /guides/fundamentals/authenticating
-  - source: /docs/authenticating
-    destination: /guides/fundamentals/authenticating
-  - source: /documentation/getting-started/deployment-options
-    destination: /docs/deployment-options
-  - source: /documentation/getting-started/multiple-projects
-    destination: /guides/deep-dives/using-multiple-projects
-  - source: /docs/using-multiple-projects
-    destination: /guides/deep-dives/using-multiple-projects
-  - source: /documentation/getting-started/nova-quickstart
-    destination: /docs/models-languages-overview
+  - source: /docs/docs/genesys-deepgram-legacy
+    destination: /guides/pages/genesys-deepgram-legacy
+  - source: /docs/aura-2-formatting
+    destination: /aura-2-formatting
   - source: /documentation/getting-started/prerecorded-es
-    destination: /docs
-  - source: /documentation/getting-started/prerecorded
-    destination: /docs/getting-started-with-pre-recorded-audio
-  - source: /documentation/getting-started/projects
-    destination: /docs/prerecorded-español
-  - source: /documentation/getting-started/roles
-    destination: /guides/deep-dives/working-with-roles
-  - source: /docs/working-with-roles
-    destination: /guides/deep-dives/working-with-roles
-  - source: /documentation/getting-started/streaming-es
-    destination: /docs/getting-started-with-live-streaming-audio
-  - source: /documentation/getting-started/streaming
-    destination: /docs/getting-started-with-live-streaming-audio
-  - source: /documentation/glossary
     destination: /docs
   - source: /documentation/glossary/acronym
     destination: /docs
@@ -968,61 +903,177 @@ redirects:
     destination: /docs
   - source: /documentation/glossary/word-error-rate-wer
     destination: /docs
-  - source: /documentation/guides
-    destination: /docs/deepgram-whisper-cloud
-  - source: /documentation/guides/deepgram-whisper-cloud
-    destination: /docs/deepgram-whisper-cloud
-  - source: /documentation/guides/determine-audio-format
-    destination: /docs/determining-your-audio-format-for-live-streaming-audio
+  - source: /documentation/glossary
+    destination: /docs
+  - source: /sdks-tools/sdks/dotnet-sdk/configuration
+    destination: /docs
+  - source: /sdks-tools/sdks/dotnet-sdk/keys
+    destination: /docs
+  - source: /sdks-tools/sdks/dotnet-sdk/logging
+    destination: /docs
+  - source: /sdks-tools/sdks/dotnet-sdk/pre-recorded-transcription
+    destination: /docs
+  - source: /sdks-tools/sdks/dotnet-sdk/projects
+    destination: /docs
+  - source: /sdks-tools/sdks/dotnet-sdk/streaming-transcription
+    destination: /docs
+  - source: /sdks-tools/sdks/dotnet-sdk/usage
+    destination: /docs
+  - source: /sdks-tools/sdks/dotnet-sdk
+    destination: /docs
+  - source: /docs/keep-alive
+    destination: /docs/audio-keep-alive
   - source: /documentation/guides/generate-captions
     destination: /docs/automatically-generating-webvtt-and-srt-captions
+  - source: /documentation/guides/phone-call-summaries
+    destination: /docs/automatically-transcribing-and-summarizing-phone-calls
+  - source: /docs/aws
+    destination: /docs/aws-docker-podman
+  - source: /docs/azure
+    destination: /docs/azure-docker-podman
+  - source: /use-cases/speech-analytics/talk-time-analytics
+    destination: /docs/calculate-talk-time-analytics
+  - source: /documentation/features/callback
+    destination: /docs/callback
+  - source: /documentation/features/channels
+    destination: /docs/channels
+  - source: /documentation/security/data-privacy
+    destination: /docs/data-privacy-compliance
+  - source: /documentation/guides/deepgram-whisper-cloud
+    destination: /docs/deepgram-whisper-cloud
+  - source: /documentation/guides
+    destination: /docs/deepgram-whisper-cloud
+  - source: /documentation/getting-started/deployment-options
+    destination: /docs/deployment-options
+  - source: /documentation/guides/determine-audio-format
+    destination: /docs/determining-your-audio-format-for-live-streaming-audio
+  - source: /documentation/features/diarize
+    destination: /docs/diarization
+  - source: /documentation/features/encoding
+    destination: /docs/encoding
+  - source: /documentation/features/endpointing
+    destination: /docs/endpointing
+  - source: /guides/streaming/endpointing
+    destination: /docs/endpointing
+  - source: /documentation/features/replace
+    destination: /docs/find-and-replace
+  - source: /docs/gcp
+    destination: /docs/gcp-docker-podman
+  - source: /documentation/guides/save-transcripts-from-terminal
+    destination: /docs/generating-and-saving-transcripts-from-the-terminal
+  - source: /docs/genesys-with-deepgram
+    destination: /docs/genesys-deepgram-legacy
+  - source: /documentation/getting-started/streaming-es
+    destination: /docs/getting-started-with-live-streaming-audio
+  - source: /documentation/getting-started/streaming
+    destination: /docs/getting-started-with-live-streaming-audio
+  - source: /docs/nova-quickstart
+    destination: /docs/getting-started-with-pre-recorded-audio
+  - source: /docs/transcribing-pre-recorded-audio
+    destination: /docs/getting-started-with-pre-recorded-audio
+  - source: /documentation/getting-started/prerecorded
+    destination: /docs/getting-started-with-pre-recorded-audio
+  - source: /documentation/getting-started
+    destination: /docs/getting-started-with-pre-recorded-audio
+  - source: /documentation/guides/transcription
+    destination: /docs/getting-started-with-pre-recorded-audio
+  - source: /documentation/guides/streaming-test-suite
+    destination: /docs/getting-started-with-the-streaming-test-suite
+  - source: /documentation/security/statement
+    destination: /docs/information-security-privacy-statement
+  - source: /sdks-tools/tools/integrate-zoom
+    destination: /docs/integrate-deepgram-with-zoom
+  - source: /sdks-tools/tools
+    destination: /docs/integrate-deepgram-with-zoom
+  - source: /documentation/features/interim-results
+    destination: /docs/interim-results
+  - source: /guides/streaming/interim-results
+    destination: /docs/interim-results
+  - source: /docs/node-sdk
+    destination: /docs/js-sdk
+  - source: /docs/javascript-sdk-v2-to-v3-migration-guide-copy
+    destination: /docs/js-sdk-v2-to-v3-migration-guide
+  - source: /documentation/features/keywords
+    destination: /docs/keywords
   - source: /documentation/guides/keywords-vs-search
     destination: /docs/keywords-vs-search
+  - source: /documentation/features/language
+    destination: /docs/language
+  - source: /documentation/features/detect-language
+    destination: /docs/language-detection
+  - source: /docs/getting-started-with-live-streaming-audio
+    destination: /docs/live-streaming-audio
   - source: /documentation/guides/measure-latency
     destination: /docs/measuring-streaming-latency
   - source: /documentation/guides/migration-aws-transcribe
     destination: /docs/migrating-from-amazon-web-services-aws-transcribe-to-deepgram
-  - source: /documentation/guides/migration-google-stt
-    destination: /docs/migrating-from-google-speech-to-text-stt-to-deepgram
   - source: /documentation/guides/migration
     destination: /docs/migrating-from-amazon-web-services-aws-transcribe-to-deepgram
+  - source: /documentation/guides/migration-google-stt
+    destination: /docs/migrating-from-google-speech-to-text-stt-to-deepgram
+  - source: /documentation/features/model
+    destination: /docs/model
+  - source: /docs/languages-overview
+    destination: /docs/models-languages-overview
+  - source: /docs/models-overview
+    destination: /docs/models-languages-overview
+  - source: /documentation/getting-started/nova-quickstart
+    destination: /docs/models-languages-overview
+  - source: /documentation/features/multichannel
+    destination: /docs/multichannel
   - source: /documentation/guides/multichannel-vs-diarization
     destination: /docs/multichannel-vs-diarization
-  - source: /documentation/guides/phone-call-summaries
-    destination: /docs/automatically-transcribing-and-summarizing-phone-calls
-  - source: /documentation/guides/recover-streaming-errors
-    destination: /docs/recovering-from-connection-errors-and-timeouts-when-live-streaming-audio
-  - source: /documentation/guides/request-transcript-previous-versions
-    destination: /docs/requesting-transcription-with-previous-versions
-  - source: /documentation/guides/save-transcripts-from-terminal
-    destination: /docs/generating-and-saving-transcripts-from-the-terminal
-  - source: /documentation/guides/streaming-test-suite
-    destination: /docs/getting-started-with-the-streaming-test-suite
-  - source: /documentation/guides/transcription
-    destination: /docs/getting-started-with-pre-recorded-audio
-  - source: /documentation/guides/troubleshoot-streaming
-    destination: /docs/troubleshooting-websocket-data-and-net-errors-when-live-streaming-audio
-  - source: /documentation/guides/understand-endpointing-interim-results
-    destination: /docs/understand-endpointing-interim-results
-  - source: /documentation/guides/use-callback
-    destination: /docs/using-callbacks-to-return-transcripts-to-your-server
-  - source: /documentation/security
-    destination: /docs/security-policy
-  - source: /documentation/security/data-privacy
-    destination: /docs/data-privacy-compliance
-  - source: /documentation/security/security-policy
-    destination: /docs/security-policy
-  - source: /documentation/security/statement
-    destination: /docs/information-security-privacy-statement
-  - source: /on-prem
-    destination: /docs/on-prem-introduction
-  - source: /on-prem/best-practices
-    destination: /docs/on-prem-introduction
+  - source: /docs/node-sdk-billing
+    destination: /docs/node-sdk
+  - source: /docs/node-sdk-invitations
+    destination: /docs/node-sdk
+  - source: /docs/node-sdk-keys
+    destination: /docs/node-sdk
+  - source: /docs/node-sdk-members
+    destination: /docs/node-sdk
+  - source: /docs/node-sdk-projects
+    destination: /docs/node-sdk
+  - source: /docs/node-sdk-scopes
+    destination: /docs/node-sdk
+  - source: /docs/node-sdk-usage
+    destination: /docs/node-sdk
+  - source: /sdks-tools/sdks/node-sdk
+    destination: /docs/node-sdk
+  - source: /sdks-tools/sdks
+    destination: /docs/node-sdk
+  - source: /sdks-tools
+    destination: /docs/node-sdk
+  - source: /sdks-tools/sdks/node-sdk/billing
+    destination: /docs/node-sdk-billing
+  - source: /sdks-tools/sdks/node-sdk/invitations
+    destination: /docs/node-sdk-invitations
+  - source: /sdks-tools/sdks/node-sdk/keys
+    destination: /docs/node-sdk-keys
+  - source: /sdks-tools/sdks/node-sdk/members
+    destination: /docs/node-sdk-members
+  - source: /sdks-tools/sdks/node-sdk/pre-recorded-transcription
+    destination: /docs/node-sdk-pre-recorded-transcription
+  - source: /sdks-tools/sdks/node-sdk/projects
+    destination: /docs/node-sdk-projects
+  - source: /sdks-tools/sdks/node-sdk/scopes
+    destination: /docs/node-sdk-scopes
+  - source: /sdks-tools/sdks/node-sdk/streaming-transcription
+    destination: /docs/node-sdk-streaming-transcription
+  - source: /sdks-tools/sdks/node-sdk/usage
+    destination: /docs/node-sdk-usage
+  - source: /documentation/features/numerals
+    destination: /docs/numerals
+  - source: /docs/oci
+    destination: /docs/oci-docker-podman
+  - source: /docs/enterprise-deployments
+    destination: /docs/on-prem-add-ons
+  - source: /docs/configure-your-private-cloud-environment
+    destination: /docs/on-prem-deployment-environments
   - source: /on-prem/best-practices/metrics-guide
     destination: /docs/on-prem-introduction
   - source: /on-prem/best-practices/prometheus-integration
     destination: /docs/on-prem-introduction
-  - source: /on-prem/optional
+  - source: /on-prem/best-practices
     destination: /docs/on-prem-introduction
   - source: /on-prem/optional/best-practices-hotpepper
     destination: /docs/on-prem-introduction
@@ -1050,7 +1101,7 @@ redirects:
     destination: /docs/on-prem-introduction
   - source: /on-prem/optional/unimrcp
     destination: /docs/on-prem-introduction
-  - source: /on-prem/required
+  - source: /on-prem/optional
     destination: /docs/on-prem-introduction
   - source: /on-prem/required/configure-environment
     destination: /docs/on-prem-introduction
@@ -1068,46 +1119,40 @@ redirects:
     destination: /docs/on-prem-introduction
   - source: /on-prem/required/maintain-required-components
     destination: /docs/on-prem-introduction
-  - source: /sdks-tools
-    destination: /docs/node-sdk
-  - source: /sdks-tools/sdks
-    destination: /docs/node-sdk
-  - source: /sdks-tools/sdks/dotnet-sdk
-    destination: /docs
-  - source: /sdks-tools/sdks/dotnet-sdk/configuration
-    destination: /docs
-  - source: /sdks-tools/sdks/dotnet-sdk/keys
-    destination: /docs
-  - source: /sdks-tools/sdks/dotnet-sdk/logging
-    destination: /docs
-  - source: /sdks-tools/sdks/dotnet-sdk/pre-recorded-transcription
-    destination: /docs
-  - source: /sdks-tools/sdks/dotnet-sdk/projects
-    destination: /docs
-  - source: /sdks-tools/sdks/dotnet-sdk/streaming-transcription
-    destination: /docs
-  - source: /sdks-tools/sdks/dotnet-sdk/usage
-    destination: /docs
-  - source: /sdks-tools/sdks/node-sdk
-    destination: /docs/node-sdk
-  - source: /sdks-tools/sdks/node-sdk/billing
-    destination: /docs/node-sdk-billing
-  - source: /sdks-tools/sdks/node-sdk/invitations
-    destination: /docs/node-sdk-invitations
-  - source: /sdks-tools/sdks/node-sdk/keys
-    destination: /docs/node-sdk-keys
-  - source: /sdks-tools/sdks/node-sdk/members
-    destination: /docs/node-sdk-members
-  - source: /sdks-tools/sdks/node-sdk/pre-recorded-transcription
-    destination: /docs/node-sdk-pre-recorded-transcription
-  - source: /sdks-tools/sdks/node-sdk/projects
-    destination: /docs/node-sdk-projects
-  - source: /sdks-tools/sdks/node-sdk/scopes
-    destination: /docs/node-sdk-scopes
-  - source: /sdks-tools/sdks/node-sdk/streaming-transcription
-    destination: /docs/node-sdk-streaming-transcription
-  - source: /sdks-tools/sdks/node-sdk/usage
-    destination: /docs/node-sdk-usage
+  - source: /on-prem/required
+    destination: /docs/on-prem-introduction
+  - source: /on-prem
+    destination: /docs/on-prem-introduction
+  - source: /docs/distribution-credentials
+    destination: /docs/on-prem-self-service-tutorial
+  - source: /docs/licensing
+    destination: /docs/on-prem-self-service-tutorial
+  - source: /sdks-tools/tools/on-prem-twilio
+    destination: /docs/on-premise-twilio-integration
+  - source: /documentation/features/paragraphs
+    destination: /docs/paragraphs
+  - source: /docs/getting-started-with-pre-recorded-audio
+    destination: /docs/pre-recorded-audio
+  - source: /documentation/getting-started/projects
+    destination: /docs/prerecorded-español
+  - source: /documentation/features/profanity-filter
+    destination: /docs/profanity-filter
+  - source: /documentation/features/punctuate
+    destination: /docs/punctuation
+  - source: /docs/python-sdk-billing
+    destination: /docs/python-sdk
+  - source: /docs/python-sdk-invitations
+    destination: /docs/python-sdk
+  - source: /docs/python-sdk-keys
+    destination: /docs/python-sdk
+  - source: /docs/python-sdk-members
+    destination: /docs/python-sdk
+  - source: /docs/python-sdk-projects
+    destination: /docs/python-sdk
+  - source: /docs/python-sdk-scopes
+    destination: /docs/python-sdk
+  - source: /docs/python-sdk-usage
+    destination: /docs/python-sdk
   - source: /sdks-tools/sdks/python-sdk
     destination: /docs/python-sdk
   - source: /sdks-tools/sdks/python-sdk/billing
@@ -1128,262 +1173,327 @@ redirects:
     destination: /docs/python-sdk-streaming-transcription
   - source: /sdks-tools/sdks/python-sdk/usage
     destination: /docs/python-sdk-usage
-  - source: /sdks-tools/tools
-    destination: /docs/integrate-deepgram-with-zoom
-  - source: /sdks-tools/tools/integrate-zoom
-    destination: /docs/integrate-deepgram-with-zoom
-  - source: /sdks-tools/tools/on-prem-twilio
-    destination: /docs/on-premise-twilio-integration
-  - source: /use-cases
-    destination: /docs/transcribe-recorded-calls-with-twilio
-  - source: /use-cases/speech-analytics/talk-time-analytics
-    destination: /docs/calculate-talk-time-analytics
+  - source: /documentation/guides/recover-streaming-errors
+    destination: /docs/recovering-from-connection-errors-and-timeouts-when-live-streaming-audio
+  - source: /documentation/features/redact
+    destination: /docs/redaction
+  - source: /documentation/guides/request-transcript-previous-versions
+    destination: /docs/requesting-transcription-with-previous-versions
+  - source: /documentation/features/sample-rate
+    destination: /docs/sample-rate
+  - source: /documentation/features/search
+    destination: /docs/search
+  - source: /documentation/security/security-policy
+    destination: /docs/security-policy
+  - source: /documentation/security
+    destination: /docs/security-policy
+  - source: /docs/on-prem-add-ons
+    destination: /docs/self-hosted-add-ons
+  - source: /docs/on-prem-deployment-environments
+    destination: /docs/self-hosted-deployment-environments
+  - source: /docs/on-prem-introduction
+    destination: /docs/self-hosted-introduction
+  - source: /docs/on-prem-self-service-tutorial
+    destination: /docs/self-hosted-self-service-tutorial
+  - source: /documentation/features/smart-format
+    destination: /docs/smart-format
+  - source: /docs/start-of-speech-detection
+    destination: /docs/speech-started
+  - source: /documentation/features
+    destination: /docs/stt-pre-recorded-feature-overview
+  - source: /docs/starter-apps
+    destination: /docs/stt-pre-recorded-starter-apps
+  - source: /docs/features-overview
+    destination: /docs/stt-streaming-feature-overview
+  - source: /documentation/features/summarize
+    destination: /docs/summarization
+  - source: /documentation/features/tag
+    destination: /docs/tagging
+  - source: /docs/text-chunking-for-tts-optimization-copy
+    destination: /docs/text-chunking-for-tts-optimization
+  - source: /documentation/features/tier
+    destination: /docs/tier
+  - source: /docs/topic-detection-v1
+    destination: /docs/topic-detection
+  - source: /documentation/features/detect-topics
+    destination: /docs/topic-detection
   - source: /use-cases/transcription/realtime-meeting-transcription
     destination: /docs/transcribe-meetings-in-realtime
   - source: /use-cases/transcription/transcribe-recorded-calls-with-twilio
     destination: /docs/transcribe-recorded-calls-with-twilio
-  - source: /blog/2022/01/translation-itranslate/
-    destination: https://deepgram.com/learn/translation-itranslate
-  - source: /blog/2022/02/classroom-captioner/
-    destination: https://deepgram.com/learn/classroom-captioner
-  - source: /docs/features-overview
-    destination: /docs/stt-streaming-feature-overview
-  - source: /docs/on-prem-introduction
-    destination: /docs/self-hosted-introduction
-  - source: /docs/licensing
-    destination: /docs/on-prem-self-service-tutorial
-  - source: /docs/distribution-credentials
-    destination: /docs/on-prem-self-service-tutorial
-  - source: /docs/configure-your-private-cloud-environment
-    destination: /docs/on-prem-deployment-environments
-  - source: /docs/enterprise-deployments
-    destination: /docs/on-prem-add-ons
-  - source: /docs/node-sdk-projects
-    destination: /docs/node-sdk
-  - source: /docs/node-sdk-keys
-    destination: /docs/node-sdk
-  - source: /docs/node-sdk-usage
-    destination: /docs/node-sdk
-  - source: /docs/node-sdk-billing
-    destination: /docs/node-sdk
-  - source: /docs/node-sdk-members
-    destination: /docs/node-sdk
-  - source: /docs/node-sdk-scopes
-    destination: /docs/node-sdk
-  - source: /docs/node-sdk-invitations
-    destination: /docs/node-sdk
-  - source: /docs/python-sdk-projects
-    destination: /docs/python-sdk
-  - source: /docs/python-sdk-keys
-    destination: /docs/python-sdk
-  - source: /docs/python-sdk-usage
-    destination: /docs/python-sdk
-  - source: /docs/python-sdk-billing
-    destination: /docs/python-sdk
-  - source: /docs/python-sdk-members
-    destination: /docs/python-sdk
-  - source: /docs/python-sdk-scopes
-    destination: /docs/python-sdk
-  - source: /docs/python-sdk-invitations
-    destination: /docs/python-sdk
-  - source: /docs/dotnet-sdk-configuration
-    destination: docs/dotnet-sdk
-  - source: /docs/dotnet-sdk-logging
-    destination: docs/dotnet-sdk
-  - source: /docs/dotnet-sdk-pre-recorded-transcription
-    destination: docs/dotnet-sdk
-  - source: /docs/dotnet-sdk-streaming-transcription
-    destination: docs/dotnet-sdk
-  - source: /docs/dotnet-sdk-projects
-    destination: docs/dotnet-sdk
-  - source: /docs/dotnet-sdk-keys
-    destination: docs/dotnet-sdk
-  - source: /docs/dotnet-sdk-usage
-    destination: docs/dotnet-sdk
-  - source: /docs/node-sdk
-    destination: /docs/js-sdk
-  - source: /docs/node-sdk-v2-to-v3-migration-guide
-    destination: /sdks/javascript-sdk/v2-to-v3-migration-guide
-  - source: /docs/js-sdk-v2-to-v3-migration-guide
-    destination: /sdks/javascript-sdk/v2-to-v3-migration-guide
-  - source: /docs/javascript-sdk-v2-to-v3-migration-guide-copy
-    destination: /docs/js-sdk-v2-to-v3-migration-guide
-  - source: /docs/nova-quickstart
-    destination: /docs/getting-started-with-pre-recorded-audio
-  - source: /docs/languages-overview
-    destination: /docs/models-languages-overview
-  - source: /docs/models-overview
-    destination: /docs/models-languages-overview
-  - source: /docs/transcribing-pre-recorded-audio
-    destination: /docs/getting-started-with-pre-recorded-audio
-  - source: /docs/topic-detection-v1
-    destination: /docs/topic-detection
-  - source: /docs/start-of-speech-detection
-    destination: /docs/speech-started
-  - source: /reference/pre-recorded
-    destination: /reference/listen-file
-  - source: /reference/streaming
-    destination: /reference/listen-live
-  - source: /reference/getting-started-with-your-api
-    destination: /reference/deepgram-api-overview
-  - source: /reference/getting-started-with-your-api-2
-    destination: /reference/deepgram-api-overview
-  - source: /reference/text-intelligence-apis
-    destination: /reference/analyze-text
-  - source: /reference/audio-intelligence-apis
-    destination: /reference/listen-remote
+  - source: /use-cases
+    destination: /docs/transcribe-recorded-calls-with-twilio
+  - source: /documentation/guides/troubleshoot-streaming
+    destination: /docs/troubleshooting-websocket-data-and-net-errors-when-live-streaming-audio
+  - source: /docs/text-chunking-techniques-for-tts
+    destination: /docs/tts-text-chunking
+  - source: /docs/text-chunking-for-tts-streaming-optimization
+    destination: /docs/tts-websocket-streaming
+  - source: /documentation/guides/understand-endpointing-interim-results
+    destination: /docs/understand-endpointing-interim-results
   - source: /docs/understanding-end-of-speech-detection-while-streaming
     destination: /docs/understanding-end-of-speech-detection
-  - source: /reference/text-to-speech-preview-api
-    destination: /reference/text-to-speech-api
-  - source: /guides/streaming/interim-results
-    destination: /docs/interim-results
-  - source: /guides/streaming/endpointing
-    destination: /docs/endpointing
-  - source: /docs/starter-apps
-    destination: /docs/stt-pre-recorded-starter-apps
-  - source: /docs/aws
-    destination: /docs/aws-docker-podman
-  - source: /docs/gcp
-    destination: /docs/gcp-docker-podman
-  - source: /docs/oci
-    destination: /docs/oci-docker-podman
-  - source: /docs/azure
-    destination: /docs/azure-docker-podman
-  - source: /docs/on-prem-deployment-environments
-    destination: /docs/self-hosted-deployment-environments
-  - source: /docs/on-prem-self-service-tutorial
-    destination: /docs/self-hosted-self-service-tutorial
-  - source: /docs/on-prem-add-ons
-    destination: /docs/self-hosted-add-ons
-  - source: /reference/voicebot-api-phase-preview-copy
-    destination: /reference/voicebot-api-phase-preview
-  - source: /docs/keep-alive
-    destination: /docs/audio-keep-alive
+  - source: /documentation/guides/use-callback
+    destination: /docs/using-callbacks-to-return-transcripts-to-your-server
+  - source: /documentation/features/utterance-split
+    destination: /docs/utterance-split
+  - source: /documentation/features/utterances
+    destination: /docs/utterances
+  - source: /documentation/features/version
+    destination: /docs/version
+  - source: /docs/voice-agent-server-errors
+    destination: /docs/voice-agent-errors
   - source: /docs/voice-agent-control-messages
     destination: /docs/voice-agent-inputs
   - source: /docs/voice-agent-server-messages
     destination: /docs/voice-agent-outputs
-  - source: /docs/getting-started-with-pre-recorded-audio
-    destination: /docs/pre-recorded-audio
-  - source: /docs/getting-started-with-live-streaming-audio
-    destination: /docs/live-streaming-audio
+  - source: /docs/voice-agent-settings-configuration
+    destination: /docs/voice-agent-settings
+  - source: /docs/create-additional-api-keys
+    destination: /guides/deep-dives/create-additional-api-keys
+  - source: /docs/deployment-options
+    destination: /guides/deep-dives/deployment-options
+  - source: /docs/supported-audio-formats
+    destination: /guides/deep-dives/supported-audio-formats
+  - source: /documentation/getting-started/audio-formats
+    destination: /guides/deep-dives/supported-audio-formats
+  - source: /docs/the-deepgram-model-improvement-partnership-program
+    destination: /guides/deep-dives/the-deepgram-model-improvement-partnership-program
+  - source: /docs/using-logs-usage
+    destination: /guides/deep-dives/using-logs-usage
+  - source: /docs/using-multiple-projects
+    destination: /guides/deep-dives/using-multiple-projects
+  - source: /documentation/getting-started/multiple-projects
+    destination: /guides/deep-dives/using-multiple-projects
+  - source: /docs/using-the-sec-websocket-protocol
+    destination: /guides/deep-dives/using-the-sec-websocket-protocol
+  - source: /docs/working-with-concurrency-rate-limits
+    destination: /guides/deep-dives/working-with-concurrency-rate-limits
+  - source: /docs/working-with-roles
+    destination: /guides/deep-dives/working-with-roles
+  - source: /documentation/getting-started/roles
+    destination: /guides/deep-dives/working-with-roles
+  - source: /docs/authenticating
+    destination: /guides/fundamentals/authenticating
+  - source: /documentation/getting-started/authentication
+    destination: /guides/fundamentals/authenticating
+  - source: /docs/amazon-connect-and-deepgram
+    destination: /guides/integrations/amazon-connect-and-deepgram
+  - source: /docs/deepgram-with-amazon-connect
+    destination: /guides/integrations/amazon-connect-and-deepgram
+  - source: /docs/aws-s3-presigned-urls-and-deepgram
+    destination: /guides/integrations/aws-s3-presigned-urls-and-deepgram
+  - source: /docs/using-aws-s3-presigned-urls-with-the-deepgram-api
+    destination: /guides/integrations/aws-s3-presigned-urls-and-deepgram
+  - source: /docs/genesys-and-deepgram
+    destination: /guides/integrations/genesys-and-deepgram
+  - source: /docs/genesys-deepgram
+    destination: /guides/integrations/genesys-and-deepgram
+  - source: /docs/google-dialogflow-cx-and-deepgram
+    destination: /guides/integrations/google-dialogflow-cx-and-deepgram
+  - source: /docs/use-deepgram-with-dialogflow-cx
+    destination: /guides/integrations/google-dialogflow-cx-and-deepgram
+  - source: /docs/makecom-and-deepgram
+    destination: /guides/integrations/makecom-and-deepgram
+  - source: /docs/makecom-deepgram-integration
+    destination: /guides/integrations/makecom-and-deepgram
+  - source: /docs/on-premise-twilio-integration
+    destination: /guides/integrations/twilio-and-deepgram-stt
+  - source: /docs/twilio-and-deepgram-stt
+    destination: /guides/integrations/twilio-and-deepgram-stt
+  - source: /docs/twilio-and-deepgram-tts
+    destination: /guides/integrations/twilio-and-deepgram-tts
+  - source: /docs/twilio-and-deepgram-voice-agent
+    destination: /guides/integrations/twilio-and-deepgram-voice-agent
+  - source: /docs/zapier-and-deepgram
+    destination: /guides/integrations/zapier-and-deepgram
+  - source: /docs/zapier-integration
+    destination: /guides/integrations/zapier-and-deepgram
+  - source: /docs/integrate-deepgram-with-zoom
+    destination: /guides/integrations/zoom-and-deepgram
+  - source: /docs/zoom-and-deepgram
+    destination: /guides/integrations/zoom-and-deepgram
+  - source: /docs/managing-projects
+    destination: /guides/managing-projects
+  - source: /docs/
+    destination: /guides/pages/
+  - source: /docs/aura-2-preview
+    destination: /guides/pages/aura-2-preview
+  - source: /docs/code-of-conduct
+    destination: /guides/pages/code-of-conduct
+  - source: /docs/deploy-aura-2-self-hosted
+    destination: /guides/pages/deploy-aura-2-self-hosted
+  - source: /docs/calculate-talk-time-analytics
+    destination: /guides/use-cases/calculate-talk-time-analytics
+  - source: /docs/transcribe-meetings-in-realtime
+    destination: /guides/use-cases/transcribe-meetings-in-realtime
+  - source: /docs/transcribe-recorded-calls-with-twilio
+    destination: /guides/use-cases/transcribe-recorded-calls-with-twilio
+  - source: /docs/build-voice-agent-with-twilio-deepgram-openai
+    destination: /guides/use-cases/voice-agent-with-twilio-openai-deepgram
+  - source: /docs/voice-agent-with-twilio-openai-deepgram
+    destination: /guides/use-cases/voice-agent-with-twilio-openai-deepgram
+  - source: /docs/
+    destination: /home
+  - source: /documentation
+    destination: /home
   - source: /docs/introduction
     destination: /home/introduction
-  - source: /reference/build-a-voice-agent
-    destination: /reference/voice-agent-api/agent
-  - source: /reference/listen-file
-    destination: /reference/speech-to-text-api/listen
-  - source: /reference/listen-remote
-    destination: /reference/speech-to-text-api/listen
-  - source: /reference/listen-live
-    destination: /reference/speech-to-text-api/listen-streaming
-  - source: /reference/text-to-speech-api
-    destination: /reference/text-to-speech-api/speak
-  - source: /reference/transform-text-to-speech-websocket
-    destination: /reference/text-to-speech-api/speak-streaming
-  - source: /reference/analyze-text
-    destination: /reference/text-intelligence-api/text-read
-  - source: /reference/models
-    destination: /reference/management-api/models/list
-  - source: /reference/get-models
-    destination: /reference/management-api/models/list
-  - source: /reference/get-model
-    destination: /reference/management-api/models/get
-  - source: /reference/get-projects
-    destination: /reference/management-api/projects/list
-  - source: /reference/get-project
-    destination: /reference/management-api/projects/get
-  - source: /reference/update-project
-    destination: /reference/management-api/projects/update
-  - source: /reference/delete-project
-    destination: /reference/management-api/projects/delete
-  - source: /reference/get-project-models
-    destination: /reference/management-api/projects/list-models
-  - source: /reference/get-project-model
-    destination: /reference/management-api/projects/get-model
-  - source: /reference/list-keys
-    destination: /reference/management-api/keys/list
-  - source: /reference/get-key
-    destination: /reference/management-api/keys/get
-  - source: /reference/create-key
-    destination: /reference/management-api/keys/create
-  - source: /reference/delete-key
-    destination: /reference/management-api/keys/delete
-  - source: /reference/get-members
-    destination: /reference/management-api/members/list
-  - source: /reference/remove-member
-    destination: /reference/management-api/members/delete
-  - source: /reference/get-member-scopes
-    destination: /reference/management-api/scopes/list
-  - source: /reference/update-scope
-    destination: /reference/management-api/scopes/update
-  - source: /reference/list-invites
-    destination: /reference/management-api/invitations/list
+  - source: /home/introduction
+    destination: /introduction
+  - source: /api-reference
+    destination: /reference
+  - source: /reference/text-intelligence-apis
+    destination: /reference/analyze-text
+  - source: /api-reference/authentication
+    destination: /reference/authentication
+  - source: /reference/getting-started-with-your-api-2
+    destination: /reference/deepgram-api-overview
+  - source: /reference/getting-started-with-your-api
+    destination: /reference/deepgram-api-overview
+  - source: /api-reference/billing
+    destination: /reference/get-all-balances
+  - source: /api-reference/usage
+    destination: /reference/get-all-requests
+  - source: /api-reference/scopes
+    destination: /reference/get-member-scopes
+  - source: /get-member-scopes
+    destination: /reference/get-member-scopes
+  - source: /api-reference/members
+    destination: /reference/get-members
+  - source: /api-reference/projects
+    destination: /reference/get-projects
+  - source: /api-reference/invitations
+    destination: /reference/leave-project
+  - source: /api-reference/keys
+    destination: /reference/list-keys
+  - source: /reference/pre-recorded
+    destination: /reference/listen-file
+  - source: /reference/streaming
+    destination: /reference/listen-live
+  - source: /reference/audio-intelligence-apis
+    destination: /reference/listen-remote
+  - source: /reference/get-balance
+    destination: /reference/management-api/balances/get
+  - source: /reference/get-purchases
+    destination: /reference/management-api/balances/list
   - source: /reference/send-invites
     destination: /reference/management-api/invitations/create
   - source: /reference/delete-invite
     destination: /reference/management-api/invitations/delete
   - source: /reference/leave-project
     destination: /reference/management-api/invitations/leave
-  - source: /reference/get-all-requests
-    destination: /reference/management-api/usage/list-requests
-  - source: /reference/get-request
-    destination: /reference/management-api/usage/get-request
-  - source: /reference/summarize-usage
-    destination: /reference/management-api/usage/get
-  - source: /reference/get-fields
-    destination: /reference/management-api/usage/list-fields
-  - source: /reference/usage-breakdown
-    destination: /reference/management-api/usage/get-breakdown
+  - source: /reference/list-invites
+    destination: /reference/management-api/invitations/list
+  - source: /reference/create-key
+    destination: /reference/management-api/keys/create
+  - source: /reference/delete-key
+    destination: /reference/management-api/keys/delete
+  - source: /reference/get-key
+    destination: /reference/management-api/keys/get
+  - source: /reference/list-keys
+    destination: /reference/management-api/keys/list
+  - source: /reference/remove-member
+    destination: /reference/management-api/members/delete
+  - source: /reference/get-members
+    destination: /reference/management-api/members/list
+  - source: /reference/get-model
+    destination: /reference/management-api/models/get
+  - source: /reference/get-models
+    destination: /reference/management-api/models/list
+  - source: /reference/models
+    destination: /reference/management-api/models/list
+  - source: /reference/delete-project
+    destination: /reference/management-api/projects/delete
+  - source: /reference/get-project
+    destination: /reference/management-api/projects/get
+  - source: /reference/get-project-model
+    destination: /reference/management-api/projects/get-model
+  - source: /reference/get-projects
+    destination: /reference/management-api/projects/list
+  - source: /reference/get-project-models
+    destination: /reference/management-api/projects/list-models
+  - source: /reference/update-project
+    destination: /reference/management-api/projects/update
   - source: /reference/get-all-balances
     destination: /reference/management-api/purchases/list
-  - source: /reference/get-balance
-    destination: /reference/management-api/balances/get
-  - source: /reference/get-purchases
-    destination: /reference/management-api/balances/list
-  - source: /reference/list-credentials
-    destination: /reference/self-hosted-api/list-credentials
-  - source: /reference/get-credentials
-    destination: /reference/self-hosted-api/get-credentials
+  - source: /reference/get-member-scopes
+    destination: /reference/management-api/scopes/list
+  - source: /reference/update-scope
+    destination: /reference/management-api/scopes/update
+  - source: /reference/summarize-usage
+    destination: /reference/management-api/usage/get
+  - source: /reference/usage-breakdown
+    destination: /reference/management-api/usage/get-breakdown
+  - source: /reference/get-request
+    destination: /reference/management-api/usage/get-request
+  - source: /reference/get-fields
+    destination: /reference/management-api/usage/list-fields
+  - source: /reference/get-all-requests
+    destination: /reference/management-api/usage/list-requests
+  - source: /api-reference/transcription
+    destination: /reference/pre-recorded
   - source: /reference/create-credentials
     destination: /reference/self-hosted-api/create-credentials
   - source: /reference/delete-credentials
     destination: /reference/self-hosted-api/delete-credentials
-  - source: /docs/aura-2-formatting
-    destination: /aura-2-formatting
-  - source: /docs/aura-2-preview
-    destination: /aura-2-preview
-  - source: /docs/code-of-conduct
-    destination: /code-of-conduct
-  - source: /docs/text-chunking-for-tts-optimization-copy
-    destination: /docs/text-chunking-for-tts-optimization
-  - source: /docs/genesys-with-deepgram
-    destination: /docs/genesys-deepgram-legacy
+  - source: /reference/get-credentials
+    destination: /reference/self-hosted-api/get-credentials
+  - source: /reference/list-credentials
+    destination: /reference/self-hosted-api/list-credentials
+  - source: /reference/listen-file
+    destination: /reference/speech-to-text-api/listen
+  - source: /reference/listen-remote
+    destination: /reference/speech-to-text-api/listen
+  - source: /reference/listen-live
+    destination: /reference/speech-to-text-api/listen-streaming
+  - source: /reference/analyze-text
+    destination: /reference/text-intelligence-api/text-read
+  - source: /reference/text-to-speech-preview-api
+    destination: /reference/text-to-speech-api
+  - source: /reference/text-to-speech-api
+    destination: /reference/text-to-speech-api/speak
+  - source: /reference/transform-text-to-speech-websocket
+    destination: /reference/text-to-speech-api/speak-streaming
   - source: /reference/ephemeral-auth-api/grant-token
     destination: /reference/token-based-auth-api/grant-token
-  - source: /docs/voice-agent-settings-configuration
-    destination: /docs/voice-agent-settings
-  - source: /docs/voice-agent-server-errors
-    destination: /docs/voice-agent-errors
   - source: /docs/build-a-voice-agent
     destination: /reference/voice-agent-api/agent
-  - source: /docs/text-chunking-for-tts-streaming-optimization
-    destination: /docs/tts-websocket-streaming
-  - source: /docs/text-chunking-techniques-for-tts
-    destination: /docs/tts-text-chunking
-  - source: /docs/sdk-feature-matrix
-    destination: /sdks/sdk-features
-  - source: /docs/python-sdk-v2-to-v3-migration-guide
-    destination: /sdks/python-sdk/v2-to-v3-migration
-  - source: /docs/threaded-and-async-io-task-support
-    destination: /sdks/python-sdk/threaded-and-asyncio
-  - source: /docs/python-notebooks
-    destination: /sdks/python-sdk/python-notebooks
+  - source: /reference/build-a-voice-agent
+    destination: /reference/voice-agent-api/agent
+  - source: /reference/voicebot-api-phase-preview-copy
+    destination: /reference/voicebot-api-phase-preview
   - source: /docs/dotnet-sdk-v3-to-v4-migration-guide
     destination: /sdks/dotnet-sdk/v3-to-v4-migration
   - source: /docs/go-sdk-v12-to-v136-migration-guide
     destination: /sdks/go-sdk/v12-to-v13-migration
-  - source: /docs/managing-projects
-    destination: /guides/deep-dives/managing-projects
-  # </RedirectsGenerator>
+  - source: /docs/js-sdk-v2-to-v3-migration-guide
+    destination: /sdks/javascript-sdk/v2-to-v3-migration-guide
+  - source: /docs/node-sdk-v2-to-v3-migration-guide
+    destination: /sdks/javascript-sdk/v2-to-v3-migration-guide
+  - source: /docs/python-notebooks
+    destination: /sdks/python-sdk/python-notebooks
+  - source: /docs/threaded-and-async-io-task-support
+    destination: /sdks/python-sdk/threaded-and-asyncio
+  - source: /docs/python-sdk-v2-to-v3-migration-guide
+    destination: /sdks/python-sdk/v2-to-v3-migration
+  - source: /docs/sdk-feature-matrix
+    destination: /sdks/sdk-features
+  - source: /docs/support
+    destination: /support
+  - source: /docs/voice-agent
+    destination: /voice-agent/getting-started
+  - source: /docs/dotnet-sdk-configuration
+    destination: docs/dotnet-sdk
+  - source: /docs/dotnet-sdk-keys
+    destination: docs/dotnet-sdk
+  - source: /docs/dotnet-sdk-logging
+    destination: docs/dotnet-sdk
+  - source: /docs/dotnet-sdk-pre-recorded-transcription
+    destination: docs/dotnet-sdk
+  - source: /docs/dotnet-sdk-projects
+    destination: docs/dotnet-sdk
+  - source: /docs/dotnet-sdk-streaming-transcription
+    destination: docs/dotnet-sdk
+  - source: /docs/dotnet-sdk-usage
+    destination: docs/dotnet-sdk
