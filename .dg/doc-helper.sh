@@ -227,26 +227,18 @@ move_file() {
 }
 
 # 4. **add_slug**
-#    - Checks if a slug exists in a file's entry in docs.yml with _get_current_slug
-#    - Gets the new slug with _get_new_slug
+#    - Get the entry for the source file
+#    - Get the current slug from the entry
+#    - Get the new slug from the source file
 #    - Adds the slug to the entry in docs.yml if it doesn't exist
 #    - Updates the entry in docs.yml with the new slug if it does exist
 #    - Preserves all other fields in the entry
 #    - Returns 0/1
 add_slug() {
     local source_file="$1"
-    local new_slug="$2"
 
-    # Checks if a slug exists in a file's entry in docs.yml with _get_current_slug
+    # Get the entry for the source file
     local entry=$(_get_entry "$source_file")
-
-    local current_slug=$(_get_current_slug "$source_file")
-    local new_slug=$(_get_new_slug "$source_file")
-
-    if [ "$current_slug" == "$new_slug" ]; then
-        echo "Skipping $source_file because slug already exists"
-        return 0
-    fi
 
 }
 
