@@ -119,7 +119,6 @@ tabs:
     slug: self-hosted
 
 navigation:
-  # <DocsGenerator>
   - tab: home
     layout:
       - page: Introduction # Moved ✅ Slug ✅ Redirected ✅
@@ -202,6 +201,9 @@ navigation:
               - page: Model Metadata  # Moved ✅ Slug ✅ Redirected ✅
                 path: ./pages/guides/fundamentals/model-metadata.mdx
                 slug: model-metadata # /guides/fundamentals/model-metadata
+              - page: Using Custom Add On Parameters with SDKs  # Moved ✅ Slug ✅ Redirected ✅
+                path: ./pages/guides/fundamentals/using-custom-parameters-sdks.mdx
+                slug: using-custom-parameters-sdks # /guides/fundamentals/using-custom-parameters-sdks
           - section: Deep Dives
             slug: deep-dives
             contents:
@@ -809,9 +811,8 @@ navigation:
             path: docs/deepgram-unimrcp-plugin.mdx
       - page: Using SDKs with Self-Hosted
         path: docs/using-sdks-with-self-hosted.mdx
-  # </DocsGenerator>
 redirects:
-  # <RedirectsGenerator>
+  # legacy redirects
   - source: /home/introduction
     destination: /introduction
   - source: /docs/support
@@ -838,8 +839,6 @@ redirects:
     destination: /reference/pre-recorded
   - source: /api-reference/usage
     destination: /reference/get-all-requests
-  - source: /documentation
-    destination: /home
   - source: /documentation/features
     destination: /docs/stt-pre-recorded-feature-overview
   - source: /documentation/features/callback
@@ -1006,14 +1005,6 @@ redirects:
     destination: /docs/understand-endpointing-interim-results
   - source: /documentation/guides/use-callback
     destination: /docs/using-callbacks-to-return-transcripts-to-your-server
-  - source: /documentation/security
-    destination: /docs/security-policy
-  - source: /documentation/security/data-privacy
-    destination: /docs/data-privacy-compliance
-  - source: /documentation/security/security-policy
-    destination: /docs/security-policy
-  - source: /documentation/security/statement
-    destination: /docs/information-security-privacy-statement
   - source: /on-prem
     destination: /docs/on-prem-introduction
   - source: /on-prem/best-practices
@@ -1202,12 +1193,6 @@ redirects:
     destination: docs/dotnet-sdk
   - source: /docs/node-sdk
     destination: /docs/js-sdk
-  - source: /docs/node-sdk-v2-to-v3-migration-guide
-    destination: /sdks/javascript-sdk/v2-to-v3-migration-guide
-  - source: /docs/js-sdk-v2-to-v3-migration-guide
-    destination: /sdks/javascript-sdk/v2-to-v3-migration-guide
-  - source: /docs/javascript-sdk-v2-to-v3-migration-guide-copy
-    destination: /docs/js-sdk-v2-to-v3-migration-guide
   - source: /docs/nova-quickstart
     destination: /docs/getting-started-with-pre-recorded-audio
   - source: /docs/languages-overview
@@ -1386,10 +1371,71 @@ redirects:
     destination: /sdks/go-sdk/v12-to-v13-migration
   - source: /docs/managing-projects
     destination: /guides/deep-dives/managing-projects
-  - source: /docs/security-policy/
+
+  # home location changed
+  - source: /documentation
+    destination: /home
+  - source: /docs
+    destination: /home
+
+  # trust and security section created
+  - source: /docs/security-policy
     destination: /trust-security/security-policy
+  - source: /documentation/security
+    destination: /trust-security/security-policy
+  - source: /documentation/security/security-policy
+    destination: /trust-security/security-policy
+  - source: /documentation/security/statement
+    destination: /trust-security/information-security-privacy
   - source: /docs/information-security-privacy-statement/
     destination: /trust-security/information-security-privacy
-  - source: /docs/data-privacy-compliance/
+  - source: /documentation/security/data-privacy
     destination: /trust-security/data-privacy-compliance
-  # </RedirectsGenerator>
+  - source: /docs/data-privacy-compliance
+    destination: /trust-security/data-privacy-compliance
+
+  # keyterm
+  - source: /docs/keyterms
+    destination: /docs/keyterm
+  - source: /docs/keyterm-prompting
+    destination: /docs/keyterm
+
+  # fundamentals section created
+  - source: /docs/make-your-first-api-request
+    destination: /guides/fundamentals/make-your-first-api-request
+  - source: /docs/model-metadata
+    destination: /guides/fundamentals/model-metadata
+  - source: /docs/using-custom-parameters-sdks
+    destination: /guides/fundamentals/using-custom-parameters-sdks
+
+  # start apps pages removed
+  - source: /docs/tts-starter-apps
+    destination: /docs/text-to-speech
+
+  # specific sdk pages removed
+  - source: /docs/deepgram-sdks
+    destination: /home
+  - source: /docs/dotnet-sdk
+    destination: /home
+  - source: /docs/go-sdk
+    destination: /home
+  - source: /docs/js-sdk
+    destination: /home
+  - source: /docs/python-sdk
+    destination: /home
+
+  # renamed sdk guides
+  - source: /sdks/javascript-sdk/v2-to-v3-migration-guide
+    destination: /sdks/javascript-sdk/v2-to-v3-migration
+  - source: /docs/node-sdk-v2-to-v3-migration-guide
+    destination: /sdks/javascript-sdk/v2-to-v3-migration
+  - source: /docs/js-sdk-v2-to-v3-migration-guide
+    destination: /sdks/javascript-sdk/v2-to-v3-migration
+  - source: /docs/javascript-sdk-v2-to-v3-migration-guide-copy
+    destination: /docs/js-sdk-v2-to-v3-migration
+  - source: docs/threaded-and-async-io-task-support
+    destination: /sdks/python-sdk/threaded-and-asyncio
+
+  # seems to have been a legacy 404
+  - source: /reference/errors
+    destination: /docs/errors
