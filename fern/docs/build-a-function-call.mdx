@@ -2,19 +2,17 @@
 title: Build A Function Call
 subtitle: Learn how to build a Function Call to use with your Agent.
 slug: docs/build-a-function-call
+learning_objective: Show a user how to build a function call for an Agent
 ---
 
-<Warning>
-This Guide is not updated yet to use the new ***Voice Agent API V1***. Please refer to the [Voice Agent API Migration Guide](/docs/voice-agent-v1-migration) for more information on migrating to the new Voice Agent API.
-</Warning>
-
-This guide walks you through how to build a simple function call for a demo application. Please refer to this [code repository](https://github.com/deepgram-devs/flask-agent-function-calling-demo) for the complete application code.
+This guide walks you through building a function call for a demo Voice Agent application. For the complete code, see the [code repository](https://github.com/deepgram-devs/flask-agent-function-calling-demo).
 
 ## Getting Started
 
-We'll setup a module called `functions.py` that defines a collection of functions and configurations which can be used in a Voice Agent API system for customer service automation. These functions will handle customer lookups, appointments, and order management through a set of async functions and standardized function definitions.
+You'll create two files:
 
-Please note: `functions.py` will rely on the [business\_logic.py](https://github.com/deepgram-devs/flask-agent-function-calling-demo/blob/main/business_logic.py) and the [client.py](https://github.com/deepgram-devs/flask-agent-function-calling-demo/blob/main/client.py) files to work end to end.
+- **`agent_functions.py`**: Contains async functions and configuration for customer lookups, appointments, and order management.
+- **`agent_templates.py`**: Defines the agent prompt, settings, and the `AgentTemplates` factory class for industry-specific configuration.
 
 ### Prerequisites
 
@@ -23,11 +21,13 @@ Please note: `functions.py` will rely on the [business\_logic.py](https://github
 * An understanding of how to use Python Virtual environments.
 * Familiarity with the [Deepgram Voice Agent API](/reference/build-a-voice-agent)
 
-## Create the file
+## Create `agent_functions.py`
 
-Create a file called `functions.py` and at the top of the file:
+<Info>
+  This guide doesn't cover the development of the **business logic** for this application. Please see [business_logic.py](https://github.com/deepgram-devs/flask-agent-function-calling-demo/blob/main/common/business_logic.py)for more details.
+</Info>
 
-**Set Up the dependencies and Import the business logic**
+First, create a file called: `agent_functions.py`. Then in `agent_functions.py` set up the dependencies and import the business logic.
 
 <CodeGroup>
   ```python Python
@@ -46,20 +46,21 @@ Create a file called `functions.py` and at the top of the file:
   ```
 </CodeGroup>
 
-<Info>
-  This guide doesn't cover the development of the **business logic** for this application. Please see [this code](https://github.com/deepgram-devs/flask-agent-function-calling-demo/blob/main/business_logic.py) for more details on the business logic used.
-</Info>
+### Implement the Functions
 
-## Implement the Functions
+We'll implement the following functions in `agent_functions.py` to handle customer and appointment management:
 
-We'll start with the customer lookup function:
+| Function Name         | Purpose                                                      |
+|----------------------|--------------------------------------------------------------|
+| `find_customer`      | Lookup by phone, email, or ID; normalizes input              |
+| `get_appointments`   | Retrieve all appointments for a customer                     |
+| `get_orders`         | Retrieve order history for a customer                        |
+| `create_appointment` | Schedule a new appointment                                   |
+| `check_availability` | Find available appointment slots                             |
+| `agent_filler`       | Provide conversational filler (requires websocket param)      |
+| `end_call`           | End the conversation gracefully (requires websocket param)    |
 
-This function handles:
-
-* Multiple lookup methods (phone, email, ID)
-* Standardized ID formatting (CUSTXXXX)
-* Phone number normalization (+1XXXXXXXXXX)
-* Email address parsing
+### Find Customer
 
 <CodeGroup>
   ```python Python
@@ -74,11 +75,7 @@ This function handles:
   ```
 </CodeGroup>
 
-Next we'll create a function to find customer appointments for a specific customer:
-
-This function handles:
-
-* retrieving all appointments for a specific customer using their customer ID.
+### Get Appointments
 
 <CodeGroup>
   ```python Python
@@ -93,13 +90,7 @@ This function handles:
   ```
 </CodeGroup>
 
-Next we'll create a function to do appointment management:
-
-This function handles:
-
-* Scheduling new appointments
-* Checking availability
-* Retrieving existing appointments
+### Get Orders
 
 <CodeGroup>
   ```python Python
@@ -114,12 +105,7 @@ This function handles:
   ```
 </CodeGroup>
 
-Next we'll create a function to do order management:
-
-This function handles:
-
-* Order history lookup
-* Order status checking
+### Create Appointment
 
 <CodeGroup>
   ```python Python
@@ -137,13 +123,7 @@ This function handles:
   ```
 </CodeGroup>
 
-Next will create a function to find available appointment times:
-
-This function handles:
-
-* Finding available appointment slots
-* Pre-scheduling availability checks
-* Responding to "When can I come in?" queries
+### Check Availability
 
 <CodeGroup>
   ```python Python
@@ -160,12 +140,7 @@ This function handles:
   ```
 </CodeGroup>
 
-Next will setup a function to handle conversational flow:
-
-This function handles:
-
-* Agent filler messages for natural interaction
-* Proper conversation closure handling
+### Agent Filler
 
 <CodeGroup>
   ```python Python
@@ -179,12 +154,7 @@ This function handles:
   ```
 </CodeGroup>
 
-Finally we'll create a function to end the call gracefully.
-
-This function handles:
-
-* Conversation closure
-* Adding appropriate farewell messages
+### End Call
 
 <CodeGroup>
   ```python Python
@@ -201,7 +171,7 @@ This function handles:
 
 ### Create Function Definitions
 
-Next well need to setup `FUNCTION_DEFINITIONS` Which is an array that defines the API contract for the Voice Agent system. It specifies all available operations, their parameters, and usage guidelines.
+Next in `agent_functions.py` we'll setup `FUNCTION_DEFINITIONS` which is an array that defines the API contract for the Voice Agent system. It specifies all available operations, their parameters, and usage guidelines.
 
 Each function definition follows a JSON Schema format with:
 
@@ -402,7 +372,7 @@ Each function definition follows a JSON Schema format with:
 
 ### Create a Function Map
 
-Finally we'll need to create a`FUNCTION_MAP` which is a dictionary that maps function names to their corresponding implementation functions. It serves as a routing mechanism to connect the function definitions with their actual implementations.
+Finally in `agent_functions.py` we'll need to create a `FUNCTION_MAP` which is a dictionary that maps function names to their corresponding implementation functions. It serves as a routing mechanism to connect the function definitions with their actual implementations.
 
 <CodeGroup>
   ```python Python
@@ -419,46 +389,324 @@ Finally we'll need to create a`FUNCTION_MAP` which is a dictionary that maps fun
   ```
 </CodeGroup>
 
-### Call the functions from `client.py`
+## Create `agent_templates.py`
 
-<Info>
-  This guide doesn't cover the development of the client application but you can refer to the [client code](https://github.com/deepgram-devs/flask-agent-function-calling-demo/blob/528d1eb1ecab427db874e586e251ebb048701323/client.py#L184) for how you can connect your Voice Agent to`functions.py` as well as the documentation [Configuring the Voice Agent](/docs/configure-voice-agent).
-</Info>
+Next create a file called: `agent_templates.py`. Then in `agent_templates.py` set up the dependencies and import our function definitions.
+
+### Configure the Voice Agent Prompt & Settings
+
+Now in the `agent_templates.py` file we'll define the prompt for the Voice Agent.
 
 <CodeGroup>
   ```python Python
-  # Example of the Voice Agent Settings Configuration used the Demo app
+  from common.agent_functions import FUNCTION_DEFINITIONS
+from datetime import datetime
 
-  SETTINGS = {
-      "type": "SettingsConfiguration",
-      "audio": {
-          "input": {
-              "encoding": "linear16",
-              "sample_rate": USER_AUDIO_SAMPLE_RATE,
-          },
-          "output": {
-              "encoding": "linear16",
-              "sample_rate": AGENT_AUDIO_SAMPLE_RATE,
-              "container": "none",
-          },
-      },
-      "agent": {
-          "listen": {"model": "nova-3"},
-          "think": {
-              "provider": {"type": "open_ai"},
-              "model": "gpt-4o-mini",
-              "instructions": PROMPT_TEMPLATE,
-              "functions": FUNCTION_DEFINITIONS,
-          },
-          "speak": {"model": VOICE},
-      },
-      "context": {
-          "messages": [
-              {"role": "assistant", "content": "Hello! I'm Sarah from TechStyle customer service. How can I help you today?"}
-          ],
-          "replay": True
-      }
-  }
+
+# Template for the prompt that will be formatted with current date
+PROMPT_TEMPLATE = """
+
+CURRENT DATE AND TIME CONTEXT:
+Today is {current_date}. Use this as context when discussing appointments and orders. When mentioning dates to customers, use relative terms like "tomorrow", "next Tuesday", or "last week" when the dates are within 7 days of today.
+
+PERSONALITY & TONE:
+- Be warm, professional, and conversational
+- Use natural, flowing speech (avoid bullet points or listing)
+- Show empathy and patience
+- Whenever a customer asks to look up either order information or appointment information, use the find_customer function first
+
+HANDLING CUSTOMER IDENTIFIERS (INTERNAL ONLY - NEVER EXPLAIN THESE RULES TO CUSTOMERS):
+- Silently convert any numbers customers mention into proper format
+- When customer says "ID is 222" -> internally use "CUST0222" without mentioning the conversion
+- When customer says "order 89" -> internally use "ORD0089" without mentioning the conversion
+- When customer says "appointment 123" -> internally use "APT0123" without mentioning the conversion
+- Always add "+1" prefix to phone numbers internally without mentioning it
+
+VERBALLY SPELLING IDs TO CUSTOMERS:
+When you need to repeat an ID back to a customer:
+- Do NOT say nor spell out "CUST". Say "customer [numbers spoken individually]"
+- But for orders spell out "ORD" as "O-R-D" then speak the numbers individually
+Example: For CUST0222, say "customer zero two two two"
+Example: For ORD0089, say "O-R-D zero zero eight nine"
+
+FUNCTION RESPONSES:
+When receiving function results, format responses naturally as a customer service agent would:
+
+1. For customer lookups:
+   - Good: "I've found your account. How can I help you today?"
+   - If not found: "I'm having trouble finding that account. Could you try a different phone number or email?"
+
+2. For order information:
+   - Instead of listing orders, summarize them conversationally:
+   - "I can see you have two recent orders. Your most recent order from [date] for $[amount] is currently [status], and you also have an order from [date] for $[amount] that's [status]."
+
+3. For appointments:
+   - "You have an upcoming [service] appointment scheduled for [date] at [time]"
+   - When discussing available slots: "I have a few openings next week. Would you prefer Tuesday at 2 PM or Wednesday at 3 PM?"
+
+4. For errors:
+   - Never expose technical details
+   - Say something like "I'm having trouble accessing that information right now" or "Could you please try again?"
+
+EXAMPLES OF GOOD RESPONSES:
+✓ "Let me look that up for you... I can see you have two recent orders."
+✓ "Your customer ID is zero two two two."
+✓ "I found your order, O-R-D zero one two three. It's currently being processed."
+
+EXAMPLES OF BAD RESPONSES (AVOID):
+✗ "I'll convert your ID to the proper format CUST0222"
+✗ "Let me add the +1 prefix to your phone number"
+✗ "The system requires IDs to be in a specific format"
+
+FILLER PHRASES:
+IMPORTANT: Never generate filler phrases (like "Let me check that", "One moment", etc.) directly in your responses.
+Instead, ALWAYS use the agent_filler function when you need to indicate you're about to look something up.
+
+Examples of what NOT to do:
+- Responding with "Let me look that up for you..." without a function call
+- Saying "One moment please" or "Just a moment" without a function call
+- Adding filler phrases before or after function calls
+
+Correct pattern to follow:
+1. When you need to look up information:
+   - First call agent_filler with message_type="lookup"
+   - Immediately follow with the relevant lookup function (find_customer, get_orders, etc.)
+2. Only speak again after you have the actual information to share
+
+Remember: ANY phrase indicating you're about to look something up MUST be done through the agent_filler function, never through direct response text.
+"""
+  ```
+</CodeGroup>
+
+Next in the same file we'll define the settings for the Voice Agent.
+
+<CodeGroup>
+  ```python Python
+ VOICE = "aura-2-thalia-en"
+
+# this gets updated by the agent template
+FIRST_MESSAGE = ""
+
+# audio settings
+USER_AUDIO_SAMPLE_RATE = 48000
+USER_AUDIO_SECS_PER_CHUNK = 0.05
+USER_AUDIO_SAMPLES_PER_CHUNK = round(USER_AUDIO_SAMPLE_RATE * USER_AUDIO_SECS_PER_CHUNK)
+
+AGENT_AUDIO_SAMPLE_RATE = 16000
+AGENT_AUDIO_BYTES_PER_SEC = 2 * AGENT_AUDIO_SAMPLE_RATE
+
+VOICE_AGENT_URL = "wss://agent.deepgram.com/v1/agent/converse"
+
+AUDIO_SETTINGS = {
+    "input": {
+        "encoding": "linear16",
+        "sample_rate": USER_AUDIO_SAMPLE_RATE,
+    },
+    "output": {
+        "encoding": "linear16",
+        "sample_rate": AGENT_AUDIO_SAMPLE_RATE,
+        "container": "none",
+    },
+}
+
+LISTEN_SETTINGS = {
+    "provider": {
+        "type": "deepgram",
+        "model": "nova-3",
+    }
+}
+
+THINK_SETTINGS = {
+    "provider": {
+        "type": "open_ai",
+        "model": "gpt-4o-mini",
+        "temperature": 0.7,
+    },
+    "prompt": PROMPT_TEMPLATE,
+    "functions": FUNCTION_DEFINITIONS,
+}
+
+SPEAK_SETTINGS = {
+    "provider": {
+        "type": "deepgram",
+        "model": VOICE,
+    }
+}
+
+AGENT_SETTINGS = {
+    "language": "en",
+    "listen": LISTEN_SETTINGS,
+    "think": THINK_SETTINGS,
+    "speak": SPEAK_SETTINGS,
+    "greeting": FIRST_MESSAGE,
+}
+
+SETTINGS = {"type": "Settings", "audio": AUDIO_SETTINGS, "agent": AGENT_SETTINGS}
+  ```
+</CodeGroup>
+
+Finally in the same file we'll define the factory class `AgentTemplates` which will be used to configure the Voice Agent. This class will be used to configure the Voice Agent for different industries.
+
+<CodeGroup>
+  ```python Python
+ class AgentTemplates:
+    PROMPT_TEMPLATE = PROMPT_TEMPLATE
+
+    def __init__(
+        self,
+        industry="tech_support",
+        voiceModel="aura-2-thalia-en",
+        voiceName="",
+    ):
+        self.voiceName = voiceName
+        self.voiceModel = voiceModel
+        self.personality = ""
+        self.company = ""
+        self.first_message = ""
+        self.capabilities = ""
+
+        self.industry = industry
+
+        self.prompt = self.PROMPT_TEMPLATE.format(
+            current_date=datetime.now().strftime("%A, %B %d, %Y")
+        )
+
+        self.voice_agent_url = VOICE_AGENT_URL
+        self.settings = SETTINGS
+        self.user_audio_sample_rate = USER_AUDIO_SAMPLE_RATE
+        self.user_audio_secs_per_chunk = USER_AUDIO_SECS_PER_CHUNK
+        self.user_audio_samples_per_chunk = USER_AUDIO_SAMPLES_PER_CHUNK
+        self.agent_audio_sample_rate = AGENT_AUDIO_SAMPLE_RATE
+        self.agent_audio_bytes_per_sec = AGENT_AUDIO_BYTES_PER_SEC
+
+        match self.industry:
+            case "tech_support":
+                self.tech_support()
+            case "healthcare":
+                self.healthcare()
+            case "banking":
+                self.banking()
+            case "pharmaceuticals":
+                self.pharmaceuticals()
+            case "retail":
+                self.retail()
+
+        self.first_message = f"Hello! I'm {self.voiceName} from {self.company} customer service. {self.capabilities} How can I help you today?"
+
+        self.settings["agent"]["speak"]["provider"]["model"] = self.voiceModel
+        self.settings["agent"]["think"]["prompt"] = self.prompt
+        self.settings["agent"]["greeting"] = self.first_message
+
+        self.prompt = self.personality + "\n\n" + self.prompt
+
+    def tech_support(
+        self, company="TechStyle", agent_voice="aura-2-thalia-en", voiceName=""
+    ):
+        if voiceName == "":
+            voiceName = self.get_voice_name_from_model(agent_voice)
+        self.voiceName = voiceName
+        self.company = company
+        self.voiceModel = agent_voice
+
+        self.personality = f"You are {self.voiceName}, a friendly and professional customer service representative for {self.company}, an online electronics and accessories retailer. Your role is to assist customers with orders, appointments, and general inquiries."
+
+        self.capabilities = "I'd love to help you with your order or appointment."
+
+    def healthcare(
+        self, company="HealthFirst", agent_voice="aura-2-andromeda-en", voiceName=""
+    ):
+        if voiceName == "":
+            voiceName = self.get_voice_name_from_model(agent_voice)
+        self.voiceName = voiceName
+        self.company = company
+        self.voiceModel = agent_voice
+
+        self.personality = f"You are {self.voiceName}, a compassionate and knowledgeable healthcare assistant for {self.company}, a leading healthcare provider. Your role is to assist patients with appointments, medical inquiries, and general health information."
+
+        self.capabilities = "I can help you schedule appointments or answer questions about our services."
+
+    def banking(
+        self, company="SecureBank", agent_voice="aura-2-apollo-en", voiceName=""
+    ):
+        if voiceName == "":
+            voiceName = self.get_voice_name_from_model(agent_voice)
+        self.voiceName = voiceName
+        self.company = company
+        self.voiceModel = agent_voice
+
+        self.personality = f"You are {self.voiceName}, a professional and trustworthy banking representative for {self.company}, a secure financial institution. Your role is to assist customers with account inquiries, transactions, and financial services."
+
+        self.capabilities = (
+            "I can assist you with your account or any banking services you need."
+        )
+
+    def pharmaceuticals(
+        self, company="MedLine", agent_voice="aura-2-helena-en", voiceName=""
+    ):
+        if voiceName == "":
+            voiceName = self.get_voice_name_from_model(agent_voice)
+        self.voiceName = voiceName
+        self.company = company
+        self.voiceModel = agent_voice
+
+        self.personality = f"You are {self.voiceName}, a professional and trustworthy pharmaceutical representative for {self.company}, a secure pharmaceutical company. Your role is to assist customers with account inquiries, transactions, and appointments. You MAY NOT provide medical advice."
+
+        self.capabilities = "I can assist you with your account or appointments."
+
+    def retail(self, company="StyleMart", agent_voice="aura-2-aries-en", voiceName=""):
+        if voiceName == "":
+            voiceName = self.get_voice_name_from_model(agent_voice)
+        self.voiceName = voiceName
+        self.company = company
+        self.voiceModel = agent_voice
+
+        self.personality = f"You are {self.voiceName}, a friendly and attentive retail associate for {self.company}, a trendy clothing and accessories store. Your role is to assist customers with product inquiries, orders, and style recommendations."
+
+        self.capabilities = (
+            "I can help you find the perfect item or check on your order status."
+        )
+
+    def travel(self, company="TravelTech", agent_voice="aura-2-arcas-en", voiceName=""):
+        if voiceName == "":
+            voiceName = self.get_voice_name_from_model(agent_voice)
+        self.voiceName = voiceName
+        self.company = company
+        self.voiceModel = agent_voice
+
+        self.personality = f"You are {self.voiceName}, a friendly and professional customer service representative for {self.company}, a tech-forward travel agency. Your role is to assist customers with travel bookings, appointments, and general inquiries."
+
+        self.capabilities = (
+            "I'd love to help you with your travel bookings or appointments."
+        )
+
+    @staticmethod
+    def get_available_industries():
+        """Return a dictionary of available industries with display names"""
+        return {
+            "tech_support": "Tech Support",
+            "healthcare": "Healthcare",
+            "banking": "Banking",
+            "pharmaceuticals": "Pharmaceuticals",
+            "retail": "Retail",
+            "travel": "Travel",
+        }
+
+    def get_voice_name_from_model(self, model):
+        return model.split("-")[2].split("-")[0].capitalize()
+
+  ```
+</CodeGroup>
+## Call the functions from `client.py`
+
+<Info>
+  This guide doesn't cover the development of the **client** for this application. Please see [client.py](https://github.com/deepgram-devs/flask-agent-function-calling-demo/blob/main/client.py#L66) for more details.
+</Info>
+
+In the `client.py` file we'll need reference `agent_templates.py` which will define the settings for the Voice Agent.
+
+<CodeGroup>
+  ```python Python
+  settings = self.agent_templates.settings
   ```
 </CodeGroup>
 
