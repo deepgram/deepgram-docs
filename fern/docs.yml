@@ -1254,7 +1254,7 @@ redirects:
   - source: /docs/getting-started-with-live-streaming-audio
     destination: /docs/live-streaming-audio
   - source: /docs/introduction
-    destination: /home/introduction
+    destination: /home
   - source: /reference/build-a-voice-agent
     destination: /reference/voice-agent-api/agent
   - source: /reference/listen-file
@@ -1439,3 +1439,9 @@ redirects:
   # seems to have been a legacy 404
   - source: /reference/errors
     destination: /docs/errors
+
+  # moved some stuff
+  - source: /docs/token-based-authentication
+    destination: /guides/fundamentals/token-based-authentication
+
+
