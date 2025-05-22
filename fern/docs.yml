@@ -364,32 +364,40 @@ navigation:
             flattened: true
             layout:
               - section: Voice Agent API
+                slug: v1/agent
                 contents:
                   - endpoint: GET /v1/agent/converse
+                    slug: converse
                     title: Build a Voice Agent
               - section: Speech to Text API
+                skip-slug: true
                 referenced-packages:
                   - speechToText
                 contents:
                   - endpoint: POST /v1/listen
+                    slug: v1/listen
                     title: Pre-Recorded Audio
                   - endpoint: GET /v1/listen
-                    slug: listen-streaming
+                    slug: v1/listen-streaming
                     title: Live Audio
               - section: Text to Speech API
+                skip-slug: true
                 referenced-packages:
                   - textToSpeech
                 contents:
                   - endpoint: POST /v1/speak
+                    slug: v1/speak
                     title: Single Text Request
                   - endpoint: GET /v1/speak
-                    slug: speak-streaming
+                    slug: v1/speak-streaming
                     title: Continuous Text Stream
               - section: Text Intelligence API
+                skip-slug: true
                 referenced-packages:
                   - textIntelligence
                 contents:
                   - endpoint: POST /v1/read
+                    slug: v1/read
                     title: Analyze Text
               - section: Management API
                 referenced-packages:
@@ -428,8 +436,10 @@ navigation:
       - page: Configure the Voice Agent
         path: docs/configure-voice-agent.mdx
       - section: Function Calling
-        path: docs/voice-agents-function-calling.mdx
+        slug: function-calling
         contents:
+          - page: Overview
+            path: docs/voice-agents-function-calling.mdx
           - page: Build A Function Call
             path: docs/build-a-function-call.mdx
           - page: Function Call Request
@@ -437,8 +447,10 @@ navigation:
           - page: Function Call Response
             path: docs/voice-agent-function-call-response.mdx
       - section: "Inputs: Client Messages"
-        path: docs/voice-agent-inputs.mdx
+        slug: client-messages
         contents:
+          - page: Overview
+            path: docs/voice-agent-inputs.mdx
           - page: Settings
             path: docs/voice-agent-settings.mdx
           - page: Update Speak
@@ -450,8 +462,10 @@ navigation:
           - page: Agent Keep Alive
             path: docs/agent-keep-alive.mdx
       - section: "Outputs: Server Events"
-        path: docs/voice-agent-outputs.mdx
+        slug: server-events
         contents:
+          - page: Overview
+            path: docs/voice-agent-outputs.mdx
           - page: Welcome
             path: docs/voice-agent-welcome-message.mdx
           - page: Settings Applied
@@ -479,6 +493,7 @@ navigation:
       - page: Media Inputs & Outputs
         path: docs/voice-agent-media-inputs-outputs.mdx
       - section: Tips & Tricks
+        slug: tips-tricks
         contents:
           - page: Voice Agent Audio & Playback
             path: docs/voice-agent-audio-playback.mdx
@@ -487,6 +502,7 @@ navigation:
   - tab: speech-to-text
     layout:
       - section: Pre-Recorded Audio
+        slug: prerecorded
         contents:
           - page: Getting Started
             path: docs/pre-recorded-audio.mdx
@@ -495,6 +511,7 @@ navigation:
           - link: Starter Apps
             href: https://github.com/search?q=org%3Adeepgram-starters+topic%3Aspeech-to-text+-topic%3Alive&type=repositories
           - section: Tips and Tricks
+            slug: tips-tricks
             contents:
               - page: Automatically Generating WebVTT & SRT Captions
                 path: docs/automatically-generating-webvtt-and-srt-captions.mdx
@@ -516,6 +533,7 @@ navigation:
               - page: When To Use Keywords and Search
                 path: docs/keywords-vs-search.mdx
       - section: Streaming Audio
+        slug: streaming
         contents:
           - page: Getting Started
             path: docs/live-streaming-audio.mdx
@@ -526,6 +544,7 @@ navigation:
           - link: Starter Apps
             href: https://github.com/search?q=org%3Adeepgram-starters+topic%3Aspeech-to-text+topic%3Alive&type=repositories
           - section: Control Messages
+            slug: control-messages
             contents:
               - page: Close Stream
                 path: docs/close-stream.mdx
@@ -534,6 +553,7 @@ navigation:
               - page: Audio Keep Alive
                 path: docs/audio-keep-alive.mdx
           - section: Speech Detection
+            slug: speech-detection
             contents:
               - page: Speech Started
                 path: docs/speech-started.mdx
@@ -544,6 +564,7 @@ navigation:
               - page: Interim Results
                 path: docs/interim-results.mdx
           - section: Tips and Tricks
+            slug: tips-tricks
             contents:
               - page: End of Speech Detection While Live Streaming
                 path: docs/understanding-end-of-speech-detection.mdx
@@ -567,6 +588,7 @@ navigation:
               - page: Using Lower-Level Websockets with the Streaming API
                 path: docs/lower-level-websockets.mdx
       - section: Models and Languages
+        slug: models-languages
         contents:
           - page: Models & Languages Overview
             path: docs/models-languages-overview.mdx
@@ -581,6 +603,7 @@ navigation:
           - page: Version
             path: docs/version.mdx
       - section: Formatting
+        slug: formatting
         contents:
           - page: Speaker Diarization
             path: docs/diarization.mdx
@@ -609,6 +632,7 @@ navigation:
           - page: Utterance Split
             path: docs/utterance-split.mdx
       - section: Custom Vocabulary
+        slug: custom-vocabulary
         contents:
           - page: Find and Replace
             path: docs/find-and-replace.mdx
@@ -619,8 +643,10 @@ navigation:
           - page: Search
             path: docs/search.mdx
       - section: Media Input Settings
-        path: docs/media-input-settings.mdx
+        slug: media-input
         contents:
+          - page: Overview
+            path: docs/media-input-settings.mdx
           - page: Channels
             path: docs/channels.mdx
           - page: Encoding
@@ -630,6 +656,7 @@ navigation:
           - page: Sample Rate
             path: docs/sample-rate.mdx
       - section: Results Processing
+        slug: results-processing
         contents:
           - page: STT Callback
             path: docs/callback.mdx
@@ -638,6 +665,7 @@ navigation:
           - page: Extra Metadata
             path: docs/extra-metadata.mdx
       - section: Migrating
+        slug: migrating
         contents:
           - page: >-
               Migrating From Amazon Web Services (AWS) Transcribe to
@@ -652,9 +680,11 @@ navigation:
             path: docs/migrating-from-assembly-ai-speech-to-text-to-deepgram.mdx
   - tab: text-to-speech
     layout:
-      - section: Text-to-Speech REST
-        path: docs/tts-rest.mdx
+      - section: Text-to-Speech
+        slug: single-request
         contents:
+          - page: Overview
+            path: docs/tts-rest.mdx
           - page: Getting Started
             path: docs/text-to-speech.mdx
           - page: Feature Overview
@@ -664,13 +694,16 @@ navigation:
           - page: Audio Output Streaming
             path: docs/streaming-the-audio-output.mdx
       - section: Text-to-Speech Streaming
-        path: docs/tts-websocket.mdx
+        slug: streaming
         contents:
+          - page: Overview
+            path: docs/tts-websocket.mdx
           - page: Getting Started
             path: docs/streaming-text-to-speech.mdx
           - page: Feature Overview
             path: docs/tts-streaming-feature-overview.mdx
           - section: Control Messages
+            slug: control-messages
             contents:
               - page: Flush
                 path: docs/tts-ws-flush.mdx
@@ -683,8 +716,10 @@ navigation:
       - page: Voice Selection
         path: docs/tts-models.mdx
       - section: Media Output Settings
-        path: docs/tts-media-output-settings.mdx
+        slug: media-output
         contents:
+          - page: Overview
+            path: docs/tts-media-output-settings.mdx
           - page: Encoding
             path: docs/tts-encoding.mdx
           - page: Bit Rate
@@ -694,6 +729,7 @@ navigation:
           - page: Sample Rate
             path: docs/tts-sample-rate.mdx
       - section: Tips and Tricks
+        slug: tips-tricks
         contents:
           - page: Real-Time TTS with WebSockets
             path: docs/tts-websocket-streaming.mdx
@@ -714,6 +750,7 @@ navigation:
   - tab: intelligence
     layout:
       - section: Audio Intelligence
+        slug: audio-intelligence
         contents:
           - page: Getting Started
             path: docs/audio-intelligence.mdx
@@ -730,6 +767,7 @@ navigation:
           - page: Topic Detection
             path: docs/topic-detection.mdx
       - section: Text Intelligence
+        slug: text-intelligence
         contents:
           - page: Getting Started
             path: docs/text-intelligence.mdx
@@ -752,9 +790,12 @@ navigation:
       - page: Deployment Environments
         path: docs/self-hosted-deployment-environments.mdx
       - section: Docker/Podman
-        path: docs/dockerpodman.mdx
+        slug: docker-podman
         contents:
+          - page: Overview
+            path: docs/dockerpodman.mdx
           - section: Platform Options
+            slug: platform-options
             contents:
               - page: Amazon Web Services
                 path: docs/aws-docker-podman.mdx
@@ -771,9 +812,12 @@ navigation:
           - page: Deploy Deepgram Services
             path: docs/deploy-deepgram-services.mdx
       - section: Kubernetes
-        path: docs/kubernetes.mdx
+        slug: kubernetes
         contents:
+          - page: Overview
+            path: docs/kubernetes.mdx
           - section: Platform Options
+            slug: platform-options
             contents:
               - page: Amazon Web Services
                 path: docs/aws-k8s.mdx
@@ -786,8 +830,10 @@ navigation:
       - page: Self Service Licensing & Credentials
         path: docs/self-hosted-self-service-tutorial.mdx
       - section: Scaling and Deployment Strategies
-        path: docs/scaling-and-deployment-strategies.mdx
+        slug: scaling-deployment
         contents:
+          - page: Overview
+            path: docs/scaling-and-deployment-strategies.mdx
           - page: System Maintenance
             path: docs/maintaining.mdx
           - page: Auto-Scaling
@@ -799,8 +845,10 @@ navigation:
           - page: Using Private Container Registries
             path: docs/using-private-container-registries.mdx
       - section: Self-Hosted Add Ons
-        path: docs/self-hosted-add-ons.mdx
+        slug: add-ons
         contents:
+          - page: Overview
+            path: docs/self-hosted-add-ons.mdx
           - page: License Proxy
             path: docs/license-proxy.mdx
           - page: Self-Hosted Text to Speech
@@ -1256,19 +1304,29 @@ redirects:
   - source: /docs/introduction
     destination: /home/introduction
   - source: /reference/build-a-voice-agent
-    destination: /reference/voice-agent-api/agent
+    destination: /reference/v1/agent/converse
+  - source: /reference/speech-to-text-api/listen
+    destination: /reference/v1/listen
   - source: /reference/listen-file
-    destination: /reference/speech-to-text-api/listen
+    destination: /reference/v1/listen
   - source: /reference/listen-remote
-    destination: /reference/speech-to-text-api/listen
+    destination: /reference/v1/listen
+  - source: /reference/speech-to-text-api/listen-streaming
+    destination: /reference/v1/listen-streaming
   - source: /reference/listen-live
-    destination: /reference/speech-to-text-api/listen-streaming
+    destination: /reference/v1/listen-streaming
+  - source: /reference/text-to-speech-api/speak
+    destination: /reference/v1/speak
   - source: /reference/text-to-speech-api
-    destination: /reference/text-to-speech-api/speak
+    destination: /reference/v1/speak
+  - source: /reference/text-to-speech-api/speak-streaming
+    destination: /reference/v1/speak-streaming
   - source: /reference/transform-text-to-speech-websocket
-    destination: /reference/text-to-speech-api/speak-streaming
+    destination: /reference/v1/speak-streaming
+  - source: /reference/text-intelligence-api/text-read
+    destination: /reference/v1/read
   - source: /reference/analyze-text
-    destination: /reference/text-intelligence-api/text-read
+    destination: /reference/v1/read
   - source: /reference/models
     destination: /reference/management-api/models/list
   - source: /reference/get-models
@@ -1352,7 +1410,9 @@ redirects:
   - source: /docs/voice-agent-server-errors
     destination: /docs/voice-agent-errors
   - source: /docs/build-a-voice-agent
-    destination: /reference/voice-agent-api/agent
+    destination: /reference/v1/agent/converse
+  - source: /reference/voice-agent-api/agent
+    destination: /reference/v1/agent/converse
   - source: /docs/text-chunking-for-tts-streaming-optimization
     destination: /docs/tts-websocket-streaming
   - source: /docs/text-chunking-techniques-for-tts
