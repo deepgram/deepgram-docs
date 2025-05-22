@@ -1,0 +1,109 @@
+---
+title: TTS Troubleshooting WebSocket, NET, and DATA Errors
+subtitle: Learn how to debug common real-time, live streaming text-to-speech errors.
+slug: docs/tts-troubleshooting-websocket-net-and-data-errors
+---
+
+When working with Deepgram's Text To Speech Streaming API, you may encounter WebSocket errors. This troubleshooting guide helps you quickly identify and resolve the most common issues.
+
+## WebSocket Basics
+
+- WebSocket enables two-way, real-time communication between client and server.
+- The connection is established via an HTTP handshake and upgraded to WebSocket.
+- If the handshake fails, you'll get an HTTP `4xx` or `5xx` error.
+- The connection stays open until closed by either side.
+
+### Establishing a WebSocket Connection
+
+- The client initiates a WebSocket connection with an HTTP handshake, optionally including query parameters or headers (for authentication, etc.).
+- Most libraries handle the handshake automatically (e.g., `websockets.connect`).
+- If successful, the server responds with HTTP `101` and upgrades the connection.
+- If unsuccessful, you'll receive an HTTP `4xx` or `5xx` error and the connection won't be established.
+
+### Closing the WebSocket Connection
+
+- A successfully opened WebSocket connection will stay alive until it is eventually closed by either the client or the server. When this occurs, a [WebSocket Close Frame](https://tools.ietf.org/html/rfc6455#section-5.5.1) will be returned.
+- The body of the Close frame will indicate the reason for closing with a [pre-defined status code](https://tools.ietf.org/html/rfc6455#section-7.4.1) followed by a UTF-8-encoded payload that represents the reason for the error.
+- To close the WebSocket connection from your client, send a [Close](/docs/tts-ws-close) message. The server will then finish processing any remaining data, send a final response and summary metadata, and terminate the connection.
+- After sending a Close message, the endpoint considers the WebSocket connection closed and will close the underlying TCP connection.
+
+
+## Common WebSocket Errors
+
+### Failure to Connect
+
+If a failure to connect occurs, Deepgram returns custom HTTP headers for debugging:
+  - `dg-request-id`: Always present, contains the request ID.
+  - `dg-error`: Present on failed upgrades, contains the error message.
+
+<Info>
+  Access to these headers will depend on the WebSocket library you are using. For example, browser-based WebSocket libraries like the JavaScript WebSocket library only allow access to HTTP header information for successful WebSocket connections.
+</Info>
+
+### Debugging Connection Failures
+
+If you're unable to connect the Deepgram API provides custom HTTP headers that contain debugging information:
+
+* Regardless of the success or failure of the WebSocket upgrade, all requests include the `dg-request-id` HTTP header, which contains the request ID.
+* Requests that do not successfully upgrade to a WebSocket connection also include the `dg-error` HTTP header, which contains a detailed error message concerning why the connection could not be upgraded. This error message is also sent back in the body of the HTTP response.
+
+### Abrupt WebSocket Closures
+
+If Deepgram encounters an error during real-time streaming, the Deepgram API returns a [WebSocket Close frame](https://www.rfc-editor.org/rfc/rfc6455#section-5.5.1). The body of the Close frame will indicate the reason for closing with a [pre-defined status code](https://tools.ietf.org/html/rfc6455#section-7.4.1) followed by a UTF-8-encoded payload that represents the reason for the error.
+
+Below are the most common WebSocket Close frame status codes and their descriptions.
+
+| Code | Payload      | Description                                             |
+| :--- | :----------- | :------------------------------------------------------ |
+| 1003 | MESSAGE-0000 | Input message isn't a supported websocket message type. |
+| 1008 | DATA-0000    | Input message isn't recognized as a valid command.      |
+| 1009 | BIG-0000     | Input message is too large.                             |
+| 1009 | BIG-0001     | Input text has too many characters.                     |
+| 1011 | NET-0000     | Internal server error.                                  |
+| 1011 | NET-0001     | Failed to receive message.                              |
+| 1011 | NET-0002     | Failed to send message.                                 |
+| 1011 | NET-0003     | Time limit exceeded.                                    |
+
+
+#### Troubleshooting `1003` - `MESSAGE-0000`
+- Ensure you are sending supported TTS WebSocket message types of `text`.
+- Refer to the [Documentation](/reference/text-to-speech-api/speak-streaming) for valid message types.
+
+#### Troubleshooting `1008` - `DATA-0000`
+- Make sure your message is a valid message type.
+- Refer to the [Documentation](/reference/text-to-speech-api/speak-streaming) for valid message types.
+
+#### Troubleshooting `1009` - `BIG-0000
+- Reduce the size of your input message.
+- If sending large blocks of text, consider splitting it into smaller chunks.
+- Check the [Documentation](/docs/errors#413-request-body-exceeded-2mb) for the maximum allowed request body size.
+
+#### Troubleshooting `1009` - `BIG-0001`
+- Shorten your input text to stay within character limits.
+- Check the [Documentation](/docs/errors#413-input-text-exceeded-character-limit) for the maximum allowed character limit.
+
+#### Troubleshooting `1011` - `NET-0000`
+- This indicates an internal server error.
+- Retry your request.
+- If the error persists, check [Deepgram status](https://status.deepgram.com/) for outages.
+- [Contact Support](/docs/support) if the issue continues.
+
+#### Troubleshooting `1011` - `NET-0001`
+- The server did not receive a message from the client in time.
+- Ensure your client is sending data promptly after connecting.
+- Check for network issues or dropped connections.
+- Retry the connection if needed.
+
+#### Troubleshooting `1011` - `NET-0002`
+- The server failed to send a message to the client.
+- Check your network connection and firewall settings.
+- Retry the request.
+- If the problem persists, [contact Support](/docs/support).
+
+#### Troubleshooting `1011` - `NET-0003`
+- The request took too long to complete (time limit exceeded).
+- Try reducing the size or complexity of your request.
+- Ensure your client is not waiting too long before sending or receiving data.
+- Retry the request if appropriate.
+
+***

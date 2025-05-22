@@ -19,7 +19,7 @@ logo:
   height: 32
   href: /
 
-navbar-links:                       
+navbar-links:
   - type: minimal
     text: "Playground"
     href: "https://playground.deepgram.com"
@@ -130,19 +130,19 @@ navigation:
       - section: Trust & Security
         slug: trust-security # /trust-security
         contents:
-          - page: Security Policy  # Moved ✅ Slug ✅ Redirected ✅
-            path: ./pages/trust-security/security-policy.mdx 
+          - page: Security Policy # Moved ✅ Slug ✅ Redirected ✅
+            path: ./pages/trust-security/security-policy.mdx
             slug: security-policy # /trust-security/security-policy
-          - page: Data Privacy Compliance  # Moved ✅ Slug ✅ Redirected ✅
+          - page: Data Privacy Compliance # Moved ✅ Slug ✅ Redirected ✅
             path: ./pages/trust-security/data-privacy-compliance.mdx
             slug: data-privacy-compliance # /trust-security/data-privacy-compliance
-          - page: Information Security & Privacy  # Moved ✅ Slug ✅ Redirected ✅
+          - page: Information Security & Privacy # Moved ✅ Slug ✅ Redirected ✅
             path: ./pages/trust-security/information-security-privacy.mdx
             slug: information-security-privacy # /trust-security/information-security-privacy
       - section: SDKs
         slug: sdks # /sdks
         contents:
-          - page: SDK Features  # Moved ✅ Slug ✅ Redirected ✅
+          - page: SDK Features # Moved ✅ Slug ✅ Redirected ✅
             path: ./pages/sdks/sdk-features.mdx
             slug: sdk-features # /sdks/sdk-features
           - section: JavaScript SDK
@@ -150,7 +150,7 @@ navigation:
             contents:
               - link: Get Started
                 href: https://github.com/deepgram/deepgram-js-sdk?tab=readme-ov-file#installation
-              - page: V2 to V3 Migration Guide  # Moved ✅ Slug ✅ Redirected ✅
+              - page: V2 to V3 Migration Guide # Moved ✅ Slug ✅ Redirected ✅
                 path: ./pages/sdks/javascript-sdk/v2-to-v3-migration.mdx
                 slug: v2-to-v3-migration # /sdks/javascript-sdk/v2-to-v3-migration
           - section: Python SDK
@@ -158,13 +158,13 @@ navigation:
             contents:
               - link: Get Started
                 href: https://github.com/deepgram/deepgram-python-sdk?tab=readme-ov-file#installation
-              - page: V2 to V3 Migration Guide  # Moved ✅ Slug ✅ Redirected ✅
+              - page: V2 to V3 Migration Guide # Moved ✅ Slug ✅ Redirected ✅
                 path: ./pages/sdks/python-sdk/v2-to-v3-migration.mdx
                 slug: v2-to-v3-migration # /sdks/python-sdk/v2-to-v3-migration
-              - page: Threaded and AsyncIO  # Moved ✅ Slug ✅ Redirected ✅
+              - page: Threaded and AsyncIO # Moved ✅ Slug ✅ Redirected ✅
                 path: ./pages/sdks/python-sdk/threaded-and-asyncio.mdx
                 slug: threaded-and-asyncio # /sdks/python-sdk/threaded-and-asyncio
-              - page: Python Notebooks  # Moved ✅ Slug ✅ Redirected ✅
+              - page: Python Notebooks # Moved ✅ Slug ✅ Redirected ✅
                 path: ./pages/sdks/python-sdk/python-notebooks.mdx
                 slug: python-notebooks # /sdks/python-sdk/python-notebooks
           - section: .NET SDK
@@ -172,7 +172,7 @@ navigation:
             contents:
               - link: Get Started
                 href: https://github.com/deepgram/deepgram-dotnet-sdk?tab=readme-ov-file#installation
-              - page: V3 to V4 Migration Guide  # Moved ✅ Slug ✅ Redirected ✅
+              - page: V3 to V4 Migration Guide # Moved ✅ Slug ✅ Redirected ✅
                 path: ./pages/sdks/dotnet-sdk/v3-to-v4-migration.mdx
                 slug: v3-to-v4-migration # /sdks/dotnet-sdk/v3-to-v4-migration
           - section: Go SDK
@@ -180,7 +180,7 @@ navigation:
             contents:
               - link: Get Started
                 href: https://github.com/deepgram/deepgram-go-sdk?tab=readme-ov-file#installation
-              - page: v1.2 to v1.3 Migration Guide  # Moved ✅ Slug ✅ Redirected ✅
+              - page: v1.2 to v1.3 Migration Guide # Moved ✅ Slug ✅ Redirected ✅
                 path: ./pages/sdks/go-sdk/v12-to-v13-migration.mdx
                 slug: v12-to-v13-migration # /sdks/go-sdk/v12-to-v13-migration
       - section: Guides
@@ -189,31 +189,31 @@ navigation:
           - section: Fundamentals
             slug: fundamentals
             contents:
-              - page: Make Your First API Request  # Moved ✅ Slug ✅ Redirected ✅
+              - page: Make Your First API Request # Moved ✅ Slug ✅ Redirected ✅
                 path: ./pages/guides/fundamentals/make-your-first-api-request.mdx
                 slug: make-your-first-api-request # /guides/fundamentals/make-your-first-api-request
-              - page: Authenticating  # Moved ✅ Slug ✅ Redirected ✅
+              - page: Authenticating # Moved ✅ Slug ✅ Redirected ✅
                 path: ./pages/guides/fundamentals/authenticating.mdx
                 slug: authenticating # /guides/fundamentals/authenticating
-              - page: Token-based Auth  # Moved ✅ Slug ✅ Redirected ✅
+              - page: Token-based Auth # Moved ✅ Slug ✅ Redirected ✅
                 path: ./pages/guides/fundamentals/token-based-authentication.mdx
                 slug: token-based-authentication # /guides/fundamentals/token-based-authentication
-              - page: Model Metadata  # Moved ✅ Slug ✅ Redirected ✅
+              - page: Model Metadata # Moved ✅ Slug ✅ Redirected ✅
                 path: ./pages/guides/fundamentals/model-metadata.mdx
                 slug: model-metadata # /guides/fundamentals/model-metadata
-              - page: Using Custom Add On Parameters with SDKs  # Moved ✅ Slug ✅ Redirected ✅
+              - page: Using Custom Add On Parameters with SDKs # Moved ✅ Slug ✅ Redirected ✅
                 path: ./pages/guides/fundamentals/using-custom-parameters-sdks.mdx
                 slug: using-custom-parameters-sdks # /guides/fundamentals/using-custom-parameters-sdks
           - section: Deep Dives
             slug: deep-dives
             contents:
-              - page: Managing Projects  # Moved ✅ Slug ✅ Redirected ✅
+              - page: Managing Projects # Moved ✅ Slug ✅ Redirected ✅
                 path: ./pages/guides/deep-dives/managing-projects.mdx
                 slug: managing-projects # /guides/deep-dives/managing-projects
-              - page: Using Multiple Projects  # Moved ✅ Slug ✅ Redirected ✅
+              - page: Using Multiple Projects # Moved ✅ Slug ✅ Redirected ✅
                 path: ./pages/guides/deep-dives/using-multiple-projects.mdx
                 slug: using-multiple-projects # /guides/deep-dives/using-multiple-projects
-              - page: Working With Roles & API Scopes  # Moved ✅ Slug ✅ Redirected ✅
+              - page: Working With Roles & API Scopes # Moved ✅ Slug ✅ Redirected ✅
                 path: ./pages/guides/deep-dives/working-with-roles.mdx
                 slug: working-with-roles # /guides/deep-dives/working-with-roles
               - page: Supported Audio Formats
@@ -556,9 +556,9 @@ navigation:
                   docs/determining-your-audio-format-for-live-streaming-audio.mdx
               - page: Measuring Streaming Latency
                 path: docs/measuring-streaming-latency.mdx
-              - page: WebSocket DATA & NET Errors When Live Streaming
+              - page: STT Troubleshooting WebSocket, NET, and DATA Errors
                 path: >-
-                  docs/troubleshooting-websocket-data-and-net-errors-when-live-streaming-audio.mdx
+                  docs/stt-troubleshooting-websocket-data-and-net-errors.mdx
               - page: >-
                   Recovering From Connection Errors & Timeouts When Live
                   Streaming
@@ -711,6 +711,8 @@ navigation:
             path: docs/text-to-speech-latency.mdx
           - page: Text to Speech Prompting
             path: docs/text-to-speech-prompting.mdx
+          - page: TTS Troubleshooting WebSocket, NET, and DATA Errors
+            path: docs/tts-troubleshooting-websocket-net-and-data-errors.mdx
   - tab: intelligence
     layout:
       - section: Audio Intelligence
@@ -1444,4 +1446,6 @@ redirects:
   - source: /docs/token-based-authentication
     destination: /guides/fundamentals/token-based-authentication
 
-
+  # improved naming / IA
+  - source: /docs/troubleshooting-websocket-data-and-net-errors-when-live-streaming-audio
+    destination: /docs/stt-troubleshooting-websocket-data-and-net-errors
