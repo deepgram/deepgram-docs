@@ -13,17 +13,14 @@ By default [Deepgram Text-to-Speech](/docs/tts-models) will be used with the Voi
 
 ## Deepgram TTS models
 
-These are just some of our most popular TTS voices. For a complete list see the [TTS Models Documentation](/docs/tts-models) .
+For a complete list of Deepgram TTS models see [TTS Voice Selection](/docs/tts-models).
 
-| agent.speak.model | Expressed Gender |
-| ----------------- | ---------------- |
-| `aura-2-thalia-en`| Feminine |
-| `aura-2-andromeda-en` | Feminine |
-| `aura-2-helena-en` | Feminine |
-| `aura-2-apollo-en`    | Masculine |
-| `aura-2-arcas-en`   | Masculine   |
-| `aura-2-aries-en` | Masculine|
-## Example
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `agent.speak.provider.type` | String | Must be `deepgram` |
+| `agent.speak.provider.model` | String | The TTS model to use |
+
+### Example
 
 <CodeGroup>
   ```json JSON
@@ -50,9 +47,34 @@ For OpenAI you can refer to [this article](https://platform.openai.com/docs/guid
 |-----------|------|-------------|
 | `agent.speak.provider.type` | String | Must be `open_ai` |
 | `agent.speak.provider.model` | String | The TTS model to use |
+| `agent.speak.provider.voice` | String | The voice to use |
 | `agent.speak.endpoint` | Object | Required and must include url and headers |
 | `agent.speak.endpoint.url` | String | Your OpenAI API endpoint URL |
 | `agent.speak.endpoint.headers` | Object | Required headers for authentication |
+
+#### Example
+
+<CodeGroup>
+```json
+{
+  "agent": {
+    "speak": {
+      "provider": {
+        "type": "open_ai",
+        "model": "tts-1",
+        "voice": "alloy"
+      },
+      "endpoint": {
+        "url": "https://api.openai.com/v1/audio/speech",
+        "headers": {
+          "authorization": "Bearer {{OPENAI_API_KEY}}"
+        }
+      }
+    }
+  }
+}
+```
+</CodeGroup>
 
 ### Eleven Labs
 
@@ -66,6 +88,30 @@ For ElevenLabs you can refer to [this article](https://help.elevenlabs.io/hc/en-
 | `agent.speak.endpoint` | Object | Required and must include url and headers |
 | `agent.speak.endpoint.url` | String | Your Eleven Labs API endpoint URL |
 | `agent.speak.endpoint.headers` | Object | Required headers for authentication |
+
+#### Example
+
+<CodeGroup>
+```json
+{
+  "agent": {
+    "speak": {
+      "provider": {
+        "type": "eleven_labs",
+        "model_id": "eleven_monolingual_v1",
+        "language_code": "en-US"
+      },
+      "endpoint": {
+        "url": "https://api.elevenlabs.io/v1/text-to-speech",
+        "headers": {
+          "xi-api-key": "{{ELEVEN_LABS_API_KEY}}"
+        }
+      }
+    }
+  }
+}
+```
+</CodeGroup>
 
 ### Cartesia
 
@@ -83,35 +129,108 @@ For Cartesia you can [use their API](https://docs.cartesia.ai/api-reference/voic
 | `agent.speak.endpoint.url` | String | Your Cartesia API endpoint URL |
 | `agent.speak.endpoint.headers` | Object | Required headers for authentication |
 
-## Example Payload
+#### Example
 
 <CodeGroup>
-  ```json JSON
-   "speak": {
-        "provider": {
-          "type": "eleven_labs", // Optional if TTS provider is Deepgram. Use for Eleven Labs OR Cartesia
-          "model": "open_ai_voice", // Optional if TTS provider is Deepgram. Use for OpenAI OR Deepgram
-          "model_id": "1234567890", // Optional if TTS provider is Deepgram. Use for Eleven Labs OR Cartesia
-          "voice": {
-            "mode": "Cartesia mode type", // Optional if TTS provider is Deepgram. Use for Cartesia
-            "id": "Cartesia voice id" // Optional if TTS provider is Deepgram. Use for Cartesia
-          },
-          "language": "en", // Optional if TTS provider is Deepgram. Use for Cartesia
-          "language_code": "en-US" // Optional if TTS provider is Deepgram. Use for Eleven Labs
+```json
+{
+  "agent": {
+    "speak": {
+      "provider": {
+        "type": "cartesia",
+        "model_id": "cartesia-v1",
+        "voice": {
+          "mode": "premium",
+          "id": "cartesia-voice-1"
         },
-        "endpoint": { // Optional if TTS provider is Deepgram
-          "url": "https://api.example.com/tts",
-          "headers": {
-            "authorization": "Bearer {{token}}"
-          }
-        }
+        "language": "Language.EN"
       },
-  ```
+      "endpoint": {
+        "url": "https://api.cartesia.ai/v1/tts",
+        "headers": {
+          "authorization": "Bearer {{CARTESIA_API_KEY}}"
+        }
+      }
+    }
+  }
+}
+```
 </CodeGroup>
 
+### AWS Polly
+
+For AWS Polly you can refer to [this article](https://docs.aws.amazon.com/polly/latest/dg/voice-engines-polly.html) for a list of available voices.
+
+<Warning>
+  If no engine is specified, AWS Polly defaults to Standard. If the chosen voice doesn't support Standard, you'll get an error like: "Standard engine not supported for {voice}." In that case, you must explicitly specify the correct engine.
+</Warning>
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `agent.speak.provider.type` | String | Must be `aws_polly` |
+| `agent.speak.provider.language_code` | String | The language code to use |
+| `agent.speak.provider.voice` | String | The voice to use |
+| `agent.speak.provider.engine` | String | The engine to use |
+| `agent.speak.provider.credentials` | Object | The credentials to use |
+
+#### STS Example
+<CodeGroup>
+```json
+{
+  "agent": {
+    "speak": {
+      "provider": {
+        "type": "aws_polly",
+        "language_code": "en-US",
+        "voice": "Matthew",
+        "engine": "standard",
+        "credentials": {
+          "type": "STS",
+          "region": "us-west-2",
+          "access_key_id": "{{AWS_ACCESS_KEY_ID}}",
+          "secret_access_key": "{{AWS_SECRET_ACCESS_KEY}}",
+          "session_token": "{{AWS_SESSION_TOKEN}}"
+        }
+      },
+      "endpoint": {
+        "url": "https://polly.us-west-2.amazonaws.com/v1/speech"
+      }
+    }
+  }
+}
+```
+</CodeGroup>
+
+#### IAM Example
+
+<CodeGroup>
+```json
+{
+  "agent": {
+    "speak": {
+      "provider": {
+        "type": "aws_polly",
+        "voice": "Joanna",
+        "language_code": "en-US",
+        "engine": "standard",
+        "credentials": {
+          "type": "IAM",
+          "region": "us-east-2",
+          "access_key_id": "{{AWS_ACCESS_KEY_ID}}",
+          "secret_access_key": "{{AWS_SECRET_ACCESS_KEY}}"
+        }
+      },
+      "endpoint": {
+        "url": "https://polly.us-east-2.amazonaws.com/v1/speech"
+      }
+    }
+  }
+}
+```
+</CodeGroup>
 
 ***
 
-What’s Next
+What's Next
 
 * [Configure the Voice Agent](/docs/configure-voice-agent)

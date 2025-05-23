@@ -58,12 +58,14 @@ The `Settings` message is a JSON object that contains the following fields:
 | `agent.speak.provider.voice` | Object | Voice configuration for Cartesia provider. Requires `model` and `id` |
 | `agent.speak.provider.language` | String | Optional language setting for Cartesia provider |
 | `agent.speak.provider.language_code` | String | Optional language code for Eleven Labs provider |
+| `agent.speak.provider.engine` | String | Optional engine for AWS Polly provider |
+| `agent.speak.provider.credentials` | Object | Optional credentials for AWS Polly provider |
 | `agent.speak.endpoint` | Object | Optional if TTS provider is Deepgram. Required for non-Deepgram TTS providers. When present, must include `url` field and `headers` object |
 | `agent.greeting` | String | Optional initial message that the agent will speak when the conversation starts |
 
 ## Full Example
 
-Below is an in-depth example showing all the available fields for `Settings`.
+Below is an in-depth example showing all the available fields for `Settings` with all the optional fields for individual provider specific settings.
 
 <CodeGroup>
   ```json JSON
@@ -136,10 +138,17 @@ Below is an in-depth example showing all the available fields for `Settings`.
           "model_id": "1234567890", // Optional if TTS provider is Deepgram. Use for Eleven Labs OR Cartesia
           "voice": {
             "mode": "Cartesia mode type", // Optional if TTS provider is Deepgram. Use for Cartesia
-            "id": "Cartesia voice id" // Optional if TTS provider is Deepgram. Use for Cartesia
+            "id": "voice id" // Optional if TTS provider is Deepgram. Use for Cartesia or OpenAI
           },
           "language": "en", // Optional if TTS provider is Deepgram. Use for Cartesia
-          "language_code": "en-US" // Optional if TTS provider is Deepgram. Use for Eleven Labs
+          "language_code": "en-US", // Optional if TTS provider is Deepgram. Use for Eleven Labs
+          "engine": "standard", // Optional if TTS provider is Deepgram. Use for AWS Polly
+          "credentials": { // Optional if TTS provider is Deepgram. Use for AWS Polly
+            "region": "us-east-1",
+            "access_key_id": "{{access_key_id}}",
+            "secret_access_key": "{{secret_access_key}}"
+            "session_token": "{{session_token}}" // Optional if TTS provider is Deepgram. Use for AWS Polly STS
+          }
         },
         "endpoint": {
           "url": "https://api.example.com/tts",
