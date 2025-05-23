@@ -76,7 +76,8 @@ Below are the most common WebSocket Close frame status codes and their descripti
 
 #### Troubleshooting `1008` - `DATA-0001`
 - Reduce the rate at which you are sending characters into the websocket via input messages.
-- The limit is on the total number of characters submitted for speaking, not the distinct number of input messages used to submit those characters. 
+- The limit is on the total number of characters submitted for speaking, not the distinct number of input messages used to submit those characters.
+- Check the [Documentation](/docs/errors#413-input-text-exceeded-character-limit) for the maximum allowed character limit.
 
 #### Troubleshooting `1009` - `BIG-0000
 - Reduce the size of your input message.

@@ -278,12 +278,12 @@ The request body exceeded the 2MB limit, indicating that the payload size is too
 
 ### `413` Input Text Exceeded Character Limit
 
-The text payload contained more than 2000 characters, which is above the character limit for text-to-speech request.
+The text payload contained more than 2400 characters, which is above the character limit for text-to-speech requests.
 
 ```json
 {
   "err_code": "Payload Too Large",
-  "err_msg": "Input text exceeds maximum character limit of 2000.",
+  "err_msg": "Input text exceeds maximum character limit of 2400.",
   "request_id": "[unique_request_id]"
 }
 ```
