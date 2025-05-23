@@ -74,6 +74,10 @@ Below are the most common WebSocket Close frame status codes and their descripti
 - Make sure your message is a valid message type.
 - Refer to the [Documentation](/reference/text-to-speech-api/speak-streaming) for valid message types.
 
+#### Troubleshooting `1008` - `DATA-0001`
+- Reduce the rate at which you are sending characters into the websocket via input messages.
+- The limit is on the total number of characters submitted for speaking, not the distinct number of input messages used to submit those characters. 
+
 #### Troubleshooting `1009` - `BIG-0000
 - Reduce the size of your input message.
 - If sending large blocks of text, consider splitting it into smaller chunks.
