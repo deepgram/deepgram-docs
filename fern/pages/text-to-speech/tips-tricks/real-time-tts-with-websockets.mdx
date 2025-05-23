@@ -1,0 +1,161 @@
+---
+title: Real-Time TTS with WebSockets
+subtitle: Implement low-latency streaming Text-to-Speech using Deepgram's WebSocket API.
+---
+
+## Why Use WebSockets for TTS?
+
+WebSockets provide a continuous audio stream flowing directly to the playback device without saving files to disk. This approach is essential for voice agents and conversational AI that require minimal latency and natural-sounding speech.
+
+Key benefits include low latency, which allows audio playback to begin as soon as the first data chunk arrives, continuous streaming that maintains a persistent connection for rapid audio delivery, and efficient processing by streaming audio directly to playback devices.
+
+## WebSocket Implementation Examples
+
+The following examples demonstrate how to implement real-time TTS using Deepgram's WebSocket API:
+
+<CodeGroup>
+  ```python
+  import sounddevice as sd
+  import numpy as np
+  import time
+
+  from deepgram import (
+      DeepgramClient,
+      SpeakWebSocketEvents,
+      SpeakOptions,
+  )
+
+  TTS_TEXT = "Hello, this is a text to speech example using Deepgram."
+
+  def main():
+      try:
+          # Create a Deepgram client using the API key from environment variables
+          deepgram = DeepgramClient()
+
+          # Create a websocket connection to Deepgram
+          dg_connection = deepgram.speak.websocket.v("1")
+
+          def on_open(self, open, **kwargs):
+              print(f"Connection opened: {open}")
+
+          def on_binary_data(self, data, **kwargs):
+              print("Received audio chunk")
+              # Convert binary data to audio format playback devices understand
+              array = np.frombuffer(data, dtype=np.int16)
+              # Play the audio immediately upon receiving each chunk
+              sd.play(array, 48000)
+              sd.wait()
+
+          def on_close(self, close, **kwargs):
+              print(f"Connection closed: {close}")
+
+          # Set up event handlers
+          dg_connection.on(SpeakWebSocketEvents.Open, on_open)
+          dg_connection.on(SpeakWebSocketEvents.AudioData, on_binary_data)
+          dg_connection.on(SpeakWebSocketEvents.Close, on_close)
+
+          # Configure audio options - linear16 is recommended for real-time applications
+          options = SpeakOptions(
+              model="aura-2-thalia-en",
+              encoding="linear16",
+              sample_rate=48000,
+          )
+
+          # Start the connection
+          if dg_connection.start(options) is False:
+              print("Failed to start connection")
+              return
+
+          # Send text to be converted to speech
+          dg_connection.send_text(TTS_TEXT)
+          dg_connection.flush()
+
+          # Allow time for playback
+          time.sleep(5)
+          
+          # Clean up
+          dg_connection.finish()
+          print("TTS stream completed")
+
+      except Exception as e:
+          print(f"An error occurred: {e}")
+
+  if __name__ == "__main__":
+      main()
+  ```
+  ```javascript Node.Js
+  const { createClient } = require('@deepgram/sdk');
+  const { Writable } = require('stream');
+  const { Speaker } = require('speaker');
+  
+  // Configure speaker for linear16 audio playback
+  const speaker = new Speaker({
+    channels: 1,
+    bitDepth: 16,
+    sampleRate: 48000,
+    signed: true
+  });
+  
+  // Create Deepgram client using API key from environment variable
+  const deepgram = createClient(process.env.DEEPGRAM_API_KEY);
+  
+  // Text to convert to speech
+  const TTS_TEXT = "Hello, this is a text to speech example using Deepgram.";
+  
+  async function main() {
+    try {
+      // Create a WebSocket connection to Deepgram TTS
+      const dgConnection = deepgram.speak.live({ 
+        model: "aura-2-thalia-en",
+        encoding: "linear16",
+        sample_rate: 48000 
+      });
+  
+      // Set up event handlers
+      dgConnection.on('open', () => {
+        console.log('Connection opened');
+        
+        // Send text to be converted to speech
+        dgConnection.sendText(TTS_TEXT);
+        
+        // Send flush message to the server after sending the text
+        dgConnection.flush();
+      });
+  
+      // Handle audio data as it arrives
+      dgConnection.on('audio', (data) => {
+        console.log('Received audio chunk');
+        
+        // Play audio directly to speaker
+        speaker.write(Buffer.from(data));
+      });
+  
+      // Handle connection close
+      dgConnection.on('close', () => {
+        console.log('Connection closed');
+      });
+  
+      // Handle errors
+      dgConnection.on('error', (error) => {
+        console.error('WebSocket error:', error);
+      });
+  
+      // Clean up after 5 seconds
+      setTimeout(() => {
+        console.log('Closing connection...');
+        dgConnection.finish();
+        console.log('TTS stream completed');
+      }, 5000);
+  
+    } catch (error) {
+      console.error('An error occurred:', error);
+    }
+  }
+  
+  main();
+  ```
+</CodeGroup>
+
+<Info>
+  For optimal text handling, see our guide on [Text Chunking for TTS](/docs/tts-text-chunking).
+</Info>

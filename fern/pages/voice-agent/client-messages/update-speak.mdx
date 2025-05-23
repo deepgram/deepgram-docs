@@ -1,0 +1,38 @@
+---
+title: Update Speak
+subtitle: Send a message to change the Speak model in the middle of a conversation.
+---
+
+<div class="flex flex-row gap-2">
+  <Markdown src="/snippets/va-stream-available.mdx" />
+</div>
+
+The `UpdateSpeak` message is a JSON message that you can use to change the Speak model in the middle of a conversation.
+
+## Purpose
+The `UpdateSpeak` message is a JSON message that allows you to switch the Speak model during a conversation. This flexibility enables real-time adjustments to the agent's voice output, ensuring a more dynamic and responsive interaction tailored to the evolving needs of the conversation.
+
+## Example Payloads
+
+To send the `UpdateSpeak` message, you need to send the following JSON message to the server:
+
+<CodeGroup>
+  ```json JSON
+  {
+    "type": "UpdateSpeak",
+    "model": "" // The new Speak model
+  }
+  ```
+</CodeGroup>
+
+Upon receiving the `UpdateSpeak` message, the server will process all remaining audio data and return a [`SpeakUpdated`](/docs/voice-agent-speak-updated) message.
+
+<CodeGroup>
+  ```json JSON
+  {
+      "type": "SpeakUpdated"
+  }
+  ```
+</CodeGroup>
+
+

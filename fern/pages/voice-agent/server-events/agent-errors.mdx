@@ -1,0 +1,28 @@
+---
+title: Agent Errors
+subtitle: Receive errors from the server if an issue has occurred.
+---
+
+<div class="flex flex-row gap-2">
+  <Markdown src="/snippets/va-stream-available.mdx" />
+</div>
+
+A notification from the server something has triggered an error.
+
+## Purpose
+
+The `Error` message is sent by the server to inform the client that an issue has occurred. It includes a descriptive message explaining the nature of the error, enabling the client to diagnose and address the problem. This ensures better error handling and more robust communication between the client and server.
+
+## Example Payload
+
+The server will send an `Error` message to notify the client that something has gone wrong.
+
+<CodeGroup>
+  ```json JSON
+  {
+    "type": "Error",
+    "description": "A description of what went wrong",
+    "code": "The error code"
+  }
+  ```
+</CodeGroup>

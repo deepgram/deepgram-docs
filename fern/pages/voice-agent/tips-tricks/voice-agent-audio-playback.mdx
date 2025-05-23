@@ -1,0 +1,206 @@
+---
+title: Voice Agent Audio & Playback
+subtitle: Learn some strategies for dealing with audio and playback issues.
+---
+
+The Agent API involves challenges like producing natural-sounding speech and eliminating audio errors. Achieving high-quality output requires careful text pre-processing, accurate phonetic and prosodic modeling, and post-processing steps like noise reduction and compression.
+
+Deepgram handles much of this for you, but if you are experiencing issues with your speech output, this guide will help you troubleshoot those problems.
+
+# Common problems
+
+## The Audio Output Sounds Like Static
+
+If you are able to connect your websocket to the Agent API successfully, but are getting a screeching or distorted playback on the audio, it is possible that your Agent [Settings](/docs/voice-agent-settings) were not set correctly. Verify that after you send the `Settings` message, you are properly receiving a [SettingsApplied](/docs/voice-agent-setting-applied-message) message from the server.
+
+The distorted or static-like sounds you are hearing may result from audio `encoding` and `sample_rate` settings for the output being set incorrectly. You may inadvertently be setting an incorrect value, leading to specific default values being used.
+
+<Info>
+  Learn more about [TTS audio encoding](/docs/tts-encoding) and [TTS audio sample rates ](/docs/tts-sample-rate)by checking out our documentation on these topics.
+</Info>
+
+## Attempting to Play Audio in a Web Browser
+
+When attempting to play generated audio within a web browser, like Chrome, you may not hear any audio playing from your speakers because the stream is not containerized audio (ie, audio with a defined header, like `wav`).
+
+Currently, the Text-to-Speech WebSocket implementation does not support[ containerized audio formats.](/docs/tts-container) To support playing audio through a web browser, it is recommended that you create and prepend a containerized audio header for your audio output bytes each time they are generated.
+
+In the `linear16` audio encoding case, you will need to prepend a [`WAV` container header](https://en.wikipedia.org/wiki/WAV#WAV_file_header) to each audio segment you plan to play through the speakers. This is required for many media device implementations within a browser. In several cases for Python, this may be sufficient for a `WAV` header in the case of a file:
+
+<CodeGroup>
+  ```python Python
+  import wave
+
+  // Generate a generic WAV container header
+  header = wave.open(AUDIO_FILE, "wb")
+  header.setnchannels(1)  // Mono audio
+  header.setsampwidth(2)  // 16-bit audio
+  header.setframerate(16000)  # Sample rate of 16000 Hz
+  header.close()
+
+  # then continue saving the rest of the audio stream to the file
+  ```
+</CodeGroup>
+
+In many cases, file-based playback is not desired, and you may want to play the audio directly by streaming to the media device. For those cases, you may need to manipulate the audio stream and create the header bytes directly in front of the audio stream segments:
+
+<CodeGroup>
+  ```javascript JavaScript
+  // Add a wav audio container header to the file if you want to play the audio
+  // using the AudioContext or media player like VLC, Media Player, or Apple Music
+  // Without this header in the Chrome browser case, the audio will not play.
+  const wavHeader = Buffer.from([
+    0x52, 0x49, 0x46, 0x46, // "RIFF"
+    0x00, 0x00, 0x00, 0x00, // Placeholder for file size
+    0x57, 0x41, 0x56, 0x45, // "WAVE"
+    0x66, 0x6D, 0x74, 0x20, // "fmt "
+    0x10, 0x00, 0x00, 0x00, // Chunk size (16)
+    0x01, 0x00,             // Audio format (1 for PCM)
+    0x01, 0x00,             // Number of channels (1)
+    0x80, 0xBB, 0x00, 0x00, // Sample rate (48000)
+    0x00, 0xEE, 0x02, 0x00, // Byte rate (48000 * 2)
+    0x02, 0x00,             // Block align (2)
+    0x10, 0x00,             // Bits per sample (16)
+    0x64, 0x61, 0x74, 0x61, // "data"
+    0x00, 0x00, 0x00, 0x00  // Placeholder for data size
+  ]);
+
+  // Concatenate the header to your audio buffer
+  const audio = Buffer.concat([wavHeader, audioBuffer]);
+  ```
+
+  ```python Python
+  # Add a wav audio container header to the file if you want to play the audio
+  # using the AudioContext or media player like VLC, Media Player, or Apple Music
+  # Without this header in the Chrome browser case, the audio will not play.
+  header = bytes(
+    [
+      0x52,
+      0x49,
+      0x46,
+      0x46,  # "RIFF"
+      0x00,
+      0x00,
+      0x00,
+      0x00,  # Placeholder for file size
+      0x57,
+      0x41,
+      0x56,
+      0x45,  # "WAVE"
+      0x66,
+      0x6D,
+      0x74,
+      0x20,  # "fmt "
+      0x10,
+      0x00,
+      0x00,
+      0x00,  # Chunk size (16)
+      0x01,
+      0x00,  # Audio format (1 for PCM)
+      0x01,
+      0x00,  # Number of channels (1)
+      0x80,
+      0xBB,
+      0x00,
+      0x00,  # Sample rate (48000)
+      0x00,
+      0xEE,
+      0x02,
+      0x00,  # Byte rate (48000 * 2)
+      0x02,
+      0x00,  # Block align (2)
+      0x10,
+      0x00,  # Bits per sample (16)
+      0x64,
+      0x61,
+      0x74,
+      0x61,  # "data"
+      0x00,
+      0x00,
+      0x00,
+      0x00,  # Placeholder for data size
+    ]
+  )
+  ```
+
+  ```go Go
+  // Add a wav audio container header to the file if you want to play the audio
+  // using the AudioContext or media player like VLC, Media Player, or Apple Music
+  // Without this header in the Chrome browser case, the audio will not play.
+  header := []byte{
+  		0x52, 0x49, 0x46, 0x46, // "RIFF"
+  		0x00, 0x00, 0x00, 0x00, // Placeholder for file size
+  		0x57, 0x41, 0x56, 0x45, // "WAVE"
+  		0x66, 0x6d, 0x74, 0x20, // "fmt "
+  		0x10, 0x00, 0x00, 0x00, // Chunk size (16)
+  		0x01, 0x00, // Audio format (1 for PCM)
+  		0x01, 0x00, // Number of channels (1)
+  		0x80, 0xbb, 0x00, 0x00, // Sample rate (48000)
+  		0x00, 0xee, 0x02, 0x00, // Byte rate (48000 * 2)
+  		0x02, 0x00, // Block align (2)
+  		0x10, 0x00, // Bits per sample (16)
+  		0x64, 0x61, 0x74, 0x61, // "data"
+  		0x00, 0x00, 0x00, 0x00, // Placeholder for data size
+  	}
+  ```
+
+  ```csharp C#
+  // Add a wav audio container header to the file if you want to play the audio
+  // using the AudioContext or media player like VLC, Media Player, or Apple Music
+  // Without this header in the Chrome browser case, the audio will not play.
+  byte[] header = new byte[]
+  {
+    0x52, 0x49, 0x46, 0x46, // "RIFF"
+    0x00, 0x00, 0x00, 0x00, // Placeholder for file size
+    0x57, 0x41, 0x56, 0x45, // "WAVE"
+    0x66, 0x6d, 0x74, 0x20, // "fmt "
+    0x10, 0x00, 0x00, 0x00, // Chunk size (16)
+    0x01, 0x00, // Audio format (1 for PCM)
+    0x01, 0x00, // Number of channels (1)
+    0x80, 0xbb, 0x00, 0x00, // Sample rate (48000)
+    0x00, 0xee, 0x02, 0x00, // Byte rate (48000 * 2)
+    0x02, 0x00, // Block align (2)
+    0x10, 0x00, // Bits per sample (16)
+    0x64, 0x61, 0x74, 0x61, // "data"
+    0x00, 0x00, 0x00, 0x00, // Placeholder for data size
+  };
+  ```
+</CodeGroup>
+
+<Warning>
+  There may be variations in creating this header based on the goals of your application.
+</Warning>
+
+## The Agent Voice Is Triggering Itself
+
+Depending on the application you are attempting to build, a possible scenario that could occur is the LLM's speech/audio output is triggering itself. In other words, the LLM begins responding to itself.
+
+There are numerous ways to mitigate this. Some of these include:
+
+1. Programmatically mute the microphone input.
+2. Keep the microphone input enabled, but use a local VAD to disengage/engage sending audio through the Websocket
+3. Enable echo cancellation in your `getUserMedia` audio constraints to help prevent the microphone from picking up the agent’s speech.
+
+### Using Echo Cancellation
+
+Some browsers provide built-in **echo cancellation** that can help reduce cases where the agent hears its own voice. You can enable this when capturing microphone input:
+
+<CodeGroup>
+  ```javascript JavaScript
+  navigator.mediaDevices
+      .getUserMedia({
+        audio: {
+          sampleRate: 16000,
+          channelCount: 1,
+          echoCancellation: true,  // Helps suppress the agent's voice being re-captured
+          noiseSuppression: false, // Optional, depends on use case
+        },
+      })
+      .then(stream => {
+        // Use the audio stream
+      })
+      .catch(error => {
+        console.error("Error accessing microphone:", error);
+      });
+  ```
+</CodeGroup>

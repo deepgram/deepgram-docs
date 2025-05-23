@@ -1,0 +1,366 @@
+---
+title: Google Cloud Platform
+subtitle: With Kubernetes
+---
+
+
+Deploying Deepgram on Google Cloud Platform (GCP) requires some preparation. In this section, you will learn how to provision a managed Kubernetes Cluster where you will deploy Deepgram products. You will need to perform some of these steps in the Google Cloud Console and some in your local terminal.
+
+# Prerequisites
+
+Make sure you have completed the requirements in the [Self-Hosted Introduction](/docs/self-hosted-introduction).
+
+GPU availability has been extremely limited across cloud providers, including GCP. You may need to [request a GPU quota](https://cloud.google.com/kubernetes-engine/docs/how-to/gpus#request_quota) if you are not able to provision spot GPU instances in your node pools.
+
+## `kubectl`
+
+The Kubernetes command-line tool, `kubectl`, allows you to run commands against Kubernetes clusters. You can use `kubectl` to deploy applications, inspect and manage cluster resources, and view logs.
+
+Install locally using [the official Kubernetes guides](https://kubernetes.io/docs/tasks/tools/#kubectl) .
+
+## `gcloud` CLI
+
+The [`gcloud` CLI](https://cloud.google.com/sdk/gcloud) provides programmatic access to manage your GCP services. Certain steps in this guide are enabled by this tool, although many of the same actions can be performed manually in the Google Cloud Console.
+
+1. Follow the [installation guide](https://cloud.google.com/sdk/docs/install) to install the CLI locally.
+2. Once installed, run `gcloud init` to configure the CLI with access to your GCP account and project.
+
+<Info>
+  <h2> Choosing a Region </h2>
+  The templates and steps in this guide provision resources in the GCP `us-west1` region.
+
+  If you would like to deploy to a different region, make sure to adjust templates and steps in this guide accordingly.
+</Info>
+
+## Cluster Management with `gcloud container clusters`
+
+The `gcloud container clusters` command group allows you to create and manage GKE clusters.
+
+Certain steps in this guide use these commands, although many of the same actions can be performed manually in the Google Cloud Console.
+
+## Kubernetes Packages with `helm`
+
+[Helm](https://helm.sh/) is the package manager for Kubernetes. A package in Kubernetes is defined by a Helm Chart, which helps you define, install, and upgrade even the most complex Kubernetes application.
+
+We use Helm to install several components in this guide. See the [installation guide](https://helm.sh/docs/intro/install/) for details on how to install locally.
+
+# Creating a Cluster
+
+Google Kubernetes Engine (GKE) is a managed Kubernetes service to run Kubernetes in GCP. In the cloud, GKE automatically manages the availability and scalability of the Kubernetes control plane nodes responsible for scheduling containers, managing application availability, storing cluster data, and other key tasks.
+
+1. Create a new GKE cluster with `gcloud`, and get the zones where your cluster is created.
+
+   <CodeGroup>
+     ```shell Shell
+     CLUSTER_NAME=deepgram-self-hosted
+     CLUSTER_LOCATION=us-west1
+     gcloud container clusters create $CLUSTER_NAME \
+         --location $CLUSTER_LOCATION \
+         --num-nodes 1 \
+         --enable-autoscaling \
+         --machine-type n1-standard-2 \
+         --addons=GcePersistentDiskCsiDriver
+
+     CLUSTER_ZONES=$(
+          gcloud container clusters describe $CLUSTER_NAME \
+              --location $CLUSTER_LOCATION \
+              --format="value(locations.join(','))"
+     )
+     ENGINE_NP_ZONE=$(echo "$CLUSTER_ZONES" | cut -d',' -f1)
+     ```
+   </CodeGroup>
+
+2. Create separate node pools for each Deepgram component (API, Engine, License Proxy). Adjust the machine types and node counts according to your needs. You may wish to consult your Deepgram Account Representative in planning your cluster's capacity.
+
+   <Info>
+     <h2> `num-nodes` Default Behavior</h2>
+    `num-nodes` configures the number of nodes in the node pool ***in each of the cluster's zones***. If your cluster is configured in 3 zones, setting`num-nodes` to 1 will result in 1 node per zone, or 3 nodes across the entire cluster.
+   </Info>
+
+   <Info>
+     We restrict the `engine-pool` to one cluster zone because [you can't use regional persistent disks on VMs that use G2 standard machine types](https://cloud.google.com/compute/docs/accelerator-optimized-machines#g2_standard_limitations). This guide uses a zonal persistent disk as a workaround, which means we must limit the nodes in `engine-pool` to a single zone in order to mount the disk.
+   </Info>
+
+   <CodeGroup>
+     ```shell Shell
+     gcloud container node-pools create api-pool \
+         --cluster $CLUSTER_NAME \
+         --location $CLUSTER_LOCATION \
+         --num-nodes 1 \
+         --enable-autoscaling \
+         --max-nodes 3 \
+         --machine-type n1-standard-4 \
+         --node-labels k8s.deepgram.com/node-type=api
+
+     gcloud container node-pools create engine-pool \
+         --cluster $CLUSTER_NAME \
+         --region $CLUSTER_LOCATION \
+         --node-locations $ENGINE_NP_ZONE \
+         --num-nodes 1 \
+         --enable-autoscaling \
+         --max-nodes 8 \
+         --machine-type g2-standard-8 \
+         --accelerator=type=nvidia-l4,count=1,gpu-driver-version=latest \
+         --node-labels k8s.deepgram.com/node-type=engine
+
+     gcloud container node-pools create license-proxy-pool \
+         --cluster $CLUSTER_NAME \
+         --location $CLUSTER_LOCATION \
+         --num-nodes 1 \
+         --enable-autoscaling \
+         --max-nodes 2 \
+         --machine-type n1-standard-2 \
+         --node-labels k8s.deepgram.com/node-type=license-proxy
+     ```
+   </CodeGroup>
+
+3. Create a dedicated namespace for Deepgram resources.
+
+   <CodeGroup>
+     ```shell Shell
+     kubectl create namespace dg-self-hosted
+     kubectl config set-context --current --namespace=dg-self-hosted
+     ```
+   </CodeGroup>
+
+# Configure Persistent Storage
+
+1. Create a Google Persistent Disk to store Deepgram model files and share them across multiple Deepgram Engine pods.
+
+   <CodeGroup>
+     ```shell Shell
+     DISK_NAME=deepgram-model-storage
+     DISK_URI=$(
+         gcloud compute disks create \
+             $DISK_NAME \
+             --size=40GB \
+             --type=pd-ssd \
+             --zone $ENGINE_NP_ZONE \
+             --format="value(selfLink)" | \
+         sed -e 's#.*/projects/#projects/#'
+     )
+     ```
+   </CodeGroup>
+
+2. Create a temporary VM instance in one of your cluster's zones and attach the persistent disk.
+
+   <CodeGroup>
+     ```shell Shell
+     gcloud compute instances create model-downloader \
+         --machine-type=n1-standard-1 \
+         --zone $ENGINE_NP_ZONE \
+         --disk=name=$DISK_URI,scope=zonal,device-name=$DISK_NAME,mode=rw,boot=no
+     ```
+   </CodeGroup>
+
+3. SSH into the VM instance.
+
+   <CodeGroup>
+     ```shell Shell
+     gcloud compute ssh model-downloader \
+         --zone $ENGINE_NP_ZONE
+     ```
+   </CodeGroup>
+
+4. In the VM, format and mount the disk, then download the model files provided by your Deepgram Account Representative onto the disk.
+
+   <CodeGroup>
+     ```shell Shell
+     DISK_NAME=deepgram-model-storage
+     sudo mkfs.ext4 -m 0 -E lazy_itable_init=0,lazy_journal_init=0,discard \
+         /dev/disk/by-id/google-$DISK_NAME
+
+     MOUNT_PATH=/mnt/disks/models
+     sudo mkdir -p $MOUNT_PATH
+     sudo mount -o discard,defaults /dev/disk/by-id/google-$DISK_NAME $MOUNT_PATH
+     sudo chmod a+w $MOUNT_PATH
+     cd $MOUNT_PATH
+
+     # Download each model file
+     wget https://link-to-model-1.dg
+     wget https://link-to-model-2.dg
+     # ... continue for all model files
+     ```
+   </CodeGroup>
+
+5. Unmount the disk and delete the temporary VM instance.
+
+   <CodeGroup>
+     ```shell Shell
+     cd
+     sudo umount $MOUNT_PATH
+     exit
+
+     gcloud compute instances delete model-downloader \
+         --zone $ENGINE_NP_ZONE
+     ```
+   </CodeGroup>
+
+# Configure Kubernetes Secrets
+
+Deepgram strongly recommends following [best practices for configuring Kubernetes Secrets](https://kubernetes.io/docs/concepts/configuration/secret/) . Please refer to [Securing Your Cluster](/docs/securing-your-cluster) for more details.
+
+The `deepgram-self-hosted` Helm chart takes two Secret references. One is a set of distribution credentials that allow the cluster to pull images from Deepgram's container image repository. The other is your self-hosted API key that licenses each Deepgram container that is created.
+
+1. Complete the [Self Service Licensing & Credentials](/docs/self-hosted-self-service-tutorial) guide to generate distribution credentials and a self-hosted API key.
+
+2. If using an external Secret store provider, configure cluster access to these two Secrets, naming them `dg-regcred` (distribution credentials) and `dg-self-hosted-api-key`.
+
+3. If not using an external Secret store provider, create the Secrets manually in your cluster.
+
+   1. Using the distribution credentials username and password generated in the Deepgram Console, create a Kubernetes Secret named `dg-regcred`.
+
+      <CodeGroup>
+        ```shell Shell
+        kubectl create secret docker-registry dg-regcred \
+            --docker-server=quay.io \
+            --docker-username='QUAY_DG_USER' \
+            --docker-password='QUAY_DG_PASSWORD'
+        ```
+      </CodeGroup>
+
+      <Info>
+        Replace the placeholders `QUAY_DG_USER` and `QUAY_DG_PASSWORD` with the distribution credentials you generated in the [Self Service Licensing & Credentials](/docs/self-hosted-self-service-tutorial) guide.
+      </Info>
+
+   2. Create a Kubernetes Secret named `dg-self-hosted-api-key` to store your self-hosted API key.
+
+      <CodeGroup>
+        ```shell Shell
+        kubectl create secret generic dg-self-hosted-api-key \
+            --from-literal=DEEPGRAM_API_KEY='YOUR_API_KEY_HERE'
+        ```
+      </CodeGroup>
+
+      <Info>
+        Replace the placeholder `YOUR_API_KEY_HERE` with the Deepgram API key you generated in the [Self Service Licensing & Credentials](/docs/self-hosted-self-service-tutorial) guide.
+      </Info>
+
+# Deploy Deepgram
+
+Deepgram maintains the official `deepgram-self-hosted` Helm Chart. You can reference the [source](https://github.com/deepgram/self-hosted-resources/blob/main/charts/deepgram-self-hosted/README.md) and [Artifact Hub listing](https://artifacthub.io/packages/helm/deepgram-self-hosted/deepgram-self-hosted) for more details. We'll use this Chart to facilitate deploying Deepgram services in your self-hosted environment.
+
+1. [Fetch the repository info](https://github.com/deepgram/self-hosted-resources/blob/main/charts/deepgram-self-hosted/README.md#get-repository-info).
+
+   <CodeGroup>
+     ```shell Shell
+     helm repo add deepgram https://deepgram.github.io/self-hosted-resources
+     helm repo update
+     ```
+   </CodeGroup>
+
+2. Download a `values.yaml` template for Deepgram's [self-hosted resources](https://github.com/deepgram/self-hosted-resources/tree/main/charts/deepgram-self-hosted/samples/gcp). For example, [here](https://github.com/deepgram/self-hosted-resources/blob/main/charts/deepgram-self-hosted/samples/gcp/license-proxy/values.yaml) is a template for a GCP deployment that includes the Deepgram License Proxy.
+
+3. Modify the `values.yaml` file:
+
+   * Update the `scaling.static.{api,engine,licenseProxy}.replicas` values to match your node pool sizes.
+
+   * Configure the `engine.modelManager.volumes.gcp.gpd` values to use the Google Persistent Disk you created earlier.
+
+     <CodeGroup>
+       ```shell Shell
+       echo $DISK_URI
+       ```
+     </CodeGroup>
+
+     <CodeGroup>
+       ```yaml yaml
+       engine:
+         modelManager:
+           volumes:
+             gcp:
+               gpd:
+                 enabled: true
+                 volumeHandle: "<your DISK_URI here>"
+       ```
+     </CodeGroup>
+
+4. Install the Helm Chart with your `values.yaml` file.
+
+   <CodeGroup>
+     ```shell Shell
+     helm install deepgram deepgram/deepgram-self-hosted \
+         -f my-values.yaml \
+         --namespace dg-self-hosted \
+         --atomic \
+         --timeout 1h
+     # Monitor the installation in a separate shell
+     watch kubectl get all
+     ```
+   </CodeGroup>
+
+   <Warning>
+     <h2> Resource Limits </h2>
+     It may take some time for GKE to resize the number of nodes in your cluster to accommodate your deployment.
+
+     If you want to monitor the status, or your pods aren't being scheduled as you expect, you can see a pod's scheduling status with `kubectl describe pod <pod-name>`, which may contain details on what is preventing scheduling.
+   </Warning>
+
+# Test Your Deepgram Setup with a Sample Request
+
+Test your environment and container setup with a local file.
+
+1. Get the name of one of the Deepgram API Pods.
+   <CodeGroup>
+     ```shell Shell
+     API_POD_NAME=$(
+         kubectl get pods \
+             --selector app=deepgram-api \
+             --output jsonpath='{.items[0].metadata.name}' \
+             --no-headers
+     )
+     ```
+   </CodeGroup>
+
+2. Launch an ephemeral container to send your test request from.
+   <CodeGroup>
+     ```shell Shell
+     kubectl debug $API_POD_NAME \
+         -it \
+         --image=curlimages/curl \
+         -- /bin/sh
+     ```
+   </CodeGroup>
+
+3. Inside the ephemeral container, download a sample file from Deepgram (or supply your own file).
+   <CodeGroup>
+     ```shell Shell
+     wget https://dpgr.am/bueller.wav
+     ```
+   </CodeGroup>
+
+4. Send your audio file to your local Deepgram setup for transcription.
+
+   <CodeGroup>
+     ```bash cURL
+     curl \
+         -X POST \
+         --data-binary @bueller.wav \
+         "http://localhost:8080/v1/listen?model=nova-3&smart_format=true"
+     ```
+   </CodeGroup>
+
+   <Info>
+     If needed, adjust pieces of the above command:
+     - the query parameters to match the directions from your Deepgram Account Representative
+     - the service name `deepgram-api-external`
+     - the namespace `dg-self-hosted`
+   </Info>
+
+You should receive a JSON response with the transcript and associated metadata. Congratulations - your self-hosted setup is working!
+
+# Next Steps
+
+Your Deepgram services are accessible within your cluster via the `deepgram-api-external` Service that was created by the Helm Chart.
+
+You may consider configuring additional ingress with a GCP Load Balancer to access your services. Note that your installation will automatically load balance any received requests within the cluster to distribute load evenly. The load balancer would primarily serve as the ingress endpoint into the cluster.
+
+***
+
+What’s Next
+
+Now that you have a basic Deepgram setup working, take some time to learn about building up to a production-level environment, as well as helpful Deepgram add-on services.
+
+* [Securing Your Cluster](/docs/securing-your-cluster)
+* [Scaling and Deployment Strategies](/docs/scaling-and-deployment-strategies)
+* [Self-Hosted Add Ons](/docs/self-hosted-add-ons)

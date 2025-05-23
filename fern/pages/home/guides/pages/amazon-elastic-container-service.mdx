@@ -1,0 +1,44 @@
+---
+title: Amazon Elastic Container Service
+description: ''
+hidden: true
+---
+
+> this page is a work in progress.
+
+Amazon Elastic Container Service (ECS) is a fully managed container orchestration service that helps you deploy, manage, and scale containerized applications. This guide discusses running Deepgram products in a self-hosted environment using AWS ECS.
+
+## Should I use this for my self-hosted environment?
+
+Amazon Elastic Container Service is a simple, fast approach for deploying containers. It has more auto-scaling flexibility than [basic EC2 instances using Docker or Podman](/docs/dockerpodman), and less operational complexity than a [Kubernetes cluster](/docs/kubernetes). The tradeoff is that as a managed cloud service, it  typically has higher cloud costs than the other two approaches, and also can lead to vendor lock-in with AWS.
+
+## Prerequisites
+
+Make sure you have completed the requirements in the [Self-Hosted Introduction](/docs/self-hosted-introduction#prerequisites).
+
+## Create an AWS ECS Cluster
+
+To begin your self-hosted installation with AWS as your cloud service provider, you need to create an Amazon EC2 instance.
+
+1. Navigate to the ECS Dashboard and confirm that the proper AWS Region is configured, then choose **Create cluster** to open the wizard.
+
+2. For the **Cluster name** wizard step, type `deepgram-self-hosted`, or another appropriate description of this cluster.
+
+3. For the **Infrastructure** wizard step, select `AWS Fargate (serverless)` in order to support auto-scaling.
+
+4. For the **Monitoring** wizard step, enable `Use Container insights`.
+   1. Submitting diagnostic information, such as the information provided by AWS CloudWatch, is required when filing a self-hosted deployment ticket with Deepgram Support.
+
+5. Verify the cluster information, and click `Create`.
+
+## Create an ECS Task Definition
+
+Your ECS cluster needs to know what containers to run, and their configuration and relationships with each-other. This is provided in the task definition.
+
+1. <br />
+
+## Configure your ECS Cluster
+
+Once your cluster is created, select it from the menu to begin configuration.
+
+1. <br />

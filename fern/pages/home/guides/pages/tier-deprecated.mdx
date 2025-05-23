@@ -1,0 +1,133 @@
+---
+title: Tier - Deprecated
+description: Tier allows you to associate your API requests with a specific tier.
+hidden: true
+'og:title': Transcription features - Tier - Deepgram Docs
+---
+
+`tier` *string* Default: `en`
+
+<div class="flex flex-row gap-2">
+  <Markdown src="/snippets/stt-batch-deprecated.mdx" /> <Markdown src="/snippets/stt-stream-deprecated.mdx" /> <Markdown src="/snippets/deprecated.mdx" />
+</div>
+
+Deepgram's tier feature allows you to associate your API requests with a specific tier architecture, which indicates the level of model you would like to use in your request.
+
+<Warning>
+Deprecation warning. Please use the `model` syntax outlined in the [Models & Languages Overview](https://developers.deepgram.com/docs/models-languages-overview).
+</Warning>
+
+## Tiers & Options
+
+Below is a list of model tiers (`tier`), each of which has its own list of model options (`model`).
+
+<Info>
+To learn more about models, see [Models](/docs/model/). To learn more about pricing, see [Deepgram Pricing & Plans](https://deepgram.com/pricing/).
+</Info>
+
+### Nova 2
+
+```
+https://api.deepgram.com/v1/listen?tier=nova&model=2-general
+```
+
+Nova-2 expands on Nova-1's advancements with speech-specific optimizations to the underlying Transformer architecture, advanced data curation techniques, and a multi-stage training methodology. These changes yield reduced word error rate (WER) and enhancements to entity recognition (i.e. proper nouns, alphanumerics, etc.), punctuation, and capitalization. Nova-2 has the following options:
+
+- `general`: Optimized for everyday audio processing.
+- `meeting`: Optimized for conference room settings, which include multiple speakers with a single microphone.
+- `phonecall`: Optimized for low-bandwidth audio phone calls.
+- `voicemail`: Optimized for low-bandwidth audio clips with a single speaker. Derived from the phonecall model.
+- `finance`: Optimized for multiple speakers with varying audio quality, such as might be found on a typical earnings call. Vocabulary is heavily finance oriented.
+- `conversationalai`: Optimized for use cases in which a human is talking to an automated bot, such as IVR, a voice assistant, or an automated kiosk.
+- `video`: Optimized for audio sourced from videos.
+- `medical`: Optimized for audio with medical oriented vocabulary.
+- `drivethru`: Optimized for audio sources from drivethrus.
+- `automotive`: Optimized for audio with automative oriented vocabulary.
+
+### Nova
+
+Nova model tiers are our newest and most powerful speech-to-text models on the market today. Deepgram's Nova models have the following options:
+
+- `general`: Optimized for everyday audio processing. Likely to be more accurate than any region-specific Base model for the language for which it is enabled. If you aren't sure which model to select, start here.
+
+- `phonecall`: Optimized for low-bandwidth audio phone calls.
+
+The Nova tier and its model options can be called with the following syntax:
+
+```
+https://api.deepgram.com/v1/listen?tier=nova&model=general
+```
+
+```
+https://api.deepgram.com/v1/listen?tier=nova&model=OPTION
+```
+
+If the `model` parameter is unset, it will default to `general`. Read the [Nova Quickstart](/docs/nova-quickstart) to learn more about getting started with Nova.
+
+### Enhanced
+
+Enhanced model tiers are still some of our most powerful ASR models; they generally have higher accuracy and better word recognition than our base models, and they handle uncommon words significantly better. Deepgram's Enhanced models have the following options:
+
+- `general`: Optimized for everyday audio processing. Likely to be more accurate than any region-specific Base model for the language for which it is enabled. If you aren't sure which model to select, start here.
+
+- `meeting` _beta_: Optimized for conference room settings, which include multiple speakers with a single microphone.
+
+- `phonecall`: Optimized for low-bandwidth audio phone calls.
+
+- `finance` _beta_: Optimized for multiple speakers with varying audio quality, such as might be found on a typical earnings call. Vocabulary is heavily finance oriented.
+
+The Enhanced tier and its model options can be called with the following syntax:
+
+```
+https://api.deepgram.com/v1/listen?tier=enhanced&model=general
+```
+
+```
+https://api.deepgram.com/v1/listen?tier=enhanced&model=OPTION
+```
+
+If the `model` parameter is unset, it will default to `general`.
+
+### Base
+
+Base model tiers are built on our signature end-to-end deep learning speech model architecture. They offer a solid combination of accuracy and cost effectiveness in some cases. Deepgram's Base models have the following options:
+
+- `general`: (Default) Optimized for everyday audio processing.
+- `meeting`: Optimized for conference room settings, which include multiple speakers with a single microphone.
+- `phonecall`: Optimized for low-bandwidth audio phone calls.
+- `voicemail`: Optimized for low-bandwidth audio clips with a single speaker. Derived from the phonecall model.
+- `finance`: Optimized for multiple speakers with varying audio quality, such as might be found on a typical earnings call. Vocabulary is heavily finance oriented.
+- `conversationalai`: Optimized to allow artificial intelligence technologies, such as chatbots, to interact with people in a human-like way.
+- `video`: Optimized for audio sourced from videos.
+
+The Base tier and its model options can be called with the following syntax:
+
+```
+https://api.deepgram.com/v1/listen?tier=base&model=general
+```
+
+```
+https://api.deepgram.com/v1/listen?tier=base&model=OPTION
+```
+
+If the `model` parameter is unset, it will default to `general`.
+
+<Warning>
+You should only submit model options that are available for a particular tier; submitting a model option that is not available for a tier will result in a parse error. All tiers should have a `general` model available.
+</Warning>
+
+### Try it out
+
+To transcribe audio from a file on your computer using a particular tier, run the following curl command in a terminal or your favorite API client.
+
+```bash cURL
+curl \
+  --request POST \
+  --header 'Authorization: Token YOUR_DEEPGRAM_API_KEY' \
+  --data-binary @youraudio.wav \
+  --url 'https://api.deepgram.com/v1/listen?tier=OPTION'
+```
+
+<Warning>
+Replace `YOUR_DEEPGRAM_API_KEY` with your [Deepgram API Key](https://console.deepgram.com/signup?jump=keys).
+</Warning>

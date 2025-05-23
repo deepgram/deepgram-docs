@@ -1,0 +1,181 @@
+---
+title: System Maintenance
+subtitle: >-
+  Periodically, you will update configuration files and models, install product
+  updates for your self-hosted deployment, and rotate licensing credentials. A
+  regularly updated system will be both more secure and more performant than a
+  lagging one.
+---
+
+
+## Updating Models
+
+Deepgram model updates include releases of new architectures, features, and language support, as well an incremental improvements for existing models. Please contact your Deepgram Account Representative to find out whether there are updates available for the models you use.
+
+### Model Selection
+
+Your Deepgram Account Representative provides you with a list of several different models depending on your use cases. For selecting language models to download, consider:
+
+* Which [Speech-to-text (STT) Models](/docs/models-languages-overview) and [Text-to-speech (TTS) Models](/docs/tts-models) you want to deploy.
+
+* Language(s) you will transcribe. Each model file name contains a language code, such as `en` (English) or `es` (Spanish).
+
+* Pre-recorded (batch) or streaming transcription. Look for `batch` or `streaming` in the model file name.
+
+* Whether you prefer smart-formatted ("human-readable", with grammar and punctuation) or non-formatted transcription output.
+
+* Model architecture(s) you prefer, such as `nova-3` or `nova-2`.
+
+* Domain models, such as `nova-3-medical` or `nova-2-phonecall`.
+
+* Additional features you plan to use, including formatting, diarization, keywords, redaction, audio intelligence, etc.
+
+  * The use of [smart formatting](/docs/smart-format) in English depends on the Named Entity Recognition (NER) model.
+  * Nova-3 introduces the native [Keyterms](/docs/keyterm) parameter which replaces the [Keywords](/docs/keywords) parameter used with other model architectures.
+  * Nova-2 and other model archticture Keywords requires the `phoneme` and `g2p` models.
+  * Sentiment analysis, intent recognition, and topic detection require the `sit` model.
+  * Each of the language detection (`language-detector`), diarization (`diarizer`), profanity filtering, summarization, and search features require its own model.
+
+Putting it all together, the model `nova-3-general.en.streaming.a12b345.dg` will transcribe English with streaming audio input, using the Nova-3 General model.
+
+<Info>
+  <h2> Legacy Model File Naming </h2>
+  Models delivered prior to May 2024 may have different naming conventions for the model architecture. For example, they may read as `2-general-nova` instead of `nova-2-general` in the filename.
+
+  The underlying model is identical, and both can be called with `model=nova-2-general` in your API calls.
+</Info>
+
+### Model-Dependent Feature Support
+
+An individual inference request to your self-hosted environment will require one or more deep learning models to be present. If your request attempts to use a feature that is powered by its own model, and the model is not present in your models directory in your self-hosted deployment, you will get a `400 Bad Request` HTTP response.
+
+For example, if you make a speech-to-text request that doesn't have the appropriate language or streaming/batch mode available, you may see this error:
+
+<CodeGroup>
+  ```json JSON
+  {
+    "err_code":"Bad Request",
+    "err_msg":"Bad Request: No such model/language/tier combination found. You could try the \"general\" model (language: en-US, base tier).",
+    "request_id":"154637c0-65b7-4ec4-a74c-467f8e51afd9"
+  }   
+  ```
+</CodeGroup>
+
+Additionally, if you request one of the following model-based features, and the model is not present, your request may be incomplete or receive an error response.
+
+* Diarization
+* Keywords
+* Language Detection
+* Entity Detection
+* Profanity Filter (Base Tier only)
+* Search
+* Audio Intelligence Features (Summarization, Sentiment, Topics, Intents)
+
+Contact your Deepgram Account Representative with the set of features you'd like to utilize on your requests, and you'll receive the necessary models to support that desired feature set.
+
+### Adding New Models to your Deployment
+
+#### Docker/Podman
+
+You can download new models into your `models/` directory to expose them to your system. You can look for a log line like the following in your Engine logs to demonstrate that a new model has been loaded:
+
+```
+2024-02-26T15:41:40.770498319Z  INFO load_model{path=/models/general.tar}: impeller::model_suppliers::autoload: Inserting model key=AsrKey { name: "general", version: "2023-02-22.3", languages: List(["en", ...]), aliases: {}, tags: [], uuid: 96a295ec-6336-43d5-b1cb-1e48b5e6d9a4, formatted: false, mode: All, architecture: None }
+```
+
+You may also verify that a new model UUID is serving your requests by inspecting the `models` or `model_info` fields in the request response metadata.
+
+#### Kubernetes
+
+Model files are typically exposed to Engine Pods via `PersistentVolumeClaim` backed by a `PersistentVolume`. See the [`deepgram-self-hosted` Helm chart documentation on Persistent Storage Options](https://github.com/deepgram/self-hosted-resources/tree/main/charts/deepgram-self-hosted#persistent-storage-options) for details on updating models in your cluster.
+
+## Installing Product Updates
+
+Deepgram regularly updates the container images for its self-hosted offering. Some updates are recommended, while others are mandatory and, if not installed, will result in Deepgram products ceasing to function.
+
+You can identify the latest self-hosted release in the [Deepgram Changelog](https://deepgram.com/changelog/). Filter by "Self-Hosted", and select the latest release. You can use either the [Semver](https://semver.org/) version tag or the release tag (`release-XXXXXX`) for each container image.
+
+### Docker/Podman
+
+1. Update the `image` field for all services in your `docker-compose.yml` or `podman-compose.yml` file with the desired tag.
+
+2. Refresh your container image repository credentials:
+
+   <CodeGroup>
+     ```shell Shell
+     docker login quay.io
+     ```
+   </CodeGroup>
+
+3. Restart existing containers. The new image tags in your Compose file will be automatically detected and the necessary container images will be downloaded and deployed.
+
+   <CodeGroup>
+     ```shell Shell
+     # Docker
+     docker compose -f /path/to/docker-compose.yml up -d
+     # Podman
+     podman-compose -f /path/to/docker-compose.yml up -d
+     ```
+   </CodeGroup>
+
+### Kubernetes
+
+In the `deepgram-self-hosted` Helm chart, you can specify the container image tag to use with the `{api,engine,license-proxy}.image.tag` values. See the [values documentation](https://github.com/deepgram/self-hosted-resources/tree/main/charts/deepgram-self-hosted#values) for more details.
+
+You can then run [`helm upgrade`](https://github.com/deepgram/self-hosted-resources/tree/main/charts/deepgram-self-hosted#upgrade-and-rollback-strategies) to roll these changes out to your cluster.
+
+## Updating Configuration Files
+
+Besides the container image tags, there may be other updates to configuration files that are available. Deepgram's [`self-hosted-resources` repository](https://github.com/deepgram/self-hosted-resources) contains up-to-date configuration files for Docker and Podman, as well as the `deepgram-self-hosted` Helm chart. Consult this repository regularly to see if updates are available.
+
+### Docker/Podman
+
+Updated files may include the Compose file and the API/Engine/License Proxy `toml` configuration files. If you modify your configuration files, you will need to restart your existing containers for changes to take effect.
+
+<CodeGroup>
+  ```shell Shell
+  # Docker
+  docker compose -f /path/to/docker-compose.yml up -d --force-recreate
+  # Podman
+  podman-compose -f /path/to/podman-compose.yml up -d --force-recreate
+  ```
+</CodeGroup>
+
+### Kubernetes
+
+The `deepgram-self-hosted` Helm chart has regular releases, and you should regularly update your Helm installation to use the latest version. The [chart Changelog](https://github.com/deepgram/self-hosted-resources/blob/main/charts/deepgram-self-hosted/CHANGELOG.md) describes changes between versions, and the chart `README` contains [upgrade instructions](https://github.com/deepgram/self-hosted-resources/blob/main/charts/deepgram-self-hosted/README.md#upgrade-and-rollback-strategies), as well as migration notes if a specific version contains breaking changes.
+
+Existing Pods will need to be restarted when underlying ConfigMaps are changed. This is handled automatically in version `>=0.2.1` of the `deepgram-self-hosted` Helm chart.
+
+## Managing Deepgram Licenses
+
+You may manage your own Deepgram licensing per the [Self Service Licensing & Credentials](/docs/self-hosted-self-service-tutorial) guide, including rotation and expiration of credentials.
+
+If you have ever been issued a license file for specialized, offline/air-gapped deployments, please contact your Deepgram Account Representative for additional documentation about maintaining your license.
+
+## Backing up Deepgram Products
+
+When backing up a Deepgram installation, you should back up all Infrastructure-as-Code artifacts.
+
+* Docker/Podman
+
+  * Compose files (`docker-compose.yml` or `podman-compose.yml`)
+  * `api.toml`
+  * `engine.toml`
+  * `license-proxy.toml`, if necessary
+  * models directory
+
+* Kubernetes
+
+  * Version of `deepgram-self-hosted` Helm chart that is in use
+  * `values.yaml` configuration file
+
+We highly recommend backing up your entire environment state, if possible. If you are using Docker/Podman, this can be done with a VM snapshot. If you are using Kubernetes, you may consider a cluster backup tool, such as [Velero](https://velero.io/).
+
+***
+
+What’s Next
+
+Now that you understand how to maintain your deployed Deepgram self-hosted environment, it's time to take a look at best practices related to autoscaling your system based on demand.
+
+* [Autoscaling Best Practices](/docs/autoscaling-best-practices)

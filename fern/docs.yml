@@ -1,5 +1,3 @@
-# yaml-language-server: $schema=https://schema.buildwithfern.dev/docs-yml.json
-
 instances:
   - url: https://deepgram.docs.buildwithfern.com
     custom-domain: developers.deepgram.com
@@ -8,40 +6,35 @@ instances:
         owner: deepgram
         repo: deepgram-docs
         branch: main
-
 title: Deepgram's Docs
 favicon: assets/favicon.ico
 default-language: python
-
 logo:
   dark: assets/logo-dark.svg
   light: assets/logo-light.svg
   height: 32
   href: /
-
-navbar-links:                       
+navbar-links:
   - type: minimal
-    text: "Playground"
-    href: "https://playground.deepgram.com"
+    text: Playground
+    href: https://playground.deepgram.com
   - type: minimal
-    text: "Console"
-    href: "https://console.deepgram.com"
+    text: Console
+    href: https://console.deepgram.com
   - type: minimal
-    text: "Community"
-    href: "https://community.deepgram.com"
+    text: Community
+    href: https://community.deepgram.com
   - type: outlined
-    text: "Support"
-    href: "/docs/support"
+    text: Support
+    href: /support
     rightIcon: fa-solid fa-headset
   - type: filled
-    text: "Free API Key"
-    href: "https://console.deepgram.com/signup"
-
+    text: Free API Key
+    href: https://console.deepgram.com/signup
 layout:
   tabs-placement: header
   searchbar-placement: header
   page-width: full
-
 colors:
   accent-primary:
     dark: "#a1f9d4"
@@ -61,14 +54,11 @@ colors:
   border:
     dark: "#2c2c33"
     light: "#e5e5e7"
-
 css:
   - assets/styles.css
-
 js:
   - path: ./assets/component.js
     strategy: lazyOnload
-
 typography:
   bodyFont:
     name: Inter
@@ -83,16 +73,14 @@ typography:
   codeFont:
     name: FiraMono
     path: assets/FiraMono.woff2
-
 analytics:
   gtm:
     container-id: ${GTM_CONTAINER_ID}
-
 tabs:
   home:
     display-name: Home
     icon: fa-solid fa-house
-    skip-slug: true # skip slug for home page
+    skip-slug: true
   api-reference:
     display-name: API Reference
     icon: fa-solid fa-code
@@ -117,243 +105,290 @@ tabs:
     display-name: Self-Hosted Deployments
     icon: fa-solid fa-server
     slug: self-hosted
-
 navigation:
   - tab: home
     layout:
-      - page: Introduction # Moved ✅ Slug ✅ Redirected ✅
-        path: ./pages/home.mdx
-        slug: home # /home
-      - page: Support # Moved ✅ Slug ✅ Redirected ✅
-        path: ./pages/support.mdx
-        slug: support # /support
+      - page: Introduction
+        path: ./pages/home/home.mdx
+        slug: home
+      - page: Support
+        path: ./pages/home/support.mdx
+        slug: support
       - section: Trust & Security
-        slug: trust-security # /trust-security
+        slug: trust-security
         contents:
-          - page: Security Policy  # Moved ✅ Slug ✅ Redirected ✅
-            path: ./pages/trust-security/security-policy.mdx 
-            slug: security-policy # /trust-security/security-policy
-          - page: Data Privacy Compliance  # Moved ✅ Slug ✅ Redirected ✅
-            path: ./pages/trust-security/data-privacy-compliance.mdx
-            slug: data-privacy-compliance # /trust-security/data-privacy-compliance
-          - page: Information Security & Privacy  # Moved ✅ Slug ✅ Redirected ✅
-            path: ./pages/trust-security/information-security-privacy.mdx
-            slug: information-security-privacy # /trust-security/information-security-privacy
+          - page: Security Policy
+            path: ./pages/home/trust-security/security-policy.mdx
+            slug: security-policy
+          - page: Data Privacy Compliance
+            path: ./pages/home/trust-security/data-privacy-compliance.mdx
+            slug: data-privacy-compliance
+          - page: Information Security & Privacy
+            path: ./pages/home/trust-security/information-security-privacy.mdx
+            slug: information-security-privacy
       - section: SDKs
-        slug: sdks # /sdks
+        slug: sdks
         contents:
-          - page: SDK Features  # Moved ✅ Slug ✅ Redirected ✅
-            path: ./pages/sdks/sdk-features.mdx
-            slug: sdk-features # /sdks/sdk-features
+          - page: SDK Features
+            path: ./pages/home/sdks/sdk-features.mdx
+            slug: sdk-features
           - section: JavaScript SDK
-            slug: javascript-sdk # /sdks/javascript-sdk
+            slug: javascript-sdk
             contents:
               - link: Get Started
                 href: https://github.com/deepgram/deepgram-js-sdk?tab=readme-ov-file#installation
-              - page: V2 to V3 Migration Guide  # Moved ✅ Slug ✅ Redirected ✅
-                path: ./pages/sdks/javascript-sdk/v2-to-v3-migration.mdx
-                slug: v2-to-v3-migration # /sdks/javascript-sdk/v2-to-v3-migration
+              - page: V2 to V3 Migration Guide
+                path: ./pages/home/sdks/javascript-sdk/v2-to-v3-migration.mdx
+                slug: v2-to-v3-migration
           - section: Python SDK
-            slug: python-sdk # /sdks/python-sdk
+            slug: python-sdk
             contents:
               - link: Get Started
                 href: https://github.com/deepgram/deepgram-python-sdk?tab=readme-ov-file#installation
-              - page: V2 to V3 Migration Guide  # Moved ✅ Slug ✅ Redirected ✅
-                path: ./pages/sdks/python-sdk/v2-to-v3-migration.mdx
-                slug: v2-to-v3-migration # /sdks/python-sdk/v2-to-v3-migration
-              - page: Threaded and AsyncIO  # Moved ✅ Slug ✅ Redirected ✅
-                path: ./pages/sdks/python-sdk/threaded-and-asyncio.mdx
-                slug: threaded-and-asyncio # /sdks/python-sdk/threaded-and-asyncio
-              - page: Python Notebooks  # Moved ✅ Slug ✅ Redirected ✅
-                path: ./pages/sdks/python-sdk/python-notebooks.mdx
-                slug: python-notebooks # /sdks/python-sdk/python-notebooks
+              - page: V2 to V3 Migration Guide
+                path: ./pages/home/sdks/python-sdk/v2-to-v3-migration.mdx
+                slug: v2-to-v3-migration
+              - page: Threaded and AsyncIO
+                path: ./pages/home/sdks/python-sdk/threaded-and-asyncio.mdx
+                slug: threaded-and-asyncio
+              - page: Python Notebooks
+                path: ./pages/home/sdks/python-sdk/python-notebooks.mdx
+                slug: python-notebooks
           - section: .NET SDK
             slug: dotnet-sdk
             contents:
               - link: Get Started
                 href: https://github.com/deepgram/deepgram-dotnet-sdk?tab=readme-ov-file#installation
-              - page: V3 to V4 Migration Guide  # Moved ✅ Slug ✅ Redirected ✅
-                path: ./pages/sdks/dotnet-sdk/v3-to-v4-migration.mdx
-                slug: v3-to-v4-migration # /sdks/dotnet-sdk/v3-to-v4-migration
+              - page: V3 to V4 Migration Guide
+                path: ./pages/home/sdks/dotnet-sdk/v3-to-v4-migration.mdx
+                slug: v3-to-v4-migration
           - section: Go SDK
             slug: go-sdk
             contents:
               - link: Get Started
                 href: https://github.com/deepgram/deepgram-go-sdk?tab=readme-ov-file#installation
-              - page: v1.2 to v1.3 Migration Guide  # Moved ✅ Slug ✅ Redirected ✅
-                path: ./pages/sdks/go-sdk/v12-to-v13-migration.mdx
-                slug: v12-to-v13-migration # /sdks/go-sdk/v12-to-v13-migration
+              - page: v1.2 to v1.3 Migration Guide
+                path: ./pages/home/sdks/go-sdk/v12-to-v13-migration.mdx
+                slug: v12-to-v13-migration
       - section: Guides
         slug: guides
         contents:
           - section: Fundamentals
             slug: fundamentals
             contents:
-              - page: Make Your First API Request  # Moved ✅ Slug ✅ Redirected ✅
-                path: ./pages/guides/fundamentals/make-your-first-api-request.mdx
-                slug: make-your-first-api-request # /guides/fundamentals/make-your-first-api-request
-              - page: Authenticating  # Moved ✅ Slug ✅ Redirected ✅
-                path: ./pages/guides/fundamentals/authenticating.mdx
-                slug: authenticating # /guides/fundamentals/authenticating
-              - page: Token-based Auth  # Moved ✅ Slug ✅ Redirected ✅
-                path: ./pages/guides/fundamentals/token-based-authentication.mdx
-                slug: token-based-authentication # /guides/fundamentals/token-based-authentication
-              - page: Model Metadata  # Moved ✅ Slug ✅ Redirected ✅
-                path: ./pages/guides/fundamentals/model-metadata.mdx
-                slug: model-metadata # /guides/fundamentals/model-metadata
-              - page: Using Custom Add On Parameters with SDKs  # Moved ✅ Slug ✅ Redirected ✅
-                path: ./pages/guides/fundamentals/using-custom-parameters-sdks.mdx
-                slug: using-custom-parameters-sdks # /guides/fundamentals/using-custom-parameters-sdks
+              - page: Make Your First API Request
+                path: ./pages/home/guides/fundamentals/make-your-first-api-request.mdx
+                slug: make-your-first-api-request
+              - page: Authenticating
+                path: ./pages/home/guides/fundamentals/authenticating.mdx
+                slug: authenticating
+              - page: Token-based Auth
+                path: ./pages/home/guides/fundamentals/token-based-authentication.mdx
+                slug: token-based-authentication
+              - page: Model Metadata
+                path: ./pages/home/guides/fundamentals/model-metadata.mdx
+                slug: model-metadata
+              - page: Using Custom Add On Parameters with SDKs
+                path: ./pages/home/guides/fundamentals/using-custom-parameters-sdks.mdx
+                slug: using-custom-parameters-sdks
           - section: Deep Dives
             slug: deep-dives
             contents:
-              - page: Managing Projects  # Moved ✅ Slug ✅ Redirected ✅
-                path: ./pages/guides/deep-dives/managing-projects.mdx
-                slug: managing-projects # /guides/deep-dives/managing-projects
-              - page: Using Multiple Projects  # Moved ✅ Slug ✅ Redirected ✅
-                path: ./pages/guides/deep-dives/using-multiple-projects.mdx
-                slug: using-multiple-projects # /guides/deep-dives/using-multiple-projects
-              - page: Working With Roles & API Scopes  # Moved ✅ Slug ✅ Redirected ✅
-                path: ./pages/guides/deep-dives/working-with-roles.mdx
-                slug: working-with-roles # /guides/deep-dives/working-with-roles
+              - page: Managing Projects
+                path: ./pages/home/guides/deep-dives/managing-projects.mdx
+                slug: managing-projects
+              - page: Using Multiple Projects
+                path: ./pages/home/guides/deep-dives/using-multiple-projects.mdx
+                slug: using-multiple-projects
+              - page: Working With Roles & API Scopes
+                path: ./pages/home/guides/deep-dives/working-with-roles.mdx
+                slug: working-with-roles
               - page: Supported Audio Formats
-                path: ./pages/guides/deep-dives/supported-audio-formats.mdx
+                path: ./pages/home/guides/deep-dives/supported-audio-formats.mdx
+                slug: supported-audio-formats
               - page: Deployment Options
-                path: ./pages/guides/deep-dives/deployment-options.mdx
+                path: ./pages/home/guides/deep-dives/deployment-options.mdx
+                slug: deployment-options
               - page: Creating AdditionalAPI Keys
-                path: ./pages/guides/deep-dives/create-additional-api-keys.mdx
+                path: ./pages/home/guides/deep-dives/creating-additionalapi-keys.mdx
+                slug: create-additional-api-keys
               - page: Using the Sec-WebSocket-Protocol
-                path: ./pages/guides/deep-dives/using-the-sec-websocket-protocol.mdx
+                path: ./pages/home/guides/deep-dives/using-the-sec-websocket-protocol.mdx
+                slug: using-the-sec-websocket-protocol
               - page: Logs & Usage Data
-                path: ./pages/guides/deep-dives/using-logs-usage.mdx
+                path: ./pages/home/guides/deep-dives/logs-usage-data.mdx
+                slug: using-logs-usage
               - page: Model Improvement Program
-                path: ./pages/guides/deep-dives/the-deepgram-model-improvement-partnership-program.mdx
+                path: ./pages/home/guides/deep-dives/model-improvement-program.mdx
+                slug: the-deepgram-model-improvement-partnership-program
               - page: Working With Concurrency Rate Limits
-                path: ./pages/guides/deep-dives/working-with-concurrency-rate-limits.mdx
+                path: ./pages/home/guides/deep-dives/working-with-concurrency-rate-limits.mdx
+                slug: working-with-concurrency-rate-limits
           - section: Use Cases
             slug: use-cases
             contents:
               - page: Voice Agent with Twilio & OpenAI & Deepgram
-                path: ./pages/guides/use-cases/voice-agent-with-twilio-openai-deepgram.mdx
+                path: ./pages/home/guides/use-cases/voice-agent-with-twilio-openai-deepgram.mdx
+                slug: voice-agent-with-twilio-openai-deepgram
               - page: Calculate Talk Time Analytics
-                path: ./pages/guides/use-cases/calculate-talk-time-analytics.mdx
+                path: ./pages/home/guides/use-cases/calculate-talk-time-analytics.mdx
+                slug: calculate-talk-time-analytics
               - page: Transcribe Meetings in Realtime
-                path: ./pages/guides/use-cases/transcribe-meetings-in-realtime.mdx
+                path: ./pages/home/guides/use-cases/transcribe-meetings-in-realtime.mdx
+                slug: transcribe-meetings-in-realtime
               - page: Transcribe Recorded Calls With Twilio
-                path: ./pages/guides/use-cases/transcribe-recorded-calls-with-twilio.mdx
+                path: ./pages/home/guides/use-cases/transcribe-recorded-calls-with-twilio.mdx
+                slug: transcribe-recorded-calls-with-twilio
           - section: Integrations
             slug: integrations
             contents:
               - page: Amazon Connect and Deepgram
-                path: ./pages/guides/integrations/amazon-connect-and-deepgram.mdx
+                path: ./pages/home/guides/integrations/amazon-connect-and-deepgram.mdx
+                slug: amazon-connect-and-deepgram
               - page: AWS S3 Presigned URLs and Deepgram
-                path: ./pages/guides/integrations/aws-s3-presigned-urls-and-deepgram.mdx
+                path: ./pages/home/guides/integrations/aws-s3-presigned-urls-and-deepgram.mdx
+                slug: aws-s3-presigned-urls-and-deepgram
               - page: Genesys and Deepgram
-                path: ./pages/guides/integrations/genesys-and-deepgram.mdx
+                path: ./pages/home/guides/integrations/genesys-and-deepgram.mdx
+                slug: genesys-and-deepgram
               - page: Google Dialogflow CX and Deepgram
-                path: ./pages/guides/integrations/google-dialogflow-cx-and-deepgram.mdx
+                path: ./pages/home/guides/integrations/google-dialogflow-cx-and-deepgram.mdx
+                slug: google-dialogflow-cx-and-deepgram
               - page: Make.com and Deepgram
-                path: ./pages/guides/integrations/makecom-and-deepgram.mdx
+                path: ./pages/home/guides/integrations/make-com-and-deepgram.mdx
+                slug: makecom-and-deepgram
               - page: Twilio and Deepgram STT
-                path: ./pages/guides/integrations/twilio-and-deepgram-stt.mdx
+                path: ./pages/home/guides/integrations/twilio-and-deepgram-stt.mdx
+                slug: twilio-and-deepgram-stt
               - page: Twilio and Deepgram TTS
-                path: ./pages/guides/integrations/twilio-and-deepgram-tts.mdx
+                path: ./pages/home/guides/integrations/twilio-and-deepgram-tts.mdx
+                slug: twilio-and-deepgram-tts
               - page: Twilio and Deepgram Voice Agent
-                path: ./pages/guides/integrations/twilio-and-deepgram-voice-agent.mdx
+                path: ./pages/home/guides/integrations/twilio-and-deepgram-voice-agent.mdx
+                slug: twilio-and-deepgram-voice-agent
               - page: Zapier and Deepgram
-                path: ./pages/guides/integrations/zapier-and-deepgram.mdx
+                path: ./pages/home/guides/integrations/zapier-and-deepgram.mdx
+                slug: zapier-and-deepgram
               - page: Zoom and Deepgram
-                path: ./pages/guides/integrations/zoom-and-deepgram.mdx
+                path: ./pages/home/guides/integrations/zoom-and-deepgram.mdx
+                slug: zoom-and-deepgram
           - section: Pages
             slug: pages
             hidden: true
             contents:
               - page: Code of Conduct
-                path: ./pages/guides/pages/code-of-conduct.mdx
+                path: ./pages/home/guides/pages/code-of-conduct.mdx
                 hidden: true
+                slug: code-of-conduct
               - page: Aura 2 Private Preview
-                path: ./pages/guides/pages/aura-2-preview.mdx
+                path: ./pages/home/guides/pages/aura-2-private-preview.mdx
                 hidden: true
+                slug: aura-2-preview
               - page: Aura 2 Self-Hosted Deployment Guide
-                path: ./pages/guides/pages/deploy-aura-2-self-hosted.mdx
+                path: ./pages/home/guides/pages/aura-2-self-hosted-deployment-guide.mdx
                 hidden: true
+                slug: deploy-aura-2-self-hosted
               - page: Amazon Elastic Container Service
-                path: ./pages/guides/pages/aws-ecs.mdx
+                path: ./pages/home/guides/pages/amazon-elastic-container-service.mdx
                 hidden: true
+                slug: aws-ecs
               - page: Data Labeling Intro
-                path: ./pages/guides/pages/data-labeling-intro.mdx
+                path: ./pages/home/guides/pages/data-labeling-intro.mdx
                 hidden: true
+                slug: data-labeling-intro
               - page: Data Labeling Best Practices
-                path: ./pages/guides/pages/data-labeling-best-practices.mdx
+                path: ./pages/home/guides/pages/data-labeling-best-practices.mdx
                 hidden: true
+                slug: data-labeling-best-practices
               - page: Data Labeling Setting Up
-                path: ./pages/guides/pages/data-labeling-setting-up.mdx
+                path: ./pages/home/guides/pages/data-labeling-setting-up.mdx
                 hidden: true
+                slug: data-labeling-setting-up
               - page: Data Labeling Understanding the Workflow
-                path: ./pages/guides/pages/data-labeling-understanding-the-workflow.mdx
+                path: ./pages/home/guides/pages/data-labeling-understanding-the-workflow.mdx
                 hidden: true
+                slug: data-labeling-understanding-the-workflow
               - page: Data Labeling Managing Work
-                path: ./pages/guides/pages/data-labeling-managing-work.mdx
+                path: ./pages/home/guides/pages/data-labeling-managing-work.mdx
                 hidden: true
+                slug: data-labeling-managing-work
               - page: Data Labeling Troubleshooting
-                path: ./pages/guides/pages/data-labeling-troubleshooting.mdx
+                path: ./pages/home/guides/pages/data-labeling-troubleshooting.mdx
                 hidden: true
+                slug: data-labeling-troubleshooting
               - page: DG Tools Overview
-                path: ./pages/guides/pages/dgtools-overview.mdx
+                path: ./pages/home/guides/pages/dg-tools-overview.mdx
                 hidden: true
+                slug: dgtools-overview
               - page: Distro Guide Ubuntu 20.04 LTS
-                path: ./pages/guides/pages/distro-guide-ubuntu-2004-lts.mdx
+                path: ./pages/home/guides/pages/distro-guide-ubuntu-20-04-lts.mdx
                 hidden: true
+                slug: distro-guide-ubuntu-2004-lts
               - page: Distro Guide RHEL 8
-                path: ./pages/guides/pages/distro-guide-rhel-8.mdx
+                path: ./pages/home/guides/pages/distro-guide-rhel-8.mdx
                 hidden: true
+                slug: distro-guide-rhel-8
               - page: Distro Guide RHEL 7
-                path: ./pages/guides/pages/distro-guide-rhel-7.mdx
+                path: ./pages/home/guides/pages/distro-guide-rhel-7.mdx
                 hidden: true
+                slug: distro-guide-rhel-7
               - page: RAG & Multi-Agent Workflows
-                path: ./pages/guides/pages/voice-agent-rag-multi-agent-workflows.mdx
+                path: ./pages/home/guides/pages/rag-multi-agent-workflows.mdx
                 hidden: true
+                slug: voice-agent-rag-multi-agent-workflows
               - page: Softbank Voice Agent API Reference
-                path: ./pages/guides/pages/softbank-voice-agent-api-reference.mdx
+                path: ./pages/home/guides/pages/softbank-voice-agent-api-reference.mdx
                 hidden: true
+                slug: softbank-voice-agent-api-reference
               - page: Using the Deepgram Event Captioner
-                path: ./pages/guides/pages/using-the-deepgram-event-captioner.mdx
+                path: ./pages/home/guides/pages/using-the-deepgram-event-captioner.mdx
                 hidden: true
+                slug: using-the-deepgram-event-captioner
               - page: Tier - Deprecated
-                path: ./pages/guides/pages/tier.mdx
+                path: ./pages/home/guides/pages/tier-deprecated.mdx
                 hidden: true
+                slug: tier
               - page: Voice Agent Latency
-                path: ./pages/guides/pages/voice-agent-latency.mdx
+                path: ./pages/home/guides/pages/voice-agent-latency.mdx
                 hidden: true
+                slug: voice-agent-latency
               - page: Voice Agent Prompting
-                path: ./pages/guides/pages/voice-agent-prompting.mdx
+                path: ./pages/home/guides/pages/voice-agent-prompting.mdx
                 hidden: true
+                slug: voice-agent-prompting
               - page: Genesys and Deepgram (Legacy)
-                path: ./pages/guides/pages/genesys-deepgram-legacy.mdx
+                path: ./pages/home/guides/pages/genesys-and-deepgram-legacy-.mdx
                 hidden: true
+                slug: genesys-deepgram-legacy
               - page: Agent Started Speaking
-                path: ./pages/guides/pages/voice-agent-agent-started-speaking.mdx
+                path: ./pages/home/guides/pages/agent-started-speaking.mdx
                 hidden: true
+                slug: voice-agent-agent-started-speaking
               - page: Update Instructions
-                path: ./pages/guides/pages/voice-agent-update-instructions.mdx
+                path: ./pages/home/guides/pages/update-instructions.mdx
                 hidden: true
+                slug: voice-agent-update-instructions
               - page: Function Calling Message
-                path: ./pages/guides/pages/voice-agent-function-calling-message.mdx
+                path: ./pages/home/guides/pages/function-calling-message.mdx
                 hidden: true
-
+                slug: voice-agent-function-calling-message
   - tab: api-reference
     layout:
       - section: General
         skip-slug: true
         contents:
           - page: Deepgram API Overview
-            path: docs/deepgram-api-overview.mdx
+            path: ./pages/reference/deepgram-api-overview.mdx
+            slug: deepgram-api-overview
           - page: Authentication
-            path: docs/authentication.mdx
+            path: ./pages/reference/authentication.mdx
+            slug: authentication
           - page: Errors
-            path: docs/errors.mdx
+            path: ./pages/reference/errors.mdx
+            slug: errors
           - page: API Rate Limits
-            path: docs/api-rate-limits.mdx
+            path: ./pages/reference/api-rate-limits.mdx
+            slug: api-rate-limits
       - section: API Reference
         skip-slug: true
         contents:
@@ -422,445 +457,592 @@ navigation:
                 contents:
                   - endpoint: POST /v1/auth/grant
                     title: Grant Token
-
   - tab: voice-agent
     layout:
       - page: Getting Started
-        path: docs/voice-agent.mdx
+        path: ./pages/voice-agent/getting-started.mdx
+        slug: voice-agent
       - page: Voice Agent v1 API Migration
-        path: docs/voice-agent-v1-migration.mdx
+        path: ./pages/voice-agent/voice-agent-v1-api-migration.mdx
+        slug: voice-agent-v1-migration
       - page: Feature Overview
-        path: docs/voice-agent-feature-overview.mdx
+        path: ./pages/voice-agent/feature-overview.mdx
+        slug: voice-agent-feature-overview
       - link: Starter Apps
         href: https://github.com/search?q=org%3Adeepgram-starters+topic%3Avoice-agent&type=repositories
       - page: Configure the Voice Agent
-        path: docs/configure-voice-agent.mdx
+        path: ./pages/voice-agent/configure-the-voice-agent.mdx
+        slug: configure-voice-agent
       - section: Function Calling
         slug: function-calling
         contents:
           - page: Overview
-            path: docs/voice-agents-function-calling.mdx
+            path: ./pages/voice-agent/function-calling/overview.mdx
+            slug: voice-agents-function-calling
           - page: Build A Function Call
-            path: docs/build-a-function-call.mdx
+            path: ./pages/voice-agent/function-calling/build-a-function-call.mdx
+            slug: build-a-function-call
           - page: Function Call Request
-            path: docs/voice-agent-function-call-request.mdx
+            path: ./pages/voice-agent/function-calling/function-call-request.mdx
+            slug: voice-agent-function-call-request
           - page: Function Call Response
-            path: docs/voice-agent-function-call-response.mdx
+            path: ./pages/voice-agent/function-calling/function-call-response.mdx
+            slug: voice-agent-function-call-response
       - section: "Inputs: Client Messages"
         slug: client-messages
         contents:
           - page: Overview
-            path: docs/voice-agent-inputs.mdx
+            path: ./pages/voice-agent/client-messages/overview.mdx
+            slug: voice-agent-inputs
           - page: Settings
-            path: docs/voice-agent-settings.mdx
+            path: ./pages/voice-agent/client-messages/settings.mdx
+            slug: voice-agent-settings
           - page: Update Speak
-            path: docs/voice-agent-update-speak.mdx
+            path: ./pages/voice-agent/client-messages/update-speak.mdx
+            slug: voice-agent-update-speak
           - page: Update Prompt
-            path: docs/voice-agent-update-prompt.mdx
+            path: ./pages/voice-agent/client-messages/update-prompt.mdx
+            slug: voice-agent-update-prompt
           - page: Inject Agent
-            path: docs/voice-agent-inject-agent-message.mdx
+            path: ./pages/voice-agent/client-messages/inject-agent.mdx
+            slug: voice-agent-inject-agent-message
           - page: Agent Keep Alive
-            path: docs/agent-keep-alive.mdx
+            path: ./pages/voice-agent/client-messages/agent-keep-alive.mdx
+            slug: agent-keep-alive
       - section: "Outputs: Server Events"
         slug: server-events
         contents:
           - page: Overview
-            path: docs/voice-agent-outputs.mdx
+            path: ./pages/voice-agent/server-events/overview.mdx
+            slug: voice-agent-outputs
           - page: Welcome
-            path: docs/voice-agent-welcome-message.mdx
+            path: ./pages/voice-agent/server-events/welcome.mdx
+            slug: voice-agent-welcome-message
           - page: Settings Applied
-            path: docs/voice-agent-setting-applied-message.mdx
+            path: ./pages/voice-agent/server-events/settings-applied.mdx
+            slug: voice-agent-setting-applied-message
           - page: Conversation Text
-            path: docs/voice-agent-conversation-text.mdx
+            path: ./pages/voice-agent/server-events/conversation-text.mdx
+            slug: voice-agent-conversation-text
           - page: User Started Speaking
-            path: docs/voice-agent-user-started-speaking.mdx
+            path: ./pages/voice-agent/server-events/user-started-speaking.mdx
+            slug: voice-agent-user-started-speaking
           - page: Agent Thinking
-            path: docs/voice-agent-agent-thinking.mdx
+            path: ./pages/voice-agent/server-events/agent-thinking.mdx
+            slug: voice-agent-agent-thinking
           - page: Prompt Updated
-            path: docs/voice-agent-prompt-updated.mdx
+            path: ./pages/voice-agent/server-events/prompt-updated.mdx
+            slug: voice-agent-prompt-updated
           - page: Speak Updated
-            path: docs/voice-agent-speak-updated.mdx
+            path: ./pages/voice-agent/server-events/speak-updated.mdx
+            slug: voice-agent-speak-updated
           - page: Agent Audio Done
-            path: docs/voice-agent-agent-audio-done.mdx
+            path: ./pages/voice-agent/server-events/agent-audio-done.mdx
+            slug: voice-agent-agent-audio-done
           - page: Agent Errors
-            path: docs/voice-agent-errors.mdx
+            path: ./pages/voice-agent/server-events/agent-errors.mdx
+            slug: voice-agent-errors
           - page: Agent Warnings
-            path: docs/voice-agent-warning.mdx
+            path: ./pages/voice-agent/server-events/agent-warnings.mdx
+            slug: voice-agent-warning
       - page: LLM Models
-        path: docs/voice-agent-llm-models.mdx
+        path: ./pages/voice-agent/llm-models.mdx
+        slug: voice-agent-llm-models
       - page: TTS Models
-        path: docs/voice-agent-tts-models.mdx
+        path: ./pages/voice-agent/tts-models.mdx
+        slug: voice-agent-tts-models
       - page: Media Inputs & Outputs
-        path: docs/voice-agent-media-inputs-outputs.mdx
+        path: ./pages/voice-agent/media-inputs-outputs.mdx
+        slug: voice-agent-media-inputs-outputs
       - section: Tips & Tricks
         slug: tips-tricks
         contents:
           - page: Voice Agent Audio & Playback
-            path: docs/voice-agent-audio-playback.mdx
+            path: ./pages/voice-agent/tips-tricks/voice-agent-audio-playback.mdx
+            slug: voice-agent-audio-playback
           - page: Voice Agent Adaptive Echo Cancellation
-            path: docs/voice-agent-echo-cancellation.mdx
+            path: ./pages/voice-agent/tips-tricks/voice-agent-adaptive-echo-cancellation.mdx
+            slug: voice-agent-echo-cancellation
   - tab: speech-to-text
     layout:
       - section: Pre-Recorded Audio
         slug: prerecorded
         contents:
           - page: Getting Started
-            path: docs/pre-recorded-audio.mdx
+            path: ./pages/speech-to-text/prerecorded/getting-started.mdx
+            slug: pre-recorded-audio
           - page: Feature Overview
-            path: docs/stt-pre-recorded-feature-overview.mdx
+            path: ./pages/speech-to-text/prerecorded/feature-overview.mdx
+            slug: stt-pre-recorded-feature-overview
           - link: Starter Apps
             href: https://github.com/search?q=org%3Adeepgram-starters+topic%3Aspeech-to-text+-topic%3Alive&type=repositories
           - section: Tips and Tricks
             slug: tips-tricks
             contents:
               - page: Automatically Generating WebVTT & SRT Captions
-                path: docs/automatically-generating-webvtt-and-srt-captions.mdx
+                path: ./pages/speech-to-text/prerecorded/tips-tricks/automatically-generating-webvtt-srt-captions.mdx
+                slug: automatically-generating-webvtt-and-srt-captions
               - page: Automatically Transcribe and Summarize Phone Calls
-                path: >-
-                  docs/automatically-transcribing-and-summarizing-phone-calls.mdx
+                path: ./pages/speech-to-text/prerecorded/tips-tricks/automatically-transcribe-and-summarize-phone-calls.mdx
+                slug: automatically-transcribing-and-summarizing-phone-calls
               - page: Getting Started with Deepgram Whisper Cloud
-                path: docs/deepgram-whisper-cloud.mdx
+                path: ./pages/speech-to-text/prerecorded/tips-tricks/getting-started-with-deepgram-whisper-cloud.mdx
+                slug: deepgram-whisper-cloud
               - page: Generating and Saving Transcripts From the Terminal
-                path: >-
-                  docs/generating-and-saving-transcripts-from-the-terminal.mdx
+                path: ./pages/speech-to-text/prerecorded/tips-tricks/generating-and-saving-transcripts-from-the-terminal.mdx
+                slug: generating-and-saving-transcripts-from-the-terminal
               - page: Using Callbacks to Return Transcripts to Your Server
-                path: >-
-                  docs/using-callbacks-to-return-transcripts-to-your-server.mdx
+                path: ./pages/speech-to-text/prerecorded/tips-tricks/using-callbacks-to-return-transcripts-to-your-server.mdx
+                slug: using-callbacks-to-return-transcripts-to-your-server
               - page: When Callback Is Not Received
-                path: docs/payload-too-large.mdx
+                path: ./pages/speech-to-text/prerecorded/tips-tricks/when-callback-is-not-received.mdx
+                slug: payload-too-large
               - page: When To Use Multichannel and Diarization
-                path: docs/multichannel-vs-diarization.mdx
+                path: ./pages/speech-to-text/prerecorded/tips-tricks/when-to-use-multichannel-and-diarization.mdx
+                slug: multichannel-vs-diarization
               - page: When To Use Keywords and Search
-                path: docs/keywords-vs-search.mdx
+                path: ./pages/speech-to-text/prerecorded/tips-tricks/when-to-use-keywords-and-search.mdx
+                slug: keywords-vs-search
       - section: Streaming Audio
         slug: streaming
         contents:
           - page: Getting Started
-            path: docs/live-streaming-audio.mdx
+            path: ./pages/speech-to-text/streaming/getting-started.mdx
+            slug: live-streaming-audio
           - page: Feature Overview
-            path: docs/stt-streaming-feature-overview.mdx
+            path: ./pages/speech-to-text/streaming/feature-overview.mdx
+            slug: stt-streaming-feature-overview
           - page: Live Streaming Starter Kit
-            path: docs/getting-started-with-the-streaming-test-suite.mdx
+            path: ./pages/speech-to-text/streaming/live-streaming-starter-kit.mdx
+            slug: getting-started-with-the-streaming-test-suite
           - link: Starter Apps
             href: https://github.com/search?q=org%3Adeepgram-starters+topic%3Aspeech-to-text+topic%3Alive&type=repositories
           - section: Control Messages
             slug: control-messages
             contents:
               - page: Close Stream
-                path: docs/close-stream.mdx
+                path: ./pages/speech-to-text/streaming/control-messages/close-stream.mdx
+                slug: close-stream
               - page: Finalize
-                path: docs/finalize.mdx
+                path: ./pages/speech-to-text/streaming/control-messages/finalize.mdx
+                slug: finalize
               - page: Audio Keep Alive
-                path: docs/audio-keep-alive.mdx
+                path: ./pages/speech-to-text/streaming/control-messages/audio-keep-alive.mdx
+                slug: audio-keep-alive
           - section: Speech Detection
             slug: speech-detection
             contents:
               - page: Speech Started
-                path: docs/speech-started.mdx
+                path: ./pages/speech-to-text/streaming/speech-detection/speech-started.mdx
+                slug: speech-started
               - page: Utterance End
-                path: docs/utterance-end.mdx
+                path: ./pages/speech-to-text/streaming/speech-detection/utterance-end.mdx
+                slug: utterance-end
               - page: Endpointing
-                path: docs/endpointing.mdx
+                path: ./pages/speech-to-text/streaming/speech-detection/endpointing.mdx
+                slug: endpointing
               - page: Interim Results
-                path: docs/interim-results.mdx
+                path: ./pages/speech-to-text/streaming/speech-detection/interim-results.mdx
+                slug: interim-results
           - section: Tips and Tricks
             slug: tips-tricks
             contents:
               - page: End of Speech Detection While Live Streaming
-                path: docs/understanding-end-of-speech-detection.mdx
+                path: ./pages/speech-to-text/streaming/tips-tricks/end-of-speech-detection-while-live-streaming.mdx
+                slug: understanding-end-of-speech-detection
               - page: Using Interim Results
-                path: docs/using-interim-results.mdx
+                path: ./pages/speech-to-text/streaming/tips-tricks/using-interim-results.mdx
+                slug: using-interim-results
               - page: Endpointing & Interim Results With Live Streaming
-                path: docs/understand-endpointing-interim-results.mdx
+                path: ./pages/speech-to-text/streaming/tips-tricks/endpointing-interim-results-with-live-streaming.mdx
+                slug: understand-endpointing-interim-results
               - page: Determining Your Audio Format for Live Streaming Audio
-                path: >-
-                  docs/determining-your-audio-format-for-live-streaming-audio.mdx
+                path: ./pages/speech-to-text/streaming/tips-tricks/determining-your-audio-format-for-live-streaming-audio.mdx
+                slug: determining-your-audio-format-for-live-streaming-audio
               - page: Measuring Streaming Latency
-                path: docs/measuring-streaming-latency.mdx
+                path: ./pages/speech-to-text/streaming/tips-tricks/measuring-streaming-latency.mdx
+                slug: measuring-streaming-latency
               - page: WebSocket DATA & NET Errors When Live Streaming
-                path: >-
-                  docs/troubleshooting-websocket-data-and-net-errors-when-live-streaming-audio.mdx
-              - page: >-
-                  Recovering From Connection Errors & Timeouts When Live
-                  Streaming
-                path: >-
-                  docs/recovering-from-connection-errors-and-timeouts-when-live-streaming-audio.mdx
+                path: ./pages/speech-to-text/streaming/tips-tricks/websocket-data-net-errors-when-live-streaming.mdx
+                slug: troubleshooting-websocket-data-and-net-errors-when-live-streaming-audio
+              - page: Recovering From Connection Errors & Timeouts When Live Streaming
+                path: ./pages/speech-to-text/streaming/tips-tricks/recovering-from-connection-errors-timeouts-when-live-streaming.mdx
+                slug: recovering-from-connection-errors-and-timeouts-when-live-streaming-audio
               - page: Using Lower-Level Websockets with the Streaming API
-                path: docs/lower-level-websockets.mdx
+                path: ./pages/speech-to-text/streaming/tips-tricks/using-lower-level-websockets-with-the-streaming-api.mdx
+                slug: lower-level-websockets
       - section: Models and Languages
         slug: models-languages
         contents:
           - page: Models & Languages Overview
-            path: docs/models-languages-overview.mdx
+            path: ./pages/speech-to-text/models-languages/models-languages-overview.mdx
+            slug: models-languages-overview
           - page: Languages Support
-            path: docs/language.mdx
+            path: ./pages/speech-to-text/models-languages/languages-support.mdx
+            slug: language
           - page: Language Detection
-            path: docs/language-detection.mdx
+            path: ./pages/speech-to-text/models-languages/language-detection.mdx
+            slug: language-detection
           - page: Multilingual Codeswitching
-            path: docs/multilingual-code-switching.mdx
+            path: ./pages/speech-to-text/models-languages/multilingual-codeswitching.mdx
+            slug: multilingual-code-switching
           - page: Model Options
-            path: docs/model.mdx
+            path: ./pages/speech-to-text/models-languages/model-options.mdx
+            slug: model
           - page: Version
-            path: docs/version.mdx
+            path: ./pages/speech-to-text/models-languages/version.mdx
+            slug: version
       - section: Formatting
         slug: formatting
         contents:
           - page: Speaker Diarization
-            path: docs/diarization.mdx
+            path: ./pages/speech-to-text/formatting/speaker-diarization.mdx
+            slug: diarization
           - page: Dictation
-            path: docs/dictation.mdx
+            path: ./pages/speech-to-text/formatting/dictation.mdx
+            slug: dictation
           - page: Filler Words
-            path: docs/filler-words.mdx
+            path: ./pages/speech-to-text/formatting/filler-words.mdx
+            slug: filler-words
           - page: Measurements
-            path: docs/measurements.mdx
+            path: ./pages/speech-to-text/formatting/measurements.mdx
+            slug: measurements
           - page: Numerals
-            path: docs/numerals.mdx
+            path: ./pages/speech-to-text/formatting/numerals.mdx
+            slug: numerals
           - page: Paragraphs
-            path: docs/paragraphs.mdx
+            path: ./pages/speech-to-text/formatting/paragraphs.mdx
+            slug: paragraphs
           - page: Profanity Filtering
-            path: docs/profanity-filter.mdx
+            path: ./pages/speech-to-text/formatting/profanity-filtering.mdx
+            slug: profanity-filter
           - page: Punctuation
-            path: docs/punctuation.mdx
+            path: ./pages/speech-to-text/formatting/punctuation.mdx
+            slug: punctuation
           - page: Redaction
-            path: docs/redaction.mdx
+            path: ./pages/speech-to-text/formatting/redaction.mdx
+            slug: redaction
           - page: Smart Formatting
-            path: docs/smart-format.mdx
+            path: ./pages/speech-to-text/formatting/smart-formatting.mdx
+            slug: smart-format
           - page: Supported Entity Types
-            path: docs/supported-entity-types.mdx
+            path: ./pages/speech-to-text/formatting/supported-entity-types.mdx
+            slug: supported-entity-types
           - page: Utterances
-            path: docs/utterances.mdx
+            path: ./pages/speech-to-text/formatting/utterances.mdx
+            slug: utterances
           - page: Utterance Split
-            path: docs/utterance-split.mdx
+            path: ./pages/speech-to-text/formatting/utterance-split.mdx
+            slug: utterance-split
       - section: Custom Vocabulary
         slug: custom-vocabulary
         contents:
           - page: Find and Replace
-            path: docs/find-and-replace.mdx
+            path: ./pages/speech-to-text/custom-vocabulary/find-and-replace.mdx
+            slug: find-and-replace
           - page: Keyterm Prompting
-            path: docs/keyterm.mdx
+            path: ./pages/speech-to-text/custom-vocabulary/keyterm-prompting.mdx
+            slug: keyterm
           - page: Keywords
-            path: docs/keywords.mdx
+            path: ./pages/speech-to-text/custom-vocabulary/keywords.mdx
+            slug: keywords
           - page: Search
-            path: docs/search.mdx
+            path: ./pages/speech-to-text/custom-vocabulary/search.mdx
+            slug: search
       - section: Media Input Settings
         slug: media-input
         contents:
           - page: Overview
-            path: docs/media-input-settings.mdx
+            path: ./pages/speech-to-text/media-input/overview.mdx
+            slug: media-input-settings
           - page: Channels
-            path: docs/channels.mdx
+            path: ./pages/speech-to-text/media-input/channels.mdx
+            slug: channels
           - page: Encoding
-            path: docs/encoding.mdx
+            path: ./pages/speech-to-text/media-input/encoding.mdx
+            slug: encoding
           - page: Multichannel
-            path: docs/multichannel.mdx
+            path: ./pages/speech-to-text/media-input/multichannel.mdx
+            slug: multichannel
           - page: Sample Rate
-            path: docs/sample-rate.mdx
+            path: ./pages/speech-to-text/media-input/sample-rate.mdx
+            slug: sample-rate
       - section: Results Processing
         slug: results-processing
         contents:
           - page: STT Callback
-            path: docs/callback.mdx
+            path: ./pages/speech-to-text/results-processing/stt-callback.mdx
+            slug: callback
           - page: Tagging
-            path: docs/tagging.mdx
+            path: ./pages/speech-to-text/results-processing/tagging.mdx
+            slug: tagging
           - page: Extra Metadata
-            path: docs/extra-metadata.mdx
+            path: ./pages/speech-to-text/results-processing/extra-metadata.mdx
+            slug: extra-metadata
       - section: Migrating
         slug: migrating
         contents:
-          - page: >-
-              Migrating From Amazon Web Services (AWS) Transcribe to
-              Deepgram
-            path: >-
-              docs/migrating-from-amazon-web-services-aws-transcribe-to-deepgram.mdx
+          - page: Migrating From Amazon Web Services (AWS) Transcribe to Deepgram
+            path: ./pages/speech-to-text/migrating/migrating-from-amazon-web-services-aws-transcribe-to-deepgram.mdx
+            slug: migrating-from-amazon-web-services-aws-transcribe-to-deepgram
           - page: Migrating From Google Speech-to-Text (STT) to Deepgram
-            path: docs/migrating-from-google-speech-to-text-stt-to-deepgram.mdx
+            path: ./pages/speech-to-text/migrating/migrating-from-google-speech-to-text-stt-to-deepgram.mdx
+            slug: migrating-from-google-speech-to-text-stt-to-deepgram
           - page: Migrating From OpenAI Whisper to Deepgram
-            path: docs/migrating-from-openai-whisper-to-deepgram.mdx
+            path: ./pages/speech-to-text/migrating/migrating-from-openai-whisper-to-deepgram.mdx
+            slug: migrating-from-openai-whisper-to-deepgram
           - page: Migrating from AssemblyAI Speech-to-Text to Deepgram
-            path: docs/migrating-from-assembly-ai-speech-to-text-to-deepgram.mdx
+            path: ./pages/speech-to-text/migrating/migrating-from-assemblyai-speech-to-text-to-deepgram.mdx
+            slug: migrating-from-assembly-ai-speech-to-text-to-deepgram
   - tab: text-to-speech
     layout:
       - section: Text-to-Speech
         slug: single-request
         contents:
           - page: Overview
-            path: docs/tts-rest.mdx
+            path: ./pages/text-to-speech/single-request/overview.mdx
+            slug: tts-rest
           - page: Getting Started
-            path: docs/text-to-speech.mdx
+            path: ./pages/text-to-speech/single-request/getting-started.mdx
+            slug: text-to-speech
           - page: Feature Overview
-            path: docs/tts-feature-overview.mdx
+            path: ./pages/text-to-speech/single-request/feature-overview.mdx
+            slug: tts-feature-overview
           - page: TTS Callback
-            path: docs/tts-callback.mdx
+            path: ./pages/text-to-speech/single-request/tts-callback.mdx
+            slug: tts-callback
           - page: Audio Output Streaming
-            path: docs/streaming-the-audio-output.mdx
+            path: ./pages/text-to-speech/single-request/audio-output-streaming.mdx
+            slug: streaming-the-audio-output
       - section: Text-to-Speech Streaming
         slug: streaming
         contents:
           - page: Overview
-            path: docs/tts-websocket.mdx
+            path: ./pages/text-to-speech/streaming/overview.mdx
+            slug: tts-websocket
           - page: Getting Started
-            path: docs/streaming-text-to-speech.mdx
+            path: ./pages/text-to-speech/streaming/getting-started.mdx
+            slug: streaming-text-to-speech
           - page: Feature Overview
-            path: docs/tts-streaming-feature-overview.mdx
+            path: ./pages/text-to-speech/streaming/feature-overview.mdx
+            slug: tts-streaming-feature-overview
           - section: Control Messages
             slug: control-messages
             contents:
               - page: Flush
-                path: docs/tts-ws-flush.mdx
+                path: ./pages/text-to-speech/streaming/control-messages/flush.mdx
+                slug: tts-ws-flush
               - page: Clear
-                path: docs/tts-ws-clear.mdx
+                path: ./pages/text-to-speech/streaming/control-messages/clear.mdx
+                slug: tts-ws-clear
               - page: Close
-                path: docs/tts-ws-close.mdx
+                path: ./pages/text-to-speech/streaming/control-messages/close.mdx
+                slug: tts-ws-close
       - link: Starter Apps
         href: https://github.com/search?q=org%3Adeepgram-starters+topic%3Atext-to-speech&type=repositories
       - page: Voice Selection
-        path: docs/tts-models.mdx
+        path: ./pages/text-to-speech/voice-selection.mdx
+        slug: tts-models
       - section: Media Output Settings
         slug: media-output
         contents:
           - page: Overview
-            path: docs/tts-media-output-settings.mdx
+            path: ./pages/text-to-speech/media-output/overview.mdx
+            slug: tts-media-output-settings
           - page: Encoding
-            path: docs/tts-encoding.mdx
+            path: ./pages/text-to-speech/media-output/encoding.mdx
+            slug: tts-encoding
           - page: Bit Rate
-            path: docs/tts-bit-rate.mdx
+            path: ./pages/text-to-speech/media-output/bit-rate.mdx
+            slug: tts-bit-rate
           - page: Container
-            path: docs/tts-container.mdx
+            path: ./pages/text-to-speech/media-output/container.mdx
+            slug: tts-container
           - page: Sample Rate
-            path: docs/tts-sample-rate.mdx
+            path: ./pages/text-to-speech/media-output/sample-rate.mdx
+            slug: tts-sample-rate
       - section: Tips and Tricks
         slug: tips-tricks
         contents:
           - page: Real-Time TTS with WebSockets
-            path: docs/tts-websocket-streaming.mdx
+            path: ./pages/text-to-speech/tips-tricks/real-time-tts-with-websockets.mdx
+            slug: tts-websocket-streaming
           - page: Text Chunking for TTS
-            path: docs/tts-text-chunking.mdx
+            path: ./pages/text-to-speech/tips-tricks/text-chunking-for-tts.mdx
+            slug: tts-text-chunking
           - page: Formatting text for Aura-2
-            path: docs/improving-aura-2-formatting.mdx
+            path: ./pages/text-to-speech/tips-tricks/formatting-text-for-aura-2.mdx
+            slug: improving-aura-2-formatting
           - page: Handling Audio Issues in Text To Speech
-            path: docs/handling-audio-issues-in-text-to-speech.mdx
+            path: ./pages/text-to-speech/tips-tricks/handling-audio-issues-in-text-to-speech.mdx
+            slug: handling-audio-issues-in-text-to-speech
           - page: Sending LLM Outputs to a WebSocket
-            path: docs/send-llm-outputs-to-the-tts-web-socket.mdx
+            path: ./pages/text-to-speech/tips-tricks/sending-llm-outputs-to-a-websocket.mdx
+            slug: send-llm-outputs-to-the-tts-web-socket
           - page: Text Chunking for TTS REST Optimization
-            path: docs/text-chunking-for-tts-optimization.mdx
+            path: ./pages/text-to-speech/tips-tricks/text-chunking-for-tts-rest-optimization.mdx
+            slug: text-chunking-for-tts-optimization
           - page: Text to Speech Latency
-            path: docs/text-to-speech-latency.mdx
+            path: ./pages/text-to-speech/tips-tricks/text-to-speech-latency.mdx
+            slug: text-to-speech-latency
           - page: Text to Speech Prompting
-            path: docs/text-to-speech-prompting.mdx
+            path: ./pages/text-to-speech/tips-tricks/text-to-speech-prompting.mdx
+            slug: text-to-speech-prompting
   - tab: intelligence
     layout:
       - section: Audio Intelligence
         slug: audio-intelligence
         contents:
           - page: Getting Started
-            path: docs/audio-intelligence.mdx
+            path: ./pages/intelligence/audio-intelligence/getting-started.mdx
+            slug: audio-intelligence
           - page: Feature Overview
-            path: docs/stt-intelligence-feature-overview.mdx
+            path: ./pages/intelligence/audio-intelligence/feature-overview.mdx
+            slug: stt-intelligence-feature-overview
           - page: Entity Detection
-            path: docs/detect-entities.mdx
+            path: ./pages/intelligence/audio-intelligence/entity-detection.mdx
+            slug: detect-entities
           - page: Intent Recognition
-            path: docs/intent-recognition.mdx
+            path: ./pages/intelligence/audio-intelligence/intent-recognition.mdx
+            slug: intent-recognition
           - page: Sentiment Analysis
-            path: docs/sentiment-analysis.mdx
+            path: ./pages/intelligence/audio-intelligence/sentiment-analysis.mdx
+            slug: sentiment-analysis
           - page: Summarization
-            path: docs/summarization.mdx
+            path: ./pages/intelligence/audio-intelligence/summarization.mdx
+            slug: summarization
           - page: Topic Detection
-            path: docs/topic-detection.mdx
+            path: ./pages/intelligence/audio-intelligence/topic-detection.mdx
+            slug: topic-detection
       - section: Text Intelligence
         slug: text-intelligence
         contents:
           - page: Getting Started
-            path: docs/text-intelligence.mdx
+            path: ./pages/intelligence/text-intelligence/getting-started.mdx
+            slug: text-intelligence
           - page: Feature Overview
-            path: docs/text-intelligence-feature-overview.mdx
+            path: ./pages/intelligence/text-intelligence/feature-overview.mdx
+            slug: text-intelligence-feature-overview
           - page: Intent Recognition
-            path: docs/text-intention-recognition.mdx
+            path: ./pages/intelligence/text-intelligence/intent-recognition.mdx
+            slug: text-intention-recognition
           - page: Sentiment Analysis
-            path: docs/text-sentiment-analysis.mdx
+            path: ./pages/intelligence/text-intelligence/sentiment-analysis.mdx
+            slug: text-sentiment-analysis
           - page: Summarization
-            path: docs/text-summarization.mdx
+            path: ./pages/intelligence/text-intelligence/summarization.mdx
+            slug: text-summarization
           - page: Topic Detection
-            path: docs/text-topic-detection.mdx
+            path: ./pages/intelligence/text-intelligence/topic-detection.mdx
+            slug: text-topic-detection
           - page: Text Intelligence Callback
-            path: docs/text-intelligence-callback.mdx
+            path: ./pages/intelligence/text-intelligence/text-intelligence-callback.mdx
+            slug: text-intelligence-callback
   - tab: self-hosted
     layout:
       - page: Introduction
-        path: docs/self-hosted-introduction.mdx
+        path: ./pages/self-hosted/introduction.mdx
+        slug: introduction
       - page: Deployment Environments
-        path: docs/self-hosted-deployment-environments.mdx
+        path: ./pages/self-hosted/deployment-environments.mdx
+        slug: deployment-environments
       - section: Docker/Podman
         slug: docker-podman
         contents:
           - page: Overview
-            path: docs/dockerpodman.mdx
+            path: ./pages/self-hosted/docker-podman/overview.mdx
+            slug: dockerpodman
           - section: Platform Options
             slug: platform-options
             contents:
               - page: Amazon Web Services
-                path: docs/aws-docker-podman.mdx
+                path: ./pages/self-hosted/docker-podman/platform-options/amazon-web-services.mdx
+                slug: aws-docker-podman
               - page: Google Cloud Platform
-                path: docs/gcp-docker-podman.mdx
+                path: ./pages/self-hosted/docker-podman/platform-options/google-cloud-platform.mdx
+                slug: gcp-docker-podman
               - page: Oracle Cloud Infrastructure
-                path: docs/oci-docker-podman.mdx
+                path: ./pages/self-hosted/docker-podman/platform-options/oracle-cloud-infrastructure.mdx
+                slug: oci-docker-podman
               - page: Microsoft Azure
-                path: docs/azure-docker-podman.mdx
+                path: ./pages/self-hosted/docker-podman/platform-options/microsoft-azure.mdx
+                slug: azure-docker-podman
               - page: Bare-Metal Servers
-                path: docs/bare-metal.mdx
+                path: ./pages/self-hosted/docker-podman/platform-options/bare-metal-servers.mdx
+                slug: bare-metal
           - page: Drivers and Container Orchestration Tools
-            path: docs/drivers-and-containerization-platforms.mdx
+            path: ./pages/self-hosted/docker-podman/drivers-and-container-orchestration-tools.mdx
+            slug: drivers-and-containerization-platforms
           - page: Deploy Deepgram Services
-            path: docs/deploy-deepgram-services.mdx
+            path: ./pages/self-hosted/docker-podman/deploy-deepgram-services.mdx
+            slug: deploy-deepgram-services
       - section: Kubernetes
         slug: kubernetes
         contents:
           - page: Overview
-            path: docs/kubernetes.mdx
+            path: ./pages/self-hosted/kubernetes/overview.mdx
+            slug: kubernetes
           - section: Platform Options
             slug: platform-options
             contents:
               - page: Amazon Web Services
-                path: docs/aws-k8s.mdx
+                path: ./pages/self-hosted/kubernetes/platform-options/amazon-web-services.mdx
+                slug: aws-k8s
               - page: Google Cloud Platform
-                path: docs/gcp-k8s.mdx
+                path: ./pages/self-hosted/kubernetes/platform-options/google-cloud-platform.mdx
+                slug: gcp-k8s
               - page: Self-Managed Kubernetes
-                path: docs/self-managed-kubernetes.mdx
+                path: ./pages/self-hosted/kubernetes/platform-options/self-managed-kubernetes.mdx
+                slug: self-managed-kubernetes
           - page: Securing Your Cluster
-            path: docs/securing-your-cluster.mdx
+            path: ./pages/self-hosted/kubernetes/securing-your-cluster.mdx
+            slug: securing-your-cluster
       - page: Self Service Licensing & Credentials
-        path: docs/self-hosted-self-service-tutorial.mdx
+        path: ./pages/self-hosted/self-service-licensing-credentials.mdx
+        slug: self-hosted-self-service-tutorial
       - section: Scaling and Deployment Strategies
         slug: scaling-deployment
         contents:
           - page: Overview
-            path: docs/scaling-and-deployment-strategies.mdx
+            path: ./pages/self-hosted/scaling-deployment/overview.mdx
+            slug: scaling-and-deployment-strategies
           - page: System Maintenance
-            path: docs/maintaining.mdx
+            path: ./pages/self-hosted/scaling-deployment/system-maintenance.mdx
+            slug: maintaining
           - page: Auto-Scaling
-            path: docs/autoscaling-best-practices.mdx
+            path: ./pages/self-hosted/scaling-deployment/auto-scaling.mdx
+            slug: autoscaling-best-practices
           - page: Metrics Guide
-            path: docs/metrics-guide.mdx
+            path: ./pages/self-hosted/scaling-deployment/metrics-guide.mdx
+            slug: metrics-guide
           - page: Ingress Authentication
-            path: docs/self-hosted-ingress-auth.mdx
+            path: ./pages/self-hosted/scaling-deployment/ingress-authentication.mdx
+            slug: self-hosted-ingress-auth
           - page: Using Private Container Registries
-            path: docs/using-private-container-registries.mdx
+            path: ./pages/self-hosted/scaling-deployment/using-private-container-registries.mdx
+            slug: using-private-container-registries
       - section: Self-Hosted Add Ons
         slug: add-ons
         contents:
           - page: Overview
-            path: docs/self-hosted-add-ons.mdx
+            path: ./pages/self-hosted/add-ons/overview.mdx
+            slug: self-hosted-add-ons
           - page: License Proxy
-            path: docs/license-proxy.mdx
+            path: ./pages/self-hosted/add-ons/license-proxy.mdx
+            slug: license-proxy
           - page: Self-Hosted Text to Speech
-            path: docs/self-hosted-text-to-speech.mdx
+            path: ./pages/self-hosted/add-ons/self-hosted-text-to-speech.mdx
+            slug: self-hosted-text-to-speech
           - page: Prometheus Integration
-            path: docs/prometheus-integration.mdx
+            path: ./pages/self-hosted/add-ons/prometheus-integration.mdx
+            slug: prometheus-integration
           - page: Deepgram UniMRCP Plugin
-            path: docs/deepgram-unimrcp-plugin.mdx
+            path: ./pages/self-hosted/add-ons/deepgram-unimrcp-plugin.mdx
+            slug: deepgram-unimrcp-plugin
       - page: Using SDKs with Self-Hosted
-        path: docs/using-sdks-with-self-hosted.mdx
+        path: ./pages/self-hosted/using-sdks-with-self-hosted.mdx
+        slug: using-sdks-with-self-hosted
 redirects:
-  # legacy redirects
   - source: /home/introduction
     destination: /introduction
   - source: /docs/support
@@ -888,77 +1070,77 @@ redirects:
   - source: /api-reference/usage
     destination: /reference/get-all-requests
   - source: /documentation/features
-    destination: /docs/stt-pre-recorded-feature-overview
+    destination: /speech-to-text/prerecorded/feature-overview
   - source: /documentation/features/callback
-    destination: /docs/callback
+    destination: /speech-to-text/results-processing/stt-callback
   - source: /documentation/features/channels
-    destination: /docs/channels
+    destination: /speech-to-text/media-input/channels
   - source: /documentation/features/detect-language
-    destination: /docs/language-detection
+    destination: /speech-to-text/models-languages/language-detection
   - source: /documentation/features/detect-topics
-    destination: /docs/topic-detection
+    destination: /intelligence/audio-intelligence/topic-detection
   - source: /documentation/features/diarize
-    destination: /docs/diarization
+    destination: /speech-to-text/formatting/speaker-diarization
   - source: /documentation/features/encoding
-    destination: /docs/encoding
+    destination: /speech-to-text/media-input/encoding
   - source: /documentation/features/endpointing
-    destination: /docs/endpointing
+    destination: /speech-to-text/streaming/speech-detection/endpointing
   - source: /documentation/features/interim-results
-    destination: /docs/interim-results
+    destination: /speech-to-text/streaming/speech-detection/interim-results
   - source: /documentation/features/keywords
-    destination: /docs/keywords
+    destination: /speech-to-text/custom-vocabulary/keywords
   - source: /documentation/features/language
-    destination: /docs/language
+    destination: /speech-to-text/models-languages/languages-support
   - source: /documentation/features/model
-    destination: /docs/model
+    destination: /speech-to-text/models-languages/model-options
   - source: /documentation/features/multichannel
-    destination: /docs/multichannel
+    destination: /speech-to-text/media-input/multichannel
   - source: /documentation/features/numerals
-    destination: /docs/numerals
+    destination: /speech-to-text/formatting/numerals
   - source: /documentation/features/paragraphs
-    destination: /docs/paragraphs
+    destination: /speech-to-text/formatting/paragraphs
   - source: /documentation/features/profanity-filter
-    destination: /docs/profanity-filter
+    destination: /speech-to-text/formatting/profanity-filtering
   - source: /documentation/features/punctuate
-    destination: /docs/punctuation
+    destination: /speech-to-text/formatting/punctuation
   - source: /documentation/features/redact
-    destination: /docs/redaction
+    destination: /speech-to-text/formatting/redaction
   - source: /documentation/features/replace
-    destination: /docs/find-and-replace
+    destination: /speech-to-text/custom-vocabulary/find-and-replace
   - source: /documentation/features/sample-rate
-    destination: /docs/sample-rate
+    destination: /speech-to-text/media-input/sample-rate
   - source: /documentation/features/search
-    destination: /docs/search
+    destination: /speech-to-text/custom-vocabulary/search
   - source: /documentation/features/smart-format
-    destination: /docs/smart-format
+    destination: /speech-to-text/formatting/smart-formatting
   - source: /documentation/features/summarize
-    destination: /docs/summarization
+    destination: /intelligence/audio-intelligence/summarization
   - source: /documentation/features/tag
-    destination: /docs/tagging
+    destination: /speech-to-text/results-processing/tagging
   - source: /documentation/features/tier
     destination: /docs/tier
   - source: /documentation/features/utterance-split
-    destination: /docs/utterance-split
+    destination: /speech-to-text/formatting/utterance-split
   - source: /documentation/features/utterances
-    destination: /docs/utterances
+    destination: /speech-to-text/formatting/utterances
   - source: /documentation/features/version
-    destination: /docs/version
+    destination: /speech-to-text/models-languages/version
   - source: /documentation/getting-started
     destination: /docs/getting-started-with-pre-recorded-audio
   - source: /documentation/getting-started/audio-formats
-    destination: /docs/supported-audio-formats
+    destination: /guides/deep-dives/supported-audio-formats
   - source: /documentation/getting-started/authentication
     destination: /guides/fundamentals/authenticating
   - source: /docs/authenticating
     destination: /guides/fundamentals/authenticating
   - source: /documentation/getting-started/deployment-options
-    destination: /docs/deployment-options
+    destination: /guides/deep-dives/deployment-options
   - source: /documentation/getting-started/multiple-projects
     destination: /guides/deep-dives/using-multiple-projects
   - source: /docs/using-multiple-projects
     destination: /guides/deep-dives/using-multiple-projects
   - source: /documentation/getting-started/nova-quickstart
-    destination: /docs/models-languages-overview
+    destination: /speech-to-text/models-languages/models-languages-overview
   - source: /documentation/getting-started/prerecorded-es
     destination: /docs
   - source: /documentation/getting-started/prerecorded
@@ -1016,43 +1198,43 @@ redirects:
   - source: /documentation/glossary/word-error-rate-wer
     destination: /docs
   - source: /documentation/guides
-    destination: /docs/deepgram-whisper-cloud
+    destination: /speech-to-text/prerecorded/tips-tricks/getting-started-with-deepgram-whisper-cloud
   - source: /documentation/guides/deepgram-whisper-cloud
-    destination: /docs/deepgram-whisper-cloud
+    destination: /speech-to-text/prerecorded/tips-tricks/getting-started-with-deepgram-whisper-cloud
   - source: /documentation/guides/determine-audio-format
-    destination: /docs/determining-your-audio-format-for-live-streaming-audio
+    destination: /speech-to-text/streaming/tips-tricks/determining-your-audio-format-for-live-streaming-audio
   - source: /documentation/guides/generate-captions
-    destination: /docs/automatically-generating-webvtt-and-srt-captions
+    destination: /speech-to-text/prerecorded/tips-tricks/automatically-generating-webvtt-srt-captions
   - source: /documentation/guides/keywords-vs-search
-    destination: /docs/keywords-vs-search
+    destination: /speech-to-text/prerecorded/tips-tricks/when-to-use-keywords-and-search
   - source: /documentation/guides/measure-latency
-    destination: /docs/measuring-streaming-latency
+    destination: /speech-to-text/streaming/tips-tricks/measuring-streaming-latency
   - source: /documentation/guides/migration-aws-transcribe
-    destination: /docs/migrating-from-amazon-web-services-aws-transcribe-to-deepgram
+    destination: /speech-to-text/migrating/migrating-from-amazon-web-services-aws-transcribe-to-deepgram
   - source: /documentation/guides/migration-google-stt
-    destination: /docs/migrating-from-google-speech-to-text-stt-to-deepgram
+    destination: /speech-to-text/migrating/migrating-from-google-speech-to-text-stt-to-deepgram
   - source: /documentation/guides/migration
-    destination: /docs/migrating-from-amazon-web-services-aws-transcribe-to-deepgram
+    destination: /speech-to-text/migrating/migrating-from-amazon-web-services-aws-transcribe-to-deepgram
   - source: /documentation/guides/multichannel-vs-diarization
-    destination: /docs/multichannel-vs-diarization
+    destination: /speech-to-text/prerecorded/tips-tricks/when-to-use-multichannel-and-diarization
   - source: /documentation/guides/phone-call-summaries
-    destination: /docs/automatically-transcribing-and-summarizing-phone-calls
+    destination: /speech-to-text/prerecorded/tips-tricks/automatically-transcribe-and-summarize-phone-calls
   - source: /documentation/guides/recover-streaming-errors
-    destination: /docs/recovering-from-connection-errors-and-timeouts-when-live-streaming-audio
+    destination: /speech-to-text/streaming/tips-tricks/recovering-from-connection-errors-timeouts-when-live-streaming
   - source: /documentation/guides/request-transcript-previous-versions
     destination: /docs/requesting-transcription-with-previous-versions
   - source: /documentation/guides/save-transcripts-from-terminal
-    destination: /docs/generating-and-saving-transcripts-from-the-terminal
+    destination: /speech-to-text/prerecorded/tips-tricks/generating-and-saving-transcripts-from-the-terminal
   - source: /documentation/guides/streaming-test-suite
-    destination: /docs/getting-started-with-the-streaming-test-suite
+    destination: /speech-to-text/streaming/live-streaming-starter-kit
   - source: /documentation/guides/transcription
     destination: /docs/getting-started-with-pre-recorded-audio
   - source: /documentation/guides/troubleshoot-streaming
-    destination: /docs/troubleshooting-websocket-data-and-net-errors-when-live-streaming-audio
+    destination: /speech-to-text/streaming/tips-tricks/websocket-data-net-errors-when-live-streaming
   - source: /documentation/guides/understand-endpointing-interim-results
-    destination: /docs/understand-endpointing-interim-results
+    destination: /speech-to-text/streaming/tips-tricks/endpointing-interim-results-with-live-streaming
   - source: /documentation/guides/use-callback
-    destination: /docs/using-callbacks-to-return-transcripts-to-your-server
+    destination: /speech-to-text/prerecorded/tips-tricks/using-callbacks-to-return-transcripts-to-your-server
   - source: /on-prem
     destination: /docs/on-prem-introduction
   - source: /on-prem/best-practices
@@ -1168,27 +1350,27 @@ redirects:
   - source: /sdks-tools/sdks/python-sdk/usage
     destination: /docs/python-sdk-usage
   - source: /sdks-tools/tools
-    destination: /docs/integrate-deepgram-with-zoom
+    destination: /guides/integrations/zoom-and-deepgram
   - source: /sdks-tools/tools/integrate-zoom
-    destination: /docs/integrate-deepgram-with-zoom
+    destination: /guides/integrations/zoom-and-deepgram
   - source: /sdks-tools/tools/on-prem-twilio
-    destination: /docs/on-premise-twilio-integration
+    destination: /guides/integrations/twilio-and-deepgram-stt
   - source: /use-cases
-    destination: /docs/transcribe-recorded-calls-with-twilio
+    destination: /guides/use-cases/transcribe-recorded-calls-with-twilio
   - source: /use-cases/speech-analytics/talk-time-analytics
-    destination: /docs/calculate-talk-time-analytics
+    destination: /guides/use-cases/calculate-talk-time-analytics
   - source: /use-cases/transcription/realtime-meeting-transcription
-    destination: /docs/transcribe-meetings-in-realtime
+    destination: /guides/use-cases/transcribe-meetings-in-realtime
   - source: /use-cases/transcription/transcribe-recorded-calls-with-twilio
-    destination: /docs/transcribe-recorded-calls-with-twilio
+    destination: /guides/use-cases/transcribe-recorded-calls-with-twilio
   - source: /blog/2022/01/translation-itranslate/
     destination: https://deepgram.com/learn/translation-itranslate
   - source: /blog/2022/02/classroom-captioner/
     destination: https://deepgram.com/learn/classroom-captioner
   - source: /docs/features-overview
-    destination: /docs/stt-streaming-feature-overview
+    destination: /speech-to-text/streaming/feature-overview
   - source: /docs/on-prem-introduction
-    destination: /docs/self-hosted-introduction
+    destination: /self-hosted/introduction
   - source: /docs/licensing
     destination: /docs/on-prem-self-service-tutorial
   - source: /docs/distribution-credentials
@@ -1244,15 +1426,15 @@ redirects:
   - source: /docs/nova-quickstart
     destination: /docs/getting-started-with-pre-recorded-audio
   - source: /docs/languages-overview
-    destination: /docs/models-languages-overview
+    destination: /speech-to-text/models-languages/models-languages-overview
   - source: /docs/models-overview
-    destination: /docs/models-languages-overview
+    destination: /speech-to-text/models-languages/models-languages-overview
   - source: /docs/transcribing-pre-recorded-audio
     destination: /docs/getting-started-with-pre-recorded-audio
   - source: /docs/topic-detection-v1
-    destination: /docs/topic-detection
+    destination: /intelligence/audio-intelligence/topic-detection
   - source: /docs/start-of-speech-detection
-    destination: /docs/speech-started
+    destination: /speech-to-text/streaming/speech-detection/speech-started
   - source: /reference/pre-recorded
     destination: /reference/listen-file
   - source: /reference/streaming
@@ -1266,41 +1448,41 @@ redirects:
   - source: /reference/audio-intelligence-apis
     destination: /reference/listen-remote
   - source: /docs/understanding-end-of-speech-detection-while-streaming
-    destination: /docs/understanding-end-of-speech-detection
+    destination: /speech-to-text/streaming/tips-tricks/end-of-speech-detection-while-live-streaming
   - source: /reference/text-to-speech-preview-api
     destination: /reference/text-to-speech-api
   - source: /guides/streaming/interim-results
-    destination: /docs/interim-results
+    destination: /speech-to-text/streaming/speech-detection/interim-results
   - source: /guides/streaming/endpointing
-    destination: /docs/endpointing
+    destination: /speech-to-text/streaming/speech-detection/endpointing
   - source: /docs/starter-apps
     destination: /docs/stt-pre-recorded-starter-apps
   - source: /docs/aws
-    destination: /docs/aws-docker-podman
+    destination: /self-hosted/docker-podman/platform-options/amazon-web-services
   - source: /docs/gcp
-    destination: /docs/gcp-docker-podman
+    destination: /self-hosted/docker-podman/platform-options/google-cloud-platform
   - source: /docs/oci
-    destination: /docs/oci-docker-podman
+    destination: /self-hosted/docker-podman/platform-options/oracle-cloud-infrastructure
   - source: /docs/azure
-    destination: /docs/azure-docker-podman
+    destination: /self-hosted/docker-podman/platform-options/microsoft-azure
   - source: /docs/on-prem-deployment-environments
-    destination: /docs/self-hosted-deployment-environments
+    destination: /self-hosted/deployment-environments
   - source: /docs/on-prem-self-service-tutorial
-    destination: /docs/self-hosted-self-service-tutorial
+    destination: /self-hosted/self-service-licensing-credentials
   - source: /docs/on-prem-add-ons
-    destination: /docs/self-hosted-add-ons
+    destination: /self-hosted/add-ons/overview
   - source: /reference/voicebot-api-phase-preview-copy
     destination: /reference/voicebot-api-phase-preview
   - source: /docs/keep-alive
-    destination: /docs/audio-keep-alive
+    destination: /speech-to-text/streaming/control-messages/audio-keep-alive
   - source: /docs/voice-agent-control-messages
-    destination: /docs/voice-agent-inputs
+    destination: /voice-agent/client-messages/overview
   - source: /docs/voice-agent-server-messages
-    destination: /docs/voice-agent-outputs
+    destination: /voice-agent/server-events/overview
   - source: /docs/getting-started-with-pre-recorded-audio
-    destination: /docs/pre-recorded-audio
+    destination: /speech-to-text/prerecorded/getting-started
   - source: /docs/getting-started-with-live-streaming-audio
-    destination: /docs/live-streaming-audio
+    destination: /speech-to-text/streaming/getting-started
   - source: /docs/introduction
     destination: /home/introduction
   - source: /reference/build-a-voice-agent
@@ -1396,27 +1578,27 @@ redirects:
   - source: /docs/aura-2-formatting
     destination: /aura-2-formatting
   - source: /docs/aura-2-preview
-    destination: /aura-2-preview
+    destination: /guides/pages/aura-2-private-preview
   - source: /docs/code-of-conduct
-    destination: /code-of-conduct
+    destination: /guides/pages/code-of-conduct
   - source: /docs/text-chunking-for-tts-optimization-copy
-    destination: /docs/text-chunking-for-tts-optimization
+    destination: /text-to-speech/tips-tricks/text-chunking-for-tts-rest-optimization
   - source: /docs/genesys-with-deepgram
-    destination: /docs/genesys-deepgram-legacy
+    destination: /guides/pages/genesys-and-deepgram-legacy-
   - source: /reference/ephemeral-auth-api/grant-token
     destination: /reference/token-based-auth-api/grant-token
   - source: /docs/voice-agent-settings-configuration
-    destination: /docs/voice-agent-settings
+    destination: /voice-agent/client-messages/settings
   - source: /docs/voice-agent-server-errors
-    destination: /docs/voice-agent-errors
+    destination: /voice-agent/server-events/agent-errors
   - source: /docs/build-a-voice-agent
     destination: /reference/v1/agent/converse
   - source: /reference/voice-agent-api/agent
     destination: /reference/v1/agent/converse
   - source: /docs/text-chunking-for-tts-streaming-optimization
-    destination: /docs/tts-websocket-streaming
+    destination: /text-to-speech/tips-tricks/real-time-tts-with-websockets
   - source: /docs/text-chunking-techniques-for-tts
-    destination: /docs/tts-text-chunking
+    destination: /text-to-speech/tips-tricks/text-chunking-for-tts
   - source: /docs/sdk-feature-matrix
     destination: /sdks/sdk-features
   - source: /docs/python-sdk-v2-to-v3-migration-guide
@@ -1431,14 +1613,10 @@ redirects:
     destination: /sdks/go-sdk/v12-to-v13-migration
   - source: /docs/managing-projects
     destination: /guides/deep-dives/managing-projects
-
-  # home location changed
   - source: /documentation
     destination: /home
   - source: /docs
     destination: /home
-
-  # trust and security section created
   - source: /docs/security-policy
     destination: /trust-security/security-policy
   - source: /documentation/security
@@ -1453,26 +1631,18 @@ redirects:
     destination: /trust-security/data-privacy-compliance
   - source: /docs/data-privacy-compliance
     destination: /trust-security/data-privacy-compliance
-
-  # keyterm
   - source: /docs/keyterms
-    destination: /docs/keyterm
+    destination: /speech-to-text/custom-vocabulary/keyterm-prompting
   - source: /docs/keyterm-prompting
-    destination: /docs/keyterm
-
-  # fundamentals section created
+    destination: /speech-to-text/custom-vocabulary/keyterm-prompting
   - source: /docs/make-your-first-api-request
     destination: /guides/fundamentals/make-your-first-api-request
   - source: /docs/model-metadata
     destination: /guides/fundamentals/model-metadata
   - source: /docs/using-custom-parameters-sdks
     destination: /guides/fundamentals/using-custom-parameters-sdks
-
-  # start apps pages removed
   - source: /docs/tts-starter-apps
-    destination: /docs/text-to-speech
-
-  # specific sdk pages removed
+    destination: /text-to-speech/single-request/getting-started
   - source: /docs/deepgram-sdks
     destination: /home
   - source: /docs/dotnet-sdk
@@ -1483,8 +1653,6 @@ redirects:
     destination: /home
   - source: /docs/python-sdk
     destination: /home
-
-  # renamed sdk guides
   - source: /sdks/javascript-sdk/v2-to-v3-migration-guide
     destination: /sdks/javascript-sdk/v2-to-v3-migration
   - source: /docs/node-sdk-v2-to-v3-migration-guide
@@ -1495,7 +1663,423 @@ redirects:
     destination: /docs/js-sdk-v2-to-v3-migration
   - source: docs/threaded-and-async-io-task-support
     destination: /sdks/python-sdk/threaded-and-asyncio
-
-  # seems to have been a legacy 404
   - source: /reference/errors
-    destination: /docs/errors
+    destination: /reference/errors
+  - source: /docs/supported-audio-formats
+    destination: /guides/deep-dives/supported-audio-formats
+  - source: /docs/deployment-options
+    destination: /guides/deep-dives/deployment-options
+  - source: /docs/create-additional-api-keys
+    destination: /guides/deep-dives/creating-additionalapi-keys
+  - source: /docs/using-the-sec-websocket-protocol
+    destination: /guides/deep-dives/using-the-sec-websocket-protocol
+  - source: /docs/using-logs-usage
+    destination: /guides/deep-dives/logs-usage-data
+  - source: /docs/the-deepgram-model-improvement-partnership-program
+    destination: /guides/deep-dives/model-improvement-program
+  - source: /docs/working-with-concurrency-rate-limits
+    destination: /guides/deep-dives/working-with-concurrency-rate-limits
+  - source: /docs/build-voice-agent-with-twilio-deepgram-openai
+    destination: /guides/use-cases/voice-agent-with-twilio-openai-deepgram
+  - source: /docs/calculate-talk-time-analytics
+    destination: /guides/use-cases/calculate-talk-time-analytics
+  - source: /docs/transcribe-meetings-in-realtime
+    destination: /guides/use-cases/transcribe-meetings-in-realtime
+  - source: /docs/transcribe-recorded-calls-with-twilio
+    destination: /guides/use-cases/transcribe-recorded-calls-with-twilio
+  - source: /docs/deepgram-with-amazon-connect
+    destination: /guides/integrations/amazon-connect-and-deepgram
+  - source: /docs/using-aws-s3-presigned-urls-with-the-deepgram-api
+    destination: /guides/integrations/aws-s3-presigned-urls-and-deepgram
+  - source: /docs/genesys-deepgram
+    destination: /guides/integrations/genesys-and-deepgram
+  - source: /docs/use-deepgram-with-dialogflow-cx
+    destination: /guides/integrations/google-dialogflow-cx-and-deepgram
+  - source: /docs/makecom-deepgram-integration
+    destination: /guides/integrations/make-com-and-deepgram
+  - source: /docs/on-premise-twilio-integration
+    destination: /guides/integrations/twilio-and-deepgram-stt
+  - source: /docs/twilio-and-deepgram-tts
+    destination: /guides/integrations/twilio-and-deepgram-tts
+  - source: /docs/twilio-and-deepgram-voice-agent
+    destination: /guides/integrations/twilio-and-deepgram-voice-agent
+  - source: /docs/zapier-integration
+    destination: /guides/integrations/zapier-and-deepgram
+  - source: /docs/integrate-deepgram-with-zoom
+    destination: /guides/integrations/zoom-and-deepgram
+  - source: /code-of-conduct
+    destination: /guides/pages/code-of-conduct
+  - source: /aura-2-preview
+    destination: /guides/pages/aura-2-private-preview
+  - source: /deploy-aura-2-self-hosted
+    destination: /guides/pages/aura-2-self-hosted-deployment-guide
+  - source: /aws-ecs
+    destination: /guides/pages/amazon-elastic-container-service
+  - source: /data-labeling-intro
+    destination: /guides/pages/data-labeling-intro
+  - source: /data-labeling-best-practices
+    destination: /guides/pages/data-labeling-best-practices
+  - source: /data-labeling-setting-up
+    destination: /guides/pages/data-labeling-setting-up
+  - source: /data-labeling-understanding-the-workflow
+    destination: /guides/pages/data-labeling-understanding-the-workflow
+  - source: /data-labeling-managing-work
+    destination: /guides/pages/data-labeling-managing-work
+  - source: /data-labeling-troubleshooting
+    destination: /guides/pages/data-labeling-troubleshooting
+  - source: /dgtools-overview
+    destination: /guides/pages/dg-tools-overview
+  - source: /distro-guide-ubuntu-2004-lts
+    destination: /guides/pages/distro-guide-ubuntu-20-04-lts
+  - source: /distro-guide-rhel-8
+    destination: /guides/pages/distro-guide-rhel-8
+  - source: /distro-guide-rhel-7
+    destination: /guides/pages/distro-guide-rhel-7
+  - source: /voice-agent-rag-multi-agent-workflows
+    destination: /guides/pages/rag-multi-agent-workflows
+  - source: /softbank-voice-agent-api-reference
+    destination: /guides/pages/softbank-voice-agent-api-reference
+  - source: /using-the-deepgram-event-captioner
+    destination: /guides/pages/using-the-deepgram-event-captioner
+  - source: /tier
+    destination: /guides/pages/tier-deprecated
+  - source: /voice-agent-latency
+    destination: /guides/pages/voice-agent-latency
+  - source: /voice-agent-prompting
+    destination: /guides/pages/voice-agent-prompting
+  - source: /docs/genesys-deepgram-legacy
+    destination: /guides/pages/genesys-and-deepgram-legacy-
+  - source: /voice-agent-agent-started-speaking
+    destination: /guides/pages/agent-started-speaking
+  - source: /voice-agent-update-instructions
+    destination: /guides/pages/update-instructions
+  - source: /voice-agent-function-calling-message
+    destination: /guides/pages/function-calling-message
+  - source: /docs/deepgram-api-overview
+    destination: /reference/deepgram-api-overview
+  - source: /docs/authentication
+    destination: /reference/authentication
+  - source: /docs/errors
+    destination: /reference/errors
+  - source: /docs/api-rate-limits
+    destination: /reference/api-rate-limits
+  - source: /docs/voice-agent
+    destination: /voice-agent/getting-started
+  - source: /docs/voice-agent-v1-migration
+    destination: /voice-agent/voice-agent-v1-api-migration
+  - source: /docs/voice-agent-feature-overview
+    destination: /voice-agent/feature-overview
+  - source: /docs/configure-voice-agent
+    destination: /voice-agent/configure-the-voice-agent
+  - source: /docs/voice-agents-function-calling
+    destination: /voice-agent/function-calling/overview
+  - source: /docs/build-a-function-call
+    destination: /voice-agent/function-calling/build-a-function-call
+  - source: /docs/voice-agent-function-call-request
+    destination: /voice-agent/function-calling/function-call-request
+  - source: /docs/voice-agent-function-call-response
+    destination: /voice-agent/function-calling/function-call-response
+  - source: /docs/voice-agent-inputs
+    destination: /voice-agent/client-messages/overview
+  - source: /docs/voice-agent-settings
+    destination: /voice-agent/client-messages/settings
+  - source: /docs/voice-agent-update-speak
+    destination: /voice-agent/client-messages/update-speak
+  - source: /docs/voice-agent-update-prompt
+    destination: /voice-agent/client-messages/update-prompt
+  - source: /docs/voice-agent-inject-agent-message
+    destination: /voice-agent/client-messages/inject-agent
+  - source: /docs/agent-keep-alive
+    destination: /voice-agent/client-messages/agent-keep-alive
+  - source: /docs/voice-agent-outputs
+    destination: /voice-agent/server-events/overview
+  - source: /docs/voice-agent-welcome-message
+    destination: /voice-agent/server-events/welcome
+  - source: /docs/voice-agent-setting-applied-message
+    destination: /voice-agent/server-events/settings-applied
+  - source: /docs/voice-agent-conversation-text
+    destination: /voice-agent/server-events/conversation-text
+  - source: /docs/voice-agent-user-started-speaking
+    destination: /voice-agent/server-events/user-started-speaking
+  - source: /docs/voice-agent-agent-thinking
+    destination: /voice-agent/server-events/agent-thinking
+  - source: /docs/voice-agent-prompt-updated
+    destination: /voice-agent/server-events/prompt-updated
+  - source: /docs/voice-agent-speak-updated
+    destination: /voice-agent/server-events/speak-updated
+  - source: /docs/voice-agent-agent-audio-done
+    destination: /voice-agent/server-events/agent-audio-done
+  - source: /docs/voice-agent-errors
+    destination: /voice-agent/server-events/agent-errors
+  - source: /docs/voice-agent-warning
+    destination: /voice-agent/server-events/agent-warnings
+  - source: /docs/voice-agent-llm-models
+    destination: /voice-agent/llm-models
+  - source: /docs/voice-agent-tts-models
+    destination: /voice-agent/tts-models
+  - source: /docs/voice-agent-media-inputs-outputs
+    destination: /voice-agent/media-inputs-outputs
+  - source: /docs/voice-agent-audio-playback
+    destination: /voice-agent/tips-tricks/voice-agent-audio-playback
+  - source: /docs/voice-agent-echo-cancellation
+    destination: /voice-agent/tips-tricks/voice-agent-adaptive-echo-cancellation
+  - source: /docs/pre-recorded-audio
+    destination: /speech-to-text/prerecorded/getting-started
+  - source: /docs/stt-pre-recorded-feature-overview
+    destination: /speech-to-text/prerecorded/feature-overview
+  - source: /docs/automatically-generating-webvtt-and-srt-captions
+    destination: /speech-to-text/prerecorded/tips-tricks/automatically-generating-webvtt-srt-captions
+  - source: /docs/automatically-transcribing-and-summarizing-phone-calls
+    destination: /speech-to-text/prerecorded/tips-tricks/automatically-transcribe-and-summarize-phone-calls
+  - source: /docs/deepgram-whisper-cloud
+    destination: /speech-to-text/prerecorded/tips-tricks/getting-started-with-deepgram-whisper-cloud
+  - source: /docs/generating-and-saving-transcripts-from-the-terminal
+    destination: /speech-to-text/prerecorded/tips-tricks/generating-and-saving-transcripts-from-the-terminal
+  - source: /docs/using-callbacks-to-return-transcripts-to-your-server
+    destination: /speech-to-text/prerecorded/tips-tricks/using-callbacks-to-return-transcripts-to-your-server
+  - source: /docs/payload-too-large
+    destination: /speech-to-text/prerecorded/tips-tricks/when-callback-is-not-received
+  - source: /docs/multichannel-vs-diarization
+    destination: /speech-to-text/prerecorded/tips-tricks/when-to-use-multichannel-and-diarization
+  - source: /docs/keywords-vs-search
+    destination: /speech-to-text/prerecorded/tips-tricks/when-to-use-keywords-and-search
+  - source: /docs/live-streaming-audio
+    destination: /speech-to-text/streaming/getting-started
+  - source: /docs/stt-streaming-feature-overview
+    destination: /speech-to-text/streaming/feature-overview
+  - source: /docs/getting-started-with-the-streaming-test-suite
+    destination: /speech-to-text/streaming/live-streaming-starter-kit
+  - source: /docs/close-stream
+    destination: /speech-to-text/streaming/control-messages/close-stream
+  - source: /docs/finalize
+    destination: /speech-to-text/streaming/control-messages/finalize
+  - source: /docs/audio-keep-alive
+    destination: /speech-to-text/streaming/control-messages/audio-keep-alive
+  - source: /docs/speech-started
+    destination: /speech-to-text/streaming/speech-detection/speech-started
+  - source: /docs/utterance-end
+    destination: /speech-to-text/streaming/speech-detection/utterance-end
+  - source: /docs/endpointing
+    destination: /speech-to-text/streaming/speech-detection/endpointing
+  - source: /docs/interim-results
+    destination: /speech-to-text/streaming/speech-detection/interim-results
+  - source: /docs/understanding-end-of-speech-detection
+    destination: /speech-to-text/streaming/tips-tricks/end-of-speech-detection-while-live-streaming
+  - source: /docs/using-interim-results
+    destination: /speech-to-text/streaming/tips-tricks/using-interim-results
+  - source: /docs/understand-endpointing-interim-results
+    destination: /speech-to-text/streaming/tips-tricks/endpointing-interim-results-with-live-streaming
+  - source: /docs/determining-your-audio-format-for-live-streaming-audio
+    destination: /speech-to-text/streaming/tips-tricks/determining-your-audio-format-for-live-streaming-audio
+  - source: /docs/measuring-streaming-latency
+    destination: /speech-to-text/streaming/tips-tricks/measuring-streaming-latency
+  - source: /docs/troubleshooting-websocket-data-and-net-errors-when-live-streaming-audio
+    destination: /speech-to-text/streaming/tips-tricks/websocket-data-net-errors-when-live-streaming
+  - source: /docs/recovering-from-connection-errors-and-timeouts-when-live-streaming-audio
+    destination: /speech-to-text/streaming/tips-tricks/recovering-from-connection-errors-timeouts-when-live-streaming
+  - source: /docs/lower-level-websockets
+    destination: /speech-to-text/streaming/tips-tricks/using-lower-level-websockets-with-the-streaming-api
+  - source: /docs/models-languages-overview
+    destination: /speech-to-text/models-languages/models-languages-overview
+  - source: /docs/language
+    destination: /speech-to-text/models-languages/languages-support
+  - source: /docs/language-detection
+    destination: /speech-to-text/models-languages/language-detection
+  - source: /docs/multilingual-code-switching
+    destination: /speech-to-text/models-languages/multilingual-codeswitching
+  - source: /docs/model
+    destination: /speech-to-text/models-languages/model-options
+  - source: /docs/version
+    destination: /speech-to-text/models-languages/version
+  - source: /docs/diarization
+    destination: /speech-to-text/formatting/speaker-diarization
+  - source: /docs/dictation
+    destination: /speech-to-text/formatting/dictation
+  - source: /docs/filler-words
+    destination: /speech-to-text/formatting/filler-words
+  - source: /docs/measurements
+    destination: /speech-to-text/formatting/measurements
+  - source: /docs/numerals
+    destination: /speech-to-text/formatting/numerals
+  - source: /docs/paragraphs
+    destination: /speech-to-text/formatting/paragraphs
+  - source: /docs/profanity-filter
+    destination: /speech-to-text/formatting/profanity-filtering
+  - source: /docs/punctuation
+    destination: /speech-to-text/formatting/punctuation
+  - source: /docs/redaction
+    destination: /speech-to-text/formatting/redaction
+  - source: /docs/smart-format
+    destination: /speech-to-text/formatting/smart-formatting
+  - source: /docs/supported-entity-types
+    destination: /speech-to-text/formatting/supported-entity-types
+  - source: /docs/utterances
+    destination: /speech-to-text/formatting/utterances
+  - source: /docs/utterance-split
+    destination: /speech-to-text/formatting/utterance-split
+  - source: /docs/find-and-replace
+    destination: /speech-to-text/custom-vocabulary/find-and-replace
+  - source: /docs/keyterm
+    destination: /speech-to-text/custom-vocabulary/keyterm-prompting
+  - source: /docs/keywords
+    destination: /speech-to-text/custom-vocabulary/keywords
+  - source: /docs/search
+    destination: /speech-to-text/custom-vocabulary/search
+  - source: /docs/media-input-settings
+    destination: /speech-to-text/media-input/overview
+  - source: /docs/channels
+    destination: /speech-to-text/media-input/channels
+  - source: /docs/encoding
+    destination: /speech-to-text/media-input/encoding
+  - source: /docs/multichannel
+    destination: /speech-to-text/media-input/multichannel
+  - source: /docs/sample-rate
+    destination: /speech-to-text/media-input/sample-rate
+  - source: /docs/callback
+    destination: /speech-to-text/results-processing/stt-callback
+  - source: /docs/tagging
+    destination: /speech-to-text/results-processing/tagging
+  - source: /docs/extra-metadata
+    destination: /speech-to-text/results-processing/extra-metadata
+  - source: /docs/migrating-from-amazon-web-services-aws-transcribe-to-deepgram
+    destination: /speech-to-text/migrating/migrating-from-amazon-web-services-aws-transcribe-to-deepgram
+  - source: /docs/migrating-from-google-speech-to-text-stt-to-deepgram
+    destination: /speech-to-text/migrating/migrating-from-google-speech-to-text-stt-to-deepgram
+  - source: /docs/migrating-from-openai-whisper-to-deepgram
+    destination: /speech-to-text/migrating/migrating-from-openai-whisper-to-deepgram
+  - source: /docs/migrating-from-assembly-ai-speech-to-text-to-deepgram
+    destination: /speech-to-text/migrating/migrating-from-assemblyai-speech-to-text-to-deepgram
+  - source: /docs/tts-rest
+    destination: /text-to-speech/single-request/overview
+  - source: /docs/text-to-speech
+    destination: /text-to-speech/single-request/getting-started
+  - source: /docs/tts-feature-overview
+    destination: /text-to-speech/single-request/feature-overview
+  - source: /docs/tts-callback
+    destination: /text-to-speech/single-request/tts-callback
+  - source: /docs/streaming-the-audio-output
+    destination: /text-to-speech/single-request/audio-output-streaming
+  - source: /docs/tts-websocket
+    destination: /text-to-speech/streaming/overview
+  - source: /docs/streaming-text-to-speech
+    destination: /text-to-speech/streaming/getting-started
+  - source: /docs/tts-streaming-feature-overview
+    destination: /text-to-speech/streaming/feature-overview
+  - source: /docs/tts-ws-flush
+    destination: /text-to-speech/streaming/control-messages/flush
+  - source: /docs/tts-ws-clear
+    destination: /text-to-speech/streaming/control-messages/clear
+  - source: /docs/tts-ws-close
+    destination: /text-to-speech/streaming/control-messages/close
+  - source: /docs/tts-models
+    destination: /text-to-speech/voice-selection
+  - source: /docs/tts-media-output-settings
+    destination: /text-to-speech/media-output/overview
+  - source: /docs/tts-encoding
+    destination: /text-to-speech/media-output/encoding
+  - source: /docs/tts-bit-rate
+    destination: /text-to-speech/media-output/bit-rate
+  - source: /docs/tts-container
+    destination: /text-to-speech/media-output/container
+  - source: /docs/tts-sample-rate
+    destination: /text-to-speech/media-output/sample-rate
+  - source: /docs/tts-websocket-streaming
+    destination: /text-to-speech/tips-tricks/real-time-tts-with-websockets
+  - source: /docs/tts-text-chunking
+    destination: /text-to-speech/tips-tricks/text-chunking-for-tts
+  - source: /docs/improving-aura-2-formatting
+    destination: /text-to-speech/tips-tricks/formatting-text-for-aura-2
+  - source: /docs/handling-audio-issues-in-text-to-speech
+    destination: /text-to-speech/tips-tricks/handling-audio-issues-in-text-to-speech
+  - source: /docs/send-llm-outputs-to-the-tts-web-socket
+    destination: /text-to-speech/tips-tricks/sending-llm-outputs-to-a-websocket
+  - source: /docs/text-chunking-for-tts-optimization
+    destination: /text-to-speech/tips-tricks/text-chunking-for-tts-rest-optimization
+  - source: /docs/text-to-speech-latency
+    destination: /text-to-speech/tips-tricks/text-to-speech-latency
+  - source: /docs/text-to-speech-prompting
+    destination: /text-to-speech/tips-tricks/text-to-speech-prompting
+  - source: /docs/audio-intelligence
+    destination: /intelligence/audio-intelligence/getting-started
+  - source: /docs/stt-intelligence-feature-overview
+    destination: /intelligence/audio-intelligence/feature-overview
+  - source: /docs/detect-entities
+    destination: /intelligence/audio-intelligence/entity-detection
+  - source: /docs/intent-recognition
+    destination: /intelligence/audio-intelligence/intent-recognition
+  - source: /docs/sentiment-analysis
+    destination: /intelligence/audio-intelligence/sentiment-analysis
+  - source: /docs/summarization
+    destination: /intelligence/audio-intelligence/summarization
+  - source: /docs/topic-detection
+    destination: /intelligence/audio-intelligence/topic-detection
+  - source: /docs/text-intelligence
+    destination: /intelligence/text-intelligence/getting-started
+  - source: /docs/text-intelligence-feature-overview
+    destination: /intelligence/text-intelligence/feature-overview
+  - source: /docs/text-intention-recognition
+    destination: /intelligence/text-intelligence/intent-recognition
+  - source: /docs/text-sentiment-analysis
+    destination: /intelligence/text-intelligence/sentiment-analysis
+  - source: /docs/text-summarization
+    destination: /intelligence/text-intelligence/summarization
+  - source: /docs/text-topic-detection
+    destination: /intelligence/text-intelligence/topic-detection
+  - source: /docs/text-intelligence-callback
+    destination: /intelligence/text-intelligence/text-intelligence-callback
+  - source: /docs/self-hosted-introduction
+    destination: /self-hosted/introduction
+  - source: /docs/self-hosted-deployment-environments
+    destination: /self-hosted/deployment-environments
+  - source: /docs/dockerpodman
+    destination: /self-hosted/docker-podman/overview
+  - source: /docs/aws-docker-podman
+    destination: /self-hosted/docker-podman/platform-options/amazon-web-services
+  - source: /docs/gcp-docker-podman
+    destination: /self-hosted/docker-podman/platform-options/google-cloud-platform
+  - source: /docs/oci-docker-podman
+    destination: /self-hosted/docker-podman/platform-options/oracle-cloud-infrastructure
+  - source: /docs/azure-docker-podman
+    destination: /self-hosted/docker-podman/platform-options/microsoft-azure
+  - source: /docs/bare-metal
+    destination: /self-hosted/docker-podman/platform-options/bare-metal-servers
+  - source: /docs/drivers-and-containerization-platforms
+    destination: /self-hosted/docker-podman/drivers-and-container-orchestration-tools
+  - source: /docs/deploy-deepgram-services
+    destination: /self-hosted/docker-podman/deploy-deepgram-services
+  - source: /docs/kubernetes
+    destination: /self-hosted/kubernetes/overview
+  - source: /docs/aws-k8s
+    destination: /self-hosted/kubernetes/platform-options/amazon-web-services
+  - source: /docs/gcp-k8s
+    destination: /self-hosted/kubernetes/platform-options/google-cloud-platform
+  - source: /docs/self-managed-kubernetes
+    destination: /self-hosted/kubernetes/platform-options/self-managed-kubernetes
+  - source: /docs/securing-your-cluster
+    destination: /self-hosted/kubernetes/securing-your-cluster
+  - source: /docs/self-hosted-self-service-tutorial
+    destination: /self-hosted/self-service-licensing-credentials
+  - source: /docs/scaling-and-deployment-strategies
+    destination: /self-hosted/scaling-deployment/overview
+  - source: /docs/maintaining
+    destination: /self-hosted/scaling-deployment/system-maintenance
+  - source: /docs/autoscaling-best-practices
+    destination: /self-hosted/scaling-deployment/auto-scaling
+  - source: /docs/metrics-guide
+    destination: /self-hosted/scaling-deployment/metrics-guide
+  - source: /docs/self-hosted-ingress-auth
+    destination: /self-hosted/scaling-deployment/ingress-authentication
+  - source: /docs/using-private-container-registries
+    destination: /self-hosted/scaling-deployment/using-private-container-registries
+  - source: /docs/self-hosted-add-ons
+    destination: /self-hosted/add-ons/overview
+  - source: /docs/license-proxy
+    destination: /self-hosted/add-ons/license-proxy
+  - source: /docs/self-hosted-text-to-speech
+    destination: /self-hosted/add-ons/self-hosted-text-to-speech
+  - source: /docs/prometheus-integration
+    destination: /self-hosted/add-ons/prometheus-integration
+  - source: /docs/deepgram-unimrcp-plugin
+    destination: /self-hosted/add-ons/deepgram-unimrcp-plugin
+  - source: /docs/using-sdks-with-self-hosted
+    destination: /self-hosted/using-sdks-with-self-hosted

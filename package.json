@@ -40,7 +40,8 @@
     "lint:js": "eslint \"**/*.js\"",
     "lint:md": "eslint \"**/*.{md,mdx}\"",
     "lint:yaml": "eslint \"**/*.{yml,yaml}\"",
-    "prepare": "husky"
+    "prepare": "husky",
+    "check-links": "node tools/link-checker/index.js"
   },
   "lint-staged": {
     "*.js": [

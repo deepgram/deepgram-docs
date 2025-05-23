@@ -1,0 +1,433 @@
+---
+title: Getting Started
+subtitle: >-
+  An introduction to using Deepgram's Aura Text-to-Speech REST API to convert
+  text into audio.
+---
+
+<Card
+    href="https://playground.deepgram.com/?endpoint=speak"
+>
+  <Markdown src="/snippets/playground-card.mdx" />
+</Card>
+<br/>
+
+<div class="flex flex-row gap-2">
+  <Markdown src="/snippets/tts-batch-available.mdx" />
+</div>
+
+This guide will walk you through how to turn text into speech with Deepgram's text-to-speech REST API.
+
+<Info>
+  Before you start, you'll need to follow the steps in the [Make Your First API Request](/docs/make-your-first-api-request) guide to obtain a Deepgram API key, and configure your environment if you are choosing to use a Deepgram SDK.
+</Info>
+
+## CURL
+
+Next, try it with CURL. Add your own API key where it says `YOUR_DEEPGRAM_API_KEY` and then run the following example in a terminal or your favorite API client.
+
+<CodeGroup>
+  ```bash cURL
+  curl --request POST \
+       --header "Content-Type: application/json" \
+       --header "Authorization: Token DEEPGRAM_API_KEY" \
+       --output your_output_file.mp3 \
+       --write-out "Time-to-First-Byte: %{time_starttransfer}s Time-to-Last-Byte: %{time_total}s\n" \
+       --data '{"text":"Hello, how can I help you today?"}' \
+       --url "https://api.deepgram.com/v1/speak?model=aura-2-thalia-en"
+  ```
+</CodeGroup>
+
+This will result in an MP3 audio file being streamed back to you by Deepgram. You can play the audio as soon as you receive the first byte, or you can wait until the entire MP3 file has arrived.
+
+The audio file will contain the voice of the selected model saying the words that you sent in your request.
+
+<Info>
+  If you do not specify a `model`, the default voice model `aura-asteria-en` will be used. You can find all of our available voices [here](/docs/tts-models).
+</Info>
+
+### Send Error Messages to Terminal
+
+If your request results in an error, the error message can be seen by opening the output audio file in a text editor.
+
+To see the error message in your terminal, add this to your CURL request:
+
+<CodeGroup>
+  ```bash cURL
+  --fail-with-body \
+  --silent \
+  || (jq . your_output_file.mp3 && rm your_output_file.mp3)
+  ```
+</CodeGroup>
+
+This example will capture the error message using the [JQ](https://jqlang.org/) JSON processor library and remove the output file `tts.mp3` automatically.
+
+<CodeGroup>
+  ```bash cURL
+  curl --request POST \
+       --header "Content-Type: application/json" \
+       --header "Authorization: Token DEEPGRAM_API_KEY" \
+       --output your_output_file.mp3 \
+       --write-out "Time-to-First-Byte: %{time_starttransfer}s Time-to-Last-Byte: %{time_total}s\n" \
+       --data '{"text":"Hello, how can I help you today?"}' \
+       --url 'https://api.deepgram.com/v1/speak?model=testing_error' \
+       --fail-with-body \
+       --silent \
+       || (jq . your_output_file.mp3 && rm your_output_file.mp3)
+  ```
+</CodeGroup>
+
+## SDKs
+
+Deepgram has several SDKs that can make it easier to use the API. Follow these steps to use the SDK of your choice to make a Deepgram TTS request.
+
+### Install the SDK
+
+Open your terminal, navigate to the location on your drive where you want to create your project, and install the Deepgram SDK.
+
+<CodeGroup>
+  ```shell JavaScript
+  # Install the Deepgram JS SDK
+  # https://github.com/deepgram/deepgram-js-sdk
+
+  npm install @deepgram/sdk
+  ```
+
+  ```shell Python
+  # Install the Deepgram Python SDK
+  # https://github.com/deepgram/deepgram-python-sdk
+
+  pip install deepgram-sdk
+  ```
+
+  ```shell Go
+  # Install the Deepgram Go SDK
+  # https://github.com/deepgram/deepgram-go-sdk
+
+  go get github.com/deepgram/deepgram-go-sdk
+  ```
+
+  ```shell C#
+  dotnet add package Deepgram
+  ```
+</CodeGroup>
+
+### Add Dependencies
+
+<CodeGroup>
+  ```shell JavaScript
+  # Install dotenv to protect your api key
+
+  npm install dotenv
+  ```
+
+  ```shell Python
+  # Install python-dotenv to protect your api key
+
+  pip install python-dotenv
+  ```
+
+  ```shell Go
+  # Importing the Deepgram Go SDK should pull in all dependencies required
+  ```
+
+  ```shell C#
+  # Importing the Deepgram Go SDK should pull in all dependencies required
+  ```
+</CodeGroup>
+
+### Make the Request with the SDK
+
+<CodeGroup>
+  ```javascript JavaScript
+  const { createClient } = require("@deepgram/sdk");
+  const fs = require("fs");
+
+  // STEP 1: Create a Deepgram client with your API key
+  const deepgram = createClient(process.env.DEEPGRAM_API_KEY);
+
+  const text = "Hello, how can I help you today?";
+
+  const getAudio = async () => {
+    // STEP 2: Make a request and configure the request with options (such as model choice, audio configuration, etc.)
+    const response = await deepgram.speak.request(
+      { text },
+      {
+        model: "aura-2-thalia-en",
+        encoding: "linear16",
+        container: "wav",
+      }
+    );
+    // STEP 3: Get the audio stream and headers from the response
+    const stream = await response.getStream();
+    const headers = await response.getHeaders();
+    if (stream) {
+      // STEP 4: Convert the stream to an audio buffer
+      const buffer = await getAudioBuffer(stream);
+      // STEP 5: Write the audio buffer to a file
+      fs.writeFile("output.wav", buffer, (err) => {
+        if (err) {
+          console.error("Error writing audio to file:", err);
+        } else {
+          console.log("Audio file written to output.wav");
+        }
+      });
+    } else {
+      console.error("Error generating audio:", stream);
+    }
+
+    if (headers) {
+      console.log("Headers:", headers);
+    }
+  };
+
+  // helper function to convert stream to audio buffer
+  const getAudioBuffer = async (response) => {
+    const reader = response.getReader();
+    const chunks = [];
+
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+
+      chunks.push(value);
+    }
+
+    const dataArray = chunks.reduce(
+      (acc, chunk) => Uint8Array.from([...acc, ...chunk]),
+      new Uint8Array(0)
+    );
+
+    return Buffer.from(dataArray.buffer);
+  };
+
+  getAudio();
+  ```
+
+  ```python Python
+  import os
+  import logging
+  from deepgram.utils import verboselogs
+
+  from deepgram import (
+      DeepgramClient,
+      SpeakOptions,
+  )
+
+  SPEAK_TEXT = {"text": "Hello world!"}
+  filename = "test.mp3"
+
+  def main():
+      try:
+          # STEP 1 Create a Deepgram client using the API key from environment variables
+          deepgram = DeepgramClient()
+
+          # STEP 2 Call the save method on the speak property
+          options = SpeakOptions(
+              model="aura-2-thalia-en",
+          )
+
+          response = deepgram.speak.rest.v("1").save(filename, SPEAK_TEXT, options)
+          print(response.to_json(indent=4))
+
+      except Exception as e:
+          print(f"Exception: {e}")
+
+  if __name__ == "__main__":
+      main()
+  ```
+
+  ```go Go
+  package main
+
+  import (
+  	"context"
+  	"encoding/json"
+  	"fmt"
+  	"os"
+
+  	prettyjson "github.com/hokaccha/go-prettyjson"
+
+  	speak "github.com/deepgram/deepgram-go-sdk/pkg/api/speak/v1"
+  	interfaces "github.com/deepgram/deepgram-go-sdk/pkg/client/interfaces"
+  	client "github.com/deepgram/deepgram-go-sdk/pkg/client/speak"
+  )
+
+  const (
+  	textToSpeech string = "Hello, how can I help you today?"
+  	filePath     string = "./output.wav"
+  )
+
+  func main() {
+  	// STEP 1: init Deepgram client library
+  	client.InitWithDefault()
+
+  	// STEP 2: define context to manage the lifecycle of the request
+  	ctx := context.Background()
+
+  	// STEP 3: define options for the request
+  	options := interfaces.SpeakOptions{
+  		Model:     "aura-2-thalia-en",
+  		Encoding:  "linear16",
+  		Container: "wav",
+  	}
+
+  	// STEP 4: create a Deepgram client using default settings
+  	// NOTE: you can set your API KEY in your bash profile by typing the following line in your shell:
+  	// export DEEPGRAM_API_KEY = "YOUR_DEEPGRAM_API_KEY"
+  	c := client.NewWithDefaults()
+  	dg := speak.New(c)
+
+  	// STEP 5: send/process file to Deepgram
+  	res, err := dg.ToSave(ctx, filePath, textToSpeech, options)
+  	if err != nil {
+  		fmt.Printf("FromStream failed. Err: %v\n", err)
+  		os.Exit(1)
+  	}
+
+  	// STEP 6: get the JSON response
+  	data, err := json.Marshal(res)
+  	if err != nil {
+  		fmt.Printf("json.Marshal failed. Err: %v\n", err)
+  		os.Exit(1)
+  	}
+
+  	// STEP 8: make the JSON pretty
+  	prettyJson, err := prettyjson.Format(data)
+  	if err != nil {
+  		fmt.Printf("prettyjson.Marshal failed. Err: %v\n", err)
+  		os.Exit(1)
+  	}
+  	fmt.Printf("\n\nResult:\n%s\n\n", prettyJson)
+  }
+  ```
+
+  ```csharp C#
+  using Deepgram.Models.Speak.v1.REST;
+
+  namespace SampleApp
+  {
+      class Program
+      {
+          static async Task Main(string[] args)
+          {
+              // Initialize Library with default logging
+              // Normal logging is "Info" level
+              Library.Initialize();
+
+              // use the client factory with a API Key set with the "DEEPGRAM_API_KEY" environment variable
+              var deepgramClient = ClientFactory.CreateSpeakRESTClient();
+
+              var response = await deepgramClient.ToFile(
+                  new TextSource("Hello World!"),
+                  "test.mp3",
+                  new SpeakSchema()
+                  {
+                      Model = "aura-2-thalia-en",
+                  });
+
+              //Console.WriteLine(response);
+              Console.WriteLine(response);
+              Console.ReadKey();
+
+              // Teardown Library
+              Library.Terminate();
+          }
+      }
+  }
+  ```
+</CodeGroup>
+
+<Info>
+  To learn more about how you can customize the audio file to meet the needs of your use case, take a look at this [Audio Format Combinations](/docs/tts-media-output-settings#audio-format-combinations) table.
+</Info>
+
+## Non-SDK Code Examples
+
+If you would like to try out making a Deepgram speech-to-text request in a specific language (but not using Deepgram's SDKs), we offer a library of code-samples in this [Github repo](https://github.com/deepgram-devs/code-samples). However, we recommend first trying out our SDKs, which we presented in the previous section.
+
+## Results
+
+Upon successful processing of the request, you will receive an audio file containing the synthesized text-to-speech output, along with response headers providing additional information.
+
+<Info>
+  The audio file is streamed back to you, so you may begin playback as soon as the first byte arrives. Read the guide [Streaming Audio Outputs](/docs/streaming-the-audio-output) to learn how to begin playing the stream immediately versus waiting for the entire file to arrive.
+</Info>
+
+### Example Response Headers
+
+<CodeGroup>
+  ```text http
+  HTTP/1.1 200 OK
+  < content-type: audio/mpeg
+  < dg-model-name: aura-2-thalia-en
+  < dg-model-uuid: e4979ab0-8475-4901-9d66-0a562a4949bb
+  < dg-char-count: 32
+  < dg-request-id: bf6fc5c7-8f84-479f-b70a-602cf5bf18f3
+  < transfer-encoding: chunked
+  < date: Thu, 29 Feb 2024 19:20:48 GMT
+  ```
+</CodeGroup>
+
+<Info>
+  To see these response headers when making a CURL request, add `-v` or `--verbose` to your request.
+</Info>
+
+This includes:
+
+* `content-type`: Specifies the media type of the resource, in this case, `audio/mpeg`, indicating the format of the audio file returned.
+* `dg-request-id`: A unique identifier for the request, useful for debugging and tracking purposes.
+* `dg-model-uuid`: The unique identifier of the model that processed the request.
+* `dg-char-count`: Indicates the number of characters that were in the input text for the text-to-speech process.
+* `dg-model-name`: The name of the model used to process the request.
+* `transfer-encoding`: Specifies the form of encoding used to safely transfer the payload to the recipient.
+* `date`: The date and time the response was sent.
+
+## Limits
+
+Keep these limits in mind when making a Deepgram text-to-speech request.
+
+### Input Text Limit
+
+* Maximum characters: **2000**.
+* Sending a text payload longer than 2000 characters (2001 or more) will result in an error, and the audio file will not be created.
+
+### Rate Limits
+
+<Info>
+  For information on Deepgram's Concurrency Rate Limits, refer to our [API Rate Limits Documentation](/reference/api-rate-limits).
+</Info>
+
+#### Handling Rate Limits
+
+If the number of in-progress requests for a project meets or exceeds the rate limit, new requests will receive a **429: Too Many Requests** error.
+
+<Info>
+  For suggestions on handling Concurrency Rate Limits, refer to our [Working with Concurrency Rate Limits Documentation](/docs/working-with-concurrency-rate-limits) guide.
+</Info>
+
+## What's Next?
+
+Now that you've transformed text into speech with Deepgram's API, enhance your knowledge by exploring the following areas.
+
+### Starter Apps
+
+* Clone and run one of our [Starter App](/docs/tts-starter-apps#text-to-speech-rest) repositories to see a full application with a frontend UI and a backend server sending text to Deepgram to be converted into audio.
+
+### Read the Feature Guides
+
+Deepgram's features help you to customize your request to produce the output that works best for your use case.
+
+* [Media Output Settings](/docs/tts-media-output-settings): Learn how to customize the audio file that is returned.
+* [Callback](/docs/tts-callback): Discover how to provide a callback url, so that your audio can be processed asynchronously.
+* [Feature Overview](/docs/tts-feature-overview): Review the list of features available for pre-recorded speech-to-text. Then, dive into individual guides for more details.
+
+### Try the Conversational AI Demo
+
+* The purpose of[ this demo](https://aura-tts-demo.deepgram.com/) is to showcase how you can build a Conversational AI application that engages users in natural language interactions, mimicking human conversation through natural language processing using Deepgram and [OpenAI ChatGPT.](https://openai.com/chatgpt)
+
+### Watch This Video
+
+* Watch this [video](https://www.youtube.com/watch?v=J2sbC8X5Pp8) to learn how you can use Deepgram Aura with [Groq](https://groq.com/) to build a blazing fast Conversational AI application.
+
+***

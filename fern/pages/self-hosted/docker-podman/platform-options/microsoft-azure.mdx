@@ -1,0 +1,90 @@
+---
+title: Microsoft Azure
+subtitle: With Docker/Podman
+---
+
+
+Deploying Deepgram on Microsoft Azure requires some preparation. In this section, you will learn how to provision a Virtual Machine where you will deploy Deepgram products. You will need to perform some of these steps in the Azure Console and some in your local terminal.
+
+## Requesting Quotas for NVIDIA GPUs
+
+You may have to request an Azure quota adjustment to be authorized to access Azure VM sizes that are powered by NVIDIA GPUs. As described in our [hardware specifications](/docs/self-hosted-deployment-environments#engine), GPU-powered inference with Deepgram requires a NVIDIA GPU.
+
+You can submit a quota request in the Azure portal. Search for **Subscriptions**, and select the desired subscription. In the navigation menu that appears, scroll to **Settings** and select **Usage + quotas**. In the top menu bar, select **New Quota Request** and fill out a request for your desired region and VM size. See [Azure support documentation](https://learn.microsoft.com/en-us/azure/virtual-machines/sizes-gpu) for up-to-date details on which VM sizes are powered by NVIDIA GPUs.
+
+## Prerequisites
+
+Make sure you have completed the requirements in the [Self-Hosted Introduction](/docs/self-hosted-introduction#prerequisites).
+
+GPU availability has been extremely limited across cloud providers, including Azure. You may need to contact Microsoft directly for access if you are not able to obtain a spot GPU instance.
+
+## Accessing Your Cloud Environment
+
+### Create an Azure VM Instance
+
+​To begin your self-hosted installation with Azure as your cloud service provider, you need to create a VM instance.
+
+In the Azure portal, search for and select the **Virtual Machines** service. Then, in the top menu bar, click **Create**, then click **Azure virtual machine**.
+
+The Azure virtual machine creation wizard includes multiple high-level groups/tabs. We will step through each.
+
+#### Basics
+
+1. For the **Project Details** wizard step, select your desired subscription to bill for this VM instance, and select or create a resource group. See [Azure's official documentation](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/manage-resource-groups-portal) for more details on resource groups.
+
+2. For the **Instance details** wizard step:
+
+   1. Type `deepgram-self-hosted`, or another appropriate description, for the VM name.
+   2. Choose your region, availability options, and security type according to your use case.
+   3. Select an image from our list of [recommended Linux distributions](/docs/self-hosted-deployment-environments#operating-system). For VM architecture, make sure to choose the x64 version, as described in [Architecture](/docs/self-hosted-deployment-environments#architecture).
+   4. "Run with Azure Spot discount" is not recommended for services that need to be highly available.
+   5. For the size, click "See all sizes" and open the "N-Series" dropdown for Azure's GPU powered VMs. Select a size that meets Deepgram's [minimum required hardware specifications](/docs/self-hosted-deployment-environments#engine).
+      <Warning>
+        Make sure to select a VM size that is powered by a NVIDIA GPU, such as the NCv3 series, NCasT4\_v3 series, or NC A100 v4 series. Some Azure VM types, such as the NVv4 series, are powered by AMD GPUs. These will not work with Deepgram services at this time.
+
+        See [Azure support documentation](https://learn.microsoft.com/en-us/azure/virtual-machines/sizes-gpu) for up-to-date details on which VM sizes are powered by NVIDIA GPUs.
+      </Warning>
+
+3. For the **Administrator account** wizard step, we recommend using an SSH public key for remote administration of the virtual machine. Fill out the username, SSH public key source, and other fields as needed.
+
+   <Info>
+     As of Q4 2023, Azure only accepts RSA SSH keys. If you have an existing SSH key that is not RSA, you will need to create a new one.
+   </Info>
+
+4. For the **Inbound port rules** wizard step, you must allow the SSH (22) inbound port for remote administration as configured in the previous step. If you want to be able to receive requests from the public internet, make sure to also check the box to allow HTTPS traffic from the public internet.
+
+#### Disks
+
+1. For the **VM disk encryption** wizard step, check the box according to your use case. It is recommended to become familiar with the performance and security ramifications of this option.
+2. For the **OS disk** wizard step, select an OS disk size that meets Deepgram's [minimum required hardware specifications](/docs/configure-your-private-cloud-environment#hardware-specifications). Select a disk type suitable for production workloads. Complete other fields in this wizard step according to your use case.
+3. For the **Data disks for** wizard step, configure additional disks if desired for your use case; additional disks are not necessary for Deepgram services.
+
+#### Networking
+
+1. For the **Network interface** wizard step, name the virtual network and choose a subnet as desired. In previous steps, we chose to perform remote administration over SSH. If you plan to SSH into your VM from your local machine via the public internet, make sure to assign a Public IP to this VM. Fill out all other required field according to your use case.
+2. For the **Load balancing** wizard step, select a value according to your use case. For a Proof-of-Concept, no load balancer may be required. For larger production workloads, a load balancer may be helpful as described in our [scaling guide](/docs/autoscaling-best-practices).
+
+#### Other Groups/Tabs
+
+Complete all other fields according to your use case.
+
+#### Create the Virtual Machine
+
+Once you have reviewed all relevant details, click "Create". If you requested Azure generate a new SSH keypair for you, it will prompt you to download the private key.
+
+Azure will display the provisioning status of your VM. Once available, click "Go to resource" to view your VM details.
+
+### Log in to the Azure VM instance
+
+To complete the rest of the installation, including configuring your environment and transferring files between your local computer and your Azure VM instance, you must connect to the VM instance that you launched.
+
+1. In the VM resource overview, select "Connect" in the top-level menu.
+2. Select one of the available connection options, and follow the listed instructions to connect to your VM.
+
+***
+
+What’s Next
+
+Now that we have provisioned a deployment environment, we need to start configuring it for inference.
+
+* [Drivers and Containerization Platforms](/docs/drivers-and-containerization-platforms)

@@ -1,0 +1,130 @@
+---
+title: Paragraphs
+subtitle: Paragraphs splits audio into paragraphs to improve transcript readability.
+---
+
+<Card
+    href="https://playground.deepgram.com/?endpoint=listen&paragraphs=true&language=en&model=nova-3"
+>
+  <Markdown src="/snippets/playground-card.mdx" />
+</Card>
+<br/>
+
+`paragraphs` *boolean* Default: `false`
+
+<div class="flex flex-row gap-2">
+  <Markdown src="/snippets/stt-batch-available.mdx" /> <Markdown src="/snippets/stt-stream-unavailable.mdx" /> <Markdown src="/snippets/spaces.mdx" />
+</div>
+
+* When Paragraphs is enabled, [Punctuation](/docs/punctuation/) feature is enabled by default, and paragraphs are identified based on the transcript's punctuation.
+* When the Diarization feature is enabled and multiple speakers are present, paragraphs breaks are influenced by speaker changes.
+* When the Multichannel feature is enabled, paragraphs breaks are influenced by channel changes.
+
+## Enable Feature
+
+To enable Paragraphs, when you call Deepgram’s API, add a `paragraphs` parameter in the query string and set it to `true`:
+
+`paragraphs=true`
+
+To transcribe audio from a file on your computer, run the following cURL command in a terminal or your favorite API client.
+
+<CodeGroup>
+  ```bash cURL
+  curl \
+    --request POST \
+    --header 'Authorization: Token YOUR_DEEPGRAM_API_KEY' \
+    --header 'Content-Type: audio/wav' \
+    --data-binary @youraudio.wav \
+    --url 'https://api.deepgram.com/v1/listen?paragraphs=true&punctuate=true'
+  ```
+</CodeGroup>
+
+<Warning>
+  Replace `YOUR_DEEPGRAM_API_KEY` with your [Deepgram API Key](/docs/create-additional-api-keys).
+</Warning>
+
+## Analyze Response
+
+In our terminal, we run the following cURL command:
+
+<CodeGroup>
+  ```bash cURL
+  curl \
+    --request POST \
+    --header 'Authorization: Token YOUR_DEEPGRAM_API_KEY' \
+    --header 'content-type: application/json' \
+    --data '{"url":"https://developers.deepgram.com/data/audio/interview_speech-analytics.wav"}' \
+    --url 'https://api.deepgram.com/v1/listen?paragraphs=true&punctuate=true'
+  ```
+</CodeGroup>
+
+<Warning>
+  Replace `YOUR_DEEPGRAM_API_KEY` with your [Deepgram API Key](/docs/create-additional-api-keys).
+</Warning>
+
+When the file is finished processing, you’ll receive a JSON response.
+
+<CodeGroup>
+  ```json JSON
+  ...
+  "alternatives": [
+    {
+      "transcript":"another big problem in the speech analytics space. When customers first bring the software on. Is that they they are blown away by the fact that an engine can monitor hundreds of Kpis. Right? Everything from my new compliance issues to, you know, human human interaction, empathy measurements to upsell aptitude to closing aptitude, They're hundreds literally of Kpis that one to look at. And the speech analytics companies have typically gone to the customer and really bang that trump. We'll get all of these things that we're gonna help you keep an eye on. The reality, however, is that a company even a contact center manager They can't keep track in their brain even if they have a report in front of them. Of that many Kpis. Mh. And frankly, it's overwhelming. So what successful companies do is they bite off no more than they chew at any given time. The reality is is you can only train a call center agent on a maximum of three skills at any given day. Right? And by focusing on focusing on problem areas, for a week for a month depending on how bad things are. And then once you've mastered that skill to take a baseline of of your performance and move on to the next worst skill. Right? Is the way that companies succeed using this product?",
+
+      "confidence":0.9926758,
+      "words":[
+        {
+          "word": "another",
+          "start": 0.33959904,
+          "end": 0.839599,
+          "confidence": 0.9995117,
+          "punctuated_word": "another"
+        },
+        ...
+      ],
+      "paragraphs":{
+        "transcript":"\nanother big problem in the speech analytics space. When customers first bring the software on. Is that they they are blown away by the fact that an engine can monitor hundreds of Kpis. Right? Everything from my new compliance issues to, you know, human human interaction, empathy measurements to upsell aptitude to closing aptitude, They're hundreds literally of Kpis that one to look at.\n\nAnd the speech analytics companies have typically gone to the customer and really bang that trump. We'll get all of these things that we're gonna help you keep an eye on. The reality, however, is that a company even a contact center manager They can't keep track in their brain even if they have a report in front of them. Of that many Kpis. Mh.\n\nAnd frankly, it's overwhelming. So what successful companies do is they bite off no more than they chew at any given time. The reality is is you can only train a call center agent on a maximum of three skills at any given day. Right? And by focusing on focusing on problem areas, for a week for a month depending on how bad things are.\n\nAnd then once you've mastered that skill to take a baseline of of your performance and move on to the next worst skill. Right? Is the way that companies succeed using this product?",
+        "paragraphs":[
+          	{
+              "sentences": [
+                {
+                  "text": "another big problem in the speech analytics space.",
+                  "start": 0.33959904,
+                  "end": 3.7755425
+                },
+                ...
+              ],
+              "num_words": 64,
+              "start": 0.33959904,
+              "end": 32.06585
+              },
+              ...
+            ]
+       }
+    }
+  ]
+  ```
+</CodeGroup>
+
+In this response, we see that each alternative now additionally contains:
+
+* `paragraphs`: Object containing the information about paragraph divisions for the audio being processed.
+
+And we see that each `paragraphs` object contains:
+
+* `transcript`: Transcript for the audio being processed, including line breaks where the transcript is divided into paragraphs.
+
+* `paragraphs`: Object containing sentences in the paragraph. Each nested `paragraphs` object contains:
+
+  * `sentences`: Object containing each sentence in the paragraph, along with a count of the number of words in the paragraph, and the start and end times for each paragraph.
+  * `num_words`: Count of the number of words in the paragraph.
+  * `start`: Number of seconds into the audio stream that the paragraph starts.
+  * `end`: Number of seconds into the audio stream that the paragraph ends.
+
+Finally, we see that each `sentence` object contains:
+
+* `text`: Text contained in the sentence.
+* `start`: Number of seconds into the audio stream that the sentence starts.
+* `end`: Number of seconds into the audio stream that the sentence ends.
+
+***

@@ -1,0 +1,142 @@
+---
+title: Language Detection
+subtitle: Language Detection identifies the dominant language spoken in submitted audio.
+---
+
+
+`detect_language` *boolean* Default: `false`
+
+<div class="flex flex-row gap-2">
+  <Markdown src="/snippets/stt-batch-available.mdx" /> <Markdown src="/snippets/stt-stream-unavailable.mdx" />
+</div>
+
+Deepgram’s Language Detection feature identifies the dominant language spoken in submitted audio, transcribes the audio in the identified language, and returns the detected language code in the JSON response.
+
+<Info>
+  If you need to process multiple languages for real-time streaming, we recommend using Deepgram's [Nova-2](./models-languages-overview#nova-2) or [Nova-3](./models-languages-overview#nova-3) multilingual models.
+</Info>
+
+If you are submitting multichannel audio, Language Detection identifies one language per channel. Language Detection is supported for the following languages:
+
+* Spanish - `es`
+* English - `en`
+* Hindi - `hi`
+* Japanese - `ja`
+* Russian - `ru`
+* Ukrainian - `uk`
+* Swedish - `sv`
+* Chinese - `zh`
+* Portuguese - `pt`
+* Dutch - `nl`
+* Turkish - `tr`
+* French - `fr`
+* German - `de`
+* Indonesian - `id`
+* Korean - `ko`
+* Italian - `it`
+
+## Enable Feature
+
+To enable Language Detection, when you call Deepgram’s API, add a `detect_language` parameter set to `true` in the query string:
+
+`detect_language=true`
+
+To transcribe audio from a file on your computer, run the following cURL command in a terminal or your favorite API client.
+
+<CodeGroup>
+  ```bash cURL
+  curl \
+    --request POST \
+    --header 'Authorization: Token YOUR_DEEPGRAM_API_KEY' \
+    --header 'Content-Type: audio/wav' \
+    --data-binary @youraudio.wav \
+    --url 'https://api.deepgram.com/v1/listen?model=nova-3-general&detect_language=true'
+  ```
+</CodeGroup>
+
+<Warning>
+  Replace `YOUR_DEEPGRAM_API_KEY` with your [Deepgram API Key](https://console.deepgram.com/signup?jump=keys).
+</Warning>
+
+## Analyze Response
+
+When the file is finished processing (often after only a few seconds), you’ll receive a JSON response that has the following basic structure:
+
+<CodeGroup>
+  ```json JSON
+  {
+    "metadata": {
+      "transaction_key": "string",
+      "request_id": "string",
+      "sha256": "string",
+      "created": "string",
+      "duration": 0,
+      "channels": 0
+    },
+    "results": {
+      "channels": [
+        {
+          "alternatives":[],
+          "detected_language": "fr",
+          "language_confidence": 0.0
+        }
+      ]
+    }
+  ```
+</CodeGroup>
+
+In this response, we see that each channel contains:
+
+* `alternatives` object, which contains:
+
+  * `transcript`: Transcript for the audio being processed.
+  * `confidence`: Floating point value between 0 and 1 that indicates overall transcript reliability. Larger values indicate higher confidence.
+  * `words`: Object containing each word in the transcript, along with its start time and end time (in seconds) from the beginning of the audio stream, a word confidence value, a speaker identifier, and a speaker confidence value.
+
+* `detected_language`: [BCP-47](https://tools.ietf.org/html/bcp47) language tag for the dominant language identified in the channel.
+
+* `language_confidence`: Floating point value between 0 and 1 that indicates the confidence of the language selection (see below for important details). `language_confidence` is not supported for Whisper models and will not be included in the API response for Whisper requests.
+
+## Advanced Functionality
+
+### Model Selection
+
+If you specify both `detect_language=true` and a `model` in your query parameter, Deepgram will attempt to use the specified model for the language that is detected. However, if the detected language is not available for that model, Deepgram will automatically select the next highest model to complete the request.
+
+To use the best Deepgram model available, use `model=nova-3-general&detect_language=true`. The order of precedence  will be: `Nova-3 -> Nova-2 -> Nova-1 -> Enhanced -> Base`.
+
+For example, you may send a request with the parameters `detect_language=true&model=nova-3-general`. If the detected language is supported by Base and Enhanced models, but not a Nova-3 model, Deepgram will process the request with the Enhanced model since that is the next highest model available for that language.
+
+### Interaction with `language` query parameter
+
+If the `language` parameter is set with a language option and `detect_language` is set to `true`, language detection will override the `language` option specified.
+
+### Restricting the detectable languages
+
+You can also restrict the set of detectable languages. This is useful if when you know your audio files only contain English or Spanish audio. To restrict the set of detectable languages, use a multi-valued query parameter with the language codes as the values.
+
+For example, `detect_language=en&detect_language=es` will choose either English or Spanish as the detected language.
+
+### How to use `language_confidence`
+
+<Warning>
+  `language_confidence` is not supported when using Whisper models.
+</Warning>
+
+Deepgram outputs a `language_confidence` score that ranges between 0 and 1 with higher values indicating more confidence in the selected language.
+
+The `language_confidence` score can be used as a metric to determine whether the transcript is accurate. For example, if the `language_confidence` falls below a certain threshold, you may want to default to another language or reject the transcript.
+
+It is critical to know that the `language_confidence` score only takes into account the 16 supported languages. If the audio is in a language not supported by language detection, the value of `language_confidence` should be ignored.
+
+## Streaming and Multilingual Alternatives
+
+Language Detection is not currently supported for streaming. If you need to handle multiple languages in a real-time streaming context, we recommend using Deepgram's [Nova-2](./models-languages-overview#nova-2) or [Nova-3](./models-languages-overview#nova-3) multilingual models instead.
+
+These models can transcribe speech containing multiple languages within the same audio stream without requiring explicit language detection, making them ideal for streaming applications where language detection functionality is needed.
+
+
+***
+What's Next
+
+[Multilingual Codeswitching](https://developers.deepgram.com/docs/multilingual-code-switching).

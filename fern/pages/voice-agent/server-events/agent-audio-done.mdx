@@ -1,0 +1,30 @@
+---
+title: Agent Audio Done
+subtitle: >-
+  Get signals that the server has finished sending the final audio segment to
+  the client.
+---
+
+<div class="flex flex-row gap-2">
+  <Markdown src="/snippets/va-stream-available.mdx" />
+</div>
+
+The `AgentAudioDone` Message will communicate the last audio message has been sent from the server.
+
+## Purpose
+
+The `AgentAudioDone` message signals that the server has finished sending the final audio segment to the client. This message provides a clear endpoint for audio streaming, helping clients manage playback timing and synchronize further actions accordingly.
+
+## Example Payload
+
+The server will send an `AgentAudioDone` message immediately after it sends the last audio message. In some cases even though no more audio messages are being received, the agent may still be speaking, because previously sent audio may still be queued for playback.
+
+<CodeGroup>
+  ```json JSON
+  {
+    "type": "AgentAudioDone"
+  }
+  ```
+</CodeGroup>
+
+

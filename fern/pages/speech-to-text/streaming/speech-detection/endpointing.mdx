@@ -1,0 +1,104 @@
+---
+title: Endpointing
+subtitle: Endpointing returns transcripts when pauses in speech are detected.
+---
+
+
+`endpointing` *string*.
+
+<div class="flex flex-row gap-2">
+  <Markdown src="/snippets/stt-batch-unavailable.mdx" /> <Markdown src="/snippets/stt-stream-available.mdx" /> <Markdown src="/snippets/all-available-languages.mdx" /> 
+</div>
+
+Deepgram’s Endpointing feature can be used for speech detection by monitoring incoming streaming audio and relies on a Voice Activity Detector (VAD), which monitors the incoming audio and triggers when a sufficiently long pause is detected.
+
+Endpointing helps to detects sufficiently long pauses that are likely to represent an endpoint in speech. When an endpoint is detected the model assumes that no additional data will improve it's prediction of the endpoint.
+
+The transcript results are then finalized for the process time range and the JSON response is returned with a `speech_final` parameter set to `true`.
+
+You can customize the length of time used to detect whether a speaker has finished speaking by setting the `endpointing` parameter to an integer value.
+
+<Info>
+  Endpointing can be used with Deepgram's [Interim Results](/docs/interim-results/) feature. To compare and contrast these features, and to explore best practices for using them together, see [Using Endpointing and Interim Results with Live Streaming Audio](/docs/understand-endpointing-interim-results/).
+</Info>
+
+## Enable Feature
+
+Endpointing is enabled by default and set to 10 milliseconds. and will return transcripts after detecting 10 milliseconds of silence.
+
+The period of silence required for endpointing may also be configured. When you call Deepgram’s API, add an `endpointing` parameter set to an integer by setting endpointing to an integer representing a millisecond value:
+
+`endpointing=500`
+
+This will wait until 500 milliseconds of silence has passed to finalize and return transcripts.
+
+Endpointing may be disabled by setting `endpointing=false`. If endpointing is disabled, transcriptions will be returned at a cadence determined by Deepgram's chunking algorithms.
+
+<CodeGroup>
+  ```python Python
+
+  # see https://github.com/deepgram/deepgram-python-sdk/blob/main/examples/streaming/async_microphone/main.py
+  # for complete example code
+
+     options: LiveOptions = LiveOptions(
+              model="nova-3",
+              language="en-US",
+              # Apply smart formatting to the output
+              smart_format=True,
+              # Raw audio format details
+              encoding="linear16",
+              channels=1,
+              sample_rate=16000,
+              # To get UtteranceEnd, the following must be set:
+              interim_results=True,
+              utterance_end_ms="1000",
+              vad_events=True,
+              # Time in milliseconds of silence to wait for before finalizing speech
+              endpointing=300
+          )
+  ```
+</CodeGroup>
+
+## Results
+
+When enabled, the transcript for each received streaming response shows a key called `speech_final`.
+
+<CodeGroup>
+  ```json JSON
+  {
+    "channel_index":[
+      0,
+      1
+    ],
+    "duration":1.039875,
+    "start":0.0,
+    "is_final":false,
+    "speech_final":true,
+    "channel":{
+      "alternatives":[
+        {
+          "transcript":"another big",
+          "confidence":0.9600255,
+          "words":[
+            {
+              "word":"another",
+              "start":0.2971154,
+              "end":0.7971154,
+              "confidence":0.9588303
+            },
+            {
+              "word":"big",
+              "start":0.85173076,
+              "end":1.039875,
+              "confidence":0.9600255
+            }
+          ]
+        }
+      ]
+    }
+  }
+  ...
+  ```
+</CodeGroup>
+
+***

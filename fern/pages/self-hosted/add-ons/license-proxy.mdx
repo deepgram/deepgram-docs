@@ -1,0 +1,168 @@
+---
+title: License Proxy
+subtitle: >-
+  For customers self-hosted Deepgram in production, we recommend the License
+  Proxy, which is a caching proxy that communicates with the Deepgram-hosted
+  license server to ensure uptime and simplify network security.
+---
+
+
+<Info>
+  The Deepgram License Proxy is not necessary to test or deploy self-hosted Deepgram services. It is highly recommended to be deployed in production to enable highly available environments.
+</Info>
+
+## Use Cases
+
+* For production deployments, the License Proxy allows your self-hosted deployment to continue to run even if your deployment loses connectivity to the Deepgram license server.
+
+* If network security requirements dictate that traffic over the web is allowed from only certain hosts, the License Proxy can be deployed statically while inference services scale elastically.
+
+* If your customers will deploy Deepgram software as part of your own self-hosted solution and their traffic must flow back to your environment, you may deploy the License Proxy to relay traffic to the Deepgram license server.
+
+* If you have strict network traffic requirements, you can designate License Proxy to be the only container with access to the public internet. See [Single Point Network Traffic Control](#single-point-network-traffic-control) for more details.
+
+## Architecture Overview
+
+Self-hosting Deepgram with the License Proxy functions as follows:
+
+1. The Deepgram API and Engine and other add-ons are configured to make their licensing requests against a hostname associated with a load balancer.
+
+2. The load balancer passes a licensing request to an instance of the License Proxy.
+
+3. In normal operation, the proxies will then pass on requests to the Deepgram-hosted license server.
+
+   1. If the license server is unreachable for any reason, then the Deepgram License Proxy will allow the upstream Deepgram containers to continue to run for a pre-configured amount of time.
+
+The License Proxy container is designed to be deployed as a single static instance, or two if you want reliability via redundancy. Even as you scale to many API and Engine containers, all licensing traffic can be handled by one or two License Proxy containers.
+
+### Upgrade Strategy
+
+Deepgram recommends updating and deploying the License Proxy with the [blue-green](https://en.wikipedia.org/wiki/Blue%E2%80%93green_deployment) deployment method.
+
+The License Proxy requires a connection to be established with the Deepgram-hosted license server in order to begin operations. If the Deepgram license server cannot be reached, a new instance of the License Proxy will fail. If you've already taken down the existing instance of the License Proxy, and the Deepgram-hosted license server is unreachable, no components within your self-hosted environment will be able to license themselves, and they will shut down as a result.
+
+A blue-green upgrade/deployment plan will help you ensure your containers can continue to be licensed by at least one working instance of the License proxy, and will reduce the chance your self-hosted deployment experiences any downtime. See the [Monitoring](#monitoring) section below on querying the License Proxy `/v1/status` endpoint to verify if your License Proxy is connected to the Deepgram license server.
+
+### System Requirements
+
+For the License Proxy container, we recommend at least 5 GB RAM.
+
+## Deploying the License Proxy
+
+### Prerequisites
+
+If you aren't certain which products your contract includes or if you are interested in adding the License Proxy to your self-hosted deployment, please consult your Deepgram Account Representative.
+
+Deepgram makes all of its self-hosted products available through [Quay](https://quay.io), a container image repository service. Follow the [Self Service Licensing & Credentials](/docs/self-hosted-self-service-tutorial) guide to get credentials for Quay and login. This will authenticate your image pull requests in following sections.
+
+### Docker/Podman
+
+If your self-hosted environment utilizes [Docker or Podman](/docs/dockerpodman), you will need to update your Compose file, as well as the API and Engine configuration files.
+
+#### Docker/Podman Compose
+
+Your Compose file should be updated to include a License Proxy service. See the default template for a License Proxy installation for [Docker Compose](https://github.com/deepgram/self-hosted-resources/blob/main/docker/docker-compose.license-proxy.yml) or [Podman Compose](https://github.com/deepgram/self-hosted-resources/blob/main/podman/podman-compose.license-proxy.yml). You can use the template as-is, or use it to inform how you update your existing Compose file.
+
+#### Configuration Files
+
+Download the default [License Proxy TOML configuration file](https://github.com/deepgram/self-hosted-resources/blob/main/common/license_proxy_deploy/license-proxy.toml) to your environment. Make sure to update the placeholder path (left side of the colon) for the configuration file volume in your Compose file to point to this file.
+
+<CodeGroup>
+  ```yaml yaml
+  ...
+  services:
+    ...
+    license-proxy:
+      ...
+      # The path on the left of the colon ':' should point to files/directories on the host machine.
+      # The path on the right of the colon ':' is an in-container path. It must match the path
+      #     specified in the `command` header below.
+      volumes:
+        - "/path/to/license-proxy.toml:/license-proxy.toml:ro,Z"
+  ```
+</CodeGroup>
+
+Now, modify your API and Engine configuration files to utilize the License Proxy for licensing requests. Add the License Proxy to the `license.server_url` field in each configuration file. See the [default API configuration](https://github.com/deepgram/self-hosted-resources/blob/main/common/license_proxy_deploy/api.toml) and [default Engine configuration](https://github.com/deepgram/self-hosted-resources/blob/main/common/license_proxy_deploy/engine.toml) for examples of how to do this.
+
+#### Update Your Services
+
+Restart existing containers to begin directing licensing requests through the proxy, as well as starting the License Proxy itself:
+
+<CodeGroup>
+  ```bash Bash
+  docker compose up -d
+  ```
+</CodeGroup>
+
+Afterwards, inspect the logs for errors, and test that a request is processed as expected.
+
+### Kubernetes
+
+Deepgram supports self-hosted deployments on [Kubernetes](/docs/kubernetes) via the [`deepgram-self-hosted` Helm chart](https://github.com/deepgram/self-hosted-resources/tree/main/charts/deepgram-self-hosted). The License Proxy can be deployed by setting the `licenseProxy.enabled` configuration value to `true`.
+
+Additional configuration values specific to the License Proxy are described in the [Values section](https://github.com/deepgram/self-hosted-resources/tree/main/charts/deepgram-self-hosted#values) of the chart README. See all values with the prefix `licenseProxy`.
+
+## Monitoring
+
+The License Proxy provides a status endpoint that indicates whether the proxy succeeded in relaying the most recent licensing request to the license server.
+
+### Querying the Status Endpoint
+
+You can reach the status endpoint via port `8080` at the default `/v1/status` route. You can test this with a simple `curl` command (optionally formatting the output with `jq`):
+
+<CodeGroup>
+  ```bash cURL
+  curl http://localhost:8080/v1/status | jq
+  ```
+</CodeGroup>
+
+You should receive a response similar to:
+
+<CodeGroup>
+  ```json JSON
+  {
+  	"state": "Connected",
+  	"last_successful_checkin": "20XX-XX-XXTXX:XX:XX:XXXXXXXXXZ",
+  	"trust_expiration": "20XX-XX-XXTXX:XX:XX:XXXXXXXXXZ"
+  }
+  ```
+</CodeGroup>
+
+### Interpreting the Status Endpoint Response
+
+Response fields include:
+
+* `state`: The proxy’s behavior based on the most recent licensing request. Possible values include:
+
+  * `Ready`: Indicates that the proxy has started but has not yet relayed a licensing request.
+  * `Connected`: Indicates that the most recent relay of a licensing request succeeded.
+  * `TrustBased`: Indicates that the most recent relay of a licensing request failed, and the proxy returned a cached response.
+  * `Failed`: The most recent relay of a licensing request failed, and the proxy is outside of the trust window.
+
+* `last_successful_checkin`: The timestamp of the last successful relay of a licensing request.
+
+* `trust_expiration`: The timestamp past which the proxy will no longer return a cached response for licensing requests that fail.
+
+### Setting Up Automated Alerts
+
+If you use an automated metrics and alerting system, you should query the proxy’s status endpoint regularly (for example, once each minute) and set a warning when the state is `TrustBased` for a significant time period (for example, one hour).
+
+If you receive a warning, you can contact [Deepgram Support](/docs/support) to troubleshoot the connection to the license server. The deployed services will continue to run for a limited time due to trust caching.
+
+## Single Point Network Traffic Control
+
+No inference data is sent to Deepgram from an self-hosted deployment. For example, if you submit a speech-to-text request in your self-hosted deployment, Deepgram services will not send the audio data anywhere outside the self-hosted environment, and the transcript result will only be returned to the client who made the original API request.
+
+No ingress network traffic will ever be initiated by Deepgram's servers into an self-hosted environment. All ingress traffic to Deepgram services can be blocked in your self-hosted environment.
+
+Minimal egress network traffic originates from Deepgram services to communicate with the Deepgram License Server. These are small, regular messages to verify that your account has a valid license; these messages never include any inference data. With that said, some customers like an extra layer of confidence that no inference data is leaked from the environment.
+
+If the License Proxy is deployed in a self-hosted environment, Deepgram services can be configured so all license verification traffic will flow through it. API, Engine, and other containers will not make any outgoing network connections, meaning you can block all ingress and egress network traffic from the machines hosting these containers. Only the machine hosting the License Proxy container will need to allow egress network traffic.
+
+Notably, the License Proxy never handles inference data directly, so many customers' security requirements are satisfied by having License Proxy be the only container with egress access to the public internet.
+
+### Whitelist for egress traffic
+
+To maintain high availability, Deepgram does not publish a static list of IP addresses for our License Server. If you wish to block egress traffic and explicitly allow-list communication to the Deepgram License Server, you may allow-list the hostname [https://license.deepgram.com.](https://license.deepgram.com.)
+
+If you wish to direct traffic through a firewall or other proxy, our self-hosted containers communicate over HTTPS and respect the Unix standard `HTTPS_PROXY` and `ALL_PROXY` environment variables.

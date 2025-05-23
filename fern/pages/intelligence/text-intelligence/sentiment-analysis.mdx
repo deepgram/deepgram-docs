@@ -1,0 +1,212 @@
+---
+title: Sentiment Analysis
+subtitle: Sentiment Analysis recognizes sentiment throughout the inputed text.
+---
+
+<Card
+    href="https://playground.deepgram.com/?endpoint=read&sentiment=true&language=en"
+>
+  <Markdown src="/snippets/playground-card.mdx" />
+</Card>
+<br/>
+
+`sentiment` *boolean*   Default: `false`
+
+<div class="flex flex-row gap-2">
+  <Markdown src="/snippets/read-batch-available.mdx" /> <Markdown src="/snippets/english.mdx" />
+</div>
+
+Sentiment Analysis accepts an input text, divides it into a list of segments comprised of sections of the text, and identifies the sentiment of each segment. It also assigns an average sentiment to the entire text.
+
+<CodeGroup>
+  ```json JSON
+  "results": {
+      "sentiments": {
+        "segments": [
+          {
+            "text": "Hi. Thank you for calling from premier phone services.",
+            "start_word": 0,
+            "end_word": 8,
+            "sentiment": "positive",
+            "sentiment_score": 0.7380304336547852
+          },
+          {
+            "text": "This call may be recorded for quality and training purposes.",
+            "start_word": 9,
+            "end_word": 18,
+            "sentiment": "neutral",
+            "sentiment_score": 0.057771213352680206
+          }
+        ],
+        "average": {
+          "sentiment": "positive",
+          "sentiment_score": 0.39790084145285864
+        }
+  ```
+</CodeGroup>
+
+A `sentiment` of `positive`, `negative`, or `neutral` along with a `sentiment_score` is identified for each segment of the source text, and an `average` of the entire text's sentiment is also provided along with the average `sentiment_score`.
+
+<Info>
+  The break point for a `sentiment_score` becoming positive or negative is `+-0.333333333...`.
+</Info>
+
+## Enable Feature
+
+To enable Sentiment, use the following parameter in the query string when you call Deepgram’s `/read` endpoint:
+
+`sentiment=true`
+
+### Basic Text Request
+
+To analyze text from a file on your computer, run the following curl command in a terminal or your favorite API client.
+
+<CodeGroup>
+  ```bash cURL
+  curl -vX POST \
+   -H "Authorization: Token YOUR_DEEPGRAM_API_KEY" \
+   -H "Content-Type: application/json" \
+   -d '{"text": "YOUR_TEXT_INPUT"}' \
+   "https://api.deepgram.com/v1/read?sentiment=true&language=en"
+  ```
+</CodeGroup>
+
+<Warning>
+  Replace `YOUR_DEEPGRAM_API_KEY` with your [Deepgram API Key](https://console.deepgram.com/signup?jump=keys).
+</Warning>
+
+### Basic URL Request
+
+To analyze text from a hosted file, run the following curl command in a terminal or your favorite API client. (Try testing it out with the hosted file [https://static.deepgram.com/examples/aura.txt](https://static.deepgram.com/examples/aura.txt).)
+
+<CodeGroup>
+  ```bash cURL
+  curl -vX POST \
+   -H "Authorization: Token YOUR_DEEPGRAM_API_KEY" \
+   -H "Content-Type: application/json" \
+   -d '{"url": "https://YOUR_FILE_URL.txt"}' \
+   "https://api.deepgram.com/v1/read?sentiment=true&language=en"
+  ```
+</CodeGroup>
+
+<Info>
+  Read our [Text Intelligence Getting Started guide](/docs/text-intelligence), which will walk you through making a basic text request and a basic URL request with the Deepgram SDKs.
+</Info>
+
+### Query Parameters
+
+| Parameter   | Values | Type    | Description                                                               |
+| ----------- | ------ | ------- | ------------------------------------------------------------------------- |
+| `sentiment` | `true` | boolean | Enables Sentiment Analysis                                                |
+| `language`  | `en`   | string  | The language of your input text (Only English is supported at this time.) |
+
+## Analyze Response
+
+When the file is finished processing, you’ll receive a JSON response that has the following basic structure:
+
+<CodeGroup>
+  ```json JSON
+  {
+    "metadata": {
+      "request_id": "7dcd719f-344b-4c72-a194-6bd1019d855c",
+      "created": "2023-12-01T15:54:39.681Z",
+      "language": "en",
+      "sentiment_info": {
+        "model_uuid": "80ab3179-d113-4254-bd6b-4a2f96498695",
+        "input_tokens": 22,
+        "output_tokens": 22
+      }
+    },
+    "results": {
+      "sentiments": {
+        "segments": [
+          {
+            "text": "Hi. Thank you for calling from premier phone services.",
+            "start_word": 0,
+            "end_word": 8,
+            "sentiment": "positive",
+            "sentiment_score": 0.7380304336547852
+          },
+          {
+            "text": "This call may be recorded for quality and training purposes.",
+            "start_word": 9,
+            "end_word": 18,
+            "sentiment": "neutral",
+            "sentiment_score": 0.057771213352680206
+          }
+        ],
+        "average": {
+          "sentiment": "positive",
+          "sentiment_score": 0.39790084145285864
+        }
+      }
+    }
+  }
+  ```
+</CodeGroup>
+
+The `sentiment` values added to objects are:
+
+* `sentiment`: The sentiment of the associated text (`positive` | `negative` | `neutral`).
+* `sentiment_score`: A floating point value between -1 and 1 representing the sentiment of the associated span of text, with -1 being the most negative sentiment, and 1 being the most positive sentiment.
+
+***
+
+### Response Properties
+
+| Property                                 | Description                                                                                                                                                                            |
+| ---------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `sentiments.segments`                    | Spans of text covering your entire input text that show when the sentiment shifts throughout the text.                                                                                 |
+| `sentiments.segments[i].sentiment`       | A rating for the given span of text. Can be either `positive`, `neutral`, or `negative`.                                                                                               |
+| `sentiments.segments[i].sentiment_score` | A floating point value between -1 and 1 representing the sentiment of the associated span of text, with -1 being the most negative sentiment, and 1 being the most positive sentiment. |
+| `sentiments.average`                     | The average sentiment for the entire text.                                                                                                                                             |
+
+## API Error Responses
+
+### Unsupported Language
+
+**Status** 400
+
+If you request Sentiment Analysis with an unsupported language by specifying a language code such as `sentiment=true&language=es` or `sentiment=true&detect_language=true` where the detected language is unsupported, you will get the error message below.
+
+<CodeGroup>
+  ```json JSON
+  {
+    "err_code":"INVALID_QUERY_PARAMETER",
+    "err_msg":"Request specified unsupported language: <language_name>. Only English is supported.",
+    "request_id":"XXXX"
+  }
+  ```
+</CodeGroup>
+
+### Token Limit Exceeded
+
+**Status** 400
+
+If the request's input length exceeded the 150k token rate limit per request, you will get the error message below.
+
+<CodeGroup>
+  ```json JSON
+  {
+    "err_code": "TOKEN_LIMIT_EXCEEDED",
+    "err_msg": "Text input for <api_name> currently supports up to 150K tokens. Please revise your text input to fit within the defined token limit. For more information, please visit our API documentation.",
+    "request_id": "XXXX"
+  }
+  ```
+</CodeGroup>
+
+### Missing Query Parameter
+
+**Status** 400
+
+If the request sent contained only the feature parameter (`sentiment`) but not the `language` parameter, you will receive this error.
+
+<CodeGroup>
+  ```json JSON
+  {
+    "err_code":"INVALID_QUERY_PARAMETER",
+    "err_msg":"Failed to deserialize query parameters: missing field `language`",
+    "request_id":"XXX"
+  }
+  ```
+</CodeGroup>

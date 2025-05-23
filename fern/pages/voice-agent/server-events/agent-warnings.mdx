@@ -1,0 +1,41 @@
+---
+title: Agent Warnings
+subtitle: Receive warnings from the server if an issue has occurred.
+---
+
+<div class="flex flex-row gap-2">
+  <Markdown src="/snippets/va-stream-available.mdx" />
+</div>
+
+A notification from the server to the client of a non-fatal error or warning.
+
+## Purpose
+
+The `Warning` message is a non-fatal error or warning that the server will send to the client to
+notify the client of possible issues. If you receive a `Warning` message, check the warning code and description to identify the specific issue. Follow the recommended resolution and implement appropriate error handling.
+
+<Info>
+Warnings are non-fatal and your application should continue to function normally.
+</Info>
+
+
+## Example Payload
+
+The server will send a `Warning` message to the client to notify the client of possible issues.
+
+```json
+{
+  "type": "Warning",
+  "description": "" // A description of the warning
+  "code": "" // The code of the warning
+}
+```
+
+## Types of Warnings
+
+| Warning | Message | Recommended Resolution |
+|---------|---------|----------------------|
+| `INJECT_AGENT_MESSAGE_DURING_USER_SPEECH` | InjectAgentMessage was ignored during user speech. | Wait for the user to finish speaking before attempting to inject a new agent message. |
+| `INJECT_AGENT_MESSAGE_DURING_AGENT_SPEECH` | InjectAgentMessage was ignored during agent speech. | Wait for the agent to complete its current response before injecting a new message. |
+| `PROMPT_TOO_LONG` | The prompt was too long and had to be truncated. | Reduce the length of your prompt to fit within the maximum allowed size limit. |
+

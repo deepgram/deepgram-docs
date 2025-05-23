@@ -1,0 +1,354 @@
+---
+title: Multichannel
+subtitle: Multichannel transcribes each channel in submitted audio independently.
+---
+
+
+`multichannel` *boolean* Default: `false`
+
+<div class="flex flex-row gap-2">
+  <Markdown src="/snippets/stt-batch-available.mdx" /> <Markdown src="/snippets/stt-stream-available.mdx" /> <Markdown src="/snippets/all-available-languages.mdx" />
+</div>
+
+When set to `true`, you will receive separate transcripts for each channel.
+
+## Enable Feature
+
+To enable Multichannel, when you call Deepgram’s API, add a `multichannel` parameter set to `true` in the query string:
+
+`multichannel=true`
+
+You can use a maximum of `20` channels.
+
+To transcribe audio from a file on your computer, run the following curl command in a terminal or your favorite API client.
+
+<CodeGroup>
+  ```bash cURL
+  curl \
+    --request POST \
+    --header 'Authorization: Token YOUR_DEEPGRAM_API_KEY' \
+    --header 'Content-Type: audio/mp3' \
+    --data-binary @youraudio.mp3 \
+    --url 'https://api.deepgram.com/v1/listen?multichannel=true'
+  ```
+</CodeGroup>
+
+<Warning>
+  Replace `YOUR_DEEPGRAM_API_KEY` with your [Deepgram API Key](/docs/create-additional-api-keys).
+</Warning>
+
+## Analyze Response
+
+<Info>
+  For this example, we use an MP3 split stereo audio file that contains the first 10 seconds of a customer call with a florist. If you would like to follow along, you can [download it](https://res.cloudinary.com/deepgram/video/upload/v1682106551/devex/florist_altodz.mp3).
+</Info>
+
+When the file is finished processing (often after only a few seconds), you’ll receive a JSON response.
+
+Note that the response structure differs depending on whether audio is submitted to our pre-recorded endpoint or our streaming endpoint.
+
+### Pre-Recorded Response
+
+<CodeGroup>
+  ```json JSON
+  {
+  	"metadata": {
+  		...
+  		"channels": 0
+  	},
+  	"results": {
+  		"channels": [
+  			{
+  				"alternatives": []
+  			}
+  		]
+  	}
+  }
+  ```
+</CodeGroup>
+
+For this response, the `channels` property under `metadata` will be set to `2` because our sample audio track has two channels.
+
+Let's look more closely at the `channels` object under `results`:
+
+<CodeGroup>
+  ```json JSON
+  ...
+  "channels":[
+    {
+      "alternatives":[
+        {
+          "transcript":"thank you for calling marcus flowers how history i'd be happy to take care of your order may i have your name please",
+          "confidence":0.98221713,
+          "words":[
+            {"word":"thank","start":0.94,"end":1.06,"confidence":0.9963781},
+  					...
+          ]
+        }
+      ]
+    },
+    {
+      "alternatives":[
+        {
+          "transcript":"hello i'd like to order flowers and i think you have what i'm looking for",
+          "confidence":0.99148595,
+          "words":[
+            {"word":"hello","start":4.0095854,"end":4.049482,"confidence":0.9823143},
+  					...
+          ]
+        }
+      ]
+    }
+  ]
+  ...
+  ```
+</CodeGroup>
+
+In this response, we see that the `channels` object contains two sub-objects, one for each channel identified in the audio. Within each channel, each alternative contains multiple objects, each of which includes:
+
+* `transcript`: Transcript for the audio being processed.
+* `confidence`: Floating point value between 0 and 1 that indicates overall transcript reliability. Larger values indicate higher confidence.
+* `words`: Object containing each word in the transcript, along with its start time and end time (in seconds) from the beginning of the audio stream, and a confidence value.
+
+In the first channel object, notice that the word `history` has an `end` time of `3.5`, while the word `i'd` has a `start` time of `7.93305`; this is a considerable gap in audio within this channel. Now, notice that in the second channel object, the first word has a `start` time of `4.0095854` and the last word has an `end` time of `7.3209844`. This time frame falls directly in the middle of the gap in the first channel object.
+
+This makes sense because our sample audio file is a split stereo file with speakers separated on different channels. We can see that one speaker greets another in the first audio channel, waits for a response from the speaker recorded in the second audio channel, and then responds in the first audio channel.
+
+### Streaming Response
+
+<CodeGroup>
+  ```json JSON
+  {
+    "metadata": {
+      ...
+  	},
+      "channel_index": [
+        0,
+        2
+      ],
+      "channel": {
+        "alternatives": []
+      }
+    }
+  ```
+</CodeGroup>
+
+For this response, the `channel_index` property will be set to `[0, 2]` . The second number in the array is the number of channels (in this case, 2). The first number is the channel that the transcript in the message belongs to. In our example, you will see messages with `[0, 2]` representing transcription of the first channel, and `[1, 2]` for transcription of the second channel.
+
+Let's look more closely at the results of the stream. Deepgram will send back separate messages for each channel, like so:
+
+<CodeGroup>
+  ```json JSON
+  {
+    "metadata": {
+      ...
+    },
+    "channel_index": [
+      0,
+      2
+    ],
+    "duration": 3.58,
+    "start": 0,
+    "is_final": true,
+    "speech_final": true,
+    "channel": {
+      "alternatives": [
+        {
+          "transcript": "thank you for calling martha flores how may i assist you",
+          "confidence": 0.99853516,
+          "words": [
+            {
+              "word": "thank",
+              "start": 0.64,
+              "end": 0.79999995,
+              "confidence": 0.99853516
+            },
+            {
+              "word": "you",
+              "start": 0.79999995,
+              "end": 1.04,
+              "confidence": 1
+            },
+            {
+              "word": "for",
+              "start": 1.04,
+              "end": 1.1999999,
+              "confidence": 0.9995117
+            },
+            {
+              "word": "calling",
+              "start": 1.1999999,
+              "end": 1.5999999,
+              "confidence": 1
+            },
+            {
+              "word": "martha",
+              "start": 1.5999999,
+              "end": 2,
+              "confidence": 0.97216797
+            },
+            {
+              "word": "flores",
+              "start": 2,
+              "end": 2.48,
+              "confidence": 0.73010254
+            },
+            {
+              "word": "how",
+              "start": 2.48,
+              "end": 2.6399999,
+              "confidence": 0.9926758
+            },
+            {
+              "word": "may",
+              "start": 2.6399999,
+              "end": 2.8,
+              "confidence": 0.99853516
+            },
+            {
+              "word": "i",
+              "start": 2.8,
+              "end": 2.8799999,
+              "confidence": 0.9995117
+            },
+            {
+              "word": "assist",
+              "start": 2.8799999,
+              "end": 3.1999998,
+              "confidence": 1
+            },
+            {
+              "word": "you",
+              "start": 3.1999998,
+              "end": 3.58,
+              "confidence": 0.9963379
+            }
+          ]
+        }
+      ]
+    }
+  }
+  ```
+</CodeGroup>
+
+This first message represents the transcription of the first channel. It will be followed by another message representing the transcription of the second channel, marked with `channel_index: [1, 2]`
+
+<CodeGroup>
+  ```json JSON
+  {
+    "metadata": {
+      ...
+    },
+    "channel_index": [
+      1,
+      2
+    ],
+    "duration": 4.43,
+    "start": 3.02,
+    "is_final": true,
+    "speech_final": true,
+    "channel": {
+      "alternatives": [
+        {
+          "transcript": "hello i'd like to order flowers and i think you have what i'm looking for",
+          "confidence": 0.99902344,
+          "words": [
+            {
+              "word": "hello",
+              "start": 3.6599998,
+              "end": 4.06,
+              "confidence": 0.9436035
+            },
+            {
+              "word": "i'd",
+              "start": 4.06,
+              "end": 4.3,
+              "confidence": 0.99902344
+            },
+            {
+              "word": "like",
+              "start": 4.3,
+              "end": 4.46,
+              "confidence": 0.9995117
+            },
+            {
+              "word": "to",
+              "start": 4.46,
+              "end": 4.7,
+              "confidence": 0.9975586
+            },
+            {
+              "word": "order",
+              "start": 4.7,
+              "end": 5.02,
+              "confidence": 1
+            },
+            {
+              "word": "flowers",
+              "start": 5.02,
+              "end": 5.5,
+              "confidence": 0.8449707
+            },
+            {
+              "word": "and",
+              "start": 5.5,
+              "end": 5.74,
+              "confidence": 0.9995117
+            },
+            {
+              "word": "i",
+              "start": 5.74,
+              "end": 5.8199997,
+              "confidence": 0.99902344
+            },
+            {
+              "word": "think",
+              "start": 5.8199997,
+              "end": 6.06,
+              "confidence": 0.9980469
+            },
+            {
+              "word": "you",
+              "start": 6.06,
+              "end": 6.22,
+              "confidence": 0.9916992
+            },
+            {
+              "word": "have",
+              "start": 6.22,
+              "end": 6.46,
+              "confidence": 0.9995117
+            },
+            {
+              "word": "what",
+              "start": 6.46,
+              "end": 6.62,
+              "confidence": 0.9995117
+            },
+            {
+              "word": "i'm",
+              "start": 6.62,
+              "end": 6.7799997,
+              "confidence": 0.9992676
+            },
+            {
+              "word": "looking",
+              "start": 6.7799997,
+              "end": 7.18,
+              "confidence": 0.9995117
+            },
+            {
+              "word": "for",
+              "start": 7.18,
+              "end": 7.45,
+              "confidence": 0.9416504
+            }
+          ]
+        }
+      ]
+    }
+  }
+  ```
+</CodeGroup>
+
+***

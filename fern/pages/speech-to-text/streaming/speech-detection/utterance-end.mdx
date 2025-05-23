@@ -1,0 +1,124 @@
+---
+title: Utterance End
+subtitle: >-
+  Utterance End sends a message when the end of speech is detected in live
+  streaming audio.
+---
+
+`utterance_end_ms` *string*
+
+<div class="flex flex-row gap-2">
+<Markdown src="/snippets/stt-batch-unavailable.mdx" /> <Markdown src="/snippets/stt-stream-available.mdx" /> <Markdown src="/snippets/all-available-languages.mdx" />
+</div>
+
+The UtteranceEnd feature can be used for speech detection and can be enabled to help detect the end of speech while transcribing live streaming audio.
+
+UtteranceEnd complements Voice Activity Detection (VAD) by analyzing word timings in both interim and finalized transcripts to detect gaps between words, marking the end of spoken utterances and notifying users of speech endpoint detection.
+
+## Enable Feature
+
+To enable this feature, add `utterance_end_ms=000` to your request. Replace `000` with the number of milliseconds you want Deepgram to wait before sending the UtteranceEnd message.
+
+For example, if you set `utterance_end_ms=1000`, Deepgram will wait for a 1000 millisecond gap between transcribed words before sending the UtteranceEnd message.
+
+<Info>
+  It is recommended that you set the value of `utterance_end_ms` to be 1000 ms or higher.
+</Info>
+
+UtteranceEnd relies on Deepgram's `interim_results` feature and Deepgram's Interim Results are typically sent every second, so using a value of less 1000ms for `utterance_end_ms` will not offer you any benefits.
+
+<Info>
+  When using `utterance_end_ms`, setting `interim_results=true` is also required.
+</Info>
+
+<CodeGroup>
+  ```python Python
+
+  # see https://github.com/deepgram/deepgram-python-sdk/blob/main/examples/streaming/async_microphone/main.py
+  # for complete example code
+
+     options: LiveOptions = LiveOptions(
+              model="nova-3",
+              language="en-US",
+              # Apply smart formatting to the output
+              smart_format=True,
+              # Raw audio format details
+              encoding="linear16",
+              channels=1,
+              sample_rate=16000,
+              # To get UtteranceEnd, the following must be set:
+              interim_results=True,
+              utterance_end_ms="1000",
+              vad_events=True,
+              # Time in milliseconds of silence to wait for before finalizing speech
+              endpointing=300
+          )
+  ```
+</CodeGroup>
+
+## Results
+
+The UtteranceEnd JSON message will look similar to this:
+
+<CodeGroup>
+  ```json JSON
+  {
+    "channel": [
+      0,
+      1
+    ],
+    "last_word_end": 2.395,
+    "type": "UtteranceEnd"
+  }
+  ```
+</CodeGroup>
+
+* The `type` field is always `UtteranceEnd` for this event.
+* The `channel` field is interpreted as `[A,B]`, where `A` is the channel index, and `B` is the total number of channels. The above example is channel 0 of single-channel audio.
+* The `last_word_end` field is the time at which end of speech was detected.
+
+If you compare this to the Results response below, you will see that the `last_word_end` from the UtteranceEnd response matches the data in the `alternatives[0].words[1].end` field of the Results response. This is due to the gap identified after the final word.
+
+In addition, you can see `is_final=true`, which is sent because of the `interim_results` feature.
+
+<CodeGroup>
+  ```json JSON
+  {
+    "channel": {
+      "alternatives": [
+        {
+          "confidence": 0.77905273,
+          "transcript": "Testing. 123.",
+          "words": [
+            {
+              "confidence": 0.69189453,
+              "end": 1.57,
+              "punctuated_word": "Testing.",
+              "start": 1.07,
+              "word": "testing"
+            },
+            {
+              "confidence": 0.77905273,
+              "end": 2.395,
+              "punctuated_word": "123.",
+              "start": 1.895,
+              "word": "123"
+            }
+          ]
+        }
+      ]
+    },
+    "channel_index": [
+      0,
+      1
+    ],
+    "duration": 1.65,
+    "is_final": true,
+    "metadata": {
+     ...
+    "type": "Results"
+  }
+  ```
+</CodeGroup>
+
+***

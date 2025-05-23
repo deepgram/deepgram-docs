@@ -1,0 +1,178 @@
+---
+title: Build a Voice Agent with Twilio & OpenAI & Deepgram
+subtitle: >-
+  Learn how to build a voice agent application that includes Twilio, OpenAI,
+  Deepgram speech-to-text & text-to-speech, while optimizing for low latency.
+---
+
+
+Integrating Twilio with Deepgram's Speech-to-Text (STT) and Text-to-Speech (TTS) functionalities allows you to build robust applications capable of real-time transcription and voice synthesis. This guide walks you through setting up a streaming voice agent using Twilio, Deepgram, and OpenAI, while optimizing for low latency.
+
+## Before You Begin
+
+This guide assumes that you have a basic understanding of JavaScript, Node.js and are familiar with [OpenAI](https://openai.com/), [Twilio](https://www.twilio.com/) and [Ngrok](https://ngrok.com/). It's also useful if you have general knowledge of how Large Language Models (LLMs) work.
+
+<Info>
+  You can find the final code in The [GitHub Repository](https://github.com/deepgram/deepgram-twilio-streaming-voice-agent).
+</Info>
+
+### Create a Deepgram API Key
+
+<Info>
+  Before you can use Deepgram, you'll need to [create a Deepgram account](https://console.deepgram.com/signup?jump=keys). Signup is free and includes **$200** in free credit and access to all of Deepgram's features!
+</Info>
+
+To access Deepgram’s API, you'll need to [create a Deepgram API Key](https://console.deepgram.com/signup?jump=keys). Make note of your API Key; you will need it later.
+
+### Get Twilio Credentials
+
+This demo uses Twilio Voice to start a phone call that will be recorded and transcribed. Before you can use Twilio's service, you'll need to [sign up for a Twilio account](https://twilio.com).
+
+To use the sample application, you'll need a Twilio Account SID and Twilio Auth Token. These can both be found within your [Twilio Admin Dashboard](https://console.twilio.com/).
+
+### Get OpenAI Credentials
+
+This application uses OpenAI for it's LLM. Before you can use OpenAI's service, you'll need to [sign up for an OpenAI account](https://platform.openai.com/signup/) and obtain an API Key.
+
+## Getting Started
+
+This is a basic JavaScript server that show cases end to end streaming voice agent with the following components:
+
+* Callable Phone Number
+* Streaming Twilio - Inbound Audio
+* Streaming Deepgram - Speech to Text
+* Streaming OpenAI - LLM
+* Streaming Deepgram - Text to Speech
+* Streaming Twilio - Outbound Audio
+
+This implementation is a good starting reference to develop your own application logic and isn't design for scale or production deployments.
+
+## Clone the Repository
+
+Either clone or download the [GitHub repository](https://github.com/DamienDeepgram/deepgram-twilio-streaming-voice-agent) to your local machine in a new directory:
+
+<CodeGroup>
+  ```shell Shell
+  # Clone this repo
+  git clone https://github.com/DamienDeepgram/deepgram-twilio-streaming-voice-agent.git
+
+  # Move to the created directory
+  cd deepgram-twilio-streaming-voice-agent
+  ```
+</CodeGroup>
+
+## App sever setup
+
+<Info>
+  Refer to the [server.js](https://github.com/deepgram/deepgram-twilio-streaming-voice-agent/blob/main/server.js) file in the GitHub Repository to see the server side implementation.
+</Info>
+
+### Set environment variables
+
+You will need to set environment variables for your shell session. These environment variables are used to store the API keys required for authentication when accessing the OpenAI and Deepgram APIs.
+
+Open a Terminal and run:
+
+<CodeGroup>
+  ```shell Shell
+  export OPENAI_API_KEY=xxx
+  export DEEPGRAM_API_KEY=xxx
+  ```
+</CodeGroup>
+
+To verify the environment variables are set, run the following commands in your Terminal:
+
+<CodeGroup>
+  ```shell Shell
+  echo $OPENAI_API_KEY
+  echo $DEEPGRAM_API_KEY
+  ```
+</CodeGroup>
+
+### Installation
+
+**Requires Node >= v12.1.0**
+
+Run `npm install`
+
+#### Running the server
+
+Start with `npm run start`
+
+## Demo Setup
+
+### Configure the environment using the Ngrok UI & CLI
+
+1. Install ngrok:
+
+* If on MacOS: `brew install ngrok/ngrok/ngrok`
+* If on Windows/Linux: Follow the [instructions on ngrok's site](https://ngrok.com/docs/getting-started/)
+
+2. Sign up for a ngrok account:
+
+* If you haven't already, sign up for an [ngrok account](https://dashboard.ngrok.com/get-started/setup/macos)
+* Copy your ngrok authtoken from your [ngrok dashboard](https://dashboard.ngrok.com/get-started/your-authtoken)
+* Run the following command in your terminal to install the auth token and connect the ngrok agent to your account.
+
+<CodeGroup>
+  ```shell Shell
+  ngrok config add-authtoken <TOKEN>
+  ```
+</CodeGroup>
+
+### Twilio Phone Number Setup
+
+* You will need to provide a valid phone number from Twilio.
+* You can either use the Twilio CLI ([see instructions below](https://help.twilio.com/articles/223135247-How-to-Search-for-and-Buy-a-Twilio-Phone-Number-from-Console)) OR the Twilio Admin Dashboard to setup a phone number. (see these [instructions](https://help.twilio.com/articles/223135247-How-to-Search-for-and-Buy-a-Twilio-Phone-Number-from-Console) from Twilio)
+
+### Configure with the Twilio CLI
+
+> Refer to this [Repository](https://github.com/twilio/media-streams/tree/master/node/connect-basic) for more information on this section.
+
+1. Install the [Twilio CLI](https://www.twilio.com/docs/twilio-cli/quickstart) and login to Twilio to run these commands.
+
+2. Find an available phone number
+
+<CodeGroup>
+  ```shell Shell
+  twilio api:core:available-phone-numbers:local:list --country-code="US" --voice-enabled --properties="phoneNumber"`
+  ```
+</CodeGroup>
+
+3. Purchase the phone number (where `+123456789` is a number you found)
+
+<CodeGroup>
+  ```shell Shell
+  twilio api:core:incoming-phone-numbers:create --phone-number="+123456789"`
+  ```
+</CodeGroup>
+
+### Set the webhook url to your ngrok url
+
+4. Start ngrok
+
+On a separate terminal (not the one where you have run `npm run start`):
+
+<CodeGroup>
+  ```shell Shell
+  ngrok http 8080
+  ```
+</CodeGroup>
+
+5. You will see a url under the `Forwarding`row that --> to your localhost. Copy this as the `<ngrok url>`
+6. Edit the [templates/streams](https://github.com/deepgram/deepgram-twilio-streaming-voice-agent/blob/main/templates/streams.xml) file to replace `<ngrok url>` with your ngrok host. Example: `wss://yourdomain.ngrok-free.app/streams`. Remember to use `wss://`and include `/streams` in the URL.
+7. Go to your Twilio dashboard and select the active phone number that you manage. Under the Configure tab, include the `\<ngrok url`in URL of the "A call comes in" row of the page. If your URL is`wss://yourdomain.ngrok-free.app`, put in `<https://yourdomain.ngrok-free.app/twiml`>
+
+<Warning>
+  If you restart your ngrok server your `ngrok url` will change.
+</Warning>
+
+### Call the number and chat to your bot.
+
+7. You can call the Twilio phone number directly from your own phone. Alternatively, you can make the call using the following, where `+123456789` is the Twilio number you bought and `+19876543210` is your phone number and `abcdef.ngrok.io` is your ngrok host.
+
+<CodeGroup>
+  ```shell Shell
+  twilio api:core:calls:create --from="+123456789" --to="+19876543210" --url="https://abcdef.ngrok.io/twiml"
+  ```
+</CodeGroup>

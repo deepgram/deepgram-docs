@@ -1,0 +1,23 @@
+---
+title: Channels
+subtitle: >-
+  Channels allows you to specify the number of independent audio channels your
+  submitted audio contains.
+---
+
+
+`channels` *int32* Default: `1`
+
+<div class="flex flex-row gap-2">
+  <Markdown src="/snippets/stt-batch-unavailable.mdx" /> <Markdown src="/snippets/stt-stream-available.mdx" /> <Markdown src="/snippets/all-available-languages.mdx" /> 
+</div>
+
+The default value is `1`.
+
+The Channels feature is used when the [Encoding](/docs/encoding/) feature is also being used to submit streaming raw audio. It is not read at any other time.
+
+## Enable Feature
+
+To enable Channels, when you call Deepgram’s API, add a `channels` parameter in the query string and set it to the number of channels in your submitted audio.
+
+`channels=NUMBER_OF_CHANNELS`

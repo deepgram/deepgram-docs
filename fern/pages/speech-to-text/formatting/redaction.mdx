@@ -1,0 +1,103 @@
+---
+title: Redaction
+subtitle: Redaction removes sensitive information from your transcripts.
+---
+
+<Card
+    href="https://playground.deepgram.com/?endpoint=listen&redact=pci&language=en&model=nova-3"
+>
+  <Markdown src="/snippets/playground-card.mdx" />
+</Card>
+<br/>
+
+`redact` *string* Default: `False`
+
+<div class="flex flex-row gap-2">
+  <Markdown src="/snippets/stt-batch-available.mdx" /> <Markdown src="/snippets/stt-stream-available.mdx" /> <Markdown src="/snippets/all-available-languages.mdx" />
+</div>
+
+## Enable Feature
+
+To enable redaction, use the following parameter in the query string when you call Deepgram’s `/listen` endpoint:
+
+`redact=OPTION`
+
+### Pre-Recorded
+
+#### Redacting Common Entities
+
+Deepgram provides the following options to redact common groups of entities:
+
+* `pci`: Redacts credit card information, including credit card number, expiration date, and CVV.
+* `pii`: Redacts personally identifiable information, including names and locations and complete and 4 digit social security numbers.
+* `numbers` (or `true`): Redacts numerical entities, such as dates and account numbers.
+
+#### Redacting Specific Entities
+
+When submitting pre-recorded audio to Deepgram's hosted endpoint (`api.deepgram.com`), you may select the types of entities you wish to redact from [over 50 supported entity types](/docs/supported-entity-types). This powerful functionality allows you total control over what is redacted in your transcript.
+
+Some options include `credit_card`, `credit_card_expiration`, `cvv`, and `email_address`.
+
+View all options here: [Supported Entity Types](/docs/supported-entity-types)
+
+#### Examples
+
+You can enable redaction by adding `redact=OPTION` as a query parameter.
+
+To transcribe audio and remove `PCI` data from an audio file run the following cURL command:
+
+<CodeGroup>
+  ```bash cURL
+  curl \
+    --request POST \
+    --header 'Authorization: Token YOUR_DEEPGRAM_API_KEY' \
+    --header 'Content-Type: audio/wav' \
+    --data-binary @youraudio.wav \
+    --url 'https://api.deepgram.com/v1/listen?redact=pci'
+  ```
+</CodeGroup>
+
+Multiple types of entities can be redacted with the syntax `redact=option_1&redact=option_2`. To transcribe audio and remove `PCI` and `PII` data from an audio file run the following cURL command:
+
+<CodeGroup>
+  ```bash cURL
+  curl \
+    --request POST \
+    --header 'Authorization: Token YOUR_DEEPGRAM_API_KEY' \
+    --header 'Content-Type: audio/wav' \
+    --data-binary @youraudio.wav \
+    --url 'https://api.deepgram.com/v1/listen?redact=pci&redact=pii'
+  ```
+</CodeGroup>
+
+<Warning>
+  Replace `YOUR_DEEPGRAM_API_KEY` with your [Deepgram API Key](/docs/create-additional-api-keys).
+</Warning>
+
+### Streaming
+
+<Info>
+   To ensure redaction operates with the highest accuracy, set `no_delay=false` or avoid including `no_delay` altogether. If `no_delay=true` is set, our system will opt for low latency at the risk of redaction performance.
+</Info>
+
+When live-streaming audio to Deepgram's hosted endpoint, redaction options include:
+
+* `pci`: Redacts sensitive credit card information, including credit card number, expiration date, and CVV.
+* `numbers` (or `true`): Redacts series of three or more consecutive numerals.
+* `aggressive_numbers`: Redacts all numerals.
+* `ssn`: Redacts complete social security numbers.
+* Multiple redaction values can be sent: `redact=pci&redact=numbers`
+
+## Results
+
+For both Live-streaming and Pre-recorded audio, Redaction replaces redacted content with the type of entity redacted and the number of times that entity has been detected in the transcript. For example, if you choose to redact social security numbers, the phrase "My social security number is five five five two two one one one one and his is six six six two two one three three three" would appear in your transcript as "My social security number is \[SSN\_1] and his is \[SSN\_2]".
+
+Example with `redact=pci&redact=pii`:
+
+| Source                                                                                                                                                                                                                                                                                                                                                                                   | Before redact                                                                                                                                                                                                                                                                                                                                                                            | After redact                                                                                                                                                                                                                              |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| my credit card number is four four four four nine nine nine nine three three three three two two two two with an expiration date of one twenty three and the cvv code is one one one i live at one two three main street dallas texas seven five two zero one my phone number is five five five two one two nine three three three my date of birth is july twelfth nineteen seventy six | my credit card number is four four four four nine nine nine nine three three three three two two two two with an expiration date of one twenty three and the cvv code is one one one i live at one two three main street dallas texas seven five two zero one my phone number is five five five two one two nine three three three my date of birth is july twelfth nineteen seventy six | my credit card number is \[CREDIT\_CARD\_1] with an expiration date of \[CREDIT\_CARD\_EXPIRATION\_1] and the cv code is \[CVV\_1] i live at \[LOCATION\_ADDRESS\_1] my phone number is \[PHONE\_NUMBER\_1] my date of birth is \[DOB\_1] |
+
+## Self Hosted Language Support
+
+ For [self-hosted](/docs/self-hosted-introduction) deployments, we currently only support English language redaction.

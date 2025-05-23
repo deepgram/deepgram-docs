@@ -1,0 +1,50 @@
+---
+title: Encoding
+subtitle: Encoding allows you to specify the expected encoding of your submitted audio.
+---
+
+
+`encoding` *string*
+
+<div class="flex flex-row gap-2">
+  <Markdown src="/snippets/stt-batch-unavailable.mdx" /> <Markdown src="/snippets/stt-stream-available.mdx" /> <Markdown src="/snippets/all-available-languages.mdx" /> 
+</div>
+
+Encoding is required when raw, headerless audio packets are sent to the streaming service. If containerized audio packets are sent to the streaming service, this feature should not be used.
+
+<Info>
+  If you are using the Encoding feature, the [Sample Rate](/docs/sample-rate) feature is also required.
+</Info>
+
+## Enable Feature
+
+To enable Encoding, when you call Deepgram’s API, add an `encoding` parameter in the query string and set it to the audio coding algorithm of your submitted audio:
+
+`encoding=OPTION`
+
+<CodeGroup>
+  ```bash cURL
+  curl \
+    --request POST \
+    --header 'Authorization: Token YOUR_DEEPGRAM_API_KEY' \
+    --header 'Content-Type: audio/mp3' \
+    --data-binary @youraudio.mp3 \
+    --url 'https://api.deepgram.com/v1/listen?sample_rate=8000&encoding=linear16'
+  ```
+</CodeGroup>
+
+Deepgram supports the following audio coding algorithms:
+
+* `linear16`: 16-bit, little endian, signed PCM WAV data
+* `linear32`: 32-bit, little endian, floating-point PCM WAV data
+* `flac`: Free Lossless Audio Codec (FLAC) encoded data
+* `alaw`: A-law encoded WAV data
+* `mulaw`: Mu-law encoded WAV data
+* `amr-nb`: Adaptive Multi-Rate (AMR) narrowband codec
+* `amr-wb`: Adaptive Multi-Rate (AMR) wideband codec
+* `opus`: The Opus audio codec
+* `ogg-opus`: The Opus audio codec encapsulated in the Ogg container format
+* `speex`: An open-source, speech-specific audio codec
+* `g729`: G729 low-bandwidth (required for both raw and containerized audio)
+
+***

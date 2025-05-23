@@ -1,0 +1,320 @@
+---
+title: Drivers and Container Orchestration Tools
+subtitle: With Docker/Podman
+---
+
+
+Once you have provisioned a deployment environment with a Linux operating system installed, we need to configure it.
+
+While some cloud providers will automatically install NVIDIA drivers for use with NVIDIA GPUs, many do not, so we will walk through how to install NVIDIA drivers for the GPUs and expose them for our use.
+
+We will also step through installing a containerization platform. We highly recommend Docker, but you may also use Podman if you are using Red Hat Enterprise Linux (RHEL) version 8 or higher, or another similar distribution that does not ship or support Docker.
+
+<Info>
+  Other pages in Deepgram's documentation may exclusively list example commands using `docker`. If you are using a different containerization platform, such as `podman`, you may need to adjust the commands accordingly.
+</Info>
+
+## Prerequisites
+
+Make sure you have completed the steps in one of the following platform guides:
+
+* [Amazon Web Services](/docs/aws)
+* [Google Cloud Platform](/docs/gcp)
+* [Oracle Cloud Infrastructure](/docs/oci-docker-podman)
+* [Microsoft Azure](/docs/azure)
+* [Bare-Metal Servers](/docs/bare-metal)
+
+## Note on Different Linux Distributions
+
+Various Linux distributions have a default or preferred package manager for the installation and management of system packages. For example, `apt` is associated with Ubuntu and `dnf` is associated with RHEL and Oracle Linux.
+
+This guide will contain instructions that should be adaptable for many Linux distributions, but are specific to one of our [recommended distributions](/docs/configure-your-private-cloud-environment#operating-system). You will see comments above the commands and sections when there is a distribution-specific action. If there are no comments or headers above a set of instructions, it should work cross-platform.
+
+## Update System Package Manager
+
+Update your server’s operating system package manager to get information on updated versions of packages and their dependencies, and upgrade these packages as needed.
+
+<CodeGroup>
+  ```shell Shell
+  # Ubuntu
+  sudo apt update
+  sudo apt upgrade -y
+  # RHEL or Oracle Linux
+  sudo dnf update -y
+  ```
+</CodeGroup>
+
+### Install GNU Toolchain Components
+
+Install the GNU Compiler Collection (`gcc`) , GNU Make (`make`), and GNU Web Get (`wget`) tool:
+
+<CodeGroup>
+  ```shell Shell
+  # Ubuntu
+  sudo apt install -y gcc make wget
+  # RHEL or Oracle Linux
+  sudo dnf install -y gcc make wget
+  ```
+</CodeGroup>
+
+## Install NVIDIA Drivers
+
+### Remove Nouveau Drivers
+
+The Nouveau kernel driver is incompatible with NVIDIA drivers, so you will need to disable it before installing any NVIDIA drivers.
+
+1. In your terminal, create a new configuration file at `/etc/modprobe.d/blacklist-nouveau.conf` to blacklist the Nouveau drivers.
+
+   <CodeGroup>
+     ```shell Shell
+     sudo sh -c 'printf "blacklist nouveau\noptions nouveau modeset=0\n" > /etc/modprobe.d/blacklist-nouveau.conf'
+     ```
+   </CodeGroup>
+
+2. Regenerate the kernel with the new conf file added:
+
+   <CodeGroup>
+     ```shell Shell
+     # Ubuntu
+     sudo update-initramfs -u
+     # RHEL or Oracle Linux
+     sudo dracut --force
+     ```
+   </CodeGroup>
+
+3. Unload the Nouveau drivers:
+
+   <CodeGroup>
+     ```shell Shell
+     sudo rmmod nouveau
+     ```
+   </CodeGroup>
+
+4. Verify that Nouveau has been removed:
+
+   <CodeGroup>
+     ```shell Shell
+     lsmod | grep nouveau
+     ```
+   </CodeGroup>
+
+   If you see no output, Nouveau was successfully removed.
+
+### Install Kernel Development Tools
+
+Many Linux distributions require Linux kernel development tools to be installed to support installing the NVIDIA drivers.
+
+<CodeGroup>
+  ```shell Shell
+  # Ubuntu
+  sudo apt-get install -y linux-headers-`uname -r`
+  # RHEL
+  sudo dnf -y install kernel-devel-`uname -r` kernel-headers-`uname -r`
+  sudo dnf -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-`rpm -q --queryformat '%{VERSION}' redhat-release | cut -d. -f1`.noarch.rpm
+  sudo dnf -y install dkms
+  # Oracle Linux
+  sudo dnf -y install kernel-devel kernel-headers
+  ```
+</CodeGroup>
+
+### Download and install the official drivers
+
+<Info>
+  If you are using Google Cloud Platform and your VM instance has Secure Boot enabled, see the [GCP documentation](https://cloud.google.com/compute/docs/gpus/install-drivers-gpu#secure-boot) for details on how to sign the NVIDIA kernel modules.
+
+  If you are using Azure and your Ubuntu VM instance has [Trusted Launch](https://learn.microsoft.com/en-us/azure/virtual-machines/trusted-launch) enabled, which also enables Secure Boot, see the [Azure documentation](https://learn.microsoft.com/en-us/azure/virtual-machines/linux/n-series-driver-setup#ubuntu) for how to add a Machine Owner Key that will sign a key for the driver installation. Otherwise, during VM creation, you may opt for Standard security instead of Trusted Launch, in order to install the drivers through our standard method as documented on this page.
+
+  If you are using Oracle Cloud Infrastructure and you are using a [Shielded instance](https://docs.oracle.com/en-us/iaas/Content/Compute/References/shielded-instances.htm) , see the [Oracle documentation](https://docs.oracle.com/en/operating-systems/oracle-linux/secure-boot/sboot-SigningKernelModulesforUseWithSecureBoot.html) for details on how to sign the NVIDIA kernel modules.
+</Info>
+
+1. We are going to identify the latest compatible driver for the GPU you are using and retrieve its download URL by going to the [NVIDIA Official Drivers](https://www.nvidia.com/download/index.aspx).
+
+2. Select the product category. For cloud instances, this will often be `Data Center/Tesla`.
+
+3. Select the product series and product. You should know the exact GPU you are using if you provisioned it yourself in your own data-center. If you are using a cloud instance, you can lookup the VM instance type on your cloud console, and use your cloud provider's documentation to find the corresponding GPU for that instance type.
+
+   1. The product series will the first letter of the GPU name. For example, the T4 is part of the T-series, and the A10 is part of the A-series.
+
+4. Select your operating system. For most users, like those on Ubuntu, this will be `Linux 64-bit`. If you are on RHEL or a compatible distribution like Oracle Linux, select the appropriate RHEL version instead.
+
+   <Warning>
+     For Ubuntu, make sure to select `Linux 64-bit`, which will eventually deliver a `.run` file. Do not select an `Ubuntu` option for the operating system, as this will deliver a `.deb` file that frequently fails to properly install the drivers.
+   </Warning>
+
+5. Finally, choose the Download Type (`Production Branch`), and choose a CUDA toolkit with a version `>=12.4`.
+
+6. Select **Search** and check that the correct driver is displayed, then select **View**.
+
+7. Right-click **Download**, then copy the link to save the download URL to your clipboard.
+
+8. Download the latest driver for your GPU on your deployment environment:
+
+   <CodeGroup>
+     ```shell Shell
+     wget LINK_TO_LATEST_NVIDIA_GPU_DRIVER
+     ```
+   </CodeGroup>
+
+   <Info>
+     Be sure to replace the `LINK_TO_LATEST_NVIDIA_GPU_DRIVER` placeholder value with the URL to the latest driver for the GPU you are using.
+   </Info>
+
+9. Install the drivers:
+
+   <CodeGroup>
+     ```shell Shell
+     # Ubuntu
+     chmod +x ./{DOWNLOADED_FILE_NAME}
+     sudo ./{DOWNLOADED_FILE_NAME} --silent
+     # RHEL
+     sudo rpm -i DOWNLOADED_FILE_NAME
+     sudo dnf clean all
+     sudo dnf -y module install nvidia-driver:latest-dkms
+     # Oracle Linux
+     sudo rpm -i DOWNLOADED_FILE_NAME
+     sudo dnf install \
+         https://dl.fedoraproject.org/pub/epel/epel-release-latest-`grep -oP '(?<=release )\d+' /etc/redhat-release`.noarch.rpm \
+         https://dl.fedoraproject.org/pub/epel/epel-next-release-latest-`grep -oP '(?<=release )\d+' /etc/redhat-release`.noarch.rpm
+     sudo dnf clean all
+     sudo dnf -y module install nvidia-driver:latest-dkms
+     ```
+   </CodeGroup>
+
+   <Info>
+     With the `--silent` install on Ubuntu and other non-RHEL distros, you will see warnings that are similar to the following (they can be ignored):
+      <div class="logs">
+        <p>WARNING: Ignoring CC version mismatch:</p>
+        <p>The kernel was built with gcc (Ubuntu 9.3.0-17ubuntu1\~20.04) 9.3.0, GNU ld (GNU Binutils for Ubuntu) 2.34, but the current compiler version is cc (Ubuntu 9.4.0-1ubuntu1~20.04) 9.4.0.</p>
+        <p>WARNING: nvidia-installer was forced to guess the X library path '/usr/lib64' and X module path '/usr/lib64/xorg/modules'; these paths were not queryable from the system.  If X fails to find the NVIDIA X driver module, please install the \`pkg-config\` utility and the X.Org SDK/development package for your distribution and reinstall the driver</p>
+      </div>
+   </Info>
+
+10. Test that the NVIDIA drivers are installed. The following command should produce output describing the available GPU:
+
+    <CodeGroup>
+      ```shell Shell
+      nvidia-smi
+      ```
+    </CodeGroup>
+
+## Install Container Runtime
+
+For ease of use, Deepgram provides its products in container images, so you must make sure that you have installed the latest version of Docker (or an alternative such as Podman) on all hosts.
+
+<Info>
+  RHEL and Oracle Linux do not distribute Docker, so you will need to use Podman for your container runtime.
+</Info>
+
+1. Install the container runtime.
+
+   1. To install Docker, read [Install Using the Repository](https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository) in Docker’s documentation.
+
+   2. To install Podman, use your distribution's native package list. For more details, read their [installation instructions](https://podman.io/docs/installation).
+
+      <CodeGroup>
+        ```shell Shell
+        # Ubuntu
+        sudo apt install podman
+        # RHEL or Oracle Linux
+        sudo dnf install podman
+        ```
+      </CodeGroup>
+
+      1. If you are using Podman, other guides in the self-hosted documentation will contain commands using `docker`. Change all of these to use `podman`.
+
+2. It's possible to grant your user (e.g. `ubuntu`, `ec2-user`, `ocp`) sufficient permissions to run container runtime commands without elevated privileges (without `sudo`).
+
+   1. For Docker, see [Manage Docker as a Non-Root User](https://docs.docker.com/engine/install/linux-postinstall/#manage-docker-as-a-non-root-user) in Docker’s optional post-installation documentation.
+
+   2. For Podman, the process to run commands without elevated privileges is somewhat more involved. See [this tutorial](https://github.com/containers/podman/blob/main/docs/tutorials/rootless_tutorial.md) for basic setup and use of Podman in a rootless environment.
+
+   <Warning>
+     If you do not follow step 2, you cannot run container runtime commands without elevated privileges. You must run any `docker`, `docker-compose`, `podman`, or `podman-compose` commands with `sudo`.
+   </Warning>
+
+### Install Container Composition Tools
+
+Container Composition tools allow users to define and manage multi-container applications using simple YAML configuration files that can be checked into source control. It enables the orchestration and coordination of services, automating the deployment, scaling, and management of containerized applications.
+
+#### Docker
+
+Docker Compose V2 is now included with Docker. The plugin for CLI use should be installed with the [Install Container Runtime](#install-container-runtime) steps. If not, you can install it independently:
+
+<CodeGroup>
+  ```shell Shell
+  # Ubuntu
+  sudo apt install -y docker-compose-plugin
+  ```
+</CodeGroup>
+
+Test the installation:
+
+<CodeGroup>
+  ```shell Shell
+  docker compose version
+  ```
+</CodeGroup>
+
+You should expect the command output to return version 2.X.X.
+
+#### Podman
+
+The open source community maintains a `podman-compose` tool that seeks to be compatible with Docker Compose. You can install this with their [instructions on GitHub](https://github.com/containers/podman-compose#installation), and test your installation:
+
+<CodeGroup>
+  ```shell Shell
+  podman-compose version
+  ```
+</CodeGroup>
+
+## Install the NVIDIA Container Toolkit
+
+CUDA is NVIDIA's library for interacting with its GPU. CUDA support is made available to containers using the NVIDIA container runtime, which is provided by the NVIDIA container toolkit.
+
+### Docker
+
+[`nvidia-docker`](https://github.com/NVIDIA/nvidia-docker) exposes the NVIDIA container toolkit for the Docker runtime. Follow the [Docker instructions from NVIDIA](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html#setting-up-nvidia-container-toolkit) to setup this runtime.
+
+<Warning>
+  Make sure to complete the `Installation` specific to your distribution ***and*** the `Configuration` step [specific to Docker](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html#configuring-docker).
+
+  For the `Configuration` step, follow the standard instructions, *not* the `Rootless mode` instructions.
+</Warning>
+
+After you've setup the NVIDIA Docker runtime, you can test it with the following command:
+
+<CodeGroup>
+  ```shell Shell
+  docker run --runtime=nvidia --rm --gpus all ubuntu nvidia-smi
+  ```
+</CodeGroup>
+
+### Podman
+
+Podman has implemented support for the Container Device Interface (CDI) standard in its container runtime, which allows for direct use of the NVIDIA container toolkit. Follow the [CDI Support instructions from NVIDIA](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html#step-1-install-nvidia-container-toolkit) to install and configure the toolkit.
+
+<Warning>
+  Make sure to complete the `Installation` specific to your distribution ***and*** the `Configuration` step [specific to Podman](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html#configuring-podman).
+</Warning>
+
+After you've setup the NVIDIA container toolkit with CDI, you can test it with the following command:
+
+<CodeGroup>
+  ```shell Shell
+   podman run --rm --device nvidia.com/gpu=all ubuntu nvidia-smi
+  ```
+</CodeGroup>
+
+## Summary
+
+This guide walked you through installing the NVIDIA drivers to interact with our GPU that will run inference, as well as the containerization platform that we will use to run Deepgram services.
+
+As a reminder, many of our guides assume use of Docker. If you are on Red Hat Enterprise Linux or have another reason to use Podman instead of Docker, keep in mind the commands and configuration may be slightly different.
+
+***
+
+What’s Next
+
+Now we head to Deepgram Console to generate needed credentials for our deployment.
+
+* [Self Service Licensing & Credentials](/docs/on-prem-self-service-tutorial)

@@ -1,0 +1,137 @@
+---
+title: Models & Languages Overview
+subtitle: An overview of Deepgram's speech-to-text models and supported languages.
+---
+
+## Models
+
+| General Models                                   | Description & Use                                                                                                                                        |
+| ------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [nova-3](/docs/models-languages-overview#nova-3) | Our highest performing model. Recommended for most use cases, especially audio with multiple languages, background noise, crosstalk and far field audio. |
+| [nova-2](/docs/models-languages-overview#nova-2) | Recommended for use cases with non-English transcription, and filler word identification.                                                                                                      |
+
+<Info>
+  All models default to `language=en` unless otherwise specified via the `language` parameter.
+</Info>
+
+### Example
+
+To request any Deepgram Model, change `MODEL_OPTION` to the Model you want to use.
+
+<CodeGroup>
+  ```curl cURL
+  curl \  --request POST \
+  --header 'Authorization: Token YOUR_DEEPGRAM_API_KEY' \
+  --header 'Content-Type: audio/wav' \
+  --data-binary @youraudio.wav \
+  --url 'https://api.deepgram.com/v1/listen?model=MODEL_OPTION'
+  ```
+</CodeGroup>
+
+<Warning>
+  Replace `YOUR_DEEPGRAM_API_KEY` with your [Deepgram API Key](/docs/create-additional-api-keys).
+</Warning>
+
+## Nova-3
+
+Nova-3 represents a significant leap forward in speech AI technology, featuring substantial improvements in accuracy and real-world application capabilities. The model delivers industry-leading performance with a 54.2% reduction in word error rate (WER) for streaming and 47.4% for batch processing compared to competitors.
+
+Nova-3 introduces groundbreaking features including real-time multilingual conversation transcription, enhanced comprehension of domain-specific terminology, and optional personal information redaction. Notably, it's the first voice AI model to offer self-serve customization, enabling instant vocabulary adaptation without model retraining. In multilingual testing, Nova-3 demonstrated superior performance across all seven tested languages, with particularly strong results showing up to 8:1 preference ratios in certain languages.
+
+| Model Option                 | Language                                         |
+| ---------------------------- | ------------------------------------------------ |
+| `nova-3` or `nova-3-general` | [**Multilingual (English, Spanish, French, German, Hindi, Russian, Portuguese, Japanese, Italian, and Dutch): `multi`** ](/docs/multilingual-code-switching), <br />, English: `en`, `en-US` |
+| `nova-3-medical`             | English: `en`, `en-US`                           |
+
+## Nova-2
+
+Recommended for use cases with non-English transcription, and filler word identification.
+
+| Model Option                 | Language                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+| ---------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `nova-2` or `nova-2-general` | [**Multilingual (Spanish + English): `multi`** ](/docs/multilingual-code-switching), <br /> Bulgarian: `bg`, <br /> Catalan: `ca`, <br /> Chinese (Mandarin, Simplified):`zh`, `zh-CN`,`zh-Hans`, <br /> Chinese (Mandarin, Traditional):`zh-TW`,`zh-Hant`, <br /> Chinese (Cantonese, Traditional): `zh-HK`, <br /> Czech: `cs`, <br /> Danish: `da`, `da-DK`, <br /> Dutch: `nl`, <br /> English: `en`, `en-US`, `en-AU`, `en-GB`, `en-NZ`, `en-IN`, <br /> Estonian: `et`, <br /> Finnish: `fi`, <br /> Flemish: `nl-BE`, <br /> French: `fr`, `fr-CA`, <br /> German: `de`, <br /> German (Switzerland): `de-CH`, <br /> Greek: `el`, <br /> Hindi: `hi`, <br /> Hungarian: `hu`, <br /> Indonesian: `id`, <br /> Italian: `it`, <br /> Japanese: `ja`, <br /> Korean: `ko`, `ko-KR`, <br /> Latvian: `lv`, <br /> Lithuanian: `lt`, <br /> Malay: `ms`, <br /> Norwegian: `no`, <br /> Polish: `pl`, <br /> Portuguese: `pt`, `pt-BR`, `pt-PT`, <br /> Romanian: `ro`, <br /> Russian: `ru`, <br /> Slovak: `sk`, <br /> Spanish: `es`, `es-419`, <br /> Swedish: `sv`, `sv-SE`, <br /> Thai: `th`, `th-TH`, <br /> Turkish: `tr`, <br /> Ukrainian: `uk`, <br /> Vietnamese: `vi` |
+| `nova-2-meeting`             | English: `en`, `en-US`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| `nova-2-phonecall`           | English: `en`, `en-US`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| `nova-2-finance`             | English: `en`, `en-US`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| `nova-2-conversationalai`    | English: `en`, `en-US`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| `nova-2-voicemail`           | English: `en`, `en-US`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| `nova-2-video`               | English: `en`, `en-US`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| `nova-2-medical`             | English: `en`, `en-US`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| `nova-2-drivethru`           | English: `en`, `en-US`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| `nova-2-automotive`          | English: `en`, `en-US`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| `nova-2-atc`                 | English: `en`, `en-US`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| `nova-2-<CUSTOM>`            | All available                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+
+## Legacy Models
+
+### Nova
+
+Nova 1 is the predecessor to Nova-2.
+
+| Model Option             | Language                                                                                           |
+| ------------------------ | -------------------------------------------------------------------------------------------------- |
+| `nova` or `nova-general` | English: `en`, `en-US`, `en-AU`, `en-GB`, `en-NZ`, `en-IN` Spanish: `es`, `es-419` Hindi:`hi-Latn` |
+| `nova-phonecall`         | English: `en`, `en-US`                                                                             |
+| `nova-medical`           | English: `en`, `en-US`                                                                             |
+| `nova-<CUSTOM>`          | All available                                                                                      |
+
+### Enhanced
+
+Recommended for lower word error rates than Base, high accuracy timestamps, and use cases that require [keyword boosting](/docs/keywords).
+
+| Model Option                     | Language                                                                                                                                                                                                                                                                                    |
+| -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `enhanced` or `enhanced-general` | Danish: `da` Dutch: `nl` English: `en`, `en-US` Flemish: `nl` French: `fr` German: `de` Hindi: `hi` Italian: `it` Japanese: `ja` Korean: `ko` Norwegian: `no` Polish: `pl` Portuguese: `pt`, `pt-BR`, `pt-PT` Spanish: `es`, `es-419`, `es-LATAM` Swedish: `sv` Tamasheq: `taq` Tamil: `ta` |
+| `enhanced-meeting`               | English: `en`, `en-US`                                                                                                                                                                                                                                                                      |
+| `enhanced-phonecall`             | English: `en`, `en-US`                                                                                                                                                                                                                                                                      |
+| `enhanced-finance`               | English: `en`, `en-US`                                                                                                                                                                                                                                                                      |
+| `enhanced-<CUSTOM>`              | All available                                                                                                                                                                                                                                                                               |
+
+### Base
+
+Recommended for large transcription volumes and high accuracy timestamps.
+
+| Model                    | Language                                                                                                                                                                                                                                                                                                                                                                                         |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `base` or `base-general` | Chinese: `zh`, `zh-CN`, `zh-TW` Danish: `da` Dutch: `nl` English: `en`, `en-US` Flemish: `nl` French: `fr`, `fr-CA` German: `de` Hindi: `hi`, `hi-Latn` Indonesian: `id` Italian: `it` Japanese: `ja` Korean: `ko` Norwegian: `no` Polish: `pl` Portuguese: `pt`, `pt-BR`, `pt-PT` Russian: `ru` Spanish: `es`, `es-419`, `es-LATAM` Swedish: `sv` Tamasheq: `taq` Turkish: `tr` Ukrainian: `uk` |
+| `base-meeting`           | English: `en`, `en-US`                                                                                                                                                                                                                                                                                                                                                                           |
+| `base-phonecall`         | English: `en`, `en-US`                                                                                                                                                                                                                                                                                                                                                                           |
+| `base-finance`           | English: `en`, `en-US`                                                                                                                                                                                                                                                                                                                                                                           |
+| `base-conversationalai`  | English: `en`, `en-US`                                                                                                                                                                                                                                                                                                                                                                           |
+| `base-voicemail`         | English: `en`, `en-US`                                                                                                                                                                                                                                                                                                                                                                           |
+| `base-video`             | English: `en`, `en-US`                                                                                                                                                                                                                                                                                                                                                                           |
+| `base-<CUSTOM>`          | All available                                                                                                                                                                                                                                                                                                                                                                                    |
+
+## Deepgram Whisper Cloud
+
+Whisper models are less scalable than all other Deepgram models due to their inherent model architecture. All non-Whisper models will return results faster and scale to higher load.
+
+Deepgram Whisper Cloud is a fully managed API that gives you access to Deepgram’s version of OpenAI’s Whisper model. Read our guide [Deepgram Whisper Cloud](/docs/deepgram-whisper-cloud) for a deeper dive into this offering.
+
+* Additional rate limits apply to Whisper due to poor scalability.
+* Requests to Whisper are limited to 15 concurrent requests with a paid plan and 5 concurrent requests with the pay-as-you-go plan.
+* Long audio files are supported up to a maximum of 20 minutes of processing time (the maximum length of the audio depends on the size of the Whisper model).
+
+Deepgram's Whisper Cloud models can be called with the following syntax:
+
+<CodeGroup>
+  ```text Text
+  https://api.deepgram.com/v1/listen?model=whisper
+  ```
+</CodeGroup>
+
+<CodeGroup>
+  ```text Text
+  https://api.deepgram.com/v1/listen?model=whisper-SIZE
+  ```
+</CodeGroup>
+
+| Model                         | Language                                                          |
+| ----------------------------- | ----------------------------------------------------------------- |
+| `whisper-tiny`                | [See available](/docs/deepgram-whisper-cloud#supported-languages) |
+| `whisper-base`                | [See available](/docs/deepgram-whisper-cloud#supported-languages) |
+| `whisper-small`               | [See available](/docs/deepgram-whisper-cloud#supported-languages) |
+| `whisper-medium` OR `whisper` | [See available](/docs/deepgram-whisper-cloud#supported-languages) |
+| `whisper-large`               | [See available](/docs/deepgram-whisper-cloud#supported-languages) |
+
+***

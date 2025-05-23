@@ -1,0 +1,74 @@
+---
+title: Determining Your Audio Format for Live Streaming Audio
+subtitle: >-
+  Learn how to determine if your audio is containerized or raw, and what this
+  means for correctly formatting your requests to Deepgram's API.
+---
+
+
+Before you start streaming audio to Deepgram, it’s important that you understand whether your audio is containerized or raw, so you can correctly form your API request.
+
+The difference between containerized and raw audio relates to how much information about the audio is included within the data:
+
+* **Containerized audio stream:** A series of bits is passed along with a header that specifies information about the audio. Containerized audio generally includes enough additional information to allow Deepgram to decode it automatically.
+* **Raw audio stream:** The series of bits is passed with no further information. Deepgram needs you to manually provide information about the characteristics of raw audio.
+
+## Streaming Raw Audio
+
+If you’re streaming raw audio to Deepgram, you must provide the [encoding](/docs/encoding/) and [sample rate](/docs/sample-rate/) of your audio stream in your request. Otherwise, Deepgram will be unable to decode the audio and will fail to return a transcript.
+
+An example of a Deepgram API request to stream raw audio:
+
+```
+wss://api.deepgram.com/v1/listen?encoding=ENCODING_VALUE&sample_rate=SAMPLE_RATE_VALUE
+```
+
+<Info>
+  To see a list of raw audio encodings that Deepgram supports, [check out our Encoding documentation](/docs/encoding/).
+</Info>
+
+## Streaming Containerized Audio
+
+If you’re streaming containerized audio to Deepgram, you should not set the encoding and sample rate of your audio stream. Instead, Deepgram will read the container’s header and get the correct information for your stream automatically.
+
+An example of a Deepgram API request to stream containerized audio:
+
+```
+wss://api.deepgram.com/v1/listen
+```
+
+<Info>
+  Deepgram supports over 100 different audio formats and encodings. You can see some of the most popular ones at [Supported Audio Format](/docs/supported-audio-formats).
+</Info>
+
+## Determining Your Audio Format
+
+If you’re not sure whether your audio is raw or containerized, you can identify audio format in a few different ways.
+
+### Check Documentation
+
+Start by checking any available documentation for your audio source. Often, it will provide details related to audio format. Specifically, check for any mentions of encodings like Opus, Vorbis, PCM, mu-law, A-law, s16, or linear16.
+
+If your audio source is a web API stream, in many cases it will already be containerized. For example, the audio may be raw Opus audio wrapped in an Ogg container or raw PCM audio wrapped in a WAV container.
+
+### Automatically Detect Audio Format
+
+If you’re still not sure whether or not your audio is containerized, you can write an audio stream to disk and try listening to it with a program like VLC. If your audio is containerized, VLC will be able to play it back without any additional configuration.
+
+Alternatively, you can use `ffprobe` (part of the ffmpeg package, which is a cross-platform solution that records, converts, and streams audio and video) to gather information from the audio stream and detect the audio format of a file.
+
+To use `ffprobe`, from a terminal, run:
+
+<CodeGroup>
+  ```shell Shell
+  ffprobe PATH_TO_FILE
+  ```
+</CodeGroup>
+
+The last line of the output from this command will include any data `ffprobe` is able to determine about the file’s audio format.
+
+## Using Raw Audio with Encoding & Sample Rate
+
+When using raw audio, make sure to set the [encoding](/docs/encoding/) and the [sample rate](/docs/sample-rate/). Both parameters are required for Deepgram to be able to decode your stream.
+
+***

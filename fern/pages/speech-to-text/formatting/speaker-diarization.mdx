@@ -1,0 +1,140 @@
+---
+title: Speaker Diarization
+subtitle: >-
+  Diarize recognizes speaker changes and assigns a speaker to each word in the
+  transcript.
+---
+
+<Card 
+    href="https://playground.deepgram.com/?endpoint=listen&diarize=true&language=en&model=nova-3"
+>
+  <Markdown src="/snippets/playground-card.mdx" />
+</Card>
+<br/>
+
+`diarize` *boolean* Default: `false`
+
+<div class="flex flex-row gap-2">
+  <Markdown src="/snippets/stt-batch-available.mdx" /> <Markdown src="/snippets/stt-stream-available.mdx" /> <Markdown src="/snippets/all-available-languages.mdx" /> 
+</div>
+
+## Enable Feature
+
+To enable Diarization, use the following parameter in the query string when you call Deepgram’s `/listen` endpoint :
+
+`diarize=true`
+
+To transcribe audio from a file on your computer, run the following cURL command in a terminal or your favorite API client.
+
+<CodeGroup>
+  ```bash cURL
+  curl \
+    --request POST \
+    --header 'Authorization: Token YOUR_DEEPGRAM_API_KEY' \
+    --header 'Content-Type: audio/wav' \
+    --data-binary @youraudio.wav \
+    --url 'https://api.deepgram.com/v1/listen?diarize=true'
+  ```
+</CodeGroup>
+
+<Warning>
+  Replace `YOUR_DEEPGRAM_API_KEY` with your [Deepgram API Key](https://console.deepgram.com/signup?jump=keys).
+</Warning>
+
+## Analyze Response
+
+<Info>
+  For this example, we use an MP3 audio file that contains the beginning of a customer call with Premier Phone Services. If you would like to follow along, you can [download it](https://res.cloudinary.com/deepgram/video/upload/v1680127025/dg-audio/nasa-spacewalk-interview_ljjahn.wav).
+</Info>
+
+When the file is finished processing, you’ll receive a JSON response. Let's look more closely at the `words` object within the `alternatives` object within this response.
+
+### Pre-Recorded
+
+When using diarization for pre-recorded audio, both `speaker` and `speaker_confidence` values will be returned:
+
+<CodeGroup>
+  ```json JSON
+  ...
+  "alternatives":[
+    {
+      ...
+      "words": [
+        {
+          "word":"hello",
+          "start":15.259043,
+          "end":15.338787,
+          "confidence":0.9721591,
+          "speaker":0,
+          "speaker_confidence":0.5853265
+        },
+      ...
+      ]
+    }
+  ]
+  ```
+</CodeGroup>
+
+### Live Streaming
+
+When using diarization for live streaming audio, only the `speaker` value will be returned:
+
+<CodeGroup>
+  ```json JSON
+  ...
+  "alternatives":[
+    {
+      ...
+      "words": [
+        {
+          "word":"hello",
+          "start":15.259043,
+          "end":15.338787,
+          "confidence":0.9721591,
+          "speaker":0
+        },
+      ...
+      ]
+    }
+  ]
+  ```
+</CodeGroup>
+
+## Format Response
+
+To improve readability, you can use a JSON processor to parse the JSON. In this example, we use [JQ](https://stedolan.github.io/jq/) and further improve readability by turning on Deepgram’s [punctuation](/docs/punctuation/) and [utterances](/docs/utterances/) features:
+
+<CodeGroup>
+  ```bash cURL
+  curl \
+    --request POST \
+    --url 'https://api.deepgram.com/v1/listen?diarize=true&punctuate=true&utterances=true' \
+    --header 'Authorization: Token YOUR_DEEPGRAM_API_KEY' \
+    --header 'content-type: audio/mp3' \
+    --data-binary @Premier_broken-phone_numbers.mp3 | jq -r ".results.utterances[] | \"[Speaker:\(.speaker)] \(.transcript)\""
+  ```
+</CodeGroup>
+
+<Warning>
+  Replace `YOUR_DEEPGRAM_API_KEY` with your [Deepgram API Key](https://console.deepgram.com/signup?jump=keys).
+</Warning>
+
+When the file is finished processing, you’ll receive the following response:
+
+```
+[Speaker:0] Hello, and thank you for calling premier phone service. Please be aware that this call may be recorded for quality and training purposes.
+[Speaker:0] My name is Beth, and I will be assisting you today. How are you doing?
+[Speaker:1] Not too bad. How are you today?
+[Speaker:0] I'm doing well. Thank you. May I please have your name?
+[Speaker:1] My name is Blake...
+```
+
+<Info>
+  To learn more about when to use Deepgram's Diarization or Multichannel feature, see [When to Use the Multichannel and Diarization Features](/docs/multichannel-vs-diarization).
+</Info>
+
+***
+
+What’s Next
+
+* [Understanding When to Use the Multichannel and Diarization Features](/docs/multichannel-vs-diarization)
