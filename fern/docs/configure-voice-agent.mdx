@@ -59,7 +59,7 @@ The `Settings` message is a JSON object that contains the following fields:
 | `agent.speak.provider.language` | String | Optional language setting for Cartesia provider |
 | `agent.speak.provider.language_code` | String | Optional language code for Eleven Labs provider |
 | `agent.speak.provider.engine` | String | Optional engine for AWS Polly provider |
-| `agent.speak.provider.credentials` | Object | Optional credentials for AWS Polly provider |
+| `agent.speak.provider.credentials` | Object | Optional credentials for AWS Polly provider. When present, must include  `type`,`region`, `access_key_id`, `secret_access_key` and `session_token` if STS is used |
 | `agent.speak.endpoint` | Object | Optional if TTS provider is Deepgram. Required for non-Deepgram TTS providers. When present, must include `url` field and `headers` object |
 | `agent.greeting` | String | Optional initial message that the agent will speak when the conversation starts |
 
