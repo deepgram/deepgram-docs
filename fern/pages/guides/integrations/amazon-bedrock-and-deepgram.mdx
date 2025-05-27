@@ -1,0 +1,362 @@
+---
+title: Amazon Bedrock and Deepgram
+subtitle: >-
+  Integrate Deepgram’s Voice Agent API with Amazon Bedrock to build interactive
+  voice agents powered by foundation models hosted on AWS.
+slug: docs/amazon-bedrock-deepgram
+---
+
+In this guide, we'll explain how to set up the integration in your AWS environment and build a basic voice agent with Amazon Bedrock.
+
+<Info>
+  Before you can use Deepgram, you'll need to [create a Deepgram account](https://console.deepgram.com/signup?jump=keys). Signup is free and includes **$200** in free credit and access to all of Deepgram's features!
+</Info>
+
+
+
+## Before you Begin
+
+<Info>
+  Before you start, you'll need to follow the steps in the [Make Your First API Request](/docs/make-your-first-api-request) guide to obtain a Deepgram API key, and configure your environment if you are choosing to use a Deepgram SDK.
+</Info>
+
+
+**Next Step**: Convert the provided instructions into a well-structured Markdown guide, using clear sections, code blocks, and best practices for readability and developer usability.
+
+---
+
+# Bedrock + Deepgram Voice Agent Client Guide
+
+## Overview
+
+This sample demonstrates how to:
+
+- Capture microphone audio in the browser
+- Stream audio to Deepgram’s Voice Agent API
+- Use Amazon Bedrock function-calling to interpret user intents
+- Play back generated audio responses
+- Hook into WebSocket events (`welcome`, `transcript`, `audioResponse`, `error`)
+
+By the end, you’ll have a drop-in HTML/JS client that you can adapt for your own Bedrock + Deepgram applications.
+
+---
+
+## Prerequisites
+
+- **Node.js** ≥ 14.x
+- **A Deepgram API key** (`DEEPGRAM_API_KEY`)
+- **A Bedrock function-calling proxy endpoint** (`BEDROCK_PROXY_URL`)
+- **Basic familiarity with serving static files** (e.g., `http-server`)
+
+---
+
+## Getting Started
+
+### 1. Clone the Repo
+
+```sh
+git clone https://github.com/DamienDeepgram/amazon-bedrock-deepgram-voice-agent-client.git
+cd amazon-bedrock-deepgram-voice-agent-client
+```
+
+### 2. Install Dependencies (for local server)
+
+```sh
+npm install
+```
+
+### 3. Install a Static Server Globally (if needed)
+
+```sh
+npm install -g http-server
+```
+
+---
+
+## HTML Setup
+
+Drop this `index.html` into your static site. It wires up the mic button, transcript area, audio player, and loads all JS modules in the correct order.
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Bedrock + Deepgram Voice Agent Demo</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <div class="container">
+    <button id="mic-btn" class="mic-button">🎤</button>
+    <div id="transcript-container" class="transcript"></div>
+    <audio id="audio-player" controls hidden></audio>
+  </div>
+
+  <!-- Load scripts in order -->
+  <script src="js/config.js"></script>
+  <script src="js/service.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/animation.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
+```
+
+---
+
+## CSS Styles
+
+Copy `css/styles.css` verbatim to style your UI:
+
+```css
+body, html {
+  font-family: sans-serif;
+  margin: 0;
+  padding: 0;
+}
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 50px;
+}
+.mic-button {
+  width: 80px;
+  height: 80px;
+  border: none;
+  border-radius: 50%;
+  font-size: 2rem;
+  cursor: pointer;
+}
+.mic-button.recording {
+  background: red;
+  color: white;
+  animation: pulse 1s infinite;
+}
+.transcript {
+  margin-top: 20px;
+  width: 80%;
+  min-height: 2rem;
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+```
+
+---
+
+## Configuration (`config.js`)
+
+Define your Bedrock function-calling schema and proxy URL:
+
+```js
+// js/config.js
+
+export const API_URL_CONFIG = {
+  bedrockProxy: 'https://your-bedrock-proxy.example.com/function-call'
+};
+
+// Define the Bedrock functions the LLM can call:
+export const settingsOptions = [
+  {
+    name: 'getWeather',
+    description: 'Retrieve current weather for a given city',
+    parameters: {
+      type: 'object',
+      properties: {
+        city: { type: 'string', description: 'Name of the city' }
+      },
+      required: ['city']
+    }
+  },
+  {
+    name: 'calculate',
+    description: 'Perform a calculation',
+    parameters: {
+      type: 'object',
+      properties: {
+        expression: { type: 'string', description: 'Math expression to solve' }
+      },
+      required: ['expression']
+    }
+  }
+  // …add any other functions you want the LLM to call
+];
+```
+
+---
+
+## Service Proxy (`service.js`)
+
+A thin wrapper to forward function calls from the browser to your Bedrock proxy:
+
+```js
+// js/service.js
+
+import { API_URL_CONFIG } from './config.js';
+
+export async function callFunction(functionCall) {
+  try {
+    const resp = await fetch(API_URL_CONFIG.bedrockProxy, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(functionCall)
+    });
+    if (!resp.ok) throw new Error(`Proxy error: ${resp.statusText}`);
+    return await resp.json();
+  } catch (err) {
+    console.error('Function call failed:', err);
+    throw err;
+  }
+}
+```
+
+---
+
+## Audio Helpers (`audio.js`)
+
+Play back binary audio responses from the Voice Agent:
+
+```js
+// js/audio.js
+
+export function playAudioResponse(audioData, audioElement) {
+  const blob = new Blob([audioData], { type: 'audio/mpeg' });
+  const url = URL.createObjectURL(blob);
+  audioElement.src = url;
+  audioElement.hidden = false;
+  audioElement.play();
+}
+```
+
+---
+
+## Mic Animation (`animation.js`)
+
+Visual feedback for recording state:
+
+```js
+// js/animation.js
+
+export function startMicAnimation(btn) {
+  btn.classList.add('recording');
+}
+
+export function stopMicAnimation(btn) {
+  btn.classList.remove('recording');
+}
+```
+
+---
+
+## Main Client (`main.js`)
+
+Wire everything together with Deepgram’s Voice Agent client:
+
+```js
+// js/main.js
+
+import { settingsOptions } from './config.js';
+import { callFunction } from './service.js';
+import { playAudioResponse } from './audio.js';
+import { startMicAnimation, stopMicAnimation } from './animation.js';
+import { VoiceAgentClient, AgentWebSocketEvents } from '@deepgram/voice-agent-client';
+
+const micBtn = document.getElementById('mic-btn');
+const transcriptContainer = document.getElementById('transcript-container');
+const audioPlayer = document.getElementById('audio-player');
+
+const client = new VoiceAgentClient({
+  deepgramApiKey: process.env.DEEPGRAM_API_KEY,  // set via your build/server
+  functionCalling: {
+    functions: settingsOptions,
+    callFunction: callFunction
+  }
+});
+
+client.on(AgentWebSocketEvents.welcome, () => {
+  transcriptContainer.textContent = 'Say something…';
+});
+
+client.on(AgentWebSocketEvents.transcript, (data) => {
+  transcriptContainer.textContent = data.transcript;
+});
+
+client.on(AgentWebSocketEvents.audioResponse, (audioData) => {
+  playAudioResponse(audioData, audioPlayer);
+});
+
+client.on(AgentWebSocketEvents.error, (err) => {
+  transcriptContainer.textContent = `Error: ${err.message}`;
+  console.error(err);
+});
+
+micBtn.addEventListener('click', () => {
+  if (!client.isRecording) {
+    startMicAnimation(micBtn);
+    client.startStreaming();
+  } else {
+    stopMicAnimation(micBtn);
+    client.stopStreaming();
+  }
+});
+```
+
+---
+
+## Running Locally
+
+1. Ensure your environment variables are set (e.g., via `.env` file):
+
+   ```sh
+   export DEEPGRAM_API_KEY=YOUR_KEY
+   export BEDROCK_PROXY_URL=https://your-bedrock-proxy.example.com/function-call
+   ```
+
+2. Start a static server at the project root:
+
+   ```sh
+   http-server . -p 8080
+   ```
+
+3. Open [http://localhost:8080/index.html](http://localhost:8080/index.html) in your browser.
+
+---
+
+## Deployment
+
+For production, bundle these files as static assets:
+
+- **Option 1**: Upload `index.html`, `css/`, and `js/` to an S3 bucket and serve via CloudFront.
+- **Option 2**: Include in any web server’s static directory (Nginx, Apache).
+
+> **Note:** Make sure your Bedrock proxy URL is reachable from the client (enable CORS if needed).
+
+---
+
+## Troubleshooting
+
+| Symptom                        | Cause                                 | Fix                                                        |
+|---------------------------------|---------------------------------------|------------------------------------------------------------|
+| Blank page / missing scripts    | Wrong `<script>` order or paths       | Verify scripts load in order: `config.js` → `service.js`…  |
+| “Proxy error” in console        | Bedrock proxy URL misconfigured/down  | Check `API_URL_CONFIG.bedrockProxy` and server logs        |
+| No audio plays                  | `audioResponse` event not firing      | Confirm Deepgram voice agent returns binary audio data      |
+| Mic button doesn’t animate      | CSS classes not loaded or JS error    | Ensure `styles.css` and `animation.js` are properly linked |
+
+
+## Reference
+
+- [Voice Agent Client API](https://developers.deepgram.com/docs/voice-agent-client)
+- [Amazon Bedrock Function Calling](https://docs.aws.amazon.com/bedrock/latest/userguide/function-calling.html)
+
+
+
+***
+
+What’s Next
+
+* [Deepgram API Overview](/reference/deepgram-api-overview)
