@@ -52,6 +52,7 @@ The `Settings` message is a JSON object that contains the following fields:
 | `agent.think.functions` | Array | Array of functions the agent can call during the conversation |
 | `agent.think.functions.endpoint` | Object | The Function endpoint to call. if not passed, function is called client-side |
 | `agent.think.prompt` | String | The system prompt that defines the agent's behavior and personality |
+| `agent.think.context_length` | Integer or String | Specifies the number of characters retained in context between user messages, agent responses, and function calls. This setting is only configurable when a custom think endpoint is used. Use `Max` for maximum context length. |
 | `agent.speak.provider.type` | Object | The [TTS Model](/docs/voice-agent-tts-models) provider type. e.g., `deepgram`, `eleven_labs`, `cartesia`, `open_ai` |
 | `agent.speak.provider.model` | String | The [TTS Model](/docs/voice-agent-tts-models)  to use for Deepgram or OpenAI |
 | `agent.speak.provider.model_id` | String| The [TTS Model](/docs/voice-agent-tts-models) ID to use for Eleven Labs or Cartesia |
@@ -107,6 +108,7 @@ Below is an in-depth example showing all the available fields for `Settings` wit
           }
         },
         "prompt": "You are a helpful AI assistant focused on customer service.",
+        "context_length": 1000,  // Optional and can only when a custom think endpoint is used. Use max for maximum context length
         "functions": [
           {
             "name": "check_order_status",
