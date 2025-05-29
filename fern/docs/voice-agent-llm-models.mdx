@@ -6,7 +6,13 @@ subtitle: >-
 slug: docs/voice-agent-llm-models
 ---
 
-Defines the LLM (*Large Language Model*) to be used with your Agent.
+Defines the LLM (*Large Language Model*) to be used with your Agent. The `provider.type` field specifies the format or protocol of the API.
+
+For example:
+
+- `open_ai` means the API follows OpenAI’s Chat Completions format.
+- This option can be used with OpenAI, Azure OpenAI, or Amazon Bedrock — as long as the endpoint behaves like OpenAI’s Chat Completion API.
+
 
 <Info>
   You can set your Voice Agent's LLM model in the [Settings Message](/docs/configure-voice-agent) See the docs for more information.
@@ -15,14 +21,15 @@ Defines the LLM (*Large Language Model*) to be used with your Agent.
 ## Supported LLM providers
 
 <Info>
-   Provider endpoint and headers are optional if the LLM provider is Deepgram but are required for non-Deepgram LLM providers.
+   If you don't specify `agent.think.provider.type` the Voice Agent will use Deepgram's LLM by default.
 </Info>
+
 
 | `agent.think.provider.type` | `agent.think.endpoint` | `agent.think.endpoint.headers` |
 |-------------------|--------------------------|-----------------------------|
-| `open_ai` | optional | optional |
-| `anthropic` | optional | optional |
-| `x_ai` | optional | optional |
+| `open_ai` | required | required |
+| `anthropic` | required | required |
+| `x_ai` | required | required |
 
 ## Example Payload
 
@@ -69,8 +76,3 @@ You can use a custom LLM hosted by a 3rd party Cloud Provider by setting the `pr
   }
   ```
 </CodeGroup>
-
-### Azure OpenAI Service
-
-* Checkout the docs on[ how to create and deploy an Azure OpenAI](https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/create-resource?pivots=web-portal) service resource.
-* See this [code repository](https://github.com/deepgram-devs/voice-agent-azure-open-ai-services) for a getting started example.
