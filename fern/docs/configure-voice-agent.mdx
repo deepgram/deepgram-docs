@@ -66,11 +66,9 @@ The `Settings` message is a JSON object that contains the following fields:
 
 #### `agent.think.context_length`
 
-* Only configurable when a custom think endpoint is used.
-* Use `Max` for maximum context length. This will set the context length to the maximum allowed based on the LLM provider you use.
+* Using `Max` will set the context length to the maximum allowed based on the LLM provider you use. If the total context exceeds the model's maximum, truncation is handled by the LLM provider.
 * Increasing the context length may help preserve multi-turn conversation history, especially when verbose function calls inflate the total context.
 * All characters sent to the LLM count toward the context limit, including fully serialized JSON messages, function call arguments, and responses. System messages are excluded and managed separately via `agent.think.prompt`.
-* The Voice Agent API does not enforce the LLM's context window. If the total context exceeds the model's maximum, truncation is handled by the LLM provider.
 * The default context length set by Deepgram is optimized for cost and latency. It is not recommended to change this setting unless there's a clear need.
 
 
