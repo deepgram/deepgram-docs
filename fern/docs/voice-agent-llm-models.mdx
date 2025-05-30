@@ -6,7 +6,13 @@ subtitle: >-
 slug: docs/voice-agent-llm-models
 ---
 
-Defines the LLM (*Large Language Model*) to be used with your Agent.
+Defines the LLM (*Large Language Model*) to be used with your Agent. The `provider.type` field specifies the format or protocol of the API.
+
+For example:
+
+- `open_ai` means the API follows OpenAI’s Chat Completions format.
+- This option can be used with OpenAI, Azure OpenAI, or Amazon Bedrock — as long as the endpoint behaves like OpenAI’s Chat Completion API.
+
 
 <Info>
   You can set your Voice Agent's LLM model in the [Settings Message](/docs/configure-voice-agent) See the docs for more information.
@@ -15,14 +21,22 @@ Defines the LLM (*Large Language Model*) to be used with your Agent.
 ## Supported LLM providers
 
 <Info>
-   Provider endpoint and headers are optional if the LLM provider is Deepgram but are required for non-Deepgram LLM providers.
+   If you don't specify `agent.think.provider.type` the Voice Agent will use Deepgram's default LLM.
 </Info>
 
-| `agent.think.provider.type` | `agent.think.endpoint` | `agent.think.endpoint.headers` |
-|-------------------|--------------------------|-----------------------------|
-| `open_ai` | optional | optional |
-| `anthropic` | optional | optional |
-| `x_ai` | optional | optional |
+
+| Parameter                      | `open_ai` | `anthropic` | `x_ai`   |
+| ------------------------------ | --------- | ----------- | -------- |
+| `agent.think.provider.type`    | `open_ai` | `anthropic` | `x_ai`   |
+| `agent.think.endpoint`         | optional  | optional    | required |
+
+
+The `agent.think.endpoint` is optional or required based on the provider type:
+
+* For `open_ai` and `anthropic`, the `endpoint` field is optional because Deepgram provides managed LLMs for these providers.
+* For all other provider types, `endpoint` is required because Deepgram does not manage those LLMs.
+* If an `endpoint` is provided the `url` is required but `headers` are optional.
+
 
 ## Example Payload
 
@@ -35,9 +49,9 @@ Defines the LLM (*Large Language Model*) to be used with your Agent.
           "model": "gpt-4",
           "temperature": 0.7
         },
-        "endpoint": { // Optional if LLM provider is Deepgram. Required for non-Deepgram LLM providers
-          "url": "https://api.example.com/llm",
-          "headers": {
+        "endpoint": { // Optional if LLM provider is open_ai or anthropic. Required for non-Deepgram LLM providers like x_ai
+          "url": "https://api.example.com/llm", // Required if endpoint is provided
+          "headers": { // Optional if an endpoint is provided
             "authorization": "Bearer {{token}}"
           }
         },
@@ -59,9 +73,9 @@ You can use a custom LLM hosted by a 3rd party Cloud Provider by setting the `pr
           "model": "gpt-4",
           "temperature": 0.7
         },
-        "endpoint": { // Optional if LLM provider is Deepgram. Required for non-Deepgram LLM providers
-          "url": "https://cloud.provider.com/llm",
-          "headers": {
+        "endpoint": { // Required for a custom LLM
+          "url": "https://cloud.provider.com/llm", // Required for a custom LLM
+          "headers": { // Optional for a custom LLM
             "authorization": "Bearer {{token}}"
           }
         },
@@ -69,8 +83,3 @@ You can use a custom LLM hosted by a 3rd party Cloud Provider by setting the `pr
   }
   ```
 </CodeGroup>
-
-### Azure OpenAI Service
-
-* Checkout the docs on[ how to create and deploy an Azure OpenAI](https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/create-resource?pivots=web-portal) service resource.
-* See this [code repository](https://github.com/deepgram-devs/voice-agent-azure-open-ai-services) for a getting started example.
