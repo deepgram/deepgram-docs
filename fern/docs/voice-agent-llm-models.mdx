@@ -35,7 +35,7 @@ The `agent.think.endpoint` is optional or required based on the provider type:
 
 * For `open_ai` and `anthropic`, the `endpoint` field is optional because Deepgram provides managed LLMs for these providers.
 * For all other provider types, `endpoint` is required because Deepgram does not manage those LLMs.
-* If an `endpoint` is provided the `url` and `headers` are required.
+* If an `endpoint` is provided the `url` is required but `headers` are optional.
 
 
 ## Example Payload
@@ -49,9 +49,9 @@ The `agent.think.endpoint` is optional or required based on the provider type:
           "model": "gpt-4",
           "temperature": 0.7
         },
-        "endpoint": { // Optional if LLM provider is open_ai or anthropic. Required for non-Deepgram LLM providers like x_ai.
-          "url": "https://api.example.com/llm",
-          "headers": {
+        "endpoint": { // Optional if LLM provider is open_ai or anthropic. Required for non-Deepgram LLM providers like x_ai
+          "url": "https://api.example.com/llm", // Required if endpoint is provided
+          "headers": { // Optional if an endpoint is provided
             "authorization": "Bearer {{token}}"
           }
         },
@@ -73,9 +73,9 @@ You can use a custom LLM hosted by a 3rd party Cloud Provider by setting the `pr
           "model": "gpt-4",
           "temperature": 0.7
         },
-        "endpoint": { // Required for custom LLM
-          "url": "https://cloud.provider.com/llm", // Required for custom LLM
-          "headers": { // Required for custom LLM
+        "endpoint": { // Required for a custom LLM
+          "url": "https://cloud.provider.com/llm", // Required for a custom LLM
+          "headers": { // Optional for a custom LLM
             "authorization": "Bearer {{token}}"
           }
         },
