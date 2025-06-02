@@ -20,8 +20,34 @@ For example:
 
 ## Supported LLM providers
 
+You can query the following endpoint to check the supported models for each provider:
+
+```cURL
+curl https://agent.deepgram.com/v1/agent/settings/think/models
+```
+
+### Example Payload
+
+```json
+{
+  "models": [
+    {
+      "id": "gpt-4o-mini",
+      "name": "GPT-4o mini",
+      "provider": "open_ai"
+    },
+    {
+      "id": "claude-3-haiku-20240307",
+      "name": "Claude 3 Haiku",
+      "provider": "anthropic"
+    }
+  ]
+}
+
+```
+
 <Info>
-   If you don't specify `agent.think.provider.type` the Voice Agent will use Deepgram's default LLM.
+   If you don't specify `agent.think.provider.type` the Voice Agent will use Deepgram's default managed LLMs. For managed LLMs, supported model names are predefined in our configuration.
 </Info>
 
 
@@ -37,6 +63,23 @@ The `agent.think.endpoint` is optional or required based on the provider type:
 * For all other provider types, `endpoint` is required because Deepgram does not manage those LLMs.
 * If an `endpoint` is provided the `url` is required but `headers` are optional.
 
+## Supported LLM models
+
+### OpenAI
+
+| Provider                      | Model      | Availability |
+| ------------------------------ | --------- |--------|
+| `open_ai`    | `gpt-4o-mini` | `GA` |
+| `open_ai`    | `gpt-3-5-turbo` | `Coming Soon!` |
+| `open_ai`    | `gpt-4o` | `Coming Soon!` |
+| `open_ai`    | `gpt-4o-search-preview` | `Coming Soon!` |
+
+### Anthropic
+
+| Provider                      | Model      | Availability |
+| ------------------------------ | --------- |--------|
+| `anthropic`    | `claude-3-haiku-20240307` | `GA` |
+
 
 ## Example Payload
 
@@ -46,7 +89,7 @@ The `agent.think.endpoint` is optional or required based on the provider type:
    "think": {
         "provider": {
           "type": "open_ai",
-          "model": "gpt-4",
+          "model": "gpt-4o-mini",
           "temperature": 0.7
         },
         "endpoint": { // Optional if LLM provider is open_ai or anthropic. Required for non-Deepgram LLM providers like x_ai
@@ -59,7 +102,11 @@ The `agent.think.endpoint` is optional or required based on the provider type:
   ```
 </CodeGroup>
 
-## Passing a custom LLM through a Cloud Provider
+## Passing a custom (BYO) LLM through a Cloud Provider
+
+<Info>
+  For Bring Your Own (BYO) LLMs, any model string provided is accepted without restriction.
+</Info>
 
 You can use a custom LLM hosted by a 3rd party Cloud Provider by setting the `provider.type` to one of the supported provider values and setting the `endpoint.url` and `endpoint.headers` fields to the correct values for your Cloud Provider.
 
