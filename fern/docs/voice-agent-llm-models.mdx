@@ -21,7 +21,7 @@ For example:
 ## Supported LLM providers
 
 <Info>
-   If you don't specify `agent.think.provider.type` the Voice Agent will use Deepgram's default LLM.
+   If you don't specify `agent.think.provider.type` the Voice Agent will use Deepgram's default managed LLMs. For managed LLMs, supported model names are predefined in our configuration.
 </Info>
 
 
@@ -76,7 +76,11 @@ The `agent.think.endpoint` is optional or required based on the provider type:
   ```
 </CodeGroup>
 
-## Passing a custom LLM through a Cloud Provider
+## Passing a custom (BYO) LLM through a Cloud Provider
+
+<Info>
+  For Bring Your Own (BYO) LLMs, any model string provided is accepted without restriction.
+</Info>
 
 You can use a custom LLM hosted by a 3rd party Cloud Provider by setting the `provider.type` to one of the supported provider values and setting the `endpoint.url` and `endpoint.headers` fields to the correct values for your Cloud Provider.
 
