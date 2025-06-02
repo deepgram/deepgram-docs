@@ -20,6 +20,32 @@ For example:
 
 ## Supported LLM providers
 
+You can query the following endpoint to check the supported models for each provider:
+
+```cURL
+curl https://agent.deepgram.com/v1/agent/settings/think/models
+```
+
+### Example Payload
+
+```json
+{
+  "models": [
+    {
+      "id": "gpt-4o-mini",
+      "name": "GPT-4o mini",
+      "provider": "open_ai"
+    },
+    {
+      "id": "claude-3-haiku-20240307",
+      "name": "Claude 3 Haiku",
+      "provider": "anthropic"
+    }
+  ]
+}
+
+```
+
 <Info>
    If you don't specify `agent.think.provider.type` the Voice Agent will use Deepgram's default managed LLMs. For managed LLMs, supported model names are predefined in our configuration.
 </Info>
@@ -41,18 +67,18 @@ The `agent.think.endpoint` is optional or required based on the provider type:
 
 ### OpenAI
 
-| Provider                      | Model      |
-| ------------------------------ | --------- |
-| `open_ai`    | `gpt-4o-mini` |
-| `open_ai`    | `gpt-3-5-turbo` |
-| `open_ai`    | `gpt-4o` |
-| `open_ai`    | `gpt-4o-search-preview` |
+| Provider                      | Model      | Availability |
+| ------------------------------ | --------- |--------|
+| `open_ai`    | `gpt-4o-mini` | `GA` |
+| `open_ai`    | `gpt-3-5-turbo` | `Coming Soon!` |
+| `open_ai`    | `gpt-4o` | `Coming Soon!` |
+| `open_ai`    | `gpt-4o-search-preview` | `Coming Soon!` |
 
 ### Anthropic
 
-| Provider                      | Model      |
-| ------------------------------ | --------- |
-| `anthropic`    | `claude-3-haiku-20240307` |
+| Provider                      | Model      | Availability |
+| ------------------------------ | --------- |--------|
+| `anthropic`    | `claude-3-haiku-20240307` | `GA` |
 
 
 ## Example Payload
