@@ -484,6 +484,8 @@ navigation:
             path: docs/voice-agent-audio-playback.mdx
           - page: Voice Agent Adaptive Echo Cancellation
             path: docs/voice-agent-echo-cancellation.mdx
+          - page: LLM Prompt Best Practices
+            path: docs/voice-agent-llm-prompt-best-practices.mdx
   - tab: speech-to-text
     layout:
       - section: Pre-Recorded Audio
