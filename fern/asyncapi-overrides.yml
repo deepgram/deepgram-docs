@@ -5,6 +5,8 @@ channels:
     parameters:
       encoding:
         x-fern-optional: true
+      mip_opt_out:
+        x-fern-optional: true
       model:
         x-fern-optional: true
       sample_rate:
@@ -61,6 +63,8 @@ channels:
       keywords:
         x-fern-optional: true
       language:
+        x-fern-optional: true
+      mip_opt_out:
         x-fern-optional: true
       model:
         x-fern-optional: true
