@@ -10,7 +10,7 @@ In the rapidly advancing field of AI, model improvement partnerships are crucial
 
 At Deepgram, we take our customers' data privacy concerns seriously, which is why we have implemented robust data security policies and flexible data retention options that allow our customers to strike the right balance for their individual needs.
 
-# How do we improve our models?
+## How do we improve our models?
 
 Deepgram utilizes end-to-end deep learning to develop all of our voice AI models. These models are built through an iterative process that learns the inherent relationships in the conversational audio data used for training. This involves hundreds of thousands of hours of conversational data broadly spanning a given language's vocabulary, as well as inclusion of a wide variety of speaker groups across a large number of dimensions including age, sex, accents, background noise, acoustic environments, etc.
 
@@ -20,13 +20,13 @@ For speech-to-text, this results in more accurate models that work better for yo
 
 After training, a deep learning model for voice AI is essentially a giant mathematical equation that approximates all of the inherent relationships and underlying concepts that comprise human speech (e.g. "'I' before 'E' except after 'C' or when sounded as 'A' as in 'neighbor' or 'weigh'"). And the magic of deep learning is that it does this by learning these concepts implicitly from the training data itself instead of being explicitly programmed by humans to do so. Importantly, the model has no rote memory or storage for any of the data used to train it, meaning there is no risk of any data leakage when the model is used in production.
 
-# How do we handle your data and ensure security and privacy?
+## How do we handle your data and ensure security and privacy?
 
 Deepgram stores fractional increments of data for the continued improvement of our voice AI models and to provide enhanced customer support when needed. The only data we will store and use in future model training is the data that is contractually included through participation in the Deepgram Model Improvement Partnership Program. We will never redistribute data to 3rd parties without our customers' permission. Your data will never be used to market our services or to create advertising profiles.
 
 Deepgram's infrastructure, policies, and procedures are designed to meet industry-standard compliance and regulatory frameworks, including SOC-2 Type 2, HIPAA, PCI DSS, GDPR, CCPA, and all applicable local government and legal requirements. MFA, RBAC, and VPNs are used to regulate and secure all employee access to data systems. All data is encrypted in-flight and at-rest with industry-standard encryption, including TLS 1.3 and AES-256.
 
-# Why Participate?
+## Why Participate?
 
 Participation in this program is voluntary and includes a number of valuable benefits.
 
@@ -38,21 +38,27 @@ Participation in this program is voluntary and includes a number of valuable ben
 * Reduced model drift. Language is fluid and constantly changing, with new jargon and slang popping up in daily conversation over time. Our model improvement partnership program ensures our models will evolve along with your customers' speech patterns.
 * Support for Responsible AI by mitigating model bias and ensuring sufficient representation of underrepresented speaker groups based on age, sex, accents, etc. in our training data sets.
 
-# Need more help?
+## Need more help?
 
 Have additional questions?[ Get in touch](https://deepgram.com/contact-us).
 
-# Want to opt out?
+## Want to opt out?
 
 Add `mip_opt_out=true` as a query parameter of all API requests that you want to be excluded from the Model Improvement Program. By opting out of the Model Improvement Program, customers on Pay as you Go, Growth, or Enterprise plans will forego their 50% discount on the rates listed in your signed contract or on [deepgram.com/pricing](https://deepgram.com/pricing). Data from opted-out requests is retained only for the duration necessary to process the request.
 
-## Speech-to-Text Examples
+### Speech-to-Text Examples
 
 Here are some examples of opting out for Speech-to-Text requests.
 
 <Info>
   The SDK examples below use a custom add on parameter. To learn more about using custom add on parameters with our SDKs refer to [the Documentation on using custom add on Parameters](/docs/using-custom-parameters-sdks).
 </Info>
+
+#### Pre-recorded Audio
+
+<Warning>
+  Replace `YOUR_DEEPGRAM_API_KEY` with your [Deepgram API Key](/docs/create-additional-api-keys).
+</Warning>
 
 <CodeGroup>
   ```bash cURL
@@ -262,49 +268,141 @@ Here are some examples of opting out for Speech-to-Text requests.
   Replace `YOUR_DEEPGRAM_API_KEY` with your [Deepgram API Key](/docs/create-additional-api-keys).
 </Warning>
 
-## Voice Agent Example
+#### Streaming Audio
+
+<CodeGroup>
+  ```javascript JavaScript
+  // Install the SDK: npm -i @deepgram/sdk
+import { createClient} from "@deepgram/sdk";
+
+const live = async () => {
+  const url = "http://stream.live.vc.bbcmedia.co.uk/bbc_world_service";
+
+  const deepgram = createClient(process.env.DEEPGRAM_API_KEY);
+
+  const connection = deepgram.listen.live({
+    model: "nova-3",
+    mip_opt_out: true,
+  });
+
+  ```
+
+  ```python Python
+  #  Install the SDK: pip install deepgram-sdk
+   @TODO
+  ```
+
+  ```go Go
+  @TODO
+  ```
+
+  ```csharp C#
+  @TODO
+  ```
+</CodeGroup>
+
+### Text-to-Speech Examples
+
+Here are some examples of opting out for Text-to-Speech requests.
+
+<Warning>
+  Replace `YOUR_DEEPGRAM_API_KEY` with your [Deepgram API Key](/docs/create-additional-api-keys).
+</Warning>
+
+### Rest API
+
+<CodeGroup>
+  ```javascript JavaScript
+  @TODO
+  ```
+
+  ```python Python
+  @TODO
+  ```
+
+  ```go Go
+  @TODO
+  ```
+
+  ```csharp C#
+  @TODO
+  ```
+</CodeGroup>
+
+### Streaming API
+
+<CodeGroup>
+  ```javascript JavaScript
+  @TODO
+  ```
+
+  ```python Python
+  @TODO
+  ```
+
+  ```go Go
+  @TODO
+  ```
+
+  ```csharp C#
+  @TODO
+  ```
+</CodeGroup>
+
+### Voice Agent Example
 
 Here is an example of opting out for Voice Agent requests using the `Settings` message.
 
 <CodeGroup>
-  ```bash json
-  {
-    "type": "Settings",
-    "mip_opt_out": true,
-    "audio": {
-      "input": {
-        "encoding": "linear16",
-        "sample_rate": 24000
-      },
-      "output": {
-        "encoding": "linear16",
-        "sample_rate": 24000,
-        "container": "none"
+  ```json JSON
+{
+  "type": "Settings",
+  "mip_opt_out": true,
+  "audio": {
+    "input": {
+      "encoding": "linear16",
+      "sample_rate": 24000
+    },
+    "output": {
+      "encoding": "mp3",
+      "sample_rate": 24000,
+      "bitrate": 48000,
+      "container": "none"
+    }
+  },
+  "agent": {
+    "language": "en",
+    "listen": {
+      "provider": {
+        "type": "deepgram",
+        "model": "nova-3",
+        "keyterms": ["hello", "goodbye"]
       }
     },
-    "agent": {
-      "language": "en",
-      "listen": {
-        "provider": {
-          "type": "deepgram",
-          "model": "nova-3"
-        }
-      },
-      "think": {
-        "provider": {
-          "type": "open_ai",
-          "model": "gpt-4o-mini",
-          "temperature": 0.7
-        }
-      },
-      "speak": {
-        "provider": {
-          "type": "deepgram",
-          "model": "aura-2-thalia-en"
-        }
+    "think": {
+      "provider": {
+        "type": "open_ai",
+        "model": "gpt-4o-mini",
+        "temperature": 0.7
       }
-    }
-  }
+    },
+    "speak": {
+      "provider": {
+        "type": "deepgram",
+        "model": "aura-2-thalia-en"
+      }
+    },
+    "greeting": "Hello! How can I help you today?"
+  },
+}
   ```
-
 </CodeGroup>
+
+## Viewing Opt Out Requests in Logs
+
+Within the [Deepgram Console](https://console.deepgram.com/), you can view the opted out requests in the Usage > Logs tab. In your logs you will see the feature mip_opt_out as `true`.
+
+You can also use the [GET a Project Request](/reference/management-api/usage/get-request) endpoint to view the opted out requests.
+
+
+
