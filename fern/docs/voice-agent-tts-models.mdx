@@ -78,7 +78,7 @@ For OpenAI you can refer to [this article](https://platform.openai.com/docs/guid
 
 ### Eleven Labs
 
-For ElevenLabs you can refer to [this article](https://help.elevenlabs.io/hc/en-us/articles/14599760033937-How-do-I-find-my-voices-ID-of-my-voices-via-the-website-and-through-the-API) on how to find your Voice ID or [use their API](https://elevenlabs.io/docs/api-reference/voices/get-all) to retrieve it. We support any of ElevenLabs' Turbo 2.5 voices to ensure low latency interactions. See their [Websocket Endpoint Docs](https://elevenlabs.io/docs/api-reference/text-to-speech/v-1-text-to-speech-voice-id-stream-input) for more information.
+For ElevenLabs you can refer to [this article](https://help.elevenlabs.io/hc/en-us/articles/14599760033937-How-do-I-find-my-voices-ID-of-my-voices-via-the-website-and-through-the-API) on how to find your Voice ID or [use their API](https://elevenlabs.io/docs/api-reference/voices/search) to retrieve it. We support any of ElevenLabs' Turbo 2.5 voices to ensure low latency interactions. See their [TTS Docs](https://docs.cartesia.ai/2025-04-16/api-reference/tts/bytes) for more information.
 
 
 
@@ -100,11 +100,11 @@ For ElevenLabs you can refer to [this article](https://help.elevenlabs.io/hc/en-
     "speak": {
       "provider": {
         "type": "eleven_labs",
-        "model_id": "eleven_monolingual_v1",
+        "model_id": "eleven_flash_v2_5",
         "language_code": "en-US"
       },
       "endpoint": {
-        "url": "wss://api.elevenlabs.io/v1/text-to-speech/{voice_id}/stream-input",
+        "url": "wss://api.elevenlabs.io/v1/text-to-speech/{voice_id}",
         "headers": {
           "xi-api-key": "{{ELEVEN_LABS_API_KEY}}"
         }
@@ -138,19 +138,19 @@ For Cartesia you can [use their API](https://docs.cartesia.ai/api-reference/voic
 {
   "agent": {
     "speak": {
-      "provider": {
-        "type": "cartesia",
-        "model_id": "cartesia-v1",
-        "voice": {
-          "mode": "premium",
-          "id": "cartesia-voice-1"
-        },
-        "language": "en"
-      },
-      "endpoint": {
-        "url": "wss://api.cartesia.ai/tts/websocket",
-        "headers": {
-          "X-API-key": "{{CARTESIA_API_KEY}}"
+    "provider": {
+      "type": "cartesia",
+      "model_id": "sonic-2",
+      "voice": {
+        "mode": "id",
+        "id": "a167e0f3-df7e-4d52-a9c3-f949145efdab"
+	    },
+      "language": "en"
+    },
+    "endpoint": {
+      "url": "https://api.cartesia.ai/tts/bytes",
+      "headers": {
+        "x-api-key": "{{CARTESIA_API_KEY}}"
         }
       }
     }
