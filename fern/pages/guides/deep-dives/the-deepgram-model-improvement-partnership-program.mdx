@@ -10,7 +10,7 @@ In the rapidly advancing field of AI, model improvement partnerships are crucial
 
 At Deepgram, we take our customers' data privacy concerns seriously, which is why we have implemented robust data security policies and flexible data retention options that allow our customers to strike the right balance for their individual needs.
 
-# How do we improve our models?
+## How do we improve our models?
 
 Deepgram utilizes end-to-end deep learning to develop all of our voice AI models. These models are built through an iterative process that learns the inherent relationships in the conversational audio data used for training. This involves hundreds of thousands of hours of conversational data broadly spanning a given language's vocabulary, as well as inclusion of a wide variety of speaker groups across a large number of dimensions including age, sex, accents, background noise, acoustic environments, etc.
 
@@ -20,13 +20,13 @@ For speech-to-text, this results in more accurate models that work better for yo
 
 After training, a deep learning model for voice AI is essentially a giant mathematical equation that approximates all of the inherent relationships and underlying concepts that comprise human speech (e.g. "'I' before 'E' except after 'C' or when sounded as 'A' as in 'neighbor' or 'weigh'"). And the magic of deep learning is that it does this by learning these concepts implicitly from the training data itself instead of being explicitly programmed by humans to do so. Importantly, the model has no rote memory or storage for any of the data used to train it, meaning there is no risk of any data leakage when the model is used in production.
 
-# How do we handle your data and ensure security and privacy?
+## How do we handle your data and ensure security and privacy?
 
 Deepgram stores fractional increments of data for the continued improvement of our voice AI models and to provide enhanced customer support when needed. The only data we will store and use in future model training is the data that is contractually included through participation in the Deepgram Model Improvement Partnership Program. We will never redistribute data to 3rd parties without our customers' permission. Your data will never be used to market our services or to create advertising profiles.
 
 Deepgram's infrastructure, policies, and procedures are designed to meet industry-standard compliance and regulatory frameworks, including SOC-2 Type 2, HIPAA, PCI DSS, GDPR, CCPA, and all applicable local government and legal requirements. MFA, RBAC, and VPNs are used to regulate and secure all employee access to data systems. All data is encrypted in-flight and at-rest with industry-standard encryption, including TLS 1.3 and AES-256.
 
-# Why Participate?
+## Why Participate?
 
 Participation in this program is voluntary and includes a number of valuable benefits.
 
@@ -38,21 +38,27 @@ Participation in this program is voluntary and includes a number of valuable ben
 * Reduced model drift. Language is fluid and constantly changing, with new jargon and slang popping up in daily conversation over time. Our model improvement partnership program ensures our models will evolve along with your customers' speech patterns.
 * Support for Responsible AI by mitigating model bias and ensuring sufficient representation of underrepresented speaker groups based on age, sex, accents, etc. in our training data sets.
 
-# Need more help?
+## Need more help?
 
 Have additional questions?[ Get in touch](https://deepgram.com/contact-us).
 
-# Want to opt out?
+## Want to opt out?
 
 Add `mip_opt_out=true` as a query parameter of all API requests that you want to be excluded from the Model Improvement Program. By opting out of the Model Improvement Program, customers on Pay as you Go, Growth, or Enterprise plans will forego their 50% discount on the rates listed in your signed contract or on [deepgram.com/pricing](https://deepgram.com/pricing). Data from opted-out requests is retained only for the duration necessary to process the request.
 
-## Speech-to-Text Examples
+### Speech-to-Text Examples
 
 Here are some examples of opting out for Speech-to-Text requests.
 
 <Info>
-  The SDK examples below use a custom add on parameter. To learn more about using custom add on parameters with our SDKs refer to [the Documentation on using custom add on Parameters](/docs/using-custom-parameters-sdks).
+  The SDK examples below use a custom add on parameter to set `mip_opt_out=true`. To learn more about using custom add on parameters with our SDKs refer to [the Documentation on using custom add on Parameters](/docs/using-custom-parameters-sdks).
 </Info>
+
+#### Pre-recorded Audio
+
+<Warning>
+  Replace `YOUR_DEEPGRAM_API_KEY` with your [Deepgram API Key](/docs/create-additional-api-keys).
+</Warning>
 
 <CodeGroup>
   ```bash cURL
@@ -77,6 +83,7 @@ Here are some examples of opting out for Speech-to-Text requests.
     },
     {
       model: "nova-3",
+      // Custom option to opt out of Model Improvement Program
       mip_opt_out: true
     }
   );
@@ -102,7 +109,7 @@ Here are some examples of opting out for Speech-to-Text requests.
       model="nova-3",
   )
 
-  # To demonstrate using the custom addon parameters, you could enable it like this
+  # Custom option to opt out of Model Improvement Program
   custom_options: dict = {"mip_opt_out": "true"}
 
   deepgram: DeepgramClient = DeepgramClient(API_KEY)
@@ -163,7 +170,7 @@ Here are some examples of opting out for Speech-to-Text requests.
   	})
   	dg := api.New(c)
 
-  	// but to demonstrate using the custom addon parameters, you could enable it like this
+  	// Custom option to opt out of Model Improvement Program
   	params := make(map[string][]string, 0)
   	params["mip_opt_out"] = []string{"true"}
   	ctx = interfaces.WithCustomParameters(ctx, params)
@@ -232,7 +239,7 @@ Here are some examples of opting out for Speech-to-Text requests.
                   return;
               }
 
-              // but to demonstrate using the custom addon parameters, you could enable it like this
+              // Custom option to opt out of Model Improvement Program
               var customOptions = new Dictionary<string, string>();
               customOptions["mip_opt_out"] = "true";
 
@@ -262,49 +269,1261 @@ Here are some examples of opting out for Speech-to-Text requests.
   Replace `YOUR_DEEPGRAM_API_KEY` with your [Deepgram API Key](/docs/create-additional-api-keys).
 </Warning>
 
-## Voice Agent Example
+#### Streaming Audio
+
+<CodeGroup>
+  ```javascript JavaScript
+  // Install the SDK: npm -i @deepgram/sdk
+
+import { createClient} from "@deepgram/sdk";
+
+const live = async () => {
+  const url = "http://stream.live.vc.bbcmedia.co.uk/bbc_world_service";
+
+  const deepgram = createClient(process.env.DEEPGRAM_API_KEY);
+
+  const connection = deepgram.listen.live({
+    model: "nova-3",
+    // Custom option to opt out of Model Improvement Program
+    mip_opt_out: true,
+  });
+
+  ```
+
+  ```python Python
+# Install the SDK: pip install deepgram-sdk
+
+import httpx
+from dotenv import load_dotenv
+import logging
+from deepgram.utils import verboselogs
+import threading
+
+from deepgram import (
+    DeepgramClient,
+    DeepgramClientOptions,
+    LiveTranscriptionEvents,
+    LiveOptions,
+)
+
+load_dotenv()
+
+# URL for the realtime streaming audio you would like to transcribe
+URL = "http://stream.live.vc.bbcmedia.co.uk/bbc_world_service"
+
+    # Configure the transcription options with just the model
+        options = LiveOptions(model="nova-3")
+
+        # Custom option to opt out of Model Improvement Program
+        custom_options = {
+            "mip_opt_out": True
+        }
+
+def main():
+    try:
+        # Initialize the Deepgram client with default config
+        deepgram: DeepgramClient = DeepgramClient()
+
+        # Create a websocket connection to Deepgram
+        dg_connection = deepgram.listen.websocket.v("1")
+
+        def on_open(self, open, **kwargs):
+            print(f"\n\n{open}\n\n")
+
+        def on_message(self, result, **kwargs):
+            sentence = result.channel.alternatives[0].transcript
+            if len(sentence) == 0:
+                return
+            print(f"speaker: {sentence}")
+
+        def on_metadata(self, metadata, **kwargs):
+            print(f"\n\n{metadata}\n\n")
+
+        def on_speech_started(self, speech_started, **kwargs):
+            print(f"\n\n{speech_started}\n\n")
+
+        def on_utterance_end(self, utterance_end, **kwargs):
+            print(f"\n\n{utterance_end}\n\n")
+
+        def on_close(self, close, **kwargs):
+            print(f"\n\n{close}\n\n")
+
+        def on_error(self, error, **kwargs):
+            print(f"\n\n{error}\n\n")
+
+        def on_unhandled(self, unhandled, **kwargs):
+            print(f"\n\n{unhandled}\n\n")
+
+        dg_connection.on(LiveTranscriptionEvents.Open, on_open)
+        dg_connection.on(LiveTranscriptionEvents.Transcript, on_message)
+        dg_connection.on(LiveTranscriptionEvents.Metadata, on_metadata)
+        dg_connection.on(LiveTranscriptionEvents.SpeechStarted, on_speech_started)
+        dg_connection.on(LiveTranscriptionEvents.UtteranceEnd, on_utterance_end)
+        dg_connection.on(LiveTranscriptionEvents.Close, on_close)
+        dg_connection.on(LiveTranscriptionEvents.Error, on_error)
+        dg_connection.on(LiveTranscriptionEvents.Unhandled, on_unhandled)
+
+        print("\n\nPress Enter to stop recording...\n\n")
+        # Start the connection with both standard options and custom options
+        if dg_connection.start(options, addons=custom_options) is False:
+            print("Failed to start connection")
+            return
+
+        lock_exit = threading.Lock()
+        exit = False
+
+        # define a worker thread
+        def myThread():
+            with httpx.stream("GET", URL) as r:
+                for data in r.iter_bytes():
+                    lock_exit.acquire()
+                    if exit:
+                        break
+                    lock_exit.release()
+
+                    dg_connection.send(data)
+
+        # start the worker thread
+        myHttp = threading.Thread(target=myThread)
+        myHttp.start()
+
+        # signal finished
+        input("")
+        lock_exit.acquire()
+        exit = True
+        lock_exit.release()
+
+        # Wait for the HTTP thread to close and join
+        myHttp.join()
+
+        # Indicate that we've finished
+        dg_connection.finish()
+
+        print("Finished")
+
+    except Exception as e:
+        print(f"Could not open socket: {e}")
+        return
+
+
+if __name__ == "__main__":
+    main()
+  ```
+
+  ```go Go
+// Install the SDK: go get github.com/deepgram/deepgram-go-sdk
+
+package main
+
+import (
+	"bufio"
+	"context"
+	"fmt"
+	"net/http"
+	"os"
+	"reflect"
+
+	interfaces "github.com/deepgram/deepgram-go-sdk/pkg/client/interfaces"
+	client "github.com/deepgram/deepgram-go-sdk/pkg/client/listen"
+)
+
+const (
+	STREAM_URL = "http://stream.live.vc.bbcmedia.co.uk/bbc_world_service"
+)
+
+func main() {
+	// init library
+	client.InitWithDefault()
+
+	// Go context
+	ctx := context.Background()
+
+	// set the Transcription options
+	transcriptOptions := &interfaces.LiveTranscriptionOptions{
+		Model: "nova-3",
+	}
+
+	// Custom option to opt out of Model Improvement Program
+	params := make(map[string][]string, 0)
+	params["mip_opt_out"] = []string{"true"}
+	ctx = interfaces.WithCustomParameters(ctx, params)
+
+	// create a Deepgram client
+	dgClient, err := client.NewWSUsingChanForDemo(ctx, transcriptOptions)
+	if err != nil {
+		fmt.Println("ERROR creating LiveTranscription connection:", err)
+		return
+	}
+
+	// get the HTTP stream
+	httpClient := new(http.Client)
+	res, err := httpClient.Get(STREAM_URL)
+	if err != nil {
+		fmt.Printf("httpClient.Get failed. Err: %v\n", err)
+		return
+	}
+	fmt.Printf("Stream is up and running %s\n", reflect.TypeOf(res))
+
+	// connect the websocket to Deepgram
+	bConnected := dgClient.Connect()
+	if !bConnected {
+		fmt.Println("Client.Connect failed")
+		os.Exit(1)
+	}
+
+	go func() {
+		dgClient.Stream(bufio.NewReader(res.Body))
+	}()
+
+	// wait for user input to exit
+	input := bufio.NewScanner(os.Stdin)
+	input.Scan()
+
+	// cleanup
+	res.Body.Close()
+	dgClient.Stop()
+	fmt.Printf("\n\nProgram exiting...\n")
+}
+  ```
+
+  ```csharp C#
+//Install the SDK: dotnet add package Deepgram
+
+using Deepgram.Models.Listen.v2.WebSocket;
+using System.Collections.Generic;
+
+namespace SampleApp
+{
+    class Program
+    {
+        static async Task Main(string[] args)
+        {
+            try
+            {
+                // Initialize Library with default logging
+                Library.Initialize();
+
+                // use the client factory with a API Key set with the "DEEPGRAM_API_KEY" environment variable
+                var liveClient = new ListenWebSocketClient();
+
+                // Subscribe to the EventResponseReceived event
+                await liveClient.Subscribe(new EventHandler<ResultResponse>((sender, e) =>
+                {
+                    if (e.Channel.Alternatives[0].Transcript == "")
+                    {
+                        return;
+                    }
+                    Console.WriteLine($"Speaker: {e.Channel.Alternatives[0].Transcript}");
+                }));
+
+                // Start the connection
+                var liveSchema = new LiveSchema()
+                {
+                    Model = "nova-3"
+                };
+
+                // Custom option to opt out of Model Improvement Program
+                var customOptions = new Dictionary<string, string>();
+                customOptions["mip_opt_out"] = "true";
+
+                bool bConnected = await liveClient.Connect(liveSchema, customOptions);
+                if (!bConnected)
+                {
+                    Console.WriteLine("Failed to connect to the server");
+                    return;
+                }
+
+                // get the webcast data... this is a blocking operation
+                try
+                {
+                    var url = "http://stream.live.vc.bbcmedia.co.uk/bbc_world_service";
+                    using (HttpClient client = new HttpClient())
+                    {
+                        using (Stream receiveStream = await client.GetStreamAsync(url))
+                        {
+                            while (liveClient.IsConnected())
+                            {
+                                byte[] buffer = new byte[2048];
+                                await receiveStream.ReadAsync(buffer, 0, buffer.Length);
+                                liveClient.Send(buffer);
+                            }
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+
+                // Stop the connection
+                await liveClient.Stop();
+
+                // Teardown Library
+                Library.Terminate();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+        }
+    }
+}
+  ```
+</CodeGroup>
+
+### Text-to-Speech Examples
+
+Here are some examples of opting out for Text-to-Speech requests.
+
+<Warning>
+  Replace `YOUR_DEEPGRAM_API_KEY` with your [Deepgram API Key](/docs/create-additional-api-keys).
+</Warning>
+
+#### Rest API
+
+<CodeGroup>
+```curl curl
+  curl --request POST \
+    --url 'https://api.deepgram.com/v1/speak?model=aura-2-thalia-en&mip_opt_out=true' \
+    --header 'Authorization: Token YOUR_DEEPGRAM_API_KEY' \
+    --header 'Content-Type: application/json' \
+    --data '{"text": "Hello, how can I help you today?"}' \
+    --output mip_opt_out.wav
+```
+  ```javascript JavaScript
+  // Install the SDK: npm -i @deepgram/sdk
+
+import { createClient } from "../../dist/main/index.js";
+import fs from "fs";
+import { pipeline } from "stream/promises";
+import { fileURLToPath } from "url";
+import { dirname } from "path";
+
+const deepgram = createClient(process.env.DEEPGRAM_API_KEY);
+
+const text = "Hello, how can I help you today?";
+
+const getAudio = async () => {
+  const { result } = await deepgram.speak.request(
+    { text },
+    {
+      model: "aura-2-thalia-en",
+      mip_opt_out: true
+    }
+  );
+
+  if (!result.ok) {
+    throw new Error(`HTTP error! Status: ${result}`);
+  }
+
+  const fileStream = fs.createWriteStream("audio.wav");
+  await pipeline(result.body, fileStream);
+};
+
+getAudio();
+  ```
+
+  ```python Python
+  # Install the SDK: pip install deepgram-sdk
+
+import os
+from dotenv import load_dotenv
+import logging
+from deepgram.utils import verboselogs
+
+from deepgram import (
+    DeepgramClient,
+    ClientOptionsFromEnv,
+    SpeakOptions,
+)
+
+load_dotenv()
+
+SPEAK_TEXT = {"text": "Hello, how can I help you today?"}
+filename = "test.mp3"
+
+
+def main():
+    try:
+        # Create a Deepgram client using the API key from environment variables
+        deepgram = DeepgramClient(
+            api_key="", config=ClientOptionsFromEnv(verbose=verboselogs.SPAM)
+        )
+
+        # Call the save method on the speak property
+        options = SpeakOptions(
+            model="aura-2-thalia-en",
+        )
+
+        # Custom option to opt out of Model Improvement Program
+        custom_options = {
+            "mip_opt_out": True
+        }
+
+        response = deepgram.speak.rest.v("1").save(filename, SPEAK_TEXT, options)
+        print(response.to_json(indent=4))
+
+    except Exception as e:
+        print(f"Exception: {e}")
+
+
+if __name__ == "__main__":
+    main()
+
+  ```
+
+  ```go Go
+// Install the SDK: go get github.com/deepgram/deepgram-go-sdk
+
+package main
+
+import (
+	"context"
+	"encoding/json"
+	"fmt"
+	"os"
+
+	prettyjson "github.com/hokaccha/go-prettyjson"
+
+	api "github.com/deepgram/deepgram-go-sdk/pkg/api/speak/v1/rest"
+	interfaces "github.com/deepgram/deepgram-go-sdk/pkg/client/interfaces"
+	client "github.com/deepgram/deepgram-go-sdk/pkg/client/speak"
+)
+
+const (
+	textToSpeech string = "Hello, World!"
+	filePath     string = "./test.wav"
+)
+
+func main() {
+	// init library
+	client.Init(client.InitLib{
+		LogLevel: client.LogLevelTrace, // LogLevelDefault, LogLevelFull, LogLevelDebug, LogLevelTrace
+	})
+
+	// Go context
+	ctx := context.Background()
+
+	// set the Transcription options
+	options := &interfaces.SpeakOptions{
+		Model:      "aura-2-thalia-en",
+		Encoding:   "linear16",
+		SampleRate: 48000,
+	}
+
+  // Custom option to opt out of Model Improvement Program
+  params := make(map[string][]string, 0)
+  params["mip_opt_out"] = []string{"true"}
+  ctx = interfaces.WithCustomParameters(ctx, params)
+
+	// create a Deepgram client
+	c := client.NewRESTWithDefaults()
+	dg := api.New(c)
+
+	// send/process file to Deepgram
+	res, err := dg.ToSave(ctx, filePath, textToSpeech, options)
+	if err != nil {
+		fmt.Printf("FromStream failed. Err: %v\n", err)
+		os.Exit(1)
+	}
+
+	data, err := json.Marshal(res)
+	if err != nil {
+		fmt.Printf("json.Marshal failed. Err: %v\n", err)
+		os.Exit(1)
+	}
+
+	// make the JSON pretty
+	prettyJSON, err := prettyjson.Format(data)
+	if err != nil {
+		fmt.Printf("prettyjson.Marshal failed. Err: %v\n", err)
+		os.Exit(1)
+	}
+	fmt.Printf("\n\nResult:\n%s\n\n", prettyJSON)
+}
+
+  ```
+
+  ```csharp C#
+// Install the SDK: dotnet add package Deepgram
+
+using Deepgram.Models.Speak.v1.REST;
+
+namespace SampleApp
+{
+    class Program
+    {
+        static async Task Main(string[] args)
+        {
+            // Initialize Library with default logging
+            // Normal logging is "Info" level
+            Library.Initialize();
+
+            // use the client factory with a API Key set with the "DEEPGRAM_API_KEY" environment variable
+            var deepgramClient = ClientFactory.CreateSpeakRESTClient();
+
+            var response = await deepgramClient.ToFile(
+                new TextSource("Hello World!"),
+                "test.mp3",
+                new SpeakSchema()
+                {
+                    Model = "aura-2-thalia-en",
+                });
+
+            // Custom option to opt out of Model Improvement Program
+            var customOptions = new Dictionary<string, string>();
+            customOptions["mip_opt_out"] = "true";
+
+            //Console.WriteLine(response);
+            Console.WriteLine(response);
+            Console.ReadKey();
+
+            // Teardown Library
+            Library.Terminate();
+        }
+    }
+}
+  ```
+</CodeGroup>
+
+#### Streaming API
+
+<CodeGroup>
+  ```javascript JavaScript
+  // Install the SDK: npm -i @deepgram/sdk
+
+const fs = require("fs");
+const { createClient, LiveTTSEvents } = require("../../dist/main/index");
+
+// Add a wav audio container header to the file if you want to play the audio
+// using the AudioContext or media player like VLC, Media Player, or Apple Music
+// Without this header in the Chrome browser case, the audio will not play.
+// prettier-ignore
+const wavHeader = [
+  0x52, 0x49, 0x46, 0x46, // "RIFF"
+  0x00, 0x00, 0x00, 0x00, // Placeholder for file size
+  0x57, 0x41, 0x56, 0x45, // "WAVE"
+  0x66, 0x6D, 0x74, 0x20, // "fmt "
+  0x10, 0x00, 0x00, 0x00, // Chunk size (16)
+  0x01, 0x00,             // Audio format (1 for PCM)
+  0x01, 0x00,             // Number of channels (1)
+  0x80, 0xBB, 0x00, 0x00, // Sample rate (48000)
+  0x00, 0xEE, 0x02, 0x00, // Byte rate (48000 * 2)
+  0x02, 0x00,             // Block align (2)
+  0x10, 0x00,             // Bits per sample (16)
+  0x64, 0x61, 0x74, 0x61, // "data"
+  0x00, 0x00, 0x00, 0x00  // Placeholder for data size
+];
+
+const live = async () => {
+  const text = "Hello, how can I help you today?";
+
+  const deepgram = createClient(process.env.DEEPGRAM_API_KEY);
+
+  const dgConnection = deepgram.speak.live({
+    model: "aura-2-thalia-en",
+    encoding: "linear16",
+    sample_rate: 48000,
+    // Custom option to opt out of Model Improvement Program
+    mip_opt_out: true,
+  });
+
+  let audioBuffer = Buffer.from(wavHeader);
+
+  dgConnection.on(LiveTTSEvents.Open, () => {
+    console.log("Connection opened");
+
+    // Send text data for TTS synthesis
+    dgConnection.sendText(text);
+
+    // Send Flush message to the server after sending the text
+    dgConnection.flush();
+
+    dgConnection.on(LiveTTSEvents.Close, () => {
+      console.log("Connection closed");
+    });
+
+    dgConnection.on(LiveTTSEvents.Metadata, (data) => {
+      console.dir(data, { depth: null });
+    });
+
+    dgConnection.on(LiveTTSEvents.Audio, (data) => {
+      console.log("Deepgram audio data received");
+      // Concatenate the audio chunks into a single buffer
+      const buffer = Buffer.from(data);
+      audioBuffer = Buffer.concat([audioBuffer, buffer]);
+    });
+
+    dgConnection.on(LiveTTSEvents.Flushed, () => {
+      console.log("Deepgram Flushed");
+      // Write the buffered audio data to a file when the flush event is received
+      writeFile();
+    });
+
+    dgConnection.on(LiveTTSEvents.Error, (err) => {
+      console.error(err);
+    });
+  });
+
+  const writeFile = () => {
+    if (audioBuffer.length > 0) {
+      fs.writeFile("output.wav", audioBuffer, (err) => {
+        if (err) {
+          console.error("Error writing audio file:", err);
+        } else {
+          console.log("Audio file saved as output.wav");
+        }
+      });
+      audioBuffer = Buffer.from(wavHeader); // Reset buffer after writing
+    }
+  };
+};
+
+live();
+
+```
+
+  ```python Python
+# Install the SDK: pip install deepgram-sdk
+
+from deepgram import (
+    DeepgramClient,
+    DeepgramClientOptions,
+    SpeakWebSocketEvents,
+    SpeakWSOptions,
+)
+
+# Text to be converted to speech
+TTS_TEXT = "Hello, this is a text to speech example using Deepgram."
+
+def main():
+    try:
+        # Configure the Deepgram client with options
+        config = DeepgramClientOptions(
+            options={
+                "speaker_playback": "true",  # Enable audio playback
+            }
+        )
+
+         # Configure Deepgram options
+        options = SpeakWSOptions(
+            model="aura-2-thalia-en",
+            encoding="linear16",
+            sample_rate=16000,
+        )
+
+        # Custom option to opt out of Model Improvement Program
+        custom_options = {
+            "mip_opt_out": True
+        }
+
+        # Initialize the Deepgram client with both regular and custom options
+        deepgram = DeepgramClient("", config, custom_options)
+
+        # Create a websocket connection
+        dg_connection = deepgram.speak.websocket.v("1")
+
+        # Define essential event handlers
+        def on_open(self, open, **kwargs):
+            print("Connection opened successfully")
+
+        def on_error(self, error, **kwargs):
+            print(f"Error occurred: {error}")
+
+        # Register event handlers
+        dg_connection.on(SpeakWebSocketEvents.Open, on_open)
+        dg_connection.on(SpeakWebSocketEvents.Error, on_error)
+
+        # Start the connection
+        if not dg_connection.start(options):
+            print("Failed to start connection")
+            return
+
+        # Send text and process
+        dg_connection.send_text(TTS_TEXT)
+        dg_connection.flush()
+        dg_connection.wait_for_complete()
+
+        # Wait for user input before closing
+        input("\nPress Enter to stop...\n")
+        dg_connection.finish()
+        print("Finished")
+
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
+if __name__ == "__main__":
+    main()
+
+  ```
+
+  ```go Go
+// Install the SDK: go get github.com/deepgram/deepgram-go-sdk
+
+package main
+
+import (
+	"context"
+	"fmt"
+	"os"
+	"strings"
+	"sync"
+	"time"
+
+	msginterfaces "github.com/deepgram/deepgram-go-sdk/pkg/api/speak/v1/websocket/interfaces"
+	interfaces "github.com/deepgram/deepgram-go-sdk/pkg/client/interfaces/v1"
+	speak "github.com/deepgram/deepgram-go-sdk/pkg/client/speak"
+)
+
+const (
+	TTS_TEXT   = "Hello, this is a text to speech example using Deepgram."
+	AUDIO_FILE = "output.wav"
+)
+
+type MyHandler struct {
+	binaryChan    chan *[]byte
+	openChan      chan *msginterfaces.OpenResponse
+	metadataChan  chan *msginterfaces.MetadataResponse
+	flushChan     chan *msginterfaces.FlushedResponse
+	clearChan     chan *msginterfaces.ClearedResponse
+	closeChan     chan *msginterfaces.CloseResponse
+	warningChan   chan *msginterfaces.WarningResponse
+	errorChan     chan *msginterfaces.ErrorResponse
+	unhandledChan chan *[]byte
+}
+
+func NewMyHandler() MyHandler {
+	handler := MyHandler{
+		binaryChan:    make(chan *[]byte),
+		openChan:      make(chan *msginterfaces.OpenResponse),
+		metadataChan:  make(chan *msginterfaces.MetadataResponse),
+		flushChan:     make(chan *msginterfaces.FlushedResponse),
+		clearChan:     make(chan *msginterfaces.ClearedResponse),
+		closeChan:     make(chan *msginterfaces.CloseResponse),
+		warningChan:   make(chan *msginterfaces.WarningResponse),
+		errorChan:     make(chan *msginterfaces.ErrorResponse),
+		unhandledChan: make(chan *[]byte),
+	}
+
+	go func() {
+		handler.Run()
+	}()
+
+	return handler
+}
+
+// GetUnhandled returns the binary event channels
+func (dch MyHandler) GetBinary() []*chan *[]byte {
+	return []*chan *[]byte{&dch.binaryChan}
+}
+
+// GetOpen returns the open channels
+func (dch MyHandler) GetOpen() []*chan *msginterfaces.OpenResponse {
+	return []*chan *msginterfaces.OpenResponse{&dch.openChan}
+}
+
+// GetMetadata returns the metadata channels
+func (dch MyHandler) GetMetadata() []*chan *msginterfaces.MetadataResponse {
+	return []*chan *msginterfaces.MetadataResponse{&dch.metadataChan}
+}
+
+// GetFlushed returns the flush channels
+func (dch MyHandler) GetFlush() []*chan *msginterfaces.FlushedResponse {
+	return []*chan *msginterfaces.FlushedResponse{&dch.flushChan}
+}
+
+// GetCleared returns the clear channels
+func (dch MyHandler) GetClear() []*chan *msginterfaces.ClearedResponse {
+	return []*chan *msginterfaces.ClearedResponse{&dch.clearChan}
+}
+
+// GetClose returns the close channels
+func (dch MyHandler) GetClose() []*chan *msginterfaces.CloseResponse {
+	return []*chan *msginterfaces.CloseResponse{&dch.closeChan}
+}
+
+// GetWarning returns the warning channels
+func (dch MyHandler) GetWarning() []*chan *msginterfaces.WarningResponse {
+	return []*chan *msginterfaces.WarningResponse{&dch.warningChan}
+}
+
+// GetError returns the error channels
+func (dch MyHandler) GetError() []*chan *msginterfaces.ErrorResponse {
+	return []*chan *msginterfaces.ErrorResponse{&dch.errorChan}
+}
+
+// GetUnhandled returns the unhandled event channels
+func (dch MyHandler) GetUnhandled() []*chan *[]byte {
+	return []*chan *[]byte{&dch.unhandledChan}
+}
+
+// Open is the callback for when the connection opens
+// golintci: funlen
+func (dch MyHandler) Run() error {
+	wgReceivers := sync.WaitGroup{}
+
+	// open channel
+	wgReceivers.Add(1)
+	go func() {
+		defer wgReceivers.Done()
+
+		for _ = range dch.openChan {
+			fmt.Printf("\n\n[OpenResponse]\n\n")
+		}
+	}()
+
+	// binary channel
+	wgReceivers.Add(1)
+	go func() {
+		defer wgReceivers.Done()
+
+		for br := range dch.binaryChan {
+			fmt.Printf("\n\n[Binary Data]\n")
+
+			file, err := os.OpenFile(AUDIO_FILE, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0o666)
+			if err != nil {
+				fmt.Printf("Failed to open file. Err: %v\n", err)
+				continue
+			}
+
+			_, err = file.Write(*br)
+			file.Close()
+
+			if err != nil {
+				fmt.Printf("Failed to write to file. Err: %v\n", err)
+				continue
+			}
+		}
+	}()
+
+	// metadata channel
+	wgReceivers.Add(1)
+	go func() {
+		defer wgReceivers.Done()
+
+		for mr := range dch.metadataChan {
+			fmt.Printf("\n[FlushedResponse]\n")
+			fmt.Printf("RequestID: %s\n", strings.TrimSpace(mr.RequestID))
+		}
+	}()
+
+	// flushed channel
+	wgReceivers.Add(1)
+	go func() {
+		defer wgReceivers.Done()
+
+		for _ = range dch.flushChan {
+			fmt.Printf("\n[FlushedResponse]\n")
+		}
+	}()
+
+	// cleared channel
+	wgReceivers.Add(1)
+	go func() {
+		defer wgReceivers.Done()
+
+		for _ = range dch.clearChan {
+			fmt.Printf("\n[ClearedResponse]\n")
+		}
+	}()
+
+	// close channel
+	wgReceivers.Add(1)
+	go func() {
+		defer wgReceivers.Done()
+
+		for _ = range dch.closeChan {
+			fmt.Printf("\n\n[CloseResponse]\n\n")
+		}
+	}()
+
+	// warning channel
+	wgReceivers.Add(1)
+	go func() {
+		defer wgReceivers.Done()
+
+		for er := range dch.warningChan {
+			fmt.Printf("\n[WarningResponse]\n")
+			fmt.Printf("\nWarning.Type: %s\n", er.WarnCode)
+			fmt.Printf("Warning.Message: %s\n", er.WarnMsg)
+			fmt.Printf("Warning.Description: %s\n\n", er.Description)
+			fmt.Printf("Warning.Variant: %s\n\n", er.Variant)
+		}
+	}()
+
+	// error channel
+	wgReceivers.Add(1)
+	go func() {
+		defer wgReceivers.Done()
+
+		for er := range dch.errorChan {
+			fmt.Printf("\n[ErrorResponse]\n")
+			fmt.Printf("\nError.Type: %s\n", er.ErrCode)
+			fmt.Printf("Error.Message: %s\n", er.ErrMsg)
+			fmt.Printf("Error.Description: %s\n\n", er.Description)
+			fmt.Printf("Error.Variant: %s\n\n", er.Variant)
+		}
+	}()
+
+	// unhandled event channel
+	wgReceivers.Add(1)
+	go func() {
+		defer wgReceivers.Done()
+
+		for byData := range dch.unhandledChan {
+			fmt.Printf("\n[UnhandledEvent]")
+			fmt.Printf("Dump:\n%s\n\n", string(*byData))
+		}
+	}()
+
+	// wait for all receivers to finish
+	wgReceivers.Wait()
+
+	return nil
+}
+
+func main() {
+	// init library
+	speak.Init(speak.InitLib{
+		LogLevel: speak.LogLevelDefault, // LogLevelDefault, LogLevelFull, LogLevelDebug, LogLevelTrace
+	})
+
+	// Go context
+	ctx := context.Background()
+
+	// set the Client options
+	cOptions := &interfaces.ClientOptions{
+		// AutoFlushSpeakDelta: 1000,
+	}
+
+// Custom option to opt out of Model Improvement Program
+	params := make(map[string][]string, 0)
+	params["mip_opt_out"] = []string{"true"}
+	ctx = interfaces.WithCustomParameters(ctx, params)
+
+	// set the TTS options
+	ttsOptions := &interfaces.WSSpeakOptions{
+		Model:      "aura-asteria-en",
+		Encoding:   "linear16",
+		SampleRate: 48000,
+	}
+
+	// create the callback
+	callback := NewMyHandler()
+
+	// create a new stream using the NewStream function
+	dgClient, err := speak.NewWSUsingChan(ctx, "", cOptions, ttsOptions, callback)
+	if err != nil {
+		fmt.Println("ERROR creating TTS connection:", err)
+		return
+	}
+
+	// connect the websocket to Deepgram
+	bConnected := dgClient.Connect()
+	if !bConnected {
+		fmt.Println("Client.Connect failed")
+		os.Exit(1)
+	}
+
+	file, err := os.OpenFile(AUDIO_FILE, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0o666)
+	if err != nil {
+		fmt.Printf("Failed to open file. Err: %v\n", err)
+		return
+	}
+	// Add a wav audio container header to the file if you want to play the audio
+	// using a media player like VLC, Media Player, or Apple Music
+	header := []byte{
+		0x52, 0x49, 0x46, 0x46, // "RIFF"
+		0x00, 0x00, 0x00, 0x00, // Placeholder for file size
+		0x57, 0x41, 0x56, 0x45, // "WAVE"
+		0x66, 0x6d, 0x74, 0x20, // "fmt "
+		0x10, 0x00, 0x00, 0x00, // Chunk size (16)
+		0x01, 0x00, // Audio format (1 for PCM)
+		0x01, 0x00, // Number of channels (1)
+		0x80, 0xbb, 0x00, 0x00, // Sample rate (48000)
+		0x00, 0xee, 0x02, 0x00, // Byte rate (48000 * 2)
+		0x02, 0x00, // Block align (2)
+		0x10, 0x00, // Bits per sample (16)
+		0x64, 0x61, 0x74, 0x61, // "data"
+		0x00, 0x00, 0x00, 0x00, // Placeholder for data size
+	}
+
+	_, err = file.Write(header)
+	if err != nil {
+		fmt.Printf("Failed to write header to file. Err: %v\n", err)
+		return
+	}
+	file.Close()
+
+	// Send the text input
+	err = dgClient.SpeakWithText(TTS_TEXT)
+	if err != nil {
+		fmt.Printf("Error sending text input: %v\n", err)
+		return
+	}
+
+	// If AutoFlushSpeakDelta is not set, you Flush the text input manually
+	err = dgClient.Flush()
+	if err != nil {
+		fmt.Printf("Error sending text input: %v\n", err)
+		return
+	}
+
+	// wait for user input to exit
+	time.Sleep(5 * time.Second)
+
+	// close the connection
+	dgClient.Stop()
+
+	fmt.Printf("Program exiting...\n")
+}
+
+  ```
+
+  ```csharp C#
+  // Install the SDK: dotnet add package Deepgram
+
+// Copyright 2024 Deepgram .NET SDK contributors. All Rights Reserved.
+// Use of this source code is governed by a MIT license that can be found in the LICENSE file.
+// SPDX-License-Identifier: MIT
+
+using Deepgram.Models.Authenticate.v1;
+using Deepgram.Models.Speak.v2.WebSocket;
+using Deepgram.Logger;
+
+
+namespace SampleApp
+{
+    class Program
+    {
+        static async Task Main(string[] args)
+        {
+            try
+            {
+                // Initialize Library with default logging
+                // Normal logging is "Info" level
+                Library.Initialize();
+                // OR very chatty logging
+                //Library.Initialize(LogLevel.Verbose); // LogLevel.Default, LogLevel.Debug, LogLevel.Verbose
+
+                //// use the client factory with a API Key set with the "DEEPGRAM_API_KEY" environment variable
+                //DeepgramWsClientOptions options = new DeepgramWsClientOptions();
+                //options.AutoFlushSpeakDelta = 1000;
+                //var speakClient = ClientFactory.CreateSpeakWebSocketClient("", options);
+                var speakClient = ClientFactory.CreateSpeakWebSocketClient();
+
+                // append wav header only once
+                bool appendWavHeader = true;
+
+                // Subscribe to the EventResponseReceived event
+                await speakClient.Subscribe(new EventHandler<OpenResponse>((sender, e) =>
+                {
+                    Console.WriteLine($"\n\n----> {e.Type} received");
+                }));
+                await speakClient.Subscribe(new EventHandler<MetadataResponse>((sender, e) =>
+                {
+                    Console.WriteLine($"----> {e.Type} received");
+                    Console.WriteLine($"----> RequestId: {e.RequestId}");
+                }));
+                await speakClient.Subscribe(new EventHandler<AudioResponse>((sender, e) =>
+                {
+                    Console.WriteLine($"----> {e.Type} received");
+
+                    // add a wav header
+                    if (appendWavHeader)
+                    {
+                        using (BinaryWriter writer = new BinaryWriter(File.Open("output.wav", FileMode.Append)))
+                        {
+                            Console.WriteLine("Adding WAV header to output.wav");
+                            byte[] wavHeader = new byte[44];
+                            int sampleRate = 48000;
+                            short bitsPerSample = 16;
+                            short channels = 1;
+                            int byteRate = sampleRate * channels * (bitsPerSample / 8);
+                            short blockAlign = (short)(channels * (bitsPerSample / 8));
+
+                            wavHeader[0] = 0x52; // R
+                            wavHeader[1] = 0x49; // I
+                            wavHeader[2] = 0x46; // F
+                            wavHeader[3] = 0x46; // F
+                            wavHeader[4] = 0x00; // Placeholder for file size (will be updated later)
+                            wavHeader[5] = 0x00; // Placeholder for file size (will be updated later)
+                            wavHeader[6] = 0x00; // Placeholder for file size (will be updated later)
+                            wavHeader[7] = 0x00; // Placeholder for file size (will be updated later)
+                            wavHeader[8] = 0x57; // W
+                            wavHeader[9] = 0x41; // A
+                            wavHeader[10] = 0x56; // V
+                            wavHeader[11] = 0x45; // E
+                            wavHeader[12] = 0x66; // f
+                            wavHeader[13] = 0x6D; // m
+                            wavHeader[14] = 0x74; // t
+                            wavHeader[15] = 0x20; // Space
+                            wavHeader[16] = 0x10; // Subchunk1Size (16 for PCM)
+                            wavHeader[17] = 0x00; // Subchunk1Size
+                            wavHeader[18] = 0x00; // Subchunk1Size
+                            wavHeader[19] = 0x00; // Subchunk1Size
+                            wavHeader[20] = 0x01; // AudioFormat (1 for PCM)
+                            wavHeader[21] = 0x00; // AudioFormat
+                            wavHeader[22] = (byte)channels; // NumChannels
+                            wavHeader[23] = 0x00; // NumChannels
+                            wavHeader[24] = (byte)(sampleRate & 0xFF); // SampleRate
+                            wavHeader[25] = (byte)((sampleRate >> 8) & 0xFF); // SampleRate
+                            wavHeader[26] = (byte)((sampleRate >> 16) & 0xFF); // SampleRate
+                            wavHeader[27] = (byte)((sampleRate >> 24) & 0xFF); // SampleRate
+                            wavHeader[28] = (byte)(byteRate & 0xFF); // ByteRate
+                            wavHeader[29] = (byte)((byteRate >> 8) & 0xFF); // ByteRate
+                            wavHeader[30] = (byte)((byteRate >> 16) & 0xFF); // ByteRate
+                            wavHeader[31] = (byte)((byteRate >> 24) & 0xFF); // ByteRate
+                            wavHeader[32] = (byte)blockAlign; // BlockAlign
+                            wavHeader[33] = 0x00; // BlockAlign
+                            wavHeader[34] = (byte)bitsPerSample; // BitsPerSample
+                            wavHeader[35] = 0x00; // BitsPerSample
+                            wavHeader[36] = 0x64; // d
+                            wavHeader[37] = 0x61; // a
+                            wavHeader[38] = 0x74; // t
+                            wavHeader[39] = 0x61; // a
+                            wavHeader[40] = 0x00; // Placeholder for data chunk size (will be updated later)
+                            wavHeader[41] = 0x00; // Placeholder for data chunk size (will be updated later)
+                            wavHeader[42] = 0x00; // Placeholder for data chunk size (will be updated later)
+                            wavHeader[43] = 0x00; // Placeholder for data chunk size (will be updated later)
+
+                            writer.Write(wavHeader);
+                            appendWavHeader = false;
+                        }
+                    }
+
+                    if (e.Stream != null)
+                    {
+                        using (BinaryWriter writer = new BinaryWriter(File.Open("output.wav", FileMode.Append)))
+                        {
+                            writer.Write(e.Stream.ToArray());
+                        }
+                    }
+                }));
+                await speakClient.Subscribe(new EventHandler<FlushedResponse>((sender, e) =>
+                {
+                    Console.WriteLine($"----> {e.Type} received");
+                }));
+                await speakClient.Subscribe(new EventHandler<ClearedResponse>((sender, e) =>
+                {
+                    Console.WriteLine($"----> {e.Type} received");
+                }));
+                await speakClient.Subscribe(new EventHandler<CloseResponse>((sender, e) =>
+                {
+                    Console.WriteLine($"----> {e.Type} received");
+                }));
+                await speakClient.Subscribe(new EventHandler<UnhandledResponse>((sender, e) =>
+                {
+                    Console.WriteLine($"----> {e.Type} received");
+                }));
+                await speakClient.Subscribe(new EventHandler<WarningResponse>((sender, e) =>
+                {
+                    Console.WriteLine($"----> {e.Type} received");
+                }));
+                await speakClient.Subscribe(new EventHandler<ErrorResponse>((sender, e) =>
+                {
+                    Console.WriteLine($"----> {e.Type} received. Error: {e.Message}");
+                }));
+
+                // Start the connection
+                var speakSchema = new SpeakSchema()
+                {
+                    Model = "aura-2-thalia-en",
+                    Encoding = "linear16",
+                    SampleRate = 48000,
+                };
+
+                // Custom option to opt out of Model Improvement Program
+                var customOptions = new Dictionary<string, string>();
+                customOptions["mip_opt_out"] = "true";
+
+                bool bConnected = await speakClient.Connect(speakSchema, customOptions);
+                if (!bConnected)
+                {
+                    Console.WriteLine("Failed to connect to the server");
+                    return;
+                }
+
+                // Send some Text to convert to audio
+                speakClient.SpeakWithText("Hello World!");
+
+                //Flush the audio
+                speakClient.Flush();
+
+                // Wait for the user to press a key
+                Console.WriteLine("\n\nPress any key to stop and exit...\n\n\n");
+                Console.ReadKey();
+
+                // Stop the connection
+                await speakClient.Stop();
+
+                // Terminate Libraries
+                Library.Terminate();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Exception: {ex.Message}");
+            }
+        }
+    }
+}
+  ```
+</CodeGroup>
+
+### Voice Agent Example
 
 Here is an example of opting out for Voice Agent requests using the `Settings` message.
 
 <CodeGroup>
-  ```bash json
-  {
-    "type": "Settings",
-    "mip_opt_out": true,
-    "audio": {
-      "input": {
-        "encoding": "linear16",
-        "sample_rate": 24000
-      },
-      "output": {
-        "encoding": "linear16",
-        "sample_rate": 24000,
-        "container": "none"
+  ```json JSON
+{
+  "type": "Settings",
+  "mip_opt_out": true,
+  "audio": {
+    "input": {
+      "encoding": "linear16",
+      "sample_rate": 24000
+    },
+    "output": {
+      "encoding": "mp3",
+      "sample_rate": 24000,
+      "bitrate": 48000,
+      "container": "none"
+    }
+  },
+  "agent": {
+    "language": "en",
+    "listen": {
+      "provider": {
+        "type": "deepgram",
+        "model": "nova-3",
+        "keyterms": ["hello", "goodbye"]
       }
     },
-    "agent": {
-      "language": "en",
-      "listen": {
-        "provider": {
-          "type": "deepgram",
-          "model": "nova-3"
-        }
-      },
-      "think": {
-        "provider": {
-          "type": "open_ai",
-          "model": "gpt-4o-mini",
-          "temperature": 0.7
-        }
-      },
-      "speak": {
-        "provider": {
-          "type": "deepgram",
-          "model": "aura-2-thalia-en"
-        }
+    "think": {
+      "provider": {
+        "type": "open_ai",
+        "model": "gpt-4o-mini",
+        "temperature": 0.7
       }
-    }
-  }
+    },
+    "speak": {
+      "provider": {
+        "type": "deepgram",
+        "model": "aura-2-thalia-en"
+      }
+    },
+    "greeting": "Hello! How can I help you today?"
+  },
+}
   ```
-
 </CodeGroup>
+
+## Viewing Opt Out Requests in Logs
+
+Within the [Deepgram Console](https://console.deepgram.com/), you can view the opted out requests in the Usage > Logs tab. In your logs you will see the feature mip_opt_out as `true`.
+
+You can also use the [GET a Project Request](/reference/management-api/usage/get-request) endpoint to view the opted out requests.
+
+
+
