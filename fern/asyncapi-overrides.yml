@@ -5,8 +5,8 @@ channels:
     parameters:
       encoding:
         x-fern-optional: true
-      # mip_opt_out:
-      #   x-fern-optional: true TODO remove comment when API Spec is updated
+      mip_opt_out:
+        x-fern-optional: true
       model:
         x-fern-optional: true
       sample_rate:
@@ -64,8 +64,8 @@ channels:
         x-fern-optional: true
       language:
         x-fern-optional: true
-      # mip_opt_out: TODO remove comment when API Spec is updated
-      #   x-fern-optional: true
+      mip_opt_out:
+        x-fern-optional: true
       model:
         x-fern-optional: true
       multichannel:
