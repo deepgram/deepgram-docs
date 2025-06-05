@@ -78,7 +78,9 @@ For OpenAI you can refer to [this article](https://platform.openai.com/docs/guid
 
 ### Eleven Labs
 
-For ElevenLabs you can refer to [this article](https://help.elevenlabs.io/hc/en-us/articles/14599760033937-How-do-I-find-my-voices-ID-of-my-voices-via-the-website-and-through-the-API) on how to find your Voice ID or [use their API](https://elevenlabs.io/docs/api-reference/voices/get-all) to retrieve it. We support any of ElevenLabs' Turbo 2.5 voices to ensure low latency interactions.
+For ElevenLabs you can refer to [this article](https://help.elevenlabs.io/hc/en-us/articles/14599760033937-How-do-I-find-my-voices-ID-of-my-voices-via-the-website-and-through-the-API) on how to find your Voice ID or [use their API](https://elevenlabs.io/docs/api-reference/voices/get-all) to retrieve it. We support any of ElevenLabs' Turbo 2.5 voices to ensure low latency interactions. See their [Websocket Endpoint Docs](https://elevenlabs.io/docs/api-reference/text-to-speech/v-1-text-to-speech-voice-id-stream-input) for more information.
+
+
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
@@ -102,7 +104,7 @@ For ElevenLabs you can refer to [this article](https://help.elevenlabs.io/hc/en-
         "language_code": "en-US"
       },
       "endpoint": {
-        "url": "https://api.elevenlabs.io/v1/text-to-speech",
+        "url": "wss://api.elevenlabs.io/v1/text-to-speech/{voice_id}/stream-input",
         "headers": {
           "xi-api-key": "{{ELEVEN_LABS_API_KEY}}"
         }
@@ -115,7 +117,7 @@ For ElevenLabs you can refer to [this article](https://help.elevenlabs.io/hc/en-
 
 ### Cartesia
 
-For Cartesia you can [use their API](https://docs.cartesia.ai/api-reference/voices/list) to retrieve a voice ID.
+For Cartesia you can [use their API](https://docs.cartesia.ai/api-reference/voices/list) to retrieve a voice ID. See their [Websocket Endpoint Docs](https://docs.cartesia.ai/api-reference/tts/tts) for more information.
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
@@ -143,12 +145,12 @@ For Cartesia you can [use their API](https://docs.cartesia.ai/api-reference/voic
           "mode": "premium",
           "id": "cartesia-voice-1"
         },
-        "language": "Language.EN"
+        "language": "en"
       },
       "endpoint": {
-        "url": "https://api.cartesia.ai/v1/tts",
+        "url": "wss://api.cartesia.ai/tts/websocket",
         "headers": {
-          "authorization": "Bearer {{CARTESIA_API_KEY}}"
+          "X-API-key": "{{CARTESIA_API_KEY}}"
         }
       }
     }
