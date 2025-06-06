@@ -244,6 +244,8 @@ navigation:
           - section: Integrations
             slug: integrations
             contents:
+              - page: Amazon Bedrock and Deepgram
+                path: ./pages/guides/integrations/amazon-bedrock-and-deepgram.mdx
               - page: Amazon Connect and Deepgram
                 path: ./pages/guides/integrations/amazon-connect-and-deepgram.mdx
               - page: AWS S3 Presigned URLs and Deepgram

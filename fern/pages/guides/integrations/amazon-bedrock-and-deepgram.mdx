@@ -1,0 +1,81 @@
+---
+title: Amazon Bedrock and Deepgram
+subtitle: >-
+  Integrate Deepgram’s Voice Agent API with Amazon Bedrock to build interactive
+  voice agents powered by foundation models hosted on AWS.
+slug: docs/amazon-bedrock-deepgram
+---
+
+In this guide, we'll explain how to set up the integration in your AWS environment and build a basic voice agent with Amazon Bedrock.
+
+<Info>
+  Before you can use Deepgram, you'll need to [create a Deepgram account](https://console.deepgram.com/signup?jump=keys). Signup is free and includes **$200** in free credit and access to all of Deepgram's features!
+</Info>
+
+## Before you Begin
+
+<Info>
+  Before you start, you'll need to follow the steps in the [Make Your First API Request](/docs/make-your-first-api-request) guide to obtain a Deepgram API key, and configure your environment if you are choosing to use a Deepgram SDK.
+</Info>
+
+## Set Up Amazon Bedrock
+
+To use Amazon Bedrock with Deepgram, you'll need to set up Amazon Bedrock as your LLM provider. [This guide](https://docs.aws.amazon.com/bedrock/latest/userguide/getting-started.html) will walk you through the steps.
+
+## Guide Overview
+
+This guide demonstrates how to:
+
+- Capture microphone audio in the browser
+- Stream audio to Deepgram’s Voice Agent API
+- Use Amazon Bedrock as your LLM provider to answer some medical questions
+- Play back generated audio responses
+
+By the end, you’ll have a basic HTML/JS client that you can use to test out your Amazon Bedrock LLM with Deepgram.
+
+## Prerequisites
+
+- **Node.js** ≥ 14.x
+- A Deepgram API key
+- An Amazon Bedrock LLM endpoint to use for your voice agent
+- Familiarity with JavaScript and HTML
+- Familiarity with Amazon Bedrock
+- Understanding of how to use the [Deepgram Voice Agent API](/docs/configure-voice-agent)
+
+## Getting Started
+
+### 1. Clone the Client Repo
+
+```sh
+git clone https://github.com/deepgram-devs/amazon-bedrock-agent-demo
+cd amazon-bedrock-agent-demo
+```
+### 2. Clone the Bedrock LLM Client Proxy Repo
+
+```sh
+git clone https://github.com/deepgram-devs/deepgram-voice-agent-client-llm-proxy
+cd deepgram-voice-agent-client-llm-proxy
+```
+
+### 3. Set Up the Client
+
+Follow the instructions in the [README](https://github.com/deepgram-devs/amazon-bedrock-agent-demo/blob/main/README.md) to set up the client repo.
+
+### 4. Set Up the LLM Proxy
+
+<Info>
+If you already have a Bedrock LLM endpoint and proxy, you can skip this step.
+</Info>
+
+Follow the instructions in the [README](https://github.com/deepgram-devs/deepgram-voice-agent-client-llm-proxy/blob/main/README.md) to set up the proxy repo.
+
+
+
+
+
+
+***
+
+What’s Next
+
+* [Deepgram API Overview](/reference/deepgram-api-overview)
