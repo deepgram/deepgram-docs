@@ -64,6 +64,14 @@ The `Settings` message is a JSON object that contains the following fields:
 | `agent.speak.endpoint` | Object | Optional if TTS provider is Deepgram. Required for non-Deepgram TTS providers. When present, must include `url` field and `headers` object |
 | `agent.greeting` | String | Optional initial message that the agent will speak when the conversation starts |
 
+#### `agent.language`
+
+* Choose your language setting based on your use case:
+  - If you know your input language, specify it directly for the best recognition accuracy.
+  - If you expect multiple languages or are unsure, use `multi` for flexible language support.
+  - See our [supported languages](https://developers.deepgram.com/docs/models-languages-overview).
+  - Important: Check the language documentation to ensure you're using the correct model (`nova-2` or `nova-3`) for your selected language.
+
 #### `agent.think.context_length`
 
 * Using `Max` will set the context length to the maximum allowed based on the LLM provider you use. If the total context exceeds the model's maximum, truncation is handled by the LLM provider.
