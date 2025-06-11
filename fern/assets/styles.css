@@ -236,6 +236,7 @@ a.fern-card.interactive[href*="playground.deepgram.com"] span.card-icon {
 
     [data-theme="default"] #fern-sidebar-scroll-area .fern-sidebar-link {
       border-radius: 0 !important;
+      padding-left: 2rem !important;
     }
 
     [data-theme="default"]
@@ -276,6 +277,10 @@ a.fern-card.interactive[href*="playground.deepgram.com"] span.card-icon {
     #fern-sidebar-scroll-area
     .fern-sidebar-link[data-state="active"] {
     position: relative;
+  }
+
+  [data-theme="default"] #fern-sidebar-scroll-area .fern-sidebar-heading {
+    padding-left: 2rem !important;
   }
 }
 
