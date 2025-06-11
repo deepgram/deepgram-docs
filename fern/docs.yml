@@ -127,6 +127,9 @@ navigation:
       - page: Support # Moved ✅ Slug ✅ Redirected ✅
         path: ./pages/support.mdx
         slug: support # /support
+      - changelog: ./pages/changelog
+        title: Changelog
+        slug: changelog
       - section: Trust & Security
         slug: trust-security # /trust-security
         contents:
