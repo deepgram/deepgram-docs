@@ -10,8 +10,8 @@ Defines the LLM (*Large Language Model*) to be used with your Agent. The `provid
 
 For example:
 
-- `open_ai` means the API follows OpenAI’s Chat Completions format.
-- This option can be used with OpenAI, Azure OpenAI, or Amazon Bedrock — as long as the endpoint behaves like OpenAI’s Chat Completion API.
+- `open_ai` means the API follows OpenAI's Chat Completions format.
+- This option can be used with OpenAI, Azure OpenAI, or Amazon Bedrock — as long as the endpoint behaves like OpenAI's Chat Completion API.
 
 
 <Info>
@@ -32,13 +32,28 @@ curl https://agent.deepgram.com/v1/agent/settings/think/models
 {
   "models": [
     {
+      "id": "gpt-4.1-mini",
+      "name": "GPT-4.1 mini",
+      "provider": "open_ai"
+    },
+    {
+      "id": "gpt-4.1-nano",
+      "name": "GPT-4.1 nano",
+      "provider": "open_ai"
+    },
+    {
       "id": "gpt-4o-mini",
       "name": "GPT-4o mini",
       "provider": "open_ai"
     },
     {
       "id": "claude-3-haiku-20240307",
-      "name": "Claude 3 Haiku",
+      "name": "Claude Haiku 3",
+      "provider": "anthropic"
+    },
+    {
+      "id": "claude-3-5-haiku-latest",
+      "name": "Claude Haiku 3.5",
       "provider": "anthropic"
     }
   ]
@@ -69,17 +84,27 @@ The `agent.think.endpoint` is optional or required based on the provider type:
 
 | Provider                      | Model      | Availability |
 | ------------------------------ | --------- |--------|
-| `open_ai`    | `gpt-4o-mini` | `GA` |
-| `open_ai`    | `gpt-3-5-turbo` | `Coming Soon!` |
+| `open_ai`    | `gpt-4.1` | `Coming Soon!` |
+| `open_ai`    | `gpt-4.1-mini` | `GA` |
+| `open_ai`    | `gpt-4.1-nano` | `GA` |
 | `open_ai`    | `gpt-4o` | `Coming Soon!` |
-| `open_ai`    | `gpt-4o-search-preview` | `Coming Soon!` |
+| `open_ai`    | `gpt-4o-mini` | `GA` |
 
 ### Anthropic
 
 | Provider                      | Model      | Availability |
 | ------------------------------ | --------- |--------|
 | `anthropic`    | `claude-3-haiku-20240307` | `GA` |
+| `anthropic`    | `claude-3-5-haiku-latest` | `GA` |
+| `anthropic`    | `claude-4-sonnet` | `Coming Soon!` |
 
+### Google
+
+| Provider                      | Model      | Availability |
+| ------------------------------ | --------- |--------|
+| `google`    | `gemini-2-5-flash-preview` | `Coming Soon!` |
+| `google`    | `gemini-2-0-flash` | `Coming Soon!` |
+| `google`    | `gemini-2-0-flash-lite` | `Coming Soon!` |
 
 ## Example Payload
 
@@ -128,5 +153,5 @@ You can use a custom LLM hosted by a 3rd party Cloud Provider by setting the `pr
         },
     // ... other settings ...
   }
-  ```
-</CodeGroup>
+  ```</CodeGroup>
+
