@@ -1,0 +1,39 @@
+---
+title: Inject User
+subtitle: Inject a user message for the agent to listen for.
+slug: docs/voice-agent-inject-user-message
+---
+
+<div class="flex flex-row gap-2">
+  <Markdown src="../snippets/va-stream-available.mdx" />
+</div>
+
+
+The`InjectUserMessage` message is a JSON message you can send tell the agent to listen for a specific user phrase or statement.
+
+## Purpose
+
+The `InjectUserMessage` message provides a way to tell the agent to listen for a specific user phrase or statement. This is useful when you want to trigger an agent response based on what a user is speaking to your agent.
+
+## Example Payloads
+
+To send the `InjectAgentMessage` message, you need to send the following JSON message to the server:
+
+<CodeGroup>
+  ```json JSON
+  {
+    "type": "InjectUserMessage",
+    "content": "" // The phrase or statement the agent should listen for
+  }
+  ```
+</CodeGroup>
+
+
+## Use Cases
+
+Some common ways to use the `InjectUserMessage` are:
+
+* A user asking the agent to repeat themselves if they didn't hear them ("I didn't catch that, can you repeat yourself?")
+* A user asking the agent if they can hear them ("Can you hear me?")
+* A user asking the agent to wait while they are working on something ("I'm working on that for you, just hold on a moment.")
+

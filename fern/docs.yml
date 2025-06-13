@@ -447,6 +447,8 @@ navigation:
             path: docs/voice-agent-update-prompt.mdx
           - page: Inject Agent
             path: docs/voice-agent-inject-agent-message.mdx
+          - page: Inject User
+            path: docs/voice-agent-inject-user-message.mdx
           - page: Agent Keep Alive
             path: docs/agent-keep-alive.mdx
       - section: "Outputs: Server Events"
