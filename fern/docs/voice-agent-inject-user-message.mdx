@@ -1,6 +1,6 @@
 ---
 title: Inject User
-subtitle: Inject a user message for the agent to listen for.
+subtitle: Send a text based message to the agent.
 slug: docs/voice-agent-inject-user-message
 ---
 
@@ -9,11 +9,11 @@ slug: docs/voice-agent-inject-user-message
 </div>
 
 
-The`InjectUserMessage` message is a JSON message you can send tell the agent to listen for a specific user phrase or statement.
+The `InjectUserMessage` is a JSON message you can send to the agent to interact with the agent using text. This is useful when you need to trigger an agent response from text input.
 
 ## Purpose
 
-The `InjectUserMessage` message provides a way to tell the agent to listen for a specific user phrase or statement. This is useful when you want to trigger an agent response based on what a user is speaking to your agent.
+The `InjectUserMessage` message provides a way to have the agent "hear" something without the user actually speaking it. The agent will respond as if the user had spoken the message.
 
 ## Example Payloads
 
@@ -23,7 +23,7 @@ To send the `InjectAgentMessage` message, you need to send the following JSON me
   ```json JSON
   {
     "type": "InjectUserMessage",
-    "content": "" // The phrase or statement the agent should listen for
+    "content": "" // The text phrase or statement the agent should listen for
   }
   ```
 </CodeGroup>
@@ -33,7 +33,8 @@ To send the `InjectAgentMessage` message, you need to send the following JSON me
 
 Some common ways to use the `InjectUserMessage` are:
 
-* A user asking the agent to repeat themselves if they didn't hear them ("I didn't catch that, can you repeat yourself?")
-* A user asking the agent if they can hear them ("Can you hear me?")
-* A user asking the agent to wait while they are working on something ("I'm working on that for you, just hold on a moment.")
+* A user using a chat or text interface to interact with an agent.
+* Automated testing of an agent where text is used to trigger an agent response.
+
+
 
