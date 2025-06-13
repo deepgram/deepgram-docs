@@ -78,9 +78,11 @@ For OpenAI you can refer to [this article](https://platform.openai.com/docs/guid
 
 ### Eleven Labs
 
-For ElevenLabs you can refer to [this article](https://help.elevenlabs.io/hc/en-us/articles/14599760033937-How-do-I-find-my-voices-ID-of-my-voices-via-the-website-and-through-the-API) on how to find your Voice ID or [use their API](https://elevenlabs.io/docs/api-reference/voices/search) to retrieve it. We support any of ElevenLabs' Turbo 2.5 voices to ensure low latency interactions. See their [TTS Docs](https://elevenlabs.io/docs/api-reference/text-to-speech/v-1-text-to-speech-voice-id-stream-input) for more information.
+For ElevenLabs you can refer to [this article](https://help.elevenlabs.io/hc/en-us/articles/14599760033937-How-do-I-find-my-voices-ID-of-my-voices-via-the-website-and-through-the-API) on how to find your Voice ID or [use their API](https://elevenlabs.io/docs/api-reference/voices/search) to retrieve it. See their [TTS Docs](https://elevenlabs.io/docs/api-reference/text-to-speech/v-1-text-to-speech-voice-id-stream-input) for more information.
 
-
+<Info>
+We support any of [ElevenLabs' Turbo 2.5](https://elevenlabs.io/docs/models#turbo-v25) voices to ensure low latency interactions
+</Info>
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
@@ -100,7 +102,7 @@ For ElevenLabs you can refer to [this article](https://help.elevenlabs.io/hc/en-
     "speak": {
       "provider": {
         "type": "eleven_labs",
-        "model_id": "eleven_flash_v2_5",
+        "model_id": "eleven_turbo_v2_5",
         "language_code": "en-US"
       },
       "endpoint": {
