@@ -121,15 +121,18 @@ tabs:
 navigation:
   - tab: home
     layout:
-      - page: Introduction # Moved ✅ Slug ✅ Redirected ✅
+      - page: Home # Moved ✅ Slug ✅ Redirected ✅
         path: ./pages/home.mdx
         slug: home # /home
+        icon: fa-home
       - page: Support # Moved ✅ Slug ✅ Redirected ✅
         path: ./pages/support.mdx
-        slug: support # /support
+        slug: support
+        icon: fa-question
       - changelog: ./pages/changelog
         title: Changelog
         slug: changelog
+        icon: light clock
       - section: Trust & Security
         slug: trust-security # /trust-security
         contents:
