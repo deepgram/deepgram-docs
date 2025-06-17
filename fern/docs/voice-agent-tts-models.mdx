@@ -89,9 +89,9 @@ We support any of [ElevenLabs' Turbo 2.5](https://elevenlabs.io/docs/models#turb
 | `agent.speak.provider.type` | String | Must be `eleven_labs` |
 | `agent.speak.provider.model_id` | String | The model ID to use |
 | `agent.speak.provider.language_code` | String | Optional Language code |
-| `agent.speak.endpoint` | Object | Required and must include url and headers |
+| `agent.speak.endpoint` | Object | Must include url and headers |
 | `agent.speak.endpoint.url` | String | Your Eleven Labs API endpoint URL |
-| `agent.speak.endpoint.headers` | Object | Required headers for authentication |
+| `agent.speak.endpoint.headers` | Object | Headers for authentication |
 
 #### Example
 
@@ -128,10 +128,10 @@ For Cartesia you can [use their API](https://docs.cartesia.ai/api-reference/voic
 | `agent.speak.provider.voice` | Object | Cartesia Voice configuration |
 | `agent.speak.provider.voice.mode` | String | The voice mode to use |
 | `agent.speak.provider.voice.id` | String | The voice ID to use |
-| `agent.speak.provider.language` | String | Optional language setting |
-| `agent.speak.endpoint` | Object | Required and must include url and headers |
+| `agent.speak.provider.language` | String | Lnguage setting |
+| `agent.speak.endpoint` | Object | Must include url and headers |
 | `agent.speak.endpoint.url` | String | Your Cartesia API endpoint URL |
-| `agent.speak.endpoint.headers` | Object | Required headers for authentication |
+| `agent.speak.endpoint.headers` | Object | Headers for authentication |
 
 #### Example
 
