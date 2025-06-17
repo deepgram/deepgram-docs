@@ -14,7 +14,7 @@ slug: docs/redaction
 `redact` *string* Default: `False`
 
 <div class="flex flex-row gap-2">
-  <Markdown src="../snippets/stt-batch-available.mdx" /> <Markdown src="../snippets/stt-stream-available.mdx" /> <Markdown src="../snippets/all-available-languages.mdx" />
+  <Markdown src="../snippets/stt-batch-available.mdx" /> <Markdown src="../snippets/stt-stream-available.mdx" /> <Markdown src="../snippets/specific-languages-only.mdx" />
 </div>
 
 ## Enable Feature
@@ -99,6 +99,8 @@ Example with `redact=pci&redact=pii`:
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | my credit card number is four four four four nine nine nine nine three three three three two two two two with an expiration date of one twenty three and the cvv code is one one one i live at one two three main street dallas texas seven five two zero one my phone number is five five five two one two nine three three three my date of birth is july twelfth nineteen seventy six | my credit card number is four four four four nine nine nine nine three three three three two two two two with an expiration date of one twenty three and the cvv code is one one one i live at one two three main street dallas texas seven five two zero one my phone number is five five five two one two nine three three three my date of birth is july twelfth nineteen seventy six | my credit card number is \[CREDIT\_CARD\_1] with an expiration date of \[CREDIT\_CARD\_EXPIRATION\_1] and the cv code is \[CVV\_1] i live at \[LOCATION\_ADDRESS\_1] my phone number is \[PHONE\_NUMBER\_1] my date of birth is \[DOB\_1] |
 
-## Self Hosted Language Support
+## Language Support
 
- For [self-hosted](/docs/self-hosted-introduction) deployments, we currently only support English language redaction.
+On our hosted API, we support redaction for all available languages.
+
+For [self-hosted](/docs/self-hosted-introduction) deployments, we currently only support English language redaction.
