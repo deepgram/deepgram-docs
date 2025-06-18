@@ -246,15 +246,9 @@ If you need to set a fallback TTS provider, you can define multiple TTS provider
     "speak": [
       {
         "provider": {
-          "type": "eleven_labs",
-          "model_id": "eleven_flash_v2_5"
+          "type": "deepgram",
+          "model": "aura-2-zeus-en"
         },
-        "endpoint": {
-          "url": "https://api.elevenlabs.io/v1/text-to-speech/bIHbv24MWmeRgasZH58o",
-          "headers": {
-            "xi-api-key": "{{ELEVEN_LABS_API_KEY}}"
-          }
-        }
       },
       {
         "provider": {
