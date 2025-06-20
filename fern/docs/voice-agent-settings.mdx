@@ -55,7 +55,7 @@ This example uses a very basic `Settings` to establish a connection. To send the
         "type": "open_ai",
         "model": "gpt-4o-mini",
         "temperature": 0.7
-        // ... additional provider options: endpoint (for non-deepgram providers)
+        // ... additional provider options: endpoint (required for non-deepgram providers)
       },
       // ... additional think options: prompt, context_length, functions, endpoint
     },
@@ -63,13 +63,13 @@ This example uses a very basic `Settings` to establish a connection. To send the
       "provider": {
         "type": "deepgram",
         "model": "aura-2-thalia-en"
-        // ... additional provider options based on type:
-        // - eleven_labs: model_id, language_code
-        // - cartesia: model_id, voice (mode, id), language
-        // - open_ai: voice
-        // - aws_polly: engine, credentials, language_code, voice
+        // Examples for other providers:
+        // "type": "open_ai", "model": "tts-1", "voice": "alloy"
+        // "type": "eleven_labs", "model_id": "eleven_monolingual_v1", "language_code": "en-US"
+        // "type": "cartesia", "model_id": "sonic-2", "voice": {"mode": "id", "id": "voice-id"}, "language": "en"
+        // "type": "aws_polly", "voice": "Matthew", "language_code": "en-US", "engine": "standard", "credentials": {...}
       }
-      // ... additional speak options: endpoint (for non-deepgram providers)
+      // ... additional speak options: endpoint (required for non-deepgram providers)
     }
     // ... additional agent options: greeting
   }

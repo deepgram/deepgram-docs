@@ -45,7 +45,7 @@ The `Settings` message is a JSON object that contains the following fields:
 | `agent.listen.provider.type` | Object | The speech-to-text provider type. Currently only Deepgram is supported |
 | `agent.listen.provider.model` | String | The [Deepgram speech-to-text model](/docs/models-languages-overview) to be used |
 | `agent.listen.provider.keyterms` | Array | The [Keyterms](/docs/keyterms) you want increased recognition for |
-| `agent.think.provider.type` | Object | The [LLM Model](/docs/voice-agent-llm-models) provider type e.g., `open_ai`, `anthropic`, `x_ai`, `amazon_bedrock` |
+| `agent.think.provider.type` | Object | The [LLM Model](/docs/voice-agent-llm-models) provider type e.g., `open_ai`, `anthropic`, `x_ai`|
 | `agent.think.provider.model` | String | The LLM model to use|
 | `agent.think.provider.temperature` | Number | Controls the randomness of the LLM's output. Range: 0-2 for OpenAI, 0-1 for Anthropic |
 | `agent.think.endpoint` | Object | Optional if LLM provider is Deepgram. Required for non-Deepgram LLM providers. When present, must include `url` field and `headers` object |
@@ -53,14 +53,14 @@ The `Settings` message is a JSON object that contains the following fields:
 | `agent.think.functions.endpoint` | Object | The Function endpoint to call. if not passed, function is called client-side |
 | `agent.think.prompt` | String | The system prompt that defines the agent's behavior and personality |
 | `agent.think.context_length` | Integer or String | Specifies the number of characters retained in context between user messages, agent responses, and function calls. This setting is only configurable when a custom think endpoint is used. Use `max` for maximum context length. |
-| `agent.speak.provider.type` | Object | The [TTS Model](/docs/voice-agent-tts-models) provider type. e.g., `deepgram`, `eleven_labs`, `cartesia`, `open_ai` |
+| `agent.speak.provider.type` | Object | The [TTS Model](/docs/voice-agent-tts-models) provider type. e.g., `deepgram`, `eleven_labs`, `cartesia`, `open_ai`, `aws_polly` |
 | `agent.speak.provider.model` | String | The [TTS Model](/docs/voice-agent-tts-models)  to use for Deepgram or OpenAI |
 | `agent.speak.provider.model_id` | String| The [TTS Model](/docs/voice-agent-tts-models) ID to use for Eleven Labs or Cartesia |
-| `agent.speak.provider.voice` | Object | Voice configuration for Cartesia provider. Requires `model` and `id` |
+| `agent.speak.provider.voice` | Object or String | Voice configuration. For Cartesia: use object with `mode` and `id`. For OpenAI: use a string value. |
 | `agent.speak.provider.language` | String | Optional language setting for Cartesia provider |
 | `agent.speak.provider.language_code` | String | Optional language code for Eleven Labs provider |
-| `agent.speak.provider.engine` | String | Optional engine for AWS Polly provider |
-| `agent.speak.provider.credentials` | Object | Optional credentials for AWS Polly provider. When present, must include  `type`,`region`, `access_key_id`, `secret_access_key` and `session_token` if STS is used |
+| `agent.speak.provider.engine` | String |Optional engine for AWS Polly provider |
+| `agent.speak.provider.credentials` | Object | Optional credentials for AWS Polly provider. When present, must include  `type`,`region`, `access_key_id`, `secret_access_key` and `session_token` if STS is used
 | `agent.speak.endpoint` | Object | Optional if TTS provider is Deepgram. Required for non-Deepgram TTS providers. When present, must include `url` field and `headers` object |
 | `agent.greeting` | String | Optional initial message that the agent will speak when the conversation starts |
 
@@ -152,20 +152,21 @@ Below is an in-depth example showing all the available fields for `Settings` wit
       "speak": {
         "provider": {
           "type": "deepgram",
-          "model": "aura-2-thalia-en", // Optional if TTS provider is Deepgram. Use for OpenAI OR Deepgram
-          "model_id": "1234567890", // Optional if TTS provider is Deepgram. Use for Eleven Labs OR Cartesia
+          "model": "aura-2-thalia-en", // For Deepgram or OpenAI providers
+          "model_id": "1234567890", // For Eleven Labs or Cartesia providers
           "voice": {
-            "mode": "Cartesia mode type", // Optional if TTS provider is Deepgram. Use for Cartesia
-            "id": "voice id" // Optional if TTS provider is Deepgram. Use for Cartesia or OpenAI
+            "mode": "id", // For Cartesia provider only
+            "id": "a167e0f3-df7e-4d52-a9c3-f949145efdab" // For Cartesia provider only
           },
-          "language": "en", // Optional if TTS provider is Deepgram. Use for Cartesia
-          "language_code": "en-US", // Optional if TTS provider is Deepgram. Use for Eleven Labs
-          "engine": "standard", // Optional if TTS provider is Deepgram. Use for AWS Polly
-          "credentials": { // Optional if TTS provider is Deepgram. Use for AWS Polly
+          "language": "en", // For Cartesia provider only
+          "language_code": "en-US", // For Eleven Labs provider only
+          "engine": "standard", // For AWS Polly provider only
+          "credentials": { // For AWS Polly provider only
+            "type": "IAM", // For AWS Polly provider only. Must be "IAM" or "STS"
             "region": "us-east-1",
             "access_key_id": "{{access_key_id}}",
-            "secret_access_key": "{{secret_access_key}}"
-            "session_token": "{{session_token}}" // Optional if TTS provider is Deepgram. Use for AWS Polly STS
+            "secret_access_key": "{{secret_access_key}}",
+            "session_token": "{{session_token}}" // Required for STS only
           }
         },
         "endpoint": {
