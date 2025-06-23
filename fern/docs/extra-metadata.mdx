@@ -72,7 +72,7 @@ To apply multiple extra key-value pairs, submit the query parameter multiple tim
 `extra=team:marketing&extra=purpose:legal`
 
 <Warning>
-  If you request contains multiple instances of `extra` with the same key, the corresponding values will *not* be merged. Instead, the last value will overwrite any previous values.
+  If your request contains multiple instances of `extra` with the same key, the corresponding values will *not* be merged. Instead, the last value will overwrite any previous values.
 
   For example, `extra=team:marketing&extra=team:gtm` will return `"extra": { "team": "gtm" }` in the response.
 </Warning>
