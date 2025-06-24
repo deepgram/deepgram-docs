@@ -233,6 +233,42 @@ For AWS Polly you can refer to [this article](https://docs.aws.amazon.com/polly/
 ```
 </CodeGroup>
 
+## Using Multiple TTS Providers
+
+If you need to set a fallback TTS provider, you can define multiple TTS providers for your Voice Agent. The `speak` object supports both a single provider and an array of providers.
+
+#### Example
+
+<CodeGroup>
+```json
+{
+  "agent": {
+    "speak": [
+      {
+        "provider": {
+          "type": "deepgram",
+          "model": "aura-2-zeus-en"
+        },
+      },
+      {
+        "provider": {
+          "type": "open_ai",
+          "model": "tts-1",
+          "voice": "shimmer"
+        },
+        "endpoint": {
+          "url": "https://api.openai.com/v1/audio/speech",
+          "headers": {
+            "authorization": "Bearer {{OPENAI_API_KEY}}"
+          }
+        }
+      }
+    ]
+  }
+}
+```
+</CodeGroup>
+
 ***
 
 What's Next
