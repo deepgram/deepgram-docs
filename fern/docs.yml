@@ -682,7 +682,7 @@ navigation:
                 path: docs/tts-ws-close.mdx
       - link: Starter Apps
         href: https://github.com/search?q=org%3Adeepgram-starters+topic%3Atext-to-speech&type=repositories
-      - page: Voice Selection
+      - page: Voices and Languages
         path: docs/tts-models.mdx
       - section: Media Output Settings
         path: docs/tts-media-output-settings.mdx
