@@ -1,13 +1,13 @@
 ---
-title: Voice Selection
-subtitle: An overview of Deepram's Aura text-to-speech voice models
+title: Voices and Languages
+subtitle: An overview of Deepgram's Aura text-to-speech voice models
 slug: docs/tts-models
 ---
 
 `model` *string*
 
 <div class="flex flex-row gap-2">
-  <Markdown src="../snippets/tts-batch-available.mdx"/> <Markdown src="../snippets/tts-stream-available.mdx" /> <Markdown src="../snippets/english-only.mdx" />
+  <Markdown src="../snippets/tts-batch-available.mdx"/> <Markdown src="../snippets/tts-stream-available.mdx" />
 </div>
 
 Deepgram offers a range of voices for its Aura text-to-speech API, each identified by a unique model name following the format `[modelname]-[voicename]-[language]`.
@@ -31,9 +31,24 @@ curl "https://api.deepgram.com/v1/speak?model=aura-2-thalia-en" \
   Replace `YOUR_DEEPGRAM_API_KEY` with your [Deepgram API Key](/docs/create-additional-api-keys).
 </Warning>
 
-## Featured Voices
+## Language Support
 
-These are our featured voices, selected for their versatility and quality:
+Deepgram's Aura text-to-speech supports the following languages:
+
+- **English (en)** - American, British, Australian, Irish, Filipino accents
+- **Spanish (es)** - Mexican, Peninsular, Colombian, Latin American accents
+
+<Info>
+  We're constantly adding additional language support and making improvements to our voice models. Check back regularly for updates.
+</Info>
+
+---
+
+## Aura-2 English Voices
+
+### Featured Aura-2 English Voices
+
+These are our featured English voices, selected for their versatility and quality:
 
 <div className="voice-model-table">
 
@@ -48,7 +63,7 @@ These are our featured voices, selected for their versatility and quality:
 
 </div>
 
-## Aura-2 All Available Voices
+### Aura-2: All Available English Voices
 
 <div className="voice-model-table">
 
@@ -95,6 +110,33 @@ These are our featured voices, selected for their versatility and quality:
 | `aura-2-theia-en` | theia | feminine | Adult | en-au | American | Expressive, Polite, Sincere | Informative | <audio id="theia"  controls src="https://static.deepgram.com/examples/Aura-2-theia.wav"></audio> |
 | `aura-2-vesta-en` | vesta | feminine | Adult | en-us | American | Natural, Expressive, Patient, Empathetic | Customer service, interview, storytelling | <audio id="vesta"  controls src="https://static.deepgram.com/examples/Aura-2-vesta.wav"></audio> |
 | `aura-2-zeus-en` | zeus | masculine | Adult | en-us | American | Deep, Trustworthy, Smooth | IVR | <audio id="zeus"  controls src="https://static.deepgram.com/examples/Aura-2-zeus.wav"></audio> |
+
+</div>
+
+---
+
+## Aura-2 Spanish Voices
+
+### Featured Aura-2 Spanish Voices
+
+These are our featured Spanish voices, selected for their versatility and quality:
+
+<div className="voice-model-table">
+
+| Model | Name | Expressed Gender | Age | Language | Accent | Characteristics | Use Cases | Sample |
+| :---- | :--- | :----- | :-- | :----- | :------- | :------------- | :-------- | :----------- |
+| `aura-2-celeste-es` | celeste | feminine | Young Adult | es-co | Colombian | Clear, Energetic, Positive, Friendly, Enthusiastic | Casual Chat, Advertising, IVR | <audio id="celeste"  controls src="https://static.deepgram.com/examples/Celeste.wav"></audio> |
+| `aura-2-estrella-es` | estrella | feminine | Mature | es-mx | Mexican | Approachable, Natural, Calm, Comfortable, Expressive | Casual Chat, Interview | <audio id="estrella"  controls src="https://static.deepgram.com/examples/Estrella.wav"></audio> |
+| `aura-2-nestor-es` | nestor | masculine | Adult | es-es | Peninsular | Calm, Professional, Approachable, Clear, Confident | Casual Chat, Customer Service | <audio id="nestor"  controls src="https://static.deepgram.com/examples/Nestor.wav"></audio> |
+
+</div>
+
+### Aura-2: All Available Spanish Voices
+
+<div className="voice-model-table">
+
+| Model | Name | Expressed Gender | Age | Language | Accent | Characteristics | Use Cases | Sample |
+| :---- | :--- | :----- | :-- | :----- | :------- | :------------- | :-------- | :----------- |
 | `aura-2-sirio-es` | sirio | masculine | Adult | es-mx | Mexican | Calm, Professional, Comfortable, Empathetic, Baritone | Casual Chat, Interview | <audio id="sirio"  controls src="https://static.deepgram.com/examples/Sirio.wav"></audio> |
 | `aura-2-nestor-es` | nestor | masculine | Adult | es-es | Peninsular | Calm, Professional, Approachable, Clear, Confident | Casual Chat, Customer Service | <audio id="nestor"  controls src="https://static.deepgram.com/examples/Nestor.wav"></audio> |
 | `aura-2-carina-es` | carina | feminine | Adult | es-es | Peninsular | Professional, Raspy, Energetic, Breathy, Confident | Interview, Customer Service, IVR | <audio id="carina"  controls src="https://static.deepgram.com/examples/Carina.wav"></audio> |
@@ -108,7 +150,13 @@ These are our featured voices, selected for their versatility and quality:
 
 </div>
 
-## Aura 1: All Available Voices
+<Info>
+  **Codeswitching Voices**: The following Spanish voices can seamlessly switch between English and Spanish: Aquila, Carina, Diana, Javier, and Selena.
+</Info>
+
+---
+
+## Aura 1: All Available English Voices
 
 <div className="voice-model-table">
 
