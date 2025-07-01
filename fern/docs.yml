@@ -340,6 +340,9 @@ navigation:
               - page: Function Calling Message
                 path: ./pages/guides/pages/voice-agent-function-calling-message.mdx
                 hidden: true
+              - page: River Private Preview
+                path: ./pages/guides/pages/river-private-preview.mdx
+                hidden: true
 
   - tab: api-reference
     layout:
