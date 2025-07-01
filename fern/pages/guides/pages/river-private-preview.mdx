@@ -1,5 +1,5 @@
 ---
-title: "Private Preview: The First Realtime Conversational STT for Voice Agents"
+title: "Private Preview: Realtime Conversational STT for Voice Agents"
 slug: "river-private-preview"
 description: "Overview of the Private Preview API endpoint for River - the first conversational speech recognition model."
 hidden: true
@@ -9,11 +9,11 @@ hidden: true
 This private preview provides access to a sandbox endpoint not meant for production. We do not make any uptime or availability guarantees. Models and APIs are subject to change at any time. Please do not share this endpoint with others.
 </Info>
 
-## Codename River: The first conversational speech recognition model
+## Codename River: Realtime STT Designed for Human-Like Conversation
 
 River is Deepgram's streaming-first speech recognition model built specifically for voice agents and conversational AI applications. Unlike traditional speech-to-text models that simply transcribe spoken words, River is trained to understand the context and flow of conversations, enabling natural turn-taking, intelligent interruption handling, and seamless voice agent experiences. English-only for now.
 
-River is designed for teams building real-time voice agents requiring turn-based natural conversation flow, interruption handling, and ultra-low latency human-voice agent interaction. It is *not designed* for pure transcription products like closed captioning, meeting notes, or quality assurance where real-time conversational turn-taking dynamics do not apply.
+River is designed for teams building real-time voice agents requiring turn-based natural conversation flow, interruption handling, and ultra-low latency human-voice agent interaction. It is *not designed* for multi-speaker audio like meeting transcription, pure transcription products like closed captioning where real-time conversational turn-taking dynamics do not apply, or products requiring batch transcription or long tail feature support.
 
 **Built for Natural Conversational Experiences**
 
@@ -42,7 +42,6 @@ Additional features are in the works and will be further informed based on feedb
 - Keyterm Prompting support
 - Exposing word times
 - Support for a `ForceEndTurn` control message
-- Additional audio encoding and format support
 - SDK support
 - More to be informed based on feedback
 
@@ -82,11 +81,11 @@ You can connect to the River streaming endpoint at:
 
 Result messages will contain an event enum (Required) signifying the type of `event` being reported:
 
-- `Update` - We've transcribed more audio, but the turn state hasn't changed
-- `SpeechStarted` - The user has begun speaking for the first time in the turn
-- `Preflight` - We are moderately confident that the user has finished speaking for the turn. This is an opportunity to begin preparing an agent reply
-- `SpeechResumed` - We thought that speech had ended and therefore fired a Preflight event, but speech is actually continuing for this turn
-- `EndOfTurn` - The user has finished speaking for the turn
+- `Update` - We've transcribed more audio, but the turn state hasn't changed.
+- `SpeechStarted` - The user has begun speaking for the first time in the turn.
+- `Preflight` - We are moderately confident that the user has finished speaking for the turn. This is an opportunity to begin preparing an agent reply.
+- `SpeechResumed` - We thought that speech had ended and therefore fired a Preflight event, but speech is actually continuing for this turn.
+- `EndOfTurn` - The user has finished speaking for the turn.
 
 ### How It Works
 
@@ -96,7 +95,8 @@ Emitted events adhere to the below state machine for managing turns:
 
 1. `Update` messages are sent for every Xms of transcribed audio, regardless of transcript updates, unless a state change has occurred
 2. A `Preflight` message always contains a nonempty transcript
-3. The `EndOfTurn` transcript *may not always* match the preceding **Preflight** transcript
+3. A `SpeechResumed` message can only follow a preceding `Preflight` message
+3. The `EndOfTurn` transcript *may not always* match the preceding `Preflight` transcript
    - This occurs ~1% of the time outside of purely punctuation changes
 4. The `turn_index` increments immediately following an `EndOfTurn` message
 
@@ -106,13 +106,13 @@ Emitted events adhere to the below state machine for managing turns:
 
 We recommend starting with a purely `EndOfTurn` driven implementation to get up and running. This means:
 
-- Ignore `Preflight` and `SpeechResumed` messages altogether
+- Ignore or only use 'Update', `Preflight`, and `SpeechResumed` messages for referencing the current transcript
 - When you receive `EndOfTurn` pass the transcript downstream to your LLM and trigger your agent response
 - When you receive `SpeechStarted`, interrupt your agent if it's currently speaking, otherwise ignore and wait for the speaker to finish their turn
 
 **Introducing Preflighting**
 
-Once you've gotten a feel for EOT, you're ready to optimize your end-to-end latency with an approach incorporating `Preflight`. **'Preflighting'** is the concept of eagerly sending medium confidence full turn transcripts downstream to your LLM (begin pre-processing agent reply) before EndOfTurn certainty in order to reduce e2e voice agent latency. This means:
+Once you've gotten a feel for EOT, you're ready to optimize your end-to-end latency with an approach incorporating `Preflight`. **Preflighting** is the concept of eagerly sending medium confidence full turn transcripts downstream to your LLM (begin pre-processing agent reply) before EndOfTurn certainty in order to reduce e2e voice agent latency. This means:
 
 - When you receive a `Preflight` message, we are moderately confident (based on your configured `preflight_threshold`) that the user has finished speaking for the turn. At this point you should begin preparing an agent reply
   - If you receive a `SpeechResumed` following a `Preflight`, it means that we thought that speech had ended and therefore fired a `Preflight` event, but speech is actually continuing for this turn. Cancel any in progress agent reply
@@ -264,6 +264,7 @@ For optimal performance, use an audio chunk size of 80ms (any factors of 80 are 
   "words": [...],
   "end_of_turn_confidence": 0.8
 }
+```
 
 ## Code Sample
 Please provide your/your team's GitHub usernames to the Deepgram team and we will we share our private preview voice agent sample app with you.
