@@ -87,22 +87,11 @@ Result messages will contain an event enum (Required) signifying the type of `ev
 - `SpeechResumed` - We thought that speech had ended and therefore fired a Preflight event, but speech is actually continuing for this turn.
 - `EndOfTurn` - The user has finished speaking for the turn.
 
-### How It Works
-
-Emitted events adhere to the below state machine for managing turns:
-
-![River State Machine Diagram](/images/river_state_machine_diagram.png)
-
-1. `Update` messages are sent for every Xms of transcribed audio, regardless of transcript updates, unless a state change has occurred
-2. A `Preflight` message always contains a nonempty transcript
-3. A `SpeechResumed` message can only follow a preceding `Preflight` message
-3. The `EndOfTurn` transcript *may not always* match the preceding `Preflight` transcript
-   - This occurs ~1% of the time outside of purely punctuation changes
-4. The `turn_index` increments immediately following an `EndOfTurn` message
-
 ### Building a Voice Agent with River
 
-**Begin with Simple `EndOfTurn` Based Approach**
+River enables two voice agent patterns - choose based on your latency vs complexity/cost tradeoffs.
+
+**Simple Approach: `EndOfTurn` Only (higher latency, simpler logic, fewer LLM calls)**
 
 We recommend starting with a purely `EndOfTurn` driven implementation to get up and running. This means:
 
@@ -110,7 +99,7 @@ We recommend starting with a purely `EndOfTurn` driven implementation to get up 
 - When you receive `EndOfTurn` pass the transcript downstream to your LLM and trigger your agent response
 - When you receive `SpeechStarted`, interrupt your agent if it's currently speaking, otherwise ignore and wait for the speaker to finish their turn
 
-**Introducing Preflighting**
+**Optimized Approach: Preflight + EndOfTurn (lower latency, slightly more complex, more LLM calls)**
 
 Once you've gotten a feel for EOT, you're ready to optimize your end-to-end latency with an approach incorporating `Preflight`. **Preflighting** is the concept of eagerly sending medium confidence full turn transcripts downstream to your LLM (begin pre-processing agent reply) before EndOfTurn certainty in order to reduce e2e voice agent latency. This means:
 
@@ -123,6 +112,19 @@ Preflight transcripts may occasionally differ from the final `EndOfTurn` transcr
 </Info>
 
 - When you receive `SpeechStarted`, interrupt your agent if it's currently speaking, otherwise ignore and wait for the speaker to finish their turn
+
+### Why River's State Machine Matters
+
+Traditional STT+VAD requires you to build complex interruption logic. River handles this natively. Emitted events adhere to the below state machine for managing turns:
+
+![River State Machine Diagram](/images/river_state_machine_diagram.png)
+
+1. `Update` messages are sent for every Xms of transcribed audio, regardless of transcript updates, unless a state change has occurred
+2. A `Preflight` message always contains a nonempty transcript
+3. A `SpeechResumed` message can only follow a preceding `Preflight` message
+3. The `EndOfTurn` transcript *may not always* match the preceding `Preflight` transcript
+   - This occurs ~1% of the time outside of purely punctuation changes
+4. The `turn_index` increments immediately following an `EndOfTurn` message
 
 ### Connection Parameters
 
