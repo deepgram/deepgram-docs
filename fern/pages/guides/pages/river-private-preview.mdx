@@ -92,7 +92,7 @@ Result messages will contain an event enum (Required) signifying the type of `ev
 
 Emitted events adhere to the below state machine for managing turns:
 
-![River State Machine Diagram](./fern/images/river_state_machine_diagram.png)
+![River State Machine Diagram](/images/river_state_machine_diagram.png)
 
 1. `Update` messages are sent for every Xms of transcribed audio, regardless of transcript updates, unless a state change has occurred
 2. A `Preflight` message always contains a nonempty transcript
