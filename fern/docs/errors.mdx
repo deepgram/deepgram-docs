@@ -278,12 +278,12 @@ The request body exceeded the 2MB limit, indicating that the payload size is too
 
 ### `413` Input Text Exceeded Character Limit
 
-The text payload contained more than 2400 characters, which is above the character limit for text-to-speech requests.
+The text payload contained more than the maximum number of characters allowed.
 
 ```json
 {
   "err_code": "Payload Too Large",
-  "err_msg": "Input text exceeds maximum character limit of 2400.",
+  "err_msg": "Input text exceeds maximum character limit of [max_characters].",
   "request_id": "[unique_request_id]"
 }
 ```
@@ -308,6 +308,18 @@ The `Content-Type` header in the request is not supported, requiring it to be ei
 {
   "err_code": "UNSUPPORTED_MEDIA_TYPE",
   "err_msg": "`Content-Type` header is not supported. `Content-Type` must be either `text/plain` or `application/json`.",
+  "request_id": "[unique_request_id]"
+}
+```
+
+### `422` Unprocessable Content
+
+The model failed to process the request.
+
+```json
+{
+  "err_code": "UNPROCESSABLE_ENTITY",
+  "err_msg": "Failed to handle request.",
   "request_id": "[unique_request_id]"
 }
 ```
