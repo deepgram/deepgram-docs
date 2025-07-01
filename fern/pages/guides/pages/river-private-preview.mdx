@@ -1,0 +1,299 @@
+---
+title: "Private Preview: Realtime Conversational STT for Voice Agents"
+slug: "river-private-preview"
+description: "Overview of the Private Preview API endpoint for River - the first conversational speech recognition model."
+hidden: true
+---
+
+<Info title="This endpoint is for limited private preview testing. It is not meant for production use.">
+This private preview provides access to a sandbox endpoint not meant for production. We do not make any uptime or availability guarantees. Models and APIs are subject to change at any time. Please do not share this endpoint with others.
+</Info>
+
+## Codename River: Realtime STT Designed for Human-Like Conversation
+
+River is Deepgram's streaming-first speech recognition model built specifically for voice agents and conversational AI applications. Unlike traditional speech-to-text models that simply transcribe spoken words, River is trained to understand the context and flow of conversations, enabling natural turn-taking, intelligent interruption handling, and seamless voice agent experiences. English-only for now.
+
+River is designed for teams building real-time voice agents requiring turn-based natural conversation flow, interruption handling, and ultra-low latency human-voice agent interaction. It is *not designed* for multi-speaker audio like meeting transcription, pure transcription products like closed captioning where real-time conversational turn-taking dynamics do not apply, or products requiring batch transcription or long tail feature support.
+
+**Built for Natural Conversational Experiences**
+
+- Turn-based transcription with model-integrated contextual end-of-turn (EOT) detection that minimizes unintentional interruptions by understanding when speakers have truly finished their turn (far beyond VAD and even semantic turn detection)
+- Explicit Preflight transcript events to help further reduce latency for downstream LLM tasks
+- Built-in conversational cue recognition for natural barge-in and interruption handling
+- API designed to make real-time interactive voice agent development 10x easier
+
+**Best in Class and Configurable**
+
+- Ultra-low latency, specifically optimized for voice agent pipelines, with the same speech-to-text accuracy you love from Nova-3
+- Configurable turn confidence and turn timeout thresholds to optimize for your specific use case needs
+
+## Feature Availability
+
+This private preview includes core conversational recognition capabilities:
+
+- Turn-based transcription
+- Model-integrated contextual end-of-thought detection with configurable confidence thresholds
+- Speech started detection for triggering barge-in
+- Speech stopped detection for pre-flight processing (more on this below)
+- English-only
+
+Additional features are in the works and will be further informed based on feedback. Planned additions include:
+
+- Keyterm Prompting support
+- Exposing word times
+- Support for a `ForceEndTurn` control message
+- SDK support
+- More to be informed based on feedback
+
+## Private Preview Feedback
+
+Over the coming weeks we will follow up directly with feedback surveys and/or requests for live feedback sessions. In the meantime, we encourage you to share your feedback, questions, and feature requests in your dedicated Slack channel.
+
+We're actively seeking feedback from voice agent developers on the following:
+
+- **Conversational flow quality**: How natural do the conversations feel compared to your current solution? Are end-of-turn (EOT) detection thresholds working for your use cases? What configurations work best for you?
+- **API design**: What do you like about the API design? What can be improved? Were you able to easily implement a voice agent via the turn-based state machine structure? Thoughts on preflighting vs. non preflighting approaches (in terms of latency, accuracy, cost, complexity)?
+- **Critical edge cases**: Have you discovered any critical edge cases? Are transcript differences between preflight and EOT transcripts too frequent/problematic?
+- **Integration complexity**: How easy is it to integrate River into your existing voice agent pipeline? What were the biggest challenges in migrating from existing solutions?
+- **Compared to your current solution**: How do latency, accuracy, and conversational quality compare to your current STT powering your voice agent?
+- **Feature gaps**: What additional capabilities would make River more valuable for your use case? What are necessities and what are nice-to-haves?
+
+## Private Preview Limits
+
+### Concurrency Limit
+
+This is a private preview endpoint with limited capacity. To ensure availability and fair use during testing:
+
+- **Do not use this endpoint in production**
+- Limit concurrent sessions to 5
+
+## WebSocket Endpoint
+
+You can connect to the River streaming endpoint at:
+
+`wss://river.sandbox.deepgram.com/`
+
+**Authentication**: Use your existing Deepgram API key in the Authorization header.
+
+## Getting Started
+
+### Message Types
+
+Result messages will contain an event enum (Required) signifying the type of `event` being reported:
+
+- `Update` - We've transcribed more audio, but the turn state hasn't changed.
+- `SpeechStarted` - The user has begun speaking for the first time in the turn.
+- `Preflight` - We are moderately confident that the user has finished speaking for the turn. This is an opportunity to begin preparing an agent reply.
+- `SpeechResumed` - We thought that speech had ended and therefore fired a Preflight event, but speech is actually continuing for this turn.
+- `EndOfTurn` - The user has finished speaking for the turn.
+
+### Building a Voice Agent with River
+
+River enables two voice agent patterns - choose based on your latency vs complexity/cost tradeoffs.
+
+**Simple Approach: `EndOfTurn` Only (higher latency, simpler logic, fewer LLM calls)**
+
+We recommend starting with a purely `EndOfTurn` driven implementation to get up and running. This means:
+
+- Ignore or only use 'Update', `Preflight`, and `SpeechResumed` messages for referencing the current transcript
+- When you receive `EndOfTurn` pass the transcript downstream to your LLM and trigger your agent response
+- When you receive `SpeechStarted`, interrupt your agent if it's currently speaking, otherwise ignore and wait for the speaker to finish their turn
+
+**Optimized Approach: Preflight + EndOfTurn (lower latency, slightly more complex, more LLM calls)**
+
+Once you've gotten a feel for EOT, you're ready to optimize your end-to-end latency with an approach incorporating `Preflight`. **Preflighting** is the concept of eagerly sending medium confidence full turn transcripts downstream to your LLM (begin pre-processing agent reply) before EndOfTurn certainty in order to reduce e2e voice agent latency. This means:
+
+- When you receive a `Preflight` message, we are moderately confident (based on your configured `preflight_threshold`) that the user has finished speaking for the turn. At this point you should begin preparing an agent reply
+  - If you receive a `SpeechResumed` following a `Preflight`, it means that we thought that speech had ended and therefore fired a `Preflight` event, but speech is actually continuing for this turn. Cancel any in progress agent reply
+  - If you receive an `EndOfTurn` following a `Preflight`, it means that the user's turn has ended and you can proceed with the response you've already begun to prepare
+
+<Info title="Important Note">
+Preflight transcripts may occasionally differ from the final `EndOfTurn` transcript (~1% of the time beyond punctuation changes), so your system should be resilient to potential rare corrections.
+</Info>
+
+- When you receive `SpeechStarted`, interrupt your agent if it's currently speaking, otherwise ignore and wait for the speaker to finish their turn
+
+### Why River's State Machine Matters
+
+Traditional STT+VAD requires you to build complex interruption logic. River handles this natively. Emitted events adhere to the below state machine for managing turns:
+
+![River State Machine Diagram](/images/river_state_machine_diagram.png)
+
+1. `Update` messages are sent for every Xms of transcribed audio, regardless of transcript updates, unless a state change has occurred
+2. A `Preflight` message always contains a nonempty transcript
+3. A `SpeechResumed` message can only follow a preceding `Preflight` message
+3. The `EndOfTurn` transcript *may not always* match the preceding `Preflight` transcript
+   - This occurs ~1% of the time outside of purely punctuation changes
+4. The `turn_index` increments immediately following an `EndOfTurn` message
+
+### Connection Parameters
+
+| Parameter | Description | Default |
+|-----------|-------------|---------|
+| `sample_rate` | Sample rate of the audio stream in Hz. Format must be raw signed little-endian 16-bit PCM (linear16) | Required |
+| `preflight_threshold` | End-of-turn confidence required to fire a preflight event | 0.5 |
+| `eot_threshold` | End-of-turn confidence required to finish a turn | 0.8 |
+| `eot_timeout_ms` | A turn will be finished when this much time has passed since the last speech, regardless of EOT confidence | 3000 |
+
+<Info title="Audio Chunk Size">
+For optimal performance, use an audio chunk size of 80ms (any factors of 80 are supported, but may degrade quality or performance).
+</Info>
+
+### Example
+
+```json
+{
+  "event": "Update",
+  "turn_index": 0,
+  "start": 0.0,
+  "timestamp": 0.2,
+  "transcript": "",
+  "words": [],
+  "end_of_turn_confidence": 0.1
+}
+
+{
+  "event": "Update",
+  "turn_index": 0,
+  "start": 0.0,
+  "timestamp": 0.4,
+  "transcript": "",
+  "words": [],
+  "end_of_turn_confidence": 0.1
+}
+
+{
+  "event": "SpeechStarted",
+  "turn_index": 0,
+  "start": 0.0,
+  "timestamp": 0.6,
+  "transcript": "Whale oh my",
+  "words": [
+    {
+      "word": "Whale",
+      "confidence": 0.98
+    }
+  ],
+  "end_of_turn_confidence": 0.1
+}
+
+{
+  "event": "Update",
+  "turn_index": 0,
+  "start": 0.0,
+  "timestamp": 0.8,
+  "transcript": "Hello my name is",
+  "words": [...],
+  "end_of_turn_confidence": 0.1
+}
+
+{
+  "event": "Update",
+  "turn_index": 0,
+  "start": 0.0,
+  "timestamp": 1.0,
+  "transcript": "Hello my name is Ryan.",
+  "words": [...],
+  "end_of_turn_confidence": 0.3
+}
+
+{
+  "event": "Preflight",
+  "turn_index": 0,
+  "start": 0.0,
+  "timestamp": 1.1,
+  "transcript": "Hello my name is Ryan.",
+  "words": [...],
+  "end_of_turn_confidence": 0.3
+}
+
+{
+  "event": "SpeechResumed",
+  "turn_index": 0,
+  "start": 0.0,
+  "timestamp": 1.2,
+  "transcript": "Hello my name is Ryan. My favorite",
+  "words": [...],
+  "end_of_turn_confidence": 0.1
+}
+
+{
+  "event": "Update",
+  "turn_index": 0,
+  "start": 0.0,
+  "timestamp": 1.4,
+  "transcript": "Hello my name is Ryan. My favorite color is blue.",
+  "words": [...],
+  "end_of_turn_confidence": 0.3
+}
+
+{
+  "event": "Preflight",
+  "turn_index": 0,
+  "start": 0.0,
+  "timestamp": 1.5,
+  "transcript": "Hello my name is Ryan. My favorite color is blue.",
+  "words": [...],
+  "end_of_turn_confidence": 0.3
+}
+
+{
+  "event": "Update",
+  "turn_index": 0,
+  "start": 0.1,
+  "timestamp": 1.6,
+  "transcript": "Hello my name is Ryan. My favorite color is blue.",
+  "words": [...],
+  "end_of_turn_confidence": 0.5
+}
+
+{
+  "event": "Update",
+  "turn_index": 0,
+  "start": 0.0,
+  "timestamp": 1.8,
+  "transcript": "Hello my name is Ryan. My favorite color is blue.",
+  "words": [...],
+  "end_of_turn_confidence": 0.7
+}
+
+{
+  "event": "EndOfTurn",
+  "turn_index": 0,
+  "start": 0.0,
+  "timestamp": 1.9,
+  "transcript": "Hello my name is Ryan. My favorite color is blue.",
+  "words": [...],
+  "end_of_turn_confidence": 0.8
+}
+```
+
+## Code Sample
+Please provide your/your team's GitHub usernames to the Deepgram team and we will we share our private preview voice agent sample app with you.
+
+## Support
+
+During the private preview, use your dedicated DG Slack channel for:
+
+- Technical questions and issues
+- Documentation questions
+- Feature requests and feedback
+
+We're committed to making River the best conversational recognition solution for voice agents. Your feedback directly shapes the product development and helps us build exactly what you need for production deployment.
+
+## Additional Q&A
+
+**What possible approaches are there for building a voice agent?**
+
+- Solely relying on `EndOfTurn` for slightly higher latency, but less wasted LLM processing for `Preflight`s that don't lead to `EndOfTurn` (initial implementation recommendation)
+- Relying on both `Preflight` for preprocessing LLM responses and `EndOfTurn` for beginning agent response. Lower latency, ~50% additional LLM processing
+
+**What is 'pre-flighting' and why does it matter?**
+
+'Pre-flighting' is the concept of eagerly sending medium confidence full turn transcripts downstream to your LLM before `EndOfTurn` certainty in order to reduce e2e voice agent latency.
+
+This parallel processing can reduce end-to-end response latency by 30-50%. River's contextual understanding enables reliable pre-flighting by automatically sending messages with event: `Preflight` when partial transcripts are confident enough for downstream processing.
+
+Note that `Preflight` transcripts may occasionally differ from the final `EndOfTurn` transcript (~1% of the time beyond punctuation changes), so your system should handle potential corrections.
+
+You can choose to use these `Preflight` messages for LLM processing or ignore them if you prefer to wait for the complete `EndOfTurn`.
