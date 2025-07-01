@@ -553,6 +553,9 @@ navigation:
           - page: Code of Conduct
             path: hidden-pages/code-of-conduct.mdx
             hidden: true
+          - page: River Private Preview
+            path: hidden-pages/river-private-preview.mdx
+            hidden: true
           - page: Aura 2 Formatting
             path: hidden-pages/aura-2-formatting.mdx
             hidden: true
