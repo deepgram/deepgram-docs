@@ -390,8 +390,12 @@ Keep these limits in mind when making a Deepgram text-to-speech request.
 
 ### Input Text Limit
 
-* Maximum characters: **2000**.
-* Sending a text payload longer than 2000 characters (2001 or more) will result in an error, and the audio file will not be created.
+Sending a request with a text payload longer than the maximum number of characters will result in a **422: Unprocessable Content** error, and the audio file will not be created.
+
+| Model  | Max Characters|
+|--------|---------------|
+| Aura-2 | 1000          |
+| Aura-1 | 2000          |
 
 ### Rate Limits
 
