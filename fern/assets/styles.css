@@ -10,6 +10,7 @@
 :root {
   --background-rgb: 245, 245, 247;
   --body-text-rgb: 26, 26, 31;
+  --header-text-rgb: 11, 11, 12;
   --accent-primary-rgb: 0, 151, 110;
   --sidebar-background-rgb: 245, 245, 247;
   --header-background-rgb: 251, 251, 255;
@@ -33,6 +34,7 @@
   --deepgram-accent-primary: rgb(var(--accent-primary-rgb));
   --deepgram-sidebar-background: rgb(var(--sidebar-background-rgb));
   --deepgram-header-background: rgb(var(--header-background-rgb));
+  --deepgram-header-text: rgb(var(--header-text-rgb));
   --deepgram-card-background: rgb(var(--card-background-rgb));
   --deepgram-border: rgb(var(--border-rgb));
   --deepgram-muted-text: rgba(var(--body-text-rgb), 0.5);
@@ -40,7 +42,8 @@
 
 html.dark {
   --background-rgb: 11, 11, 12;
-  --body-text-rgb: 251, 251, 255;
+  --body-text-rgb: 225, 225, 229;
+  --header-text-rgb: 251, 251, 255;
   --accent-primary-rgb: 161, 249, 212;
   --sidebar-background-rgb: 11, 11, 12;
   --header-background-rgb: 26, 26, 31;
@@ -59,6 +62,7 @@ body {
 
 .fern-header-right-menu .fern-button {
   font-weight: 600;
+  color: var(--deepgram-header-text);
 }
 
 .fern-header-right-menu .fern-button:not([disabled]).filled.primary {
@@ -380,4 +384,14 @@ a.fern-card.interactive[href*="playground.deepgram.com"] span.card-icon {
 
 .DocSearch-Logo {
   display: none;
+}
+
+/*
+ * Text styles
+ */
+
+h1,
+h2,
+h3 {
+  color: var(--deepgram-header-text);
 }
